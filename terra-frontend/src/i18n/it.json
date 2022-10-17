@@ -1,0 +1,211 @@
+{
+  "common": {
+    "submit": "Esegui!",
+    "exporter": "Esporta",
+    "apply":"Aggiorna il grafo",
+    "close": "Chiudi",
+    "mandatory": "Campi obbligatori",
+    "update": "Dati COMEXT aggiornati al ",
+    "start_date": "Data inizio serie",
+    "end_date": "Data fine serie",
+    "footer": {
+      "experimental": "Statistiche sperimentali 2022",
+      "coreui": "Con il supporto di"
+    }
+  },
+  "header": {
+    "userguide": "Manuale utente",
+    "methodology": "Nota metodologica"
+  },
+  "sidebar": {
+    "home": "Home",
+    "map": "Mappa Interattiva",
+    "graphExtra": "Graph analysis: UE - Extra UE",
+    "graphWorld": "Graph analysis: UE - Mondo",
+    "timeseries": "Serie storiche",
+    "trade": "Paniere dei prodotti"
+  },
+  "landing": {
+    "map": {
+      "title": "Indicatori economici e del commercio internazionale",
+      "body": "Questa sezione fornisce una mappa che mostra per ogni paese la <b>popolazione totale</b>, alcuni <b>indicatori macroeconomici</b>, i principali <b>prodotti importati ed esportati </b>e i principali <b>paesi partner commerciali</b>.<br><br>Inoltre, viene fornita una funzionalità <b>time-lapse</b> per rappresentare le variazioni mensili tendenziali del commercio internazionale per gli ultimi tre anni.",
+      "link": "Vai alla sezione Mappa interattiva"
+    },
+    "graph": {
+      "extra-ue": {
+        "title": "Relazioni nel commercio internazionale UE - Extra UE",
+        "body": "Questa sezione visualizza grafi che rappresentano il <b>commercio internazionale per prodotto (classificazione NSTR) e modalità di trasporto da fonte COMEXT</b>, insieme alle <b>misure globali e locali pertinenti</b> che descrivono in dettaglio la struttura delle relazioni commerciali tra i paesi UE quelli dell’area Extra-UE. Il pannello è interattivo e offre la possibilità di applicare diversi filtri e di vedere come la struttura del grafico e le misure cambiano di conseguenza.<br>Inoltre viene fornita un'animazione che mostra l'<b>evoluzione del grafico del commercio internazionale nel tempo</b>.",
+        "link": "Vai alla sezione Graph analysis UE - Extra UE"
+      },
+      "intra-ue": {
+        "title": "Relazioni nel commercio internazionale UE - Mondo",
+        "body": "Questa sezione visualizza grafi che rappresentano il <b>commercio internazionale per prodotto (classificazione CPA 2.1) da fonte COMEXT</b>, insieme alle <b>misure globali e locali pertinenti</b> che descrivono in dettaglio la struttura delle relazioni commerciali dai paesi UE verso/da ogni paese partner commerciale. Il pannello è interattivo e offre la possibilità di applicare diversi filtri e di vedere come la struttura del grafico e le misure cambiano di conseguenza.<br>Inoltre viene fornita un'animazione che mostra l'<b>evoluzione del grafico del commercio internazionale nel tempo</b>.",
+        "link": "Vai alla sezione Graph analysis UE - Mondo"
+      }
+    },
+    "timeseries": {
+      "title": "Visualizzazione Serie storiche",
+      "body": "<b>Strumento di visualizzazione</b> delle serie <b>mensili</b> di dati sul commercio estero <b>COMEXT</b>. Questa sezione consente una lettura facile e comprensibile nonostante la mole di dati sottostanti. Utile come strumento di divulgazione. Le serie sono fornite in valore ed il <b>download è disponibile</b> in vari formati.",
+      "link": "Vai alla sezione Serie storiche"
+    },
+    "trade": {
+      "title": "Variazioni nella composizione del paniere dei prodotti importati ed esportati (classificazione CPA – classificazione dei prodotti per attività economica) per Paese Membro",
+      "body": "Questa sezione fornisce, per ciascuno Stato membro, le <b>serie storiche mensili delle variazioni tendenziali</b> della composizione del paniere delle merci esportate e importate, classificate secondo le <b>cifre CPA-2 cifre.</b>",
+      "link": "Vai alla sezione Paniere dei prodotti"
+    }
+  },
+  "map": {
+    "legend": {
+      "title": {
+        "export": "Variazione tendenziale dell’export (%)",
+        "import": "Variazione tendenziale dell’import (%)"
+      }
+    },
+    "toolbar": {
+      "information": "visualizza informazioni",
+      "marker": "imposta visualizzazione marker",
+      "feature": "imposta visualizzazione feature",
+      "import": "visualizza dati import",
+      "export": "visualizza dati export"
+    },
+    "modal": {
+      "main": {
+        "title": "Indicatori economici e del commercio internazionale",
+        "body": "Questa sezione fornisce una mappa che mostra per ogni paese la <b>popolazione totale</b>, alcuni <b>indicatori macroeconomici</b>, i principali <b>prodotti importati ed esportati </b>e i principali <b>paesi partner commerciali</b>.<br><br>Inoltre, viene fornita una funzionalità <b>time-lapse</b> per rappresentare le variazioni mensili tendenziali del commercio internazionale per gli ultimi tre anni.",
+        "keywords": ""
+      }
+    }
+  },
+  "graph": {
+    "stats": {
+      "country": "Paese",
+      "density": "Diffusione delle merci",
+      "centrality": "Centralità",
+      "exportationstrength": "Forza di esportazione",
+      "vulnerability": "Vulnerabilità",
+      "hubness": "Hubness"
+    },
+    "form": {
+      "title": "Filtri di ricerca",
+      "fields": {
+        "monthly": "Mensile",
+        "trimester": "Trimestrale",
+        "period": "Periodo di riferimento",
+        "period_placeholder": "Seleziona un periodo",
+        "percentage": "Percentuale",
+        "percentage_placeholder": "Seleziona una percentuale",
+        "transport": "Mezzi di trasporto",
+        "transport_placeholder": "Seleziona mezzi di trasporto",
+        "product_nstr": "Prodotti NSTR",
+        "product_cpa3": "Prodotti CPA3",
+        "product_placeholder": "Seleziona un prodotto",
+        "flow": "Flussi",
+        "flow_placeholder": "Seleziona un flusso",
+        "weight": "Pesi",
+        "weight_placeholder": "Seleziona i pesi"
+      }
+    },
+    "scenario":{
+      "main": "Informazioni di dettaglio per {country}",
+      "mainEdge": "Relazioni commerciali",
+      "title_extra_edge": "Vuoi modificare i mezzi di trasporto in questo scambio?",
+      "title_extra_node": "Vuoi modificare i mezzi di trasporto negli scambi di questo paese?",
+      "title_world_edge": "Vuoi eliminare questo scambio?",
+      "title_world_node": "Vuoi eliminare tutti gli scambi di questo paese?",
+      "transports_selected":"Grafo corrente",
+      "transports_scenario":"Nuovo scenario",
+      "success": "Il grafo è stato modificato coerentemente con i vincoli"
+    },
+    "message":{
+      "scenario": "Analisi di scenario effettuata con successo!",
+      "graph_wide": "Warning N.05: Grafo troppo ampio  \n Ridurre la soglia o cambiare i mezzi di trasporto",
+      "graph_empty": "Warning N.06 Graph vuoto \n Ridurre la soglia o cambiare i mezzi di trasporto"
+    },
+    "table":{
+      "title": "Metriche"
+    },
+    "card": {
+      "title": "Graph analysis"
+    },
+    "modal": {
+      "main": {
+        "title": "Relazioni nel commercio internazionale",
+        "subtitle": "<b>Graph analysis</b>",
+        "body": "<br>Il pannello <b> “Relazioni nel commercio internazionale ” </b> mostra la graph analysis degli scambi commerciali fra paesi.<br> I dati sono relativi a tutti gli scambi commerciali presenti nel dataset <b>COMEXT</b>. I dati da visualizzare posso essere selezionati attraverso i filtri presenti nella schermata. I paesi sono identificati dalle icone delle bandiere e le loro posizioni relative all’interno del grafo sono definite attraverso l’algoritmo <b> “Spring layout” </b>, implementato nella libreria python Network.",
+        "keywords": ""
+      },
+      "metrics": {
+        "subtitle": "<br><br><b>Metriche</b>",
+        "body": "<br>Le metriche seguenti derivano dalle misure di centralità standard calcolate nella graph analysis.<br><ul><li><b>Diffusione delle merci:</b> Densità del grafo. Rappresenta quanto il prodotto è diffuso all’interno del grafo.</li><li><b>Forza di esportazione: </b> è la outdegree centrality per ogni paese.</li><li><b>Vulnerabilità: </b> è calcolata come 1 - indegree centrality per ogni paese. La vulnerabilità riflette il fatto che un paese che riceve un prodotto da più paesi fornitori distinti è meno dipendente da un singolo paese per l’approvvigionamento di quel prodotto.</li><li><b>Hubness: </b> è la betweenness centrality per ogni paese.</ul>",
+        "keywords": ""
+      },
+      "filter": {
+        "title": "Descrizione dei Filtri di ricerca",
+        "body": "<b>Periodo:</b>  seleziona il periodo di tempo a cui si riferiscono i dati rappresentati dal grafo (uno specifico mese o anno) <br><b>Percentuale:</b> seleziona la percentuale di dati mostrati nel grafo rispetto al totale (un valore intero tra 0 e 100). Una volta selezionato il valore, i dati vengono filtrati nel modo seguente: tutte le quantità (in Euro) scambiate tra i paesi (tutti i vertici) sono ordinati in modo decrescente e la cumulata viene calcolata lungo la lista, a partire dall’alto. Tutti gli scambi il cui valore della cumulata è superiore al valore di percentuale, preso come soglia, vengono eliminati. Questo significa che gli scambi associati a piccole quantità vengono inseriti nel grafo solo quando il valore selezionato per il parametro “percentuale” è alto.<br><b>Trasporto:</b> seleziona i dati rispetto al mezzo di trasporto usato nello scambio. I possibili mezzi di trasporto sono: <b>“sconosciuto”, “marittimo”, “ferroviario”, “stradala”, ”aria”, “spedizioni postali”, “installazioni fisse di trasporto”, “trasporto per vie d'acqua”, “propulsione propria”</b>.<br><b>Prodotto:</b> seleziona i dati rispetto al prodotto scambiato. L’utente può selezionare un singolo prodotto o tutti i prodotti considerati insieme.<br><b>Flusso:</b> seleziona i dati relativi alle “Esportazioni” o alle “Importazioni”, provenienti da due distinti dataset.<br><b>Pesi:</b> seleziona il tipo di graph analysis da visualizzare. <b>“Vero”</b> permette di visualizzare un grafo pesato mentre <b>“Falso”</b> permette di visualizzare un grafo non pesato. I valori dei pesi sono costituiti dalle quantità in Euro di prodotto scambiato nei commerci.",
+        "keywords": ""
+      }
+    }
+  },
+  "timeseries": {
+    "form": {
+      "title": "Filtri di ricerca",
+      "fields": {
+        "dataType": "Serie",
+        "dataType_placeholder": "Seleziona la serie",
+        "varType": "Tipo dati",
+        "varType_placeholder": "Seleziona il tipo dati",
+        "flow": "Flusso",
+        "flow_placeholder": "Seleziona il flusso",
+        "country": "Paese",
+        "country_placeholder": "Seleziona un paese",
+        "partner": "Partner",
+        "partner_placeholder": "Seleziona un partner",
+        "productsCPA": "Prodotti CPA2",
+        "productsCPA_placeholder": "Seleziona un prodotto"
+      }
+    },
+    "card": {
+      "title": "Visualizzazione serie storiche",
+      "comext": "Dati COMEXT mensili"
+    },
+    "modal": {
+      "main": {
+        "title": "Visualizzazione serie storiche",
+        "body": "<b>Strumento di visualizzazione</b> delle serie <b>mensili</b> di dati sul commercio estero <b>COMEXT</b>. Questa sezione consente una lettura facile e comprensibile nonostante la mole di dati sottostanti. Utile come strumento di divulgazione. E serie sono fornite serie in valore e il <b>download è disponibile</b> in vari formati."
+      }
+    },
+    "message":{
+      "empty": "Non sono disponibili dati per i filtri di ricerca selezionati!"
+    },
+    "download":{
+      "title": "Cosmopolitics - Serie storiche"
+    }
+  },
+  "trade": {
+    "card": {
+      "title": "Paniere di prodotti :"
+    },
+    "form": {
+      "title": "Filtri di ricerca",
+      "fields": {
+        "varType": "Variazione",
+        "varType_placeholder": "Seleziona la variazione",
+        "country": "Paese",
+        "country_placeholder": "Seleziona un paese",
+        "products": "Prodotti CPA2",
+        "products_placeholder": "Seleziona un prodotto",
+        "flow": "Flusso",
+        "flow_placeholder": "Seleziona il flusso"        
+      }
+    },
+    "modal": {
+      "main": {
+        "title": "Variazioni nella composizione del paniere dei prodotti importati ed esportato (classificazione CPA – classificazione dei prodotti per attività economica) per Paese Membro",
+        "body": "Questa sezione fornisce, per ciascuno Stato membro, le <b>serie storiche mensili delle variazioni tendenziali</b> della composizione del paniere delle merci esportate e importate, classificate secondo le <b>cifre CPA-2 cifre.</b>"
+      }
+    },
+    "download":{
+      "title": "Cosmopolitics - Paniere dei prodotti"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+name: Terra Frontend CI/CD
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy_job_development:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job - Development
+    environment: 
+      name: development
+      url: ${{ steps.builddeploy.outputs.static_web_app_url }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Remove access restrictions in staticwebapp.config.json
+        shell: pwsh
+        run: |
+           $config = Get-Content terra-frontend/staticwebapp.config.json | ConvertFrom-Json
+           $config.forwardingGateway = $null
+           $config.networking = $null
+           $config | ConvertTo-Json -Depth 4 | Out-File terra-frontend/staticwebapp.config.json
+           Get-Content terra-frontend/staticwebapp.config.json
+      - name: Insert version (run)
+        run: echo $GITHUB_RUN_NUMBER > terra-frontend/public/version.txt
+      - name: Build And Deploy for env development
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_TERRA }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/terra-frontend"
+          api_location: ""
+          app_build_command: "npm run build -- --mode development"
+          output_location: "dist"
+          deployment_environment: "development"
+
+  build_and_deploy_job_production:
+    runs-on: ubuntu-latest
+    needs: build_and_deploy_job_development
+    name: Build and Deploy Job - Production
+    environment: 
+      name: production
+      url: https://www.terra.statlab.it
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Insert FDID in staticwebapp.config.json
+        shell: pwsh
+        env:
+           FDID: ${{ secrets.FRONTDOORID }}
+        run: |
+           $config = Get-Content terra-frontend/staticwebapp.config.json | ConvertFrom-Json
+           $config.forwardingGateway.requiredHeaders.'X-Azure-FDID' = $Env:FDID
+           $config | ConvertTo-Json -Depth 4 | Out-File terra-frontend/staticwebapp.config.json
+           Get-Content terra-frontend/staticwebapp.config.json
+      - name: Insert version (run)
+        run: echo $GITHUB_RUN_NUMBER > terra-frontend/public/version.txt
+      - name: Build And Deploy
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_TERRA }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/terra-frontend"
+          api_location: ""
+          output_location: "dist"

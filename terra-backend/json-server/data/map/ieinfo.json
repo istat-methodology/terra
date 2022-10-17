@@ -1,0 +1,2942 @@
+[
+    {
+        "Country_Code": "AT",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 8858775.0,
+                "2020": 8901064.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 113.39,
+                "2020": 106.15
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 4.5,
+                "2020": 5.3
+            },
+            {
+                "Year": "Import",
+                "2019": 165008279125,
+                "2020": 150934698407
+            },
+            {
+                "Year": "Export",
+                "2019": 159588478070,
+                "2020": 148287998641
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 66724293894,
+                "Main partner 2020": "DE",
+                "Total import 2020": 61502185572
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total import 2019": 10568940143,
+                "Main partner 2020": "IT",
+                "Total import 2020": 9122935139
+            },
+            {
+                "Main partner 2019": "CZ",
+                "Total import 2019": 7257899031,
+                "Main partner 2020": "CH",
+                "Total import 2020": 7807167893
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 45782488113,
+                "Main partner 2020": "DE",
+                "Total export 2020": 44137478353
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total export 2019": 9822491964,
+                "Main partner 2020": "US",
+                "Total export 2020": 9070582911
+            },
+            {
+                "Main partner 2019": "US",
+                "Total export 2019": 9806428444,
+                "Main partner 2020": "IT",
+                "Total export 2020": 8931669730
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2019": 4288083712,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2020": 3740850586
+            },
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 3776868760,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 2773406337
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total import 2019": 2806569576,
+                "Main good 2020": "Polypeptide hormones, protein hormones and glycoprotein hormones, their derivatives and structural analogues, used primarily as hormones (excl. somatropin, its derivatives and structural analogues, and insulin and its salts)",
+                "Total import 2020": 2246659951
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total export 2019": 3512803881,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total export 2020": 3065269731
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 2547446431,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 2560149255
+            },
+            {
+                "Main good 2019": "Waters, incl. mineral and aerated, with added sugar, sweetener or flavour, for direct consumption as a beverage",
+                "Total export 2019": 2488998308,
+                "Main good 2020": "Waters, incl. mineral and aerated, with added sugar, sweetener or flavour, for direct consumption as a beverage",
+                "Total export 2020": 2487838091
+            }
+        ]
+    },
+    {
+        "Country_Code": "BE",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 11455519.0,
+                "2020": 11522440.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 113.95,
+                "2020": 109.58
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 5.4,
+                "2020": 5.5
+            },
+            {
+                "Year": "Import",
+                "2019": 383064724049,
+                "2020": 347959613733
+            },
+            {
+                "Year": "Export",
+                "2019": 399102183045,
+                "2020": 369672961987
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "NL",
+                "Total import 2019": 65708299636,
+                "Main partner 2020": "NL",
+                "Total import 2020": 58178674453
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 51025750839,
+                "Main partner 2020": "DE",
+                "Total import 2020": 47873959719
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total import 2019": 38033016085,
+                "Main partner 2020": "FR",
+                "Total import 2020": 34053500867
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 71487272196,
+                "Main partner 2020": "DE",
+                "Total export 2020": 64596528698
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total export 2019": 56440120792,
+                "Main partner 2020": "FR",
+                "Total export 2020": 50976849578
+            },
+            {
+                "Main partner 2019": "NL",
+                "Total export 2019": 48437612462,
+                "Main partner 2020": "NL",
+                "Total export 2020": 43017419266
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 16898043868,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 17473825939
+            },
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 15454032751,
+                "Main good 2020": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total import 2020": 9681850000
+            },
+            {
+                "Main good 2019": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total import 2019": 7835591322,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 8219725056
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 19845149929,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 21730076709
+            },
+            {
+                "Main good 2019": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total export 2019": 9344196882,
+                "Main good 2020": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total export 2020": 11749038260
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of 1 to 9 persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine, of a cylinder capacity > 1.500 cm³ but <= 3.000 cm³, new (excl. those of subheading 8703 10 and motor caravans)",
+                "Total export 2019": 9272413695,
+                "Main good 2020": "Vaccines for human medicine",
+                "Total export 2020": 10320665677
+            }
+        ]
+    },
+    {
+        "Country_Code": "BG",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 7000039.0,
+                "2020": 6951482.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 107.63,
+                "2020": 101.18
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 4.3,
+                "2020": 5.0
+            },
+            {
+                "Year": "Import",
+                "2019": 33650309436,
+                "2020": 30648819262
+            },
+            {
+                "Year": "Export",
+                "2019": 29788751330,
+                "2020": 27966878045
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 4052079008,
+                "Main partner 2020": "DE",
+                "Total import 2020": 3713173210
+            },
+            {
+                "Main partner 2019": "RU",
+                "Total import 2019": 3331135743,
+                "Main partner 2020": "RO",
+                "Total import 2020": 2248318807
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total import 2019": 2509022472,
+                "Main partner 2020": "IT",
+                "Total import 2020": 2179048530
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 4410130400,
+                "Main partner 2020": "DE",
+                "Total export 2020": 4486046004
+            },
+            {
+                "Main partner 2019": "RO",
+                "Total export 2019": 2598148614,
+                "Main partner 2020": "RO",
+                "Total export 2020": 2544202382
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total export 2019": 2186598571,
+                "Main partner 2020": "IT",
+                "Total export 2020": 1922651757
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 2815215536,
+                "Main good 2020": "Copper ores and concentrates",
+                "Total import 2020": 1466112292
+            },
+            {
+                "Main good 2019": "Copper ores and concentrates",
+                "Total import 2019": 1247808162,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 1290771040
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 908030056,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 965776387
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Copper, refined, in the form of cathodes and sections of cathodes",
+                "Total export 2019": 889709297,
+                "Main good 2020": "Copper, refined, in the form of cathodes and sections of cathodes",
+                "Total export 2020": 1036527971
+            },
+            {
+                "Main good 2019": "Wheat and meslin (excl. seed for sowing, and durum wheat)",
+                "Total export 2019": 831881449,
+                "Main good 2020": "Copper, unrefined; copper anodes for electrolytic refining",
+                "Total export 2020": 882183322
+            },
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total export 2019": 830609088,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 706885904
+            }
+        ]
+    },
+    {
+        "Country_Code": "CY",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 875899.0,
+                "2020": 888005.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 130.7,
+                "2020": 120.75
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 7.1,
+                "2020": 7.3
+            },
+            {
+                "Year": "Import",
+                "2019": 8151274059,
+                "2020": 7657717721
+            },
+            {
+                "Year": "Export",
+                "2019": 3079046208,
+                "2020": 2696907277
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "GR",
+                "Total import 2019": 1657253652,
+                "Main partner 2020": "GR",
+                "Total import 2020": 1654065768
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total import 2019": 834752893,
+                "Main partner 2020": "GB",
+                "Total import 2020": 644845827
+            },
+            {
+                "Main partner 2019": "GB",
+                "Total import 2019": 577434590,
+                "Main partner 2020": "IT",
+                "Total import 2020": 628664279
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "NL",
+                "Total export 2019": 405589115,
+                "Main partner 2020": "GR",
+                "Total export 2020": 230136458
+            },
+            {
+                "Main partner 2019": "LY",
+                "Total export 2019": 313586215,
+                "Main partner 2020": "LR",
+                "Total export 2020": 203806868
+            },
+            {
+                "Main partner 2019": "GR",
+                "Total export 2019": 227768744,
+                "Main partner 2020": "GB",
+                "Total export 2020": 178371442
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Sea-going vessels for the transport of goods and seagoing vessels for the transport of both persons and goods (excl. refrigerated vessels, tankers, ferry-boats and vessels principally designed for the transport of persons)",
+                "Total import 2019": 470534972,
+                "Main good 2020": "Sea-going motor boats and motor yachts, for pleasure or sports (other than outboard motor boats)",
+                "Total import 2020": 571969479
+            },
+            {
+                "Main good 2019": "Sea-going tankers",
+                "Total import 2019": 437399029,
+                "Main good 2020": "Sea-going vessels for the transport of goods and seagoing vessels for the transport of both persons and goods (excl. refrigerated vessels, tankers, ferry-boats and vessels principally designed for the transport of persons)",
+                "Total import 2020": 305023995
+            },
+            {
+                "Main good 2019": "Fuel oils obtained from bituminous materials, with a sulphur content of > 0,1% but <= 1% by weight (excl. for undergoing chemical transformation, and containing biodiesel)",
+                "Total import 2019": 240243023,
+                "Main good 2020": "Motor spirit, with a lead content <= 0,013 g/l, with a research octane number \"RON\" of >= 95 but < 98 (excl. containing biodiesel)",
+                "Total import 2020": 269141515
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Sea-going vessels, incl. lifeboats (excl. warships, rowing boats and other vessels of heading 8901 to 8905 and vessels for breaking up)",
+                "Total export 2019": 389023425,
+                "Main good 2020": "Sea-going vessels for the transport of goods and seagoing vessels for the transport of both persons and goods (excl. refrigerated vessels, tankers, ferry-boats and vessels principally designed for the transport of persons)",
+                "Total export 2020": 601640079
+            },
+            {
+                "Main good 2019": "Sea-going vessels for the transport of goods and seagoing vessels for the transport of both persons and goods (excl. refrigerated vessels, tankers, ferry-boats and vessels principally designed for the transport of persons)",
+                "Total export 2019": 381432810,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 324918496
+            },
+            {
+                "Main good 2019": "Motor spirit, with a lead content <= 0,013 g/l, with a research octane number \"RON\" of >= 95 but < 98 (excl. containing biodiesel)",
+                "Total export 2019": 328275569,
+                "Main good 2020": "Motor spirit, with a lead content <= 0,013 g/l, with a research octane number \"RON\" of >= 95 but < 98 (excl. containing biodiesel)",
+                "Total export 2020": 250371662
+            }
+        ]
+    },
+    {
+        "Country_Code": "CZ",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 10649800.0,
+                "2020": 10693939.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 113.06,
+                "2020": 104.36
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 2.0,
+                "2020": 2.4
+            },
+            {
+                "Year": "Import",
+                "2019": 159958069160,
+                "2020": 149564553553
+            },
+            {
+                "Year": "Export",
+                "2019": 177903009805,
+                "2020": 167597386824
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 45503601050,
+                "Main partner 2020": "DE",
+                "Total import 2020": 41778716811
+            },
+            {
+                "Main partner 2019": "CN",
+                "Total import 2019": 14806309200,
+                "Main partner 2020": "CN",
+                "Total import 2020": 16807966496
+            },
+            {
+                "Main partner 2019": "PL",
+                "Total import 2019": 14370794005,
+                "Main partner 2020": "PL",
+                "Total import 2020": 13170290728
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 56613663030,
+                "Main partner 2020": "DE",
+                "Total export 2020": 54750488331
+            },
+            {
+                "Main partner 2019": "SK",
+                "Total export 2019": 13487234850,
+                "Main partner 2020": "SK",
+                "Total export 2020": 12763561064
+            },
+            {
+                "Main partner 2019": "PL",
+                "Total export 2019": 10733149210,
+                "Main partner 2020": "PL",
+                "Total export 2020": 10438189823
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2019": 6434994259,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2020": 6261498645
+            },
+            {
+                "Main good 2019": "Machines for the reception, conversion and transmission or regeneration of voice, images or other data, incl. switching and routing apparatus (excl. telephone sets, telephones for cellular networks or for other wireless networks)",
+                "Total import 2019": 3353182249,
+                "Main good 2020": "Data-processing machines, automatic, digital, portable, weighing <= 10 kg, consisting of at least a central processing unit, a keyboard and a display (excl. peripheral units)",
+                "Total import 2020": 4152698460
+            },
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 3344194593,
+                "Main good 2020": "Machines for the reception, conversion and transmission or regeneration of voice, images or other data, incl. switching and routing apparatus (excl. telephone sets, telephones for cellular networks or for other wireless networks)",
+                "Total import 2020": 3599873043
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total export 2019": 6230569127,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total export 2020": 5664356531
+            },
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total export 2019": 5996688655,
+                "Main good 2020": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total export 2020": 4905986619
+            },
+            {
+                "Main good 2019": "Processing units for automatic data-processing machines, digital, whether or not containing in the same housing one or two of the following types of unit: storage units, input units, output units (excl. those of heading 8471.41 or 8471.49 and excl. peripheral units)",
+                "Total export 2019": 4685204752,
+                "Main good 2020": "Processing units for automatic data-processing machines, digital, whether or not containing in the same housing one or two of the following types of unit: storage units, input units, output units (excl. those of heading 8471.41 or 8471.49 and excl. peripheral units)",
+                "Total export 2020": 4005458597
+            }
+        ]
+    },
+    {
+        "Country_Code": "DE",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 83019213.0,
+                "2020": 83166711.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 100.8,
+                "2020": 90.33
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 3.2,
+                "2020": 3.5
+            },
+            {
+                "Year": "Import",
+                "2019": 1102153293247,
+                "2020": 1025490765649
+            },
+            {
+                "Year": "Export",
+                "2019": 1330414044253,
+                "2020": 1209207688452
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "NL",
+                "Total import 2019": 143591347671,
+                "Main partner 2020": "NL",
+                "Total import 2020": 131151219011
+            },
+            {
+                "Main partner 2019": "CN",
+                "Total import 2019": 76954465237,
+                "Main partner 2020": "CN",
+                "Total import 2020": 82067991118
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total import 2019": 69794849957,
+                "Main partner 2020": "PL",
+                "Total import 2020": 65977841814
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "US",
+                "Total export 2019": 119407067943,
+                "Main partner 2020": "US",
+                "Total export 2020": 103766224326
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total export 2019": 106445108710,
+                "Main partner 2020": "CN",
+                "Total export 2020": 96392286077
+            },
+            {
+                "Main partner 2019": "CN",
+                "Total export 2019": 96252834896,
+                "Main partner 2020": "FR",
+                "Total export 2020": 90701828877
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 36372148710,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 25985810743
+            },
+            {
+                "Main good 2019": "Confidential trade of chapter 27 and SITC division 34",
+                "Total import 2019": 25794868609,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 24030900441
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 23887816201,
+                "Main good 2020": "Confidential trade of chapter 27 and SITC division 34",
+                "Total import 2020": 19178712450
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of 1 to 9 persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine, of a cylinder capacity > 1.500 cm³ but <= 3.000 cm³, new (excl. those of subheading 8703 10 and motor caravans)",
+                "Total export 2019": 53212087438,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 43097253021
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 40858384243,
+                "Main good 2020": "Motor cars and other motor vehicles principally designed for the transport of 1 to 9 persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine, of a cylinder capacity > 1.500 cm³ but <= 3.000 cm³, new (excl. those of subheading 8703 10 and motor caravans)",
+                "Total export 2020": 36466177906
+            },
+            {
+                "Main good 2019": "Aeroplanes and other powered aircraft of an of an unladen weight > 15.000 kg (excl. helicopters and dirigibles)",
+                "Total export 2019": 27436732934,
+                "Main good 2020": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total export 2020": 19727174059
+            }
+        ]
+    },
+    {
+        "Country_Code": "DK",
+        "Main information": [
+            {
+                "Year": "Import",
+                "2019": 87561852976,
+                "2020": 85683501489
+            },
+            {
+                "Year": "Export",
+                "2019": 99257022142,
+                "2020": 95015111694
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 18775492988,
+                "Main partner 2020": "DE",
+                "Total import 2020": 18592119439
+            },
+            {
+                "Main partner 2019": "SE",
+                "Total import 2019": 10418498666,
+                "Main partner 2020": "SE",
+                "Total import 2020": 10694259365
+            },
+            {
+                "Main partner 2019": "NL",
+                "Total import 2019": 6942186772,
+                "Main partner 2020": "NL",
+                "Total import 2020": 7178248387
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 13856634958,
+                "Main partner 2020": "QZ",
+                "Total export 2020": 13196378111
+            },
+            {
+                "Main partner 2019": "QZ",
+                "Total export 2019": 11985267393,
+                "Main partner 2020": "DE",
+                "Total export 2020": 12377858517
+            },
+            {
+                "Main partner 2019": "SE",
+                "Total export 2019": 9663295588,
+                "Main partner 2020": "SE",
+                "Total export 2020": 8259661878
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 1861246317,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 2231724087
+            },
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 1774380171,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 1213712042
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of persons, including station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity > 1 000 cc but =< 1.500 cc, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading no 8703.10)",
+                "Total import 2019": 1191226193,
+                "Main good 2020": "Data-processing machines, automatic, digital, portable, weighing <= 10 kg, consisting of at least a central processing unit, a keyboard and a display (excl. peripheral units)",
+                "Total import 2020": 1165864810
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Confidential trade of heading 3004 and SITC group 542",
+                "Total export 2019": 9685532225,
+                "Main good 2020": "Confidential trade of heading 3004 and SITC group 542",
+                "Total export 2020": 10734241707
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 3669023944,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 3389709098
+            },
+            {
+                "Main good 2019": "Generating sets, wind-powered",
+                "Total export 2019": 2545354571,
+                "Main good 2020": "Generating sets, wind-powered",
+                "Total export 2020": 2031189035
+            }
+        ]
+    },
+    {
+        "Country_Code": "EE",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 1324820.0,
+                "2020": 1328976.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 112.59,
+                "2020": 106.81
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 4.5,
+                "2020": 6.6
+            },
+            {
+                "Year": "Import",
+                "2019": 16102799113,
+                "2020": 15155639007
+            },
+            {
+                "Year": "Export",
+                "2019": 14382050033,
+                "2020": 14285795854
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "FI",
+                "Total import 2019": 2024113066,
+                "Main partner 2020": "FI",
+                "Total import 2020": 2036003707
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 1625138516,
+                "Main partner 2020": "DE",
+                "Total import 2020": 1555234771
+            },
+            {
+                "Main partner 2019": "LT",
+                "Total import 2019": 1554983031,
+                "Main partner 2020": "LV",
+                "Total import 2020": 1410813950
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "FI",
+                "Total export 2019": 2339492808,
+                "Main partner 2020": "FI",
+                "Total export 2020": 2238820639
+            },
+            {
+                "Main partner 2019": "SE",
+                "Total export 2019": 1508680716,
+                "Main partner 2020": "SE",
+                "Total export 2020": 1487728610
+            },
+            {
+                "Main partner 2019": "LV",
+                "Total export 2019": 1309612005,
+                "Main partner 2020": "LV",
+                "Total export 2020": 1285602582
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 390565147,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 406332057
+            },
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total import 2019": 265709083,
+                "Main good 2020": "Oils and other products of the distillation of high temperature coal tars and similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents, n.e.s.",
+                "Total import 2020": 367879080
+            },
+            {
+                "Main good 2019": "Oils and other products of the distillation of high temperature coal tars and similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents, n.e.s.",
+                "Total import 2019": 248529107,
+                "Main good 2020": "Electrical energy",
+                "Total import 2020": 260536042
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Machines for the reception, conversion and transmission or regeneration of voice, images or other data, incl. switching and routing apparatus (excl. telephone sets, telephones for cellular networks or for other wireless networks)",
+                "Total export 2019": 689743000,
+                "Main good 2020": "Machines for the reception, conversion and transmission or regeneration of voice, images or other data, incl. switching and routing apparatus (excl. telephone sets, telephones for cellular networks or for other wireless networks)",
+                "Total export 2020": 950390133
+            },
+            {
+                "Main good 2019": "Oils and other products of the distillation of high temperature coal tars and similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents, n.e.s.",
+                "Total export 2019": 442362156,
+                "Main good 2020": "Oils and other products of the distillation of high temperature coal tars and similar products in which the weight of the aromatic constituents exceeds that of the non-aromatic constituents, n.e.s.",
+                "Total export 2020": 565388029
+            },
+            {
+                "Main good 2019": "Prefabricated buildings of wood, whether or not complete or already assembled",
+                "Total export 2019": 415566078,
+                "Main good 2020": "Prefabricated buildings of wood, whether or not complete or already assembled",
+                "Total export 2020": 373892780
+            }
+        ]
+    },
+    {
+        "Country_Code": "ES",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 46937060.0,
+                "2020": 47332614.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 105.99,
+                "2020": 95.87
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 14.1,
+                "2020": 15.3
+            },
+            {
+                "Year": "Import",
+                "2019": 332958517541,
+                "2020": 285215361336
+            },
+            {
+                "Year": "Export",
+                "2019": 298336951752,
+                "2020": 269520957338
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 45153396683,
+                "Main partner 2020": "DE",
+                "Total import 2020": 39221458841
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total import 2019": 37244309194,
+                "Main partner 2020": "FR",
+                "Total import 2020": 31899232523
+            },
+            {
+                "Main partner 2019": "CN",
+                "Total import 2019": 24844165538,
+                "Main partner 2020": "CN",
+                "Total import 2020": 25173665915
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "FR",
+                "Total export 2019": 45737971362,
+                "Main partner 2020": "FR",
+                "Total export 2020": 44029434184
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 31865187925,
+                "Main partner 2020": "DE",
+                "Total export 2020": 30438742791
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total export 2019": 23488888870,
+                "Main partner 2020": "IT",
+                "Total export 2020": 21432870824
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 26922108459,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 15632617961
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 7725147316,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 8323487297
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total import 2019": 4655291608,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2020": 3359087118
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of persons, including station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity > 1 000 cc but =< 1.500 cc, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading no 8703.10)",
+                "Total export 2019": 9610692897,
+                "Main good 2020": "Motor cars and other motor vehicles principally designed for the transport of persons, including station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity > 1 000 cc but =< 1.500 cc, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading no 8703.10)",
+                "Total export 2020": 8348007780
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 7207014471,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 7716981721
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total export 2019": 7168931475,
+                "Main good 2020": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total export 2020": 5234654805
+            }
+        ]
+    },
+    {
+        "Country_Code": "FI",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 10230185.0,
+                "2020": 10327589.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 113.1,
+                "2020": 109.54
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 6.7,
+                "2020": 7.7
+            },
+            {
+                "Year": "Import",
+                "2019": 65847609747,
+                "2020": 59757300463
+            },
+            {
+                "Year": "Export",
+                "2019": 65615478371,
+                "2020": 57874462310
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 11477122313,
+                "Main partner 2020": "DE",
+                "Total import 2020": 10378636748
+            },
+            {
+                "Main partner 2019": "SE",
+                "Total import 2019": 10631146895,
+                "Main partner 2020": "SE",
+                "Total import 2020": 9938057330
+            },
+            {
+                "Main partner 2019": "RU",
+                "Total import 2019": 8197729473,
+                "Main partner 2020": "RU",
+                "Total import 2020": 5371630658
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 9206318071,
+                "Main partner 2020": "DE",
+                "Total export 2020": 7666575766
+            },
+            {
+                "Main partner 2019": "SE",
+                "Total export 2019": 6259368980,
+                "Main partner 2020": "SE",
+                "Total export 2020": 5592685456
+            },
+            {
+                "Main partner 2019": "US",
+                "Total export 2019": 4661385335,
+                "Main partner 2020": "US",
+                "Total export 2020": 4748564240
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 4936506387,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 2734955431
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 1136353635,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 1212200006
+            },
+            {
+                "Main good 2019": "Electrical energy",
+                "Total import 2019": 1072116252,
+                "Main good 2020": "Trade broken down at chapter level only",
+                "Total import 2020": 972596247
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total export 2019": 2367793552,
+                "Main good 2020": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total export 2020": 1724794180
+            },
+            {
+                "Main good 2019": "Semi-bleached or bleached coniferous chemical wood pulp, soda or sulphate (excl. dissolving grades)",
+                "Total export 2019": 1834919067,
+                "Main good 2020": "Semi-bleached or bleached coniferous chemical wood pulp, soda or sulphate (excl. dissolving grades)",
+                "Total export 2020": 1411169672
+            },
+            {
+                "Main good 2019": "Sea-going cruise ships, excursion boats and similar vessels principally designed for the transport of persons, and seagoing ferry-boats of all kinds",
+                "Total export 2019": 1474918986,
+                "Main good 2020": "Multi-ply paper and paperboard, each layer bleached, coated on one or both sides with kaolin or other inorganic substances, in rolls or in square or rectangular sheets, of any size (excl. that for writing, printing or other graphic purposes, kraft paper and paperboard)",
+                "Total export 2020": 1007278628
+            }
+        ]
+    },
+    {
+        "Country_Code": "FR",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 67177636.0,
+                "2020": 67320216.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 103.73,
+                "2020": 92.93
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 8.4,
+                "2020": 8.0
+            },
+            {
+                "Year": "Import",
+                "2019": 584682474747,
+                "2020": 508499340306
+            },
+            {
+                "Year": "Export",
+                "2019": 509948158598,
+                "2020": 427236184153
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 102812708880,
+                "Main partner 2020": "DE",
+                "Total import 2020": 88258122654
+            },
+            {
+                "Main partner 2019": "BE",
+                "Total import 2019": 57196323999,
+                "Main partner 2020": "BE",
+                "Total import 2020": 48983906005
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total import 2019": 47132381582,
+                "Main partner 2020": "NL",
+                "Total import 2020": 43763263600
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 70329084940,
+                "Main partner 2020": "DE",
+                "Total export 2020": 60892748791
+            },
+            {
+                "Main partner 2019": "US",
+                "Total export 2019": 42038180442,
+                "Main partner 2020": "US",
+                "Total export 2020": 32456704507
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total export 2019": 37806266981,
+                "Main partner 2020": "IT",
+                "Total export 2020": 32415596470
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 21826603188,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 11199795937
+            },
+            {
+                "Main good 2019": "Parts of aeroplanes or helicopters, n.e.s. (excl. those for gliders)",
+                "Total import 2019": 12055613042,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 10161563478
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 10595394153,
+                "Main good 2020": "Parts of aeroplanes or helicopters, n.e.s. (excl. those for gliders)",
+                "Total import 2020": 7566579500
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Aeroplanes and other powered aircraft of an of an unladen weight > 15.000 kg (excl. helicopters and dirigibles)",
+                "Total export 2019": 35676760549,
+                "Main good 2020": "Aeroplanes and other powered aircraft of an of an unladen weight > 15.000 kg (excl. helicopters and dirigibles)",
+                "Total export 2020": 17997756940
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 15079987259,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 16491119923
+            },
+            {
+                "Main good 2019": "Parts of turbojets or turbopropellers, n.e.s.",
+                "Total export 2019": 7893039910,
+                "Main good 2020": "Confidential trade of chapter 99 and SITC group 999",
+                "Total export 2020": 6816222686
+            }
+        ]
+    },
+    {
+        "Country_Code": "GR",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 10724599.0,
+                "2020": 10718565.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 108.01,
+                "2020": 105.83
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 17.3,
+                "2020": 16.3
+            },
+            {
+                "Year": "Import",
+                "2019": 55726736643,
+                "2020": 48912096355
+            },
+            {
+                "Year": "Export",
+                "2019": 33864483817,
+                "2020": 30785860081
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 6185903676,
+                "Main partner 2020": "DE",
+                "Total import 2020": 6080777792
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total import 2019": 4837533871,
+                "Main partner 2020": "IT",
+                "Total import 2020": 4457685925
+            },
+            {
+                "Main partner 2019": "IQ",
+                "Total import 2019": 4552577930,
+                "Main partner 2020": "CN",
+                "Total import 2020": 3742868088
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "IT",
+                "Total export 2019": 3679925740,
+                "Main partner 2020": "IT",
+                "Total export 2020": 3257888322
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 2295034856,
+                "Main partner 2020": "DE",
+                "Total export 2020": 2402569368
+            },
+            {
+                "Main partner 2019": "CY",
+                "Total export 2019": 2068623233,
+                "Main partner 2020": "CY",
+                "Total export 2020": 1980647694
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 9373051069,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 6166531624
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 1613829934,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 1720068830
+            },
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals for undergoing a specific process as defined in Additional Note 5 to chapter 27",
+                "Total import 2019": 883427925,
+                "Main good 2020": "Heterocyclic compounds with nitrogen hetero-atom\"s\" only, containing a pyrimidine ring, whether or not hydrogenated, or piperazine ring in the structure (excl. malonylurea \"barbituric acid\" and its derivatives, allobarbital (INN), amobarbital (INN), barbital (INN), butalbital (INN), butobarbital (INN), cyclobarbital (INN), methylphenobarbital (INN), pentobarbital (INN), phenobarbital (INN), secbutabarbital (INN), secobarbital (INN), vinylbital (INN), loprazolam (INN), mecloqualone (INN), methaqualone (INN) and zipeprol (INN), and salts thereof, and diazinon (ISO) and 1,4-diazabicyclo[2.2.2]octane \"triethylenediamine\")",
+                "Total import 2020": 1426971882
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total export 2019": 2842085848,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 2457603308
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 1572372374,
+                "Main good 2020": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total export 2020": 2086056389
+            },
+            {
+                "Main good 2019": "Jet fuel, kerosene type",
+                "Total export 2019": 1502811308,
+                "Main good 2020": "Gas oils of petroleum or bituminous minerals, with a sulphur content of > 0,002% but <= 0,1% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total export 2020": 863350924
+            }
+        ]
+    },
+    {
+        "Country_Code": "HR",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 4076246.0,
+                "2020": 4058165.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 106.68,
+                "2020": 103.0
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 6.6,
+                "2020": 7.2
+            },
+            {
+                "Year": "Import",
+                "2019": 25153850985,
+                "2020": 23477622260
+            },
+            {
+                "Year": "Export",
+                "2019": 15349966605,
+                "2020": 15022571650
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 3859882217,
+                "Main partner 2020": "DE",
+                "Total import 2020": 3496451240
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total import 2019": 3466101814,
+                "Main partner 2020": "IT",
+                "Total import 2020": 2820542727
+            },
+            {
+                "Main partner 2019": "SI",
+                "Total import 2019": 2884264966,
+                "Main partner 2020": "SI",
+                "Total import 2020": 2592348997
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "IT",
+                "Total export 2019": 2125055360,
+                "Main partner 2020": "DE",
+                "Total export 2020": 1906034750
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 2003266030,
+                "Main partner 2020": "IT",
+                "Total export 2020": 1861123650
+            },
+            {
+                "Main partner 2019": "SI",
+                "Total export 2019": 1636301655,
+                "Main partner 2020": "SI",
+                "Total export 2020": 1542229472
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 888536303,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 942584613
+            },
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total import 2019": 701336144,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 691125895
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 666976351,
+                "Main good 2020": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total import 2020": 552162375
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total export 2019": 614045828,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total export 2020": 551026323
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 509929662,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 457209163
+            },
+            {
+                "Main good 2019": "Sea-going cruise ships, excursion boats and similar vessels principally designed for the transport of persons, and seagoing ferry-boats of all kinds",
+                "Total export 2019": 290832573,
+                "Main good 2020": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total export 2020": 326728409
+            }
+        ]
+    },
+    {
+        "Country_Code": "HU",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 9772756.0,
+                "2020": 9769526.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 115.88,
+                "2020": 107.62
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 3.4,
+                "2020": 4.2
+            },
+            {
+                "Year": "Import",
+                "2019": 107726732207,
+                "2020": 101416466510
+            },
+            {
+                "Year": "Export",
+                "2019": 110578626238,
+                "2020": 105428490011
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 26302461015,
+                "Main partner 2020": "DE",
+                "Total import 2020": 24170749569
+            },
+            {
+                "Main partner 2019": "CN",
+                "Total import 2019": 7474927701,
+                "Main partner 2020": "CN",
+                "Total import 2020": 9093894912
+            },
+            {
+                "Main partner 2019": "AT",
+                "Total import 2019": 6733178670,
+                "Main partner 2020": "AT",
+                "Total import 2020": 5936627255
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 30607452084,
+                "Main partner 2020": "DE",
+                "Total export 2020": 29508978452
+            },
+            {
+                "Main partner 2019": "SK",
+                "Total export 2019": 5931798845,
+                "Main partner 2020": "SK",
+                "Total export 2020": 5750050213
+            },
+            {
+                "Main partner 2019": "RO",
+                "Total export 2019": 5739068881,
+                "Main partner 2020": "RO",
+                "Total export 2020": 5651494640
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Natural gas in gaseous state",
+                "Total import 2019": 2970501896,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 2365499686
+            },
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 2560531229,
+                "Main good 2020": "Natural gas in gaseous state",
+                "Total import 2020": 1671769710
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 2208585976,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 1479880033
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of persons, including station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity > 1 000 cc but =< 1.500 cc, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading no 8703.10)",
+                "Total export 2019": 3458133127,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 3005912834
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of 1 to 9 persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine, of a cylinder capacity > 1.500 cm³ but <= 3.000 cm³, new (excl. those of subheading 8703 10 and motor caravans)",
+                "Total export 2019": 3014376108,
+                "Main good 2020": "Motor cars and other motor vehicles principally designed for the transport of 1 to 9 persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine, of a cylinder capacity > 1.500 cm³ but <= 3.000 cm³, new (excl. those of subheading 8703 10 and motor caravans)",
+                "Total export 2020": 2715605168
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 2844402909,
+                "Main good 2020": "Reception apparatus for television, colour, with LCD screen (excl. incorporating video recording or reproducing apparatus, and monitors, and television projection equipment)",
+                "Total export 2020": 2533935414
+            }
+        ]
+    },
+    {
+        "Country_Code": "IE",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 4904240.0,
+                "2020": 4964440.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 96.78,
+                "2020": 101.64
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 5.0,
+                "2020": 5.5
+            },
+            {
+                "Year": "Import",
+                "2019": 90328216961,
+                "2020": 87200721744
+            },
+            {
+                "Year": "Export",
+                "2019": 151515579063,
+                "2020": 157828328620
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "GB",
+                "Total import 2019": 24843542034,
+                "Main partner 2020": "GB",
+                "Total import 2020": 23706827163
+            },
+            {
+                "Main partner 2019": "US",
+                "Total import 2019": 14735234566,
+                "Main partner 2020": "US",
+                "Total import 2020": 11854090399
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total import 2019": 13490639664,
+                "Main partner 2020": "FR",
+                "Total import 2020": 10059865214
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "US",
+                "Total export 2019": 47049921191,
+                "Main partner 2020": "US",
+                "Total export 2020": 47858207660
+            },
+            {
+                "Main partner 2019": "GB",
+                "Total export 2019": 15773894778,
+                "Main partner 2020": "BE",
+                "Total export 2020": 17879745092
+            },
+            {
+                "Main partner 2019": "BE",
+                "Total export 2019": 15493321268,
+                "Main partner 2020": "DE",
+                "Total export 2020": 17428831297
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Aeroplanes and other powered aircraft of an of an unladen weight > 15.000 kg (excl. helicopters and dirigibles)",
+                "Total import 2019": 20879278908,
+                "Main good 2020": "Aeroplanes and other powered aircraft of an of an unladen weight > 15.000 kg (excl. helicopters and dirigibles)",
+                "Total import 2020": 13422588505
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 2373010498,
+                "Main good 2020": "Lactams (excl. 6-hexanelactam \"epsilon-caprolactam\")",
+                "Total import 2020": 4209806015
+            },
+            {
+                "Main good 2019": "Trade under the declaration limit",
+                "Total import 2019": 1817245816,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 2989144350
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total export 2019": 16096181427,
+                "Main good 2020": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total export 2020": 21534055468
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 13892595454,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 17305556009
+            },
+            {
+                "Main good 2019": "Heterocyclic compounds with nitrogen hetero-atom\"s\" only, containing a pyrimidine ring, whether or not hydrogenated, or piperazine ring in the structure (excl. malonylurea \"barbituric acid\" and its derivatives, allobarbital (INN), amobarbital (INN), barbital (INN), butalbital (INN), butobarbital (INN), cyclobarbital (INN), methylphenobarbital (INN), pentobarbital (INN), phenobarbital (INN), secbutabarbital (INN), secobarbital (INN), vinylbital (INN), loprazolam (INN), mecloqualone (INN), methaqualone (INN) and zipeprol (INN), and salts thereof, and diazinon (ISO) and 1,4-diazabicyclo[2.2.2]octane \"triethylenediamine\")",
+                "Total export 2019": 7157337573,
+                "Main good 2020": "Nucleic acids and their salts, whether or not chemically defined; heterocyclic compounds (excl. those with oxygen or nitrogen hetero-atom\"s\" only, compounds containing in the structure an unfused thiazole ring or a benzothiazole or phenothiazine ring-system or further fused, aminorex (INN), brotizolam (INN), clotiazepam (INN), cloxazolam (INN), dextromoramide (INN), haloxazolam (INN), ketazolam (INN), mesocarb (INN), oxazolam (INN), pemoline (INN), phendimetrazine (INN), phenmetrazine (INN), sufentanil (INN), salts thereof, chlorpothixene (INN), thenalidine (INN) and its tartrates and maleates, furazolidone (INN), 7-aminocephalosporanic acid, salts and esters of \"6R, 7R\"-3-acetoxymethyl-7-[\"R\"-2-formyloxy-2-phenylacetamido]-8-oxo-5-thia-1-azabicyclo[4.2.0]oct-2-ene-2-carboxylic acid and 1-[2-\"1,3-dioxan-2-yl\"ethyl]-2-methylpyridinium bromide)",
+                "Total export 2020": 7786551389
+            }
+        ]
+    },
+    {
+        "Country_Code": "IT",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 59816673.0,
+                "2020": 59641488.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 105.03,
+                "2020": 93.46
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 10.0,
+                "2020": 9.2
+            },
+            {
+                "Year": "Import",
+                "2019": 424236226652,
+                "2020": 373428349381
+            },
+            {
+                "Year": "Export",
+                "2019": 480352083928,
+                "2020": 436717838010
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 68579863667,
+                "Main partner 2020": "DE",
+                "Total import 2020": 61306085834
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total import 2019": 34827223145,
+                "Main partner 2020": "CN",
+                "Total import 2020": 32255502400
+            },
+            {
+                "Main partner 2019": "CN",
+                "Total import 2019": 31662614553,
+                "Main partner 2020": "FR",
+                "Total import 2020": 31288183720
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 58516314568,
+                "Main partner 2020": "DE",
+                "Total export 2020": 56085274986
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total export 2019": 50561234939,
+                "Main partner 2020": "FR",
+                "Total export 2020": 45188798240
+            },
+            {
+                "Main partner 2019": "US",
+                "Total export 2019": 45536229684,
+                "Main partner 2020": "US",
+                "Total export 2020": 42432700504
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 25993519964,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 14156778405
+            },
+            {
+                "Main good 2019": "Natural gas in gaseous state",
+                "Total import 2019": 11305249102,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 11612973061
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 11288575338,
+                "Main good 2020": "Natural gas in gaseous state",
+                "Total import 2020": 7088025823
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 15451737850,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 16465135774
+            },
+            {
+                "Main good 2019": "Articles of jewellery and parts thereof, of precious metal other than silver, whether or not plated or clad with precious metal (excl. articles > 100 years old)",
+                "Total export 2019": 5859156423,
+                "Main good 2020": "Gold, incl. gold plated with platinum, unwrought, for non-monetary purposes (excl. gold in powder form)",
+                "Total export 2020": 5486241714
+            },
+            {
+                "Main good 2019": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total export 2019": 5581174570,
+                "Main good 2020": "Immunological products, put up in measured doses or in forms or packings for retail sale",
+                "Total export 2020": 4384632311
+            }
+        ]
+    },
+    {
+        "Country_Code": "LT",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 2794184.0,
+                "2020": 2794090.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 119.32,
+                "2020": 116.46
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 6.4,
+                "2020": 7.9
+            },
+            {
+                "Year": "Import",
+                "2019": 31949099916,
+                "2020": 29153940993
+            },
+            {
+                "Year": "Export",
+                "2019": 29623489838,
+                "2020": 28689284774
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "RU",
+                "Total import 2019": 4633347393,
+                "Main partner 2020": "PL",
+                "Total import 2020": 3797154090
+            },
+            {
+                "Main partner 2019": "PL",
+                "Total import 2019": 3754903274,
+                "Main partner 2020": "DE",
+                "Total import 2020": 3757356150
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 3737040866,
+                "Main partner 2020": "RU",
+                "Total import 2020": 2569553293
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "RU",
+                "Total export 2019": 4142199497,
+                "Main partner 2020": "RU",
+                "Total export 2020": 3833599461
+            },
+            {
+                "Main partner 2019": "LV",
+                "Total export 2019": 2826554146,
+                "Main partner 2020": "LV",
+                "Total export 2020": 2650927061
+            },
+            {
+                "Main partner 2019": "PL",
+                "Total export 2019": 2331865321,
+                "Main partner 2020": "DE",
+                "Total export 2020": 2330420227
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 3938679336,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 2116096532
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 785700334,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 812202278
+            },
+            {
+                "Main good 2019": "Electrical energy",
+                "Total import 2019": 634265839,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2020": 438960254
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total export 2019": 1104029581,
+                "Main good 2020": "Composite diagnostic or laboratory reagents (excl. composite diagnostic reagents for administration to patients, reagents for determining blood groups and blood factors, animal blood for diagnostic purposes and vaccines, toxins, cultures of microorganisms and similar products)",
+                "Total export 2020": 898814306
+            },
+            {
+                "Main good 2019": "Motor spirit, with a lead content <= 0,013 g/l, with a research octane number \"RON\" of < 95 (excl. containing biodiesel)",
+                "Total export 2019": 840986828,
+                "Main good 2020": "Cigarettes, containing tobacco (excl. containing cloves)",
+                "Total export 2020": 863698952
+            },
+            {
+                "Main good 2019": "Cigarettes, containing tobacco (excl. containing cloves)",
+                "Total export 2019": 653647341,
+                "Main good 2020": "Wheat and meslin (excl. seed for sowing, and durum wheat)",
+                "Total export 2020": 781662081
+            }
+        ]
+    },
+    {
+        "Country_Code": "LU",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 613894.0,
+                "2020": 626108.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 99.17,
+                "2020": 88.55
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 5.6,
+                "2020": 6.8
+            },
+            {
+                "Year": "Import",
+                "2019": 21657598157,
+                "2020": 18504346533
+            },
+            {
+                "Year": "Export",
+                "2019": 14673098473,
+                "2020": 12113291205
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "BE",
+                "Total import 2019": 7171504552,
+                "Main partner 2020": "BE",
+                "Total import 2020": 6170683917
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 5029168085,
+                "Main partner 2020": "DE",
+                "Total import 2020": 4847176450
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total import 2019": 2295537551,
+                "Main partner 2020": "FR",
+                "Total import 2020": 1950677589
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 3499109868,
+                "Main partner 2020": "DE",
+                "Total export 2020": 3209409509
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total export 2019": 2289106329,
+                "Main partner 2020": "FR",
+                "Total export 2020": 2004041522
+            },
+            {
+                "Main partner 2019": "BE",
+                "Total export 2019": 1632692250,
+                "Main partner 2020": "BE",
+                "Total export 2020": 1485546859
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2019": 1437105813,
+                "Main good 2020": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total import 2020": 482015563
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total import 2019": 640289003,
+                "Main good 2020": "Motor cars and other motor vehicles principally designed for the transport of 1 to 9 persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine, of a cylinder capacity > 1.500 cm³ but <= 3.000 cm³, new (excl. those of subheading 8703 10 and motor caravans)",
+                "Total import 2020": 368657075
+            },
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total import 2019": 544425999,
+                "Main good 2020": "Confidential trade of chapter 27 and SITC section 3",
+                "Total import 2020": 347149680
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total export 2019": 1470073047,
+                "Main good 2020": "H sections of iron or non-alloy steel, simply hot-rolled, hot-drawn or extruded, of a height > 180 mm",
+                "Total export 2020": 388777927
+            },
+            {
+                "Main good 2019": "H sections of iron or non-alloy steel, simply hot-rolled, hot-drawn or extruded, of a height > 180 mm",
+                "Total export 2019": 515337251,
+                "Main good 2020": "Sheet piling of iron or steel, whether or not drilled, punched or made from assembled elements",
+                "Total export 2020": 351110065
+            },
+            {
+                "Main good 2019": "Sheet piling of iron or steel, whether or not drilled, punched or made from assembled elements",
+                "Total export 2019": 406361973,
+                "Main good 2020": "Pneumatic tyres, new, of rubber, of a kind used for buses or lorries, with a load index of > 121",
+                "Total export 2020": 345121902
+            }
+        ]
+    },
+    {
+        "Country_Code": "LV",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 1919968.0,
+                "2020": 1907675.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 116.98,
+                "2020": 115.1
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 6.4,
+                "2020": 7.9
+            },
+            {
+                "Year": "Import",
+                "2019": 16941424720,
+                "2020": 16102820194
+            },
+            {
+                "Year": "Export",
+                "2019": 14034713837,
+                "2020": 14266070928
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "LT",
+                "Total import 2019": 2863668210,
+                "Main partner 2020": "LT",
+                "Total import 2020": 2751146890
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 1875037904,
+                "Main partner 2020": "DE",
+                "Total import 2020": 1680584659
+            },
+            {
+                "Main partner 2019": "PL",
+                "Total import 2019": 1509196365,
+                "Main partner 2020": "PL",
+                "Total import 2020": 1557204546
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "LT",
+                "Total export 2019": 2214605242,
+                "Main partner 2020": "LT",
+                "Total export 2020": 2174243978
+            },
+            {
+                "Main partner 2019": "RU",
+                "Total export 2019": 1979263802,
+                "Main partner 2020": "RU",
+                "Total export 2020": 1846079973
+            },
+            {
+                "Main partner 2019": "EE",
+                "Total export 2019": 1561056024,
+                "Main partner 2020": "EE",
+                "Total export 2020": 1599634056
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Aeroplanes and other powered aircraft of an of an unladen weight > 15.000 kg (excl. helicopters and dirigibles)",
+                "Total import 2019": 601523359,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 492953110
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 481492751,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2020": 449490509
+            },
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total import 2019": 466704591,
+                "Main good 2020": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total import 2020": 417038876
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Wheat and meslin (excl. seed for sowing, and durum wheat)",
+                "Total export 2019": 441658357,
+                "Main good 2020": "Wheat and meslin (excl. seed for sowing, and durum wheat)",
+                "Total export 2020": 560856552
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 413470666,
+                "Main good 2020": "Machines for the reception, conversion and transmission or regeneration of voice, images or other data, incl. switching and routing apparatus (excl. telephone sets, telephones for cellular networks or for other wireless networks)",
+                "Total export 2020": 419694053
+            },
+            {
+                "Main good 2019": "Machines for the reception, conversion and transmission or regeneration of voice, images or other data, incl. switching and routing apparatus (excl. telephone sets, telephones for cellular networks or for other wireless networks)",
+                "Total export 2019": 352871505,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total export 2020": 380892571
+            }
+        ]
+    },
+    {
+        "Country_Code": "MT",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 493559.0,
+                "2020": 514564.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 103.38,
+                "2020": 103.16
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 3.6,
+                "2020": 4.3
+            },
+            {
+                "Year": "Import",
+                "2019": 6594256515,
+                "2020": 4588692413
+            },
+            {
+                "Year": "Export",
+                "2019": 2839241112,
+                "2020": 2343788592
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "GB",
+                "Total import 2019": 1363330871,
+                "Main partner 2020": "IT",
+                "Total import 2020": 925624072
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total import 2019": 1252447392,
+                "Main partner 2020": "GB",
+                "Total import 2020": 382687812
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 508625671,
+                "Main partner 2020": "CN",
+                "Total import 2020": 363334851
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 495275004,
+                "Main partner 2020": "DE",
+                "Total export 2020": 397724295
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total export 2019": 286860683,
+                "Main partner 2020": "FR",
+                "Total export 2020": 210578656
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total export 2019": 269882238,
+                "Main partner 2020": "IT",
+                "Total export 2020": 160404009
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Sea-going motor boats and motor yachts, for pleasure or sports (other than outboard motor boats)",
+                "Total import 2019": 1105381013,
+                "Main good 2020": "Aeroplanes and other powered aircraft of an of an unladen weight > 15.000 kg (excl. helicopters and dirigibles)",
+                "Total import 2020": 499732330
+            },
+            {
+                "Main good 2019": "Aeroplanes and other powered aircraft of an of an unladen weight > 15.000 kg (excl. helicopters and dirigibles)",
+                "Total import 2019": 274198201,
+                "Main good 2020": "Fuel oils obtained from bituminous materials, with a sulphur content of > 0,1% but <= 0,5% by weight (excl. for undergoing chemical transformation, and containing biodiesel)",
+                "Total import 2020": 237797194
+            },
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total import 2019": 241706877,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 237683978
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Electronic integrated circuits as processors and controllers, whether or not combined with memories, converters, logic circuits, amplifiers, clock and timing circuits, or other circuits (excl. in the form of multichip or multi-component integrated circuits)",
+                "Total export 2019": 255341008,
+                "Main good 2020": "Electronic integrated circuits as processors and controllers, whether or not combined with memories, converters, logic circuits, amplifiers, clock and timing circuits, or other circuits (excl. in the form of multichip or multi-component integrated circuits)",
+                "Total export 2020": 244300877
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 199024464,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 235246741
+            },
+            {
+                "Main good 2019": "Electronic multi-component integrated circuits \"MCOs\" as processors and controllers as specified in note 9 (b) (4) to chapter 85, whether or not combined with memories, converters, logic circuits, amplifiers, clock and timing circuits, or other circuits",
+                "Total export 2019": 190865983,
+                "Main good 2020": "Banknotes",
+                "Total export 2020": 179376954
+            }
+        ]
+    },
+    {
+        "Country_Code": "NL",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 17282163.0,
+                "2020": 17407585.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 102.34,
+                "2020": 97.98
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 3.4,
+                "2020": 3.8
+            },
+            {
+                "Year": "Import",
+                "2019": 567890236927,
+                "2020": 520763726050
+            },
+            {
+                "Year": "Export",
+                "2019": 633056944231,
+                "2020": 590233153936
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "CN",
+                "Total import 2019": 88549486730,
+                "Main partner 2020": "CN",
+                "Total import 2020": 91332262254
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 80515083072,
+                "Main partner 2020": "DE",
+                "Total import 2020": 77575618482
+            },
+            {
+                "Main partner 2019": "BE",
+                "Total import 2019": 45381049764,
+                "Main partner 2020": "BE",
+                "Total import 2020": 41458165881
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 138113982658,
+                "Main partner 2020": "DE",
+                "Total export 2020": 130629532721
+            },
+            {
+                "Main partner 2019": "BE",
+                "Total export 2019": 66607490903,
+                "Main partner 2020": "BE",
+                "Total export 2020": 59551076696
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total export 2019": 51139631166,
+                "Main partner 2020": "FR",
+                "Total export 2020": 48552539939
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 38649968574,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 23556880662
+            },
+            {
+                "Main good 2019": "Machines for the reception, conversion and transmission or regeneration of voice, images or other data, incl. switching and routing apparatus (excl. telephone sets, telephones for cellular networks or for other wireless networks)",
+                "Total import 2019": 16226095462,
+                "Main good 2020": "Data-processing machines, automatic, digital, portable, weighing <= 10 kg, consisting of at least a central processing unit, a keyboard and a display (excl. peripheral units)",
+                "Total import 2020": 17754450286
+            },
+            {
+                "Main good 2019": "Data-processing machines, automatic, digital, portable, weighing <= 10 kg, consisting of at least a central processing unit, a keyboard and a display (excl. peripheral units)",
+                "Total import 2019": 14847088033,
+                "Main good 2020": "Machines for the reception, conversion and transmission or regeneration of voice, images or other data, incl. switching and routing apparatus (excl. telephone sets, telephones for cellular networks or for other wireless networks)",
+                "Total import 2020": 16113845829
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 21529805327,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 21709203646
+            },
+            {
+                "Main good 2019": "Machines for the reception, conversion and transmission or regeneration of voice, images or other data, incl. switching and routing apparatus (excl. telephone sets, telephones for cellular networks or for other wireless networks)",
+                "Total export 2019": 16820695210,
+                "Main good 2020": "Machines for the reception, conversion and transmission or regeneration of voice, images or other data, incl. switching and routing apparatus (excl. telephone sets, telephones for cellular networks or for other wireless networks)",
+                "Total export 2020": 17074100989
+            },
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total export 2019": 12855179938,
+                "Main good 2020": "Data-processing machines, automatic, digital, portable, weighing <= 10 kg, consisting of at least a central processing unit, a keyboard and a display (excl. peripheral units)",
+                "Total export 2020": 15486101910
+            }
+        ]
+    },
+    {
+        "Country_Code": "PL",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 37972812.0,
+                "2020": 37958138.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 121.61,
+                "2020": 119.03
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 3.3,
+                "2020": 3.1
+            },
+            {
+                "Year": "Import",
+                "2019": 236990882481,
+                "2020": 228651540599
+            },
+            {
+                "Year": "Export",
+                "2019": 238178369023,
+                "2020": 239213724668
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 63901279050,
+                "Main partner 2020": "DE",
+                "Total import 2020": 63027212570
+            },
+            {
+                "Main partner 2019": "CN",
+                "Total import 2019": 20539751316,
+                "Main partner 2020": "CN",
+                "Total import 2020": 23278754811
+            },
+            {
+                "Main partner 2019": "RU",
+                "Total import 2019": 14226430333,
+                "Main partner 2020": "NL",
+                "Total import 2020": 14077668196
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 66044834879,
+                "Main partner 2020": "DE",
+                "Total export 2020": 69239223405
+            },
+            {
+                "Main partner 2019": "CZ",
+                "Total export 2019": 14583473366,
+                "Main partner 2020": "CZ",
+                "Total export 2020": 14023805752
+            },
+            {
+                "Main partner 2019": "GB",
+                "Total export 2019": 14241942839,
+                "Main partner 2020": "GB",
+                "Total export 2020": 13668730619
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 10675831433,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 6946985086
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 3741895370,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 3830735692
+            },
+            {
+                "Main good 2019": "Confidential trade of chapter 99 and SITC group 999",
+                "Total import 2019": 3454174998,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2020": 2596226520
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of persons, including station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity > 1 000 cc but =< 1.500 cc, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading no 8703.10)",
+                "Total export 2019": 3519393500,
+                "Main good 2020": "Lithium-ion accumulators (excl. spent)",
+                "Total export 2020": 3993523722
+            },
+            {
+                "Main good 2019": "Data-processing machines, automatic, digital, presented in the form of systems \"comprising at least a central processing unit, one input unit and one output unit\" (excl. portable weighing <= 10 kg and excl. peripheral units)",
+                "Total export 2019": 3507706143,
+                "Main good 2020": "Cigarettes, containing tobacco (excl. containing cloves)",
+                "Total export 2020": 3557054319
+            },
+            {
+                "Main good 2019": "Cigarettes, containing tobacco (excl. containing cloves)",
+                "Total export 2019": 3137131104,
+                "Main good 2020": "Reception apparatus for television, colour, with LCD screen (excl. incorporating video recording or reproducing apparatus, and monitors, and television projection equipment)",
+                "Total export 2020": 3264823929
+            }
+        ]
+    },
+    {
+        "Country_Code": "PT",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 10276617.0,
+                "2020": 10295909.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 104.03,
+                "2020": 96.68
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 6.5,
+                "2020": 6.8
+            },
+            {
+                "Year": "Import",
+                "2019": 79977128345,
+                "2020": 68145567972
+            },
+            {
+                "Year": "Export",
+                "2019": 59902809944,
+                "2020": 53757392564
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "ES",
+                "Total import 2019": 24405981417,
+                "Main partner 2020": "ES",
+                "Total import 2020": 22089346271
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 10604411220,
+                "Main partner 2020": "DE",
+                "Total import 2020": 9087999273
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total import 2019": 7851079258,
+                "Main partner 2020": "FR",
+                "Total import 2020": 5086142554
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "ES",
+                "Total export 2019": 14811173123,
+                "Main partner 2020": "ES",
+                "Total export 2020": 13636222146
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total export 2019": 7746237541,
+                "Main partner 2020": "FR",
+                "Total export 2020": 7300311440
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 7182471489,
+                "Main partner 2020": "DE",
+                "Total export 2020": 6378668888
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 4856256139,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 3386193752
+            },
+            {
+                "Main good 2019": "Aeroplanes and other powered aircraft of an of an unladen weight > 15.000 kg (excl. helicopters and dirigibles)",
+                "Total import 2019": 2595301014,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 1802299724
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 1671901429,
+                "Main good 2020": "Natural gas, liquefied",
+                "Total import 2020": 946651949
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total export 2019": 1594323414,
+                "Main good 2020": "Motor cars and other motor vehicles principally designed for the transport of persons, including station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity > 1 000 cc but =< 1.500 cc, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading no 8703.10)",
+                "Total export 2020": 1339923011
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of persons, including station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity > 1 000 cc but =< 1.500 cc, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading no 8703.10)",
+                "Total export 2019": 1509251115,
+                "Main good 2020": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total export 2020": 941558224
+            },
+            {
+                "Main good 2019": "New pneumatic tyres, of rubber, of a kind used for motor cars, incl. station wagons and racing cars",
+                "Total export 2019": 914800831,
+                "Main good 2020": "Speed indicators for land vehicles",
+                "Total export 2020": 905638642
+            }
+        ]
+    },
+    {
+        "Country_Code": "RO",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 19414458.0,
+                "2020": 19328838.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 114.57,
+                "2020": 103.72
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 3.9,
+                "2020": 4.9
+            },
+            {
+                "Year": "Import",
+                "2019": 86254528935,
+                "2020": 80481614280
+            },
+            {
+                "Year": "Export",
+                "2019": 68667126807,
+                "2020": 61775548008
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 17275032703,
+                "Main partner 2020": "DE",
+                "Total import 2020": 16660006081
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total import 2019": 7791199266,
+                "Main partner 2020": "IT",
+                "Total import 2020": 7088973048
+            },
+            {
+                "Main partner 2019": "HU",
+                "Total import 2019": 6089076491,
+                "Main partner 2020": "HU",
+                "Total import 2020": 5883908937
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 15458691945,
+                "Main partner 2020": "DE",
+                "Total export 2020": 14106954329
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total export 2019": 7683400652,
+                "Main partner 2020": "IT",
+                "Total export 2020": 6597883686
+            },
+            {
+                "Main partner 2019": "FR",
+                "Total export 2019": 4751599008,
+                "Main partner 2020": "FR",
+                "Total export 2020": 4171705412
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 3666467646,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 2397941434
+            },
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 2232313539,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 1999917061
+            },
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2019": 910569099,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2020": 928231076
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Ignition wiring sets and other wiring sets for vehicles, aircraft or ships",
+                "Total export 2019": 2355402143,
+                "Main good 2020": "Boards, cabinets and similar combinations of apparatus for electric control or the distribution of electricity, for a voltage <= 1.000 V (excl. switching apparatus for line telephony or line telegraphy, numerical control panels with built-in automatic data-processing machines, programmable memory controllers and touch screens)",
+                "Total export 2020": 2088859650
+            },
+            {
+                "Main good 2019": "Boards, cabinets and similar combinations of apparatus for electric control or the distribution of electricity, for a voltage <= 1.000 V (excl. switching apparatus for line telephony or line telegraphy, numerical control panels with built-in automatic data-processing machines, programmable memory controllers and touch screens)",
+                "Total export 2019": 2030707534,
+                "Main good 2020": "Ignition wiring sets and other wiring sets for vehicles, aircraft or ships",
+                "Total export 2020": 2045662520
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity <= 1.000 cm³, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading 8703.10)",
+                "Total export 2019": 1761711486,
+                "Main good 2020": "Gear boxes for tractors, motor vehicles for the transport of ten or more persons, motor cars and other motor vehicles principally designed for the transport of persons, motor vehicles for the transport of goods and special purpose motor vehicles (excl. those for the industrial assembly of certain motor vehicles of subheading 8708.40.20)",
+                "Total export 2020": 1566118871
+            }
+        ]
+    },
+    {
+        "Country_Code": "SE",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 10230185.0,
+                "2020": 10327589.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 111.93,
+                "2020": 107.05
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 6.8,
+                "2020": 8.2
+            },
+            {
+                "Year": "Import",
+                "2019": 142006303208,
+                "2020": 131179168904
+            },
+            {
+                "Year": "Export",
+                "2019": 143421124492,
+                "2020": 136108228240
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 25243941741,
+                "Main partner 2020": "DE",
+                "Total import 2020": 23744928666
+            },
+            {
+                "Main partner 2019": "NL",
+                "Total import 2019": 13412546039,
+                "Main partner 2020": "NL",
+                "Total import 2020": 12884560668
+            },
+            {
+                "Main partner 2019": "NO",
+                "Total import 2019": 11907082225,
+                "Main partner 2020": "NO",
+                "Total import 2020": 11839581313
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "NO",
+                "Total export 2019": 15165656415,
+                "Main partner 2020": "NO",
+                "Total export 2020": 14362173107
+            },
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 14673343004,
+                "Main partner 2020": "DE",
+                "Total export 2020": 14159290693
+            },
+            {
+                "Main partner 2019": "US",
+                "Total export 2019": 10937158072,
+                "Main partner 2020": "US",
+                "Total export 2020": 11081643784
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 7261904454,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 4882835048
+            },
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total import 2019": 3185261236,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2020": 3073431022
+            },
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2019": 2978005194,
+                "Main good 2020": "Fresh or chilled Atlantic salmon \"Salmo salar\" and Danube salmon \"Hucho hucho\"",
+                "Total import 2020": 2691442307
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 5728846313,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 6474753753
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of 1 to 9 persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine, of a cylinder capacity > 1.500 cm³ but <= 3.000 cm³, new (excl. those of subheading 8703 10 and motor caravans)",
+                "Total export 2019": 3994129720,
+                "Main good 2020": "Motor cars and other motor vehicles principally designed for the transport of 1 to 9 persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine, of a cylinder capacity > 1.500 cm³ but <= 3.000 cm³, new (excl. those of subheading 8703 10 and motor caravans)",
+                "Total export 2020": 3829260999
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total export 2019": 3053072967,
+                "Main good 2020": "Fresh or chilled Atlantic salmon \"Salmo salar\" and Danube salmon \"Hucho hucho\"",
+                "Total export 2020": 2672313665
+            }
+        ]
+    },
+    {
+        "Country_Code": "SI",
+        "Main information": [
+            {
+                "Year": "Import",
+                "2019": 39318772581,
+                "2020": 36913552366
+            },
+            {
+                "Year": "Export",
+                "2019": 40147188122,
+                "2020": 39246843735
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 5501354013,
+                "Main partner 2020": "DE",
+                "Total import 2020": 5075138390
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total import 2019": 4738159766,
+                "Main partner 2020": "CH",
+                "Total import 2020": 3914124833
+            },
+            {
+                "Main partner 2019": "AT",
+                "Total import 2019": 3414338042,
+                "Main partner 2020": "IT",
+                "Total import 2020": 3815531784
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 7029066443,
+                "Main partner 2020": "DE",
+                "Total export 2020": 6516724193
+            },
+            {
+                "Main partner 2019": "IT",
+                "Total export 2019": 4465185072,
+                "Main partner 2020": "CH",
+                "Total export 2020": 4055111931
+            },
+            {
+                "Main partner 2019": "HR",
+                "Total export 2019": 3048433921,
+                "Main partner 2020": "IT",
+                "Total export 2020": 3574382965
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2019": 2994043845,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total import 2020": 4277955338
+            },
+            {
+                "Main good 2019": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total import 2019": 1850728685,
+                "Main good 2020": "Gas oils of petroleum or bituminous minerals, with a sulphur content of <= 0,001% by weight (excl. containing biodiesel, and for undergoing chemical transformation)",
+                "Total import 2020": 892632137
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles, principally designed for the transport of persons, incl. station wagons, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a cylinder capacity > 1.500 cm³ but <= 2.500 cm³, new (excl. motor caravans and vehicles specially designed for travelling on snow and other special purpose vehicles of subheading 8703.10)",
+                "Total import 2019": 900448814,
+                "Main good 2020": "Motor vehicles for the transport of goods, with compression-ignition internal combustion piston engine \"diesel or semi-diesel engine\" of a gross vehicle weight <= 5 t, of a cylinder capacity <= 2.500 cm³, new (excl. dumpers for off-highway use of subheading 8704.10, special purpose motor vehicles of heading 8705 and special motor vehicles for the transport of highly radioactive materials)",
+                "Total import 2020": 696811024
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2019": 3795072976,
+                "Main good 2020": "Medicaments consisting of mixed or unmixed products for therapeutic or prophylactic purposes, put up in measured doses \"incl. those in the form of transdermal administration\" or in forms or packings for retail sale (excl. medicaments containing antibiotics, medicaments containing hormones or steroids used as hormones, but not containing antibiotics, medicaments containing alkaloids or derivatives thereof but not containing hormones or antibiotics and medicaments containing  provitamins, vitamins or derivatives thereof used as vitamins)",
+                "Total export 2020": 5476859869
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity <= 1.000 cm³, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading 8703.10)",
+                "Total export 2019": 1846440349,
+                "Main good 2020": "Motor cars and other motor vehicles principally designed for the transport of persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity <= 1.000 cm³, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading 8703.10)",
+                "Total export 2020": 1416554769
+            },
+            {
+                "Main good 2019": "Electrical energy",
+                "Total export 2019": 730936675,
+                "Main good 2020": "Electrical energy",
+                "Total export 2020": 635528742
+            }
+        ]
+    },
+    {
+        "Country_Code": "SK",
+        "Main information": [
+            {
+                "Year": "Population",
+                "2019": 2080908.0,
+                "2020": 2095861.0
+            },
+            {
+                "Year": "Industrial Production",
+                "2019": 113.49,
+                "2020": 102.99
+            },
+            {
+                "Year": "Unemployment",
+                "2019": 5.8,
+                "2020": 6.6
+            },
+            {
+                "Year": "Import",
+                "2019": 80407380795,
+                "2020": 73700228181
+            },
+            {
+                "Year": "Export",
+                "2019": 79961994800,
+                "2020": 75586172031
+            }
+        ],
+        "Main Import Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total import 2019": 15786323476,
+                "Main partner 2020": "DE",
+                "Total import 2020": 14418941015
+            },
+            {
+                "Main partner 2019": "CZ",
+                "Total import 2019": 13126472653,
+                "Main partner 2020": "CZ",
+                "Total import 2020": 12949013273
+            },
+            {
+                "Main partner 2019": "AT",
+                "Total import 2019": 7191417567,
+                "Main partner 2020": "AT",
+                "Total import 2020": 6403921419
+            }
+        ],
+        "Main Export Partners": [
+            {
+                "Main partner 2019": "DE",
+                "Total export 2019": 17687261111,
+                "Main partner 2020": "DE",
+                "Total export 2020": 17167072869
+            },
+            {
+                "Main partner 2019": "CZ",
+                "Total export 2019": 8866102607,
+                "Main partner 2020": "CZ",
+                "Total export 2020": 7951785484
+            },
+            {
+                "Main partner 2019": "PL",
+                "Total export 2019": 6044859580,
+                "Main partner 2020": "PL",
+                "Total export 2020": 5949152228
+            }
+        ],
+        "Main Import Goods": [
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2019": 4159421694,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total import 2020": 3439755580
+            },
+            {
+                "Main good 2019": "Parts and accessories for the industrial assembly of bodies of: tractors, motor vehicles for the transport of >= 10 persons, motor cars and vehicles principally designed for the transport of persons, motor vehicles for the transport of goods, special purpose motor vehicles (excl. bumpers and parts thereof, safety seat belts and parts and accessories for the industrial assembly of motor vehicles of subheading 8708.29.10)",
+                "Total import 2019": 2682769107,
+                "Main good 2020": "Parts and accessories for the industrial assembly of bodies of: tractors, motor vehicles for the transport of >= 10 persons, motor cars and vehicles principally designed for the transport of persons, motor vehicles for the transport of goods, special purpose motor vehicles (excl. bumpers and parts thereof, safety seat belts and parts and accessories for the industrial assembly of motor vehicles of subheading 8708.29.10)",
+                "Total import 2020": 2931356128
+            },
+            {
+                "Main good 2019": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2019": 2048788275,
+                "Main good 2020": "Petroleum oils and oils obtained from bituminous minerals, crude (excl. natural gas condensates)",
+                "Total import 2020": 1603773650
+            }
+        ],
+        "Main Export Goods": [
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of 1 to 9 persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine, of a cylinder capacity > 1.500 cm³ but <= 3.000 cm³, new (excl. those of subheading 8703 10 and motor caravans)",
+                "Total export 2019": 7313620280,
+                "Main good 2020": "Motor cars and other motor vehicles principally designed for the transport of 1 to 9 persons, incl. station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine, of a cylinder capacity > 1.500 cm³ but <= 3.000 cm³, new (excl. those of subheading 8703 10 and motor caravans)",
+                "Total export 2020": 6174564877
+            },
+            {
+                "Main good 2019": "Motor cars and other motor vehicles principally designed for the transport of persons, including station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity > 1 000 cc but =< 1.500 cc, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading no 8703.10)",
+                "Total export 2019": 4345832416,
+                "Main good 2020": "Motor cars and other motor vehicles principally designed for the transport of persons, including station wagons and racing cars, with spark-ignition internal combustion reciprocating piston engine of a cylinder capacity > 1 000 cc but =< 1.500 cc, new (excl. vehicles for the transport of persons on snow and other specially designed vehicles of subheading no 8703.10)",
+                "Total export 2020": 3572841875
+            },
+            {
+                "Main good 2019": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total export 2019": 3356522676,
+                "Main good 2020": "Telephones for cellular networks \"mobile telephones\" or for other wireless networks",
+                "Total export 2020": 3113810433
+            }
+        ]
+    }
+]

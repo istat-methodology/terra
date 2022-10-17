@@ -1,0 +1,138 @@
+[
+ {
+  "id":"01",
+  "descr":"Products of agriculture, hunting and related services"
+ },
+ {
+  "id":"02",
+  "descr":"Products of forestry, logging and related services"
+ },
+ {
+  "id":"03",
+  "descr":"Fish and other fishing products; aquaculture products; support services to fishing"
+ },
+ {
+  "id":"05",
+  "descr":"Coal and lignite"
+ },
+ {
+  "id":"06",
+  "descr":"Crude petroleum and natural gas"
+ },
+ {
+  "id":"07",
+  "descr":"Metal ores"
+ },
+ {
+  "id":"08",
+  "descr":"Other mining and quarrying products"
+ },
+ {
+  "id":"09",
+  "descr":"Mining support services"
+ },
+ {
+  "id":"10",
+  "descr":"Food products"
+ },
+ {
+  "id":"11",
+  "descr":"Beverages"
+ },
+ {
+  "id":"12",
+  "descr":"Tobacco products"
+ },
+ {
+  "id":"13",
+  "descr":"Textiles"
+ },
+ {
+  "id":"14",
+  "descr":"Wearing apparel"
+ },
+ {
+  "id":"15",
+  "descr":"Leather and related products"
+ },
+ {
+  "id":"16",
+  "descr":"Wood and of products of wood and cork, except furniture; articles of straw and plaiting materials"
+ },
+ {
+  "id":"17",
+  "descr":"Paper and paper products"
+ },
+ {
+  "id":"18",
+  "descr":"Printing and reproduction services of recorded media"
+ },
+ {
+  "id":"19",
+  "descr":"Coke and refined petroleum products"
+ },
+ {
+  "id":"20",
+  "descr":"Chemicals and chemical products"
+ },
+ {
+  "id":"21",
+  "descr":"Basic pharmaceutical products and pharmaceutical preparations"
+ },
+ {
+  "id":"22",
+  "descr":"Rubber and plastic products"
+ },
+ {
+  "id":"23",
+  "descr":"Other non-metallic mineral products"
+ },
+ {
+  "id":"24",
+  "descr":"Basic metals"
+ },
+ {
+  "id":"25",
+  "descr":"Fabricated metal products, except machinery and equipment"
+ },
+ {
+  "id":"26",
+  "descr":"Computer, electronic and optical products"
+ },
+ {
+  "id":"27",
+  "descr":"Electrical equipment"
+ },
+ {
+  "id":"28",
+  "descr":"Machinery and equipment n.e.c."
+ },
+ {
+  "id":"29",
+  "descr":"Motor vehicles, trailers and semi-trailers"
+ },
+ {
+  "id":"30",
+  "descr":"Other transport equipment"
+ },
+ {
+  "id":"31",
+  "descr":"Furniture"
+ },
+ {
+  "id":"32",
+  "descr":"Other manufactured goods"
+ },
+ {
+  "id":"33",
+  "descr":"Repair and installation services of machinery and equipment"
+ },
+ {
+  "id":"35",
+  "descr":"Electricity, gas, steam and air conditioning"
+ },
+ {
+  "id":"36",
+  "descr":"Natural water; water treatment and supply services"
+ }
+]

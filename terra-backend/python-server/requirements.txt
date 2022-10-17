@@ -1,0 +1,9 @@
+flask
+flask_restful
+flask_cors
+networkx
+pandas
+matplotlib
+openpyxl
+opencensus-ext-azure
+opencensus-ext-flask

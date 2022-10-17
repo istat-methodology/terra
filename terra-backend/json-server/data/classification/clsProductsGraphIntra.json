@@ -1,0 +1,482 @@
+[
+ {
+  "id":"011",
+  "descr":"Non-perennial crops"
+ },
+ {
+  "id":"012",
+  "descr":"Perennial crops"
+ },
+ {
+  "id":"013",
+  "descr":"Planting material: live plants, bulbs, tubers and roots, cuttings and slips; mushroom spawn"
+ },
+ {
+  "id":"014",
+  "descr":"Live animals and animal products"
+ },
+ {
+  "id":"016",
+  "descr":"Agricultural and animal husbandry services (except veterinary services)"
+ },
+ {
+  "id":"017",
+  "descr":"Hunting and trapping and related services"
+ },
+ {
+  "id":"021",
+  "descr":"Forest trees and nursery services"
+ },
+ {
+  "id":"022",
+  "descr":"Wood in the rough"
+ },
+ {
+  "id":"023",
+  "descr":"Wild growing non-wood products"
+ },
+ {
+  "id":"024",
+  "descr":"Support services to forestry"
+ },
+ {
+  "id":"030",
+  "descr":"Fish and other fishing products; aquaculture products; support services to fishing"
+ },
+ {
+  "id":"051",
+  "descr":"Hard coal"
+ },
+ {
+  "id":"052",
+  "descr":"Lignite"
+ },
+ {
+  "id":"061",
+  "descr":"Crude petroleum"
+ },
+ {
+  "id":"062",
+  "descr":"Natural gas, liquefied or in gaseous state"
+ },
+ {
+  "id":"071",
+  "descr":"Iron ores"
+ },
+ {
+  "id":"072",
+  "descr":"Non-ferrous metal ores"
+ },
+ {
+  "id":"081",
+  "descr":"Stone, sand and clay"
+ },
+ {
+  "id":"089",
+  "descr":"Mining and quarrying products n.e.c."
+ },
+ {
+  "id":"091",
+  "descr":"Support services to petroleum and natural gas extraction"
+ },
+ {
+  "id":"099",
+  "descr":"Support services to other mining and quarrying"
+ },
+ {
+  "id":"101",
+  "descr":"Preserved meat and meat products"
+ },
+ {
+  "id":"102",
+  "descr":"Processed and preserved fish, crustaceans and molluscs"
+ },
+ {
+  "id":"103",
+  "descr":"Processed and preserved fruit and vegetables"
+ },
+ {
+  "id":"104",
+  "descr":"Vegetable and animal oils and fats"
+ },
+ {
+  "id":"105",
+  "descr":"Dairy products"
+ },
+ {
+  "id":"106",
+  "descr":"Grain mill products, starches and starch products"
+ },
+ {
+  "id":"107",
+  "descr":"Bakery and farinaceous products"
+ },
+ {
+  "id":"108",
+  "descr":"Other food products"
+ },
+ {
+  "id":"109",
+  "descr":"Prepared animal feeds"
+ },
+ {
+  "id":"110",
+  "descr":"Beverages"
+ },
+ {
+  "id":"120",
+  "descr":"Tobacco products"
+ },
+ {
+  "id":"131",
+  "descr":"Textile yarn and thread"
+ },
+ {
+  "id":"132",
+  "descr":"Woven textiles"
+ },
+ {
+  "id":"133",
+  "descr":"Textile finishing services"
+ },
+ {
+  "id":"139",
+  "descr":"Other textiles"
+ },
+ {
+  "id":"141",
+  "descr":"Wearing apparel, except fur apparel"
+ },
+ {
+  "id":"142",
+  "descr":"Articles of fur"
+ },
+ {
+  "id":"143",
+  "descr":"Knitted and crocheted apparel"
+ },
+ {
+  "id":"151",
+  "descr":"Tanned and dressed leather; luggage, handbags, saddlery and harness; dressed and dyed fur"
+ },
+ {
+  "id":"152",
+  "descr":"Footwear"
+ },
+ {
+  "id":"161",
+  "descr":"Wood, sawn and planed"
+ },
+ {
+  "id":"162",
+  "descr":"Products of wood, cork, straw and plaiting materials"
+ },
+ {
+  "id":"171",
+  "descr":"Pulp, paper and paperboard"
+ },
+ {
+  "id":"172",
+  "descr":"Articles of paper and paperboard"
+ },
+ {
+  "id":"181",
+  "descr":"Printing services and services related to printing"
+ },
+ {
+  "id":"182",
+  "descr":"Reproduction services of recorded media"
+ },
+ {
+  "id":"191",
+  "descr":"Coke oven products"
+ },
+ {
+  "id":"192",
+  "descr":"Refined petroleum products"
+ },
+ {
+  "id":"201",
+  "descr":"Basic chemicals, fertilisers and nitrogen compounds, plastics and synthetic rubber in primary forms"
+ },
+ {
+  "id":"202",
+  "descr":"Pesticides and other agrochemical products"
+ },
+ {
+  "id":"203",
+  "descr":"Paints, varnishes and similar coatings, printing ink and mastics"
+ },
+ {
+  "id":"204",
+  "descr":"Soap and detergents, cleaning and polishing preparations, perfumes and toilet preparations"
+ },
+ {
+  "id":"205",
+  "descr":"Other chemical products"
+ },
+ {
+  "id":"206",
+  "descr":"Man-made fibres"
+ },
+ {
+  "id":"211",
+  "descr":"Basic pharmaceutical products"
+ },
+ {
+  "id":"212",
+  "descr":"Pharmaceutical preparations"
+ },
+ {
+  "id":"221",
+  "descr":"Rubber products"
+ },
+ {
+  "id":"222",
+  "descr":"Plastic products"
+ },
+ {
+  "id":"231",
+  "descr":"Glass and glass products"
+ },
+ {
+  "id":"232",
+  "descr":"Refractory products"
+ },
+ {
+  "id":"233",
+  "descr":"Clay building materials"
+ },
+ {
+  "id":"234",
+  "descr":"Other porcelain and ceramic products"
+ },
+ {
+  "id":"235",
+  "descr":"Cement, lime and plaster"
+ },
+ {
+  "id":"236",
+  "descr":"Articles of concrete, cement and plaster"
+ },
+ {
+  "id":"237",
+  "descr":"Cut, shaped and finished stone"
+ },
+ {
+  "id":"239",
+  "descr":"Other non-metallic mineral products"
+ },
+ {
+  "id":"241",
+  "descr":"Basic iron and steel and ferro-alloys"
+ },
+ {
+  "id":"242",
+  "descr":"Tubes, pipes, hollow profiles and related fittings, of steel"
+ },
+ {
+  "id":"243",
+  "descr":"Other products of the first processing of steel"
+ },
+ {
+  "id":"244",
+  "descr":"Basic precious and other non-ferrous metals"
+ },
+ {
+  "id":"245",
+  "descr":"Casting services of metals"
+ },
+ {
+  "id":"251",
+  "descr":"Structural metal products"
+ },
+ {
+  "id":"252",
+  "descr":"Tanks, reservoirs and containers of metal"
+ },
+ {
+  "id":"253",
+  "descr":"Steam generators, except central heating hot water boilers"
+ },
+ {
+  "id":"254",
+  "descr":"Weapons and ammunition"
+ },
+ {
+  "id":"255",
+  "descr":"Forging, pressing, stamping and roll-forming services of metal; powder metallurgy"
+ },
+ {
+  "id":"256",
+  "descr":"Treatment and coating services of metals; machining"
+ },
+ {
+  "id":"257",
+  "descr":"Cutlery, tools and general hardware"
+ },
+ {
+  "id":"259",
+  "descr":"Other fabricated metal products"
+ },
+ {
+  "id":"261",
+  "descr":"Electronic components and boards"
+ },
+ {
+  "id":"262",
+  "descr":"Computers and peripheral equipment"
+ },
+ {
+  "id":"263",
+  "descr":"Communication equipment"
+ },
+ {
+  "id":"264",
+  "descr":"Consumer electronics"
+ },
+ {
+  "id":"265",
+  "descr":"Measuring, testing and navigating equipment; watches and clocks"
+ },
+ {
+  "id":"266",
+  "descr":"Irradiation, electromedical and electrotherapeutic equipment"
+ },
+ {
+  "id":"267",
+  "descr":"Optical instruments and photographic equipment"
+ },
+ {
+  "id":"268",
+  "descr":"Magnetic and optical media"
+ },
+ {
+  "id":"271",
+  "descr":"Electric motors, generators, transformers and electricity distribution and control apparatus"
+ },
+ {
+  "id":"272",
+  "descr":"Batteries and accumulators"
+ },
+ {
+  "id":"273",
+  "descr":"Wiring and wiring devices"
+ },
+ {
+  "id":"274",
+  "descr":"Electric lighting equipment"
+ },
+ {
+  "id":"275",
+  "descr":"Domestic appliances"
+ },
+ {
+  "id":"279",
+  "descr":"Other electrical equipment"
+ },
+ {
+  "id":"281",
+  "descr":"General-purpose machinery"
+ },
+ {
+  "id":"282",
+  "descr":"Other general-purpose machinery"
+ },
+ {
+  "id":"283",
+  "descr":"Agricultural and forestry machinery"
+ },
+ {
+  "id":"284",
+  "descr":"Metal forming machinery and machine tools"
+ },
+ {
+  "id":"289",
+  "descr":"Other special-purpose machinery"
+ },
+ {
+  "id":"291",
+  "descr":"Motor vehicles"
+ },
+ {
+  "id":"292",
+  "descr":"Bodies (coachwork) for motor vehicles; trailers and semi-trailers"
+ },
+ {
+  "id":"293",
+  "descr":"Parts and accessories for motor vehicles"
+ },
+ {
+  "id":"301",
+  "descr":"Ships and boats"
+ },
+ {
+  "id":"302",
+  "descr":"Railway locomotives and rolling stock"
+ },
+ {
+  "id":"303",
+  "descr":"Air and spacecraft and related machinery"
+ },
+ {
+  "id":"304",
+  "descr":"Military fighting vehicles"
+ },
+ {
+  "id":"309",
+  "descr":"Transport equipment n.e.c."
+ },
+ {
+  "id":"310",
+  "descr":"Furniture"
+ },
+ {
+  "id":"321",
+  "descr":"Jewellery, bijouterie and related articles"
+ },
+ {
+  "id":"322",
+  "descr":"Musical instruments"
+ },
+ {
+  "id":"323",
+  "descr":"Sports goods"
+ },
+ {
+  "id":"324",
+  "descr":"Games and toys"
+ },
+ {
+  "id":"325",
+  "descr":"Medical and dental instruments and supplies"
+ },
+ {
+  "id":"329",
+  "descr":"Manufactured goods n.e.c."
+ },
+ {
+  "id":"331",
+  "descr":"Repair services of fabricated metal products, machinery and equipment"
+ },
+ {
+  "id":"332",
+  "descr":"Installation services of industrial machinery and equipment"
+ },
+ {
+  "id":"351",
+  "descr":"Electricity, transmission and distribution services"
+ },
+ {
+  "id":"352",
+  "descr":"Manufactured gas; distribution services of gaseous fuels through mains"
+ },
+ {
+  "id":"353",
+  "descr":"Steam and air conditioning supply services"
+ },
+ {
+  "id":"360",
+  "descr":"Natural water; water treatment and supply services"
+ }
+]

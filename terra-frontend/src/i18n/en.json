@@ -1,0 +1,212 @@
+{
+  "common": {
+    "submit": "Go!",
+    "exporter": "export",
+    "apply":"Update graph!",
+    "close": "Close",
+    "mandatory": "Mandatory fields",
+    "update": "COMEXT data updated on ",
+    "start_date": "Series start date",
+    "end_date": "Series end date",
+    "footer": {
+      "experimental": "Experimental Statistics 2022",
+      "coreui": "Powered by"
+    }
+  },
+  "header": {
+    "userguide": "User guide",
+    "methodology": "Methodological note"
+  },
+  "sidebar": {
+    "home": "Home",
+    "map": "Interactive map",
+    "graphExtra": "Graph analysis: UE - Extra UE",
+    "graphWorld": "Graph analysis: UE - World",
+    "timeseries": "Time series",
+    "timeseriescomplete": "Time series complete",
+    "trade": "Basket of traded products"
+  },
+  "landing": {
+    "map": {
+      "title": "Economic and International Trade Indicators",
+      "body": "This section provides a map displaying for each country the <b>total population</b>, <b>some macro-economic indicators</b>, main <b>imported and exported goods</b> ,and main <b>trade partner countries</b>. <br><br>Moreover, a <b>time-lapse</b> functionality to represent the international trade year-on-year monthly variations for the last three years is provided.",
+      "link": "Go to Interactive map section"
+    },
+    "graph": {
+      "extra-ue": {
+        "title": "International Trade Relations UE - Extra UE",
+        "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT transport data (NSTR classification)</strong>, along with relevant global and local measures detailing the structure of relations between UE and Extra UE countries. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
+        "link": "Go to Graph analisys section UE - Extra UE"
+      },
+      "intra-ue": {
+        "title": "International Trade Relations UE - World",
+        "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT data, with CPA 2.1 product  classification</strong>, along with relevant global and local measures detailing the structure of relations between UE countries and their economic partners. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
+        "link": "Go to Graph analisys section UE - World"
+      }
+    },
+    "timeseries": {
+      "title": "Time Series",
+      "body": "<b>Visualization tool</b> for <b>monthly COMEXT</b> foreign trade data. Despite the large amount of underlying data, it allows an easily understandable series reading. Time series are provided in euros and <b>dowload is available</b> in various formats.",
+      "link": "Go to Time series section"
+    },
+    "trade": {
+      "title": "Changes in basket composition of traded products (CPA - classification of products by activity) by Member State",
+      "body": "This section provides, for each Member State, the <b>monthly time series of year-over-year changes</b> in the basket composition of exported and imported goods, classified according to <b>CPA-2 digits.</b>",
+      "link": "Go to Basket of traded products section"
+    }
+  },
+  "map": {
+    "legend": {
+      "title": {
+        "export": "Monthly year-on-year export change (%)",
+        "import": "Monthly year-on-year import change (%)"
+      }
+    },
+    "toolbar": {
+      "information": "view information",
+      "marker": "set to marker view",
+      "feature": "set to feature view",
+      "import": "view import data",
+      "export": "view export data"
+    },
+    "modal": {
+      "main": {
+        "title": "Economic and International Trade Indicators",
+        "body": "This section provides a map displaying for each country the total population, some macro-economic indicators, main imported and exported goods ,and main trade partner countries. Moreover, a time-lapse functionality to represent the international trade year-on-year monthly variations for the last three years is provided.",
+        "keywords": ""
+      }
+    }
+  },
+  "graph": {
+    "stats": {
+      "country": "Country",
+      "density": "Product spread",
+      "centrality": "Centrality:",
+      "exportationstrength": "Exportation strength:",
+      "vulnerability": "Vulnerability:",
+      "hubness": "Hubness:"
+    },
+    "form": {
+      "title": "Graph filter",
+      "fields": {
+        "monthly": "Monthly",
+        "trimester": "Trimester",
+        "period": "Period",
+        "period_placeholder": "Select a period",
+        "percentage": "Percentage",
+        "percentage_placeholder": "Set a percentage",
+        "transport": "Transport",
+        "transport_placeholder": "Select transport",
+        "product_nstr": "Products NSTR",
+        "product_cpa3": "Products CPA3",
+        "product_placeholder": "Select a product",
+        "flow": "Flow",
+        "flow_placeholder": "Select a flow",
+        "weight": "Weight",
+        "weight_placeholder": "Select weights"
+      }
+    },
+    "scenario":{
+      "main": "Trade relazions for {country}",
+      "mainEdge": "Trade relations",
+      "title_extra_edge": "Do you want to modify the transports for this flow?",
+      "title_extra_node": "Do you want to modify the transports in the flows of the selected country?",
+      "title_world_edge": "Do you want to delete this flow?",
+      "title_world_node": "Do you want to delete all the flow of the selected country?",
+      "transports_selected":"Current graph",
+      "transports_scenario":"New scenario",
+      "success": "The graph has been modified according to the new constraints"
+    },
+    "message":{
+      "scenario": "Scenario analysis successfully performed!",
+      "graph_wide": "Warning N.05: Graph is too wide  \n Decrease the treshold or change means of transport",
+      "graph_empty": "Warning N.06 Graph empty \n Increase the treshold or change means of transport"
+    },
+    "table":{
+      "title": "Graph metrics"
+    },
+    "card": {
+      "title": "Graph analysis"
+    },
+    "modal": {
+      "main": {
+        "title": "International Trade Relations",
+        "subtitle": "<b>Graph analysis</b><br>",
+        "body": "The <b>“International Trade Relations”</b> Panel shows the graph analysis of the international trades between countries.<br> Data are relative to all trades between countries present in the <b>COMEXT dataset</b>. The requested data can be selected  through filters. Countries are identified by their flags and their relative positions in the graph are given by the <b>“Spring layout algorithm”</b> implemented in the Network library.",
+        "keywords": ""
+      },
+      "metrics": {
+        "subtitle": "<br><b>Metrics</b>",
+        "body": "<br>The following metrics derive from standard centrality measures of Graph Analysis.<br><ul><li><b>Product spread:</b> Graph density. Represents how much the product is spread through the graph.</li><b>Exportation strength:</b> it is the outdegree centrality for each country.</li><li><b>Vulnerability:</b> it is calculated as 1 - the indegree centrality for each country. The vulnerability conveys the message that a country receiving a product from several countries is less dependent on singles countries for the product supply. <li><li><b> Hubness:</b> it is the closeness centrality of the countries.</li></ul>",
+        "keywords": ""
+      },
+      "filter": {
+        "title": "Search filters description",
+        "body": "<b>Period:</b> select the required time period for data underlying the graph (specific month or year)<br><b>Percentage:</b> select the percentage of data shown in the graph (integer value from 0 to 100). Once the percentage value is selected the data are filtered according to the following procedure: all the amounts (values in Euro) traded between countries (all edges) are listed in a descending order, then the cumulative sum is calculated along the list, from the top. All the trades associated to a cumulative sum above the percentage value, taken as threshold, are filtered out. This means that small trading amounts are considered in the graph only when “percentage” takes an high value.<br><b>Transport: </b> select data according to the means of transport used in the trades. The listed means of transport are: <br><b>  “unknown”, “sea”, “rail”, “road”, ”air”, “post”, “fixed mechanism”, “inland waterway”, “self-propulsion”.</b><br><b>Product:</b> select data according to the product exchanged in the trades. The user can select either a single product or all of them together.<br><b>Flow:</b> select either “Export” data or “Import” data, coming from two separate datasets.<br><b>Weight:</b> select the type of graph analysis. <b>“True”</b> select the weighted type of graph, <b>“False”</b> select the unweighted type of graph. Values for the links weights are the amounts (values in Euro) exchanged in the trades.",
+        "keywords": ""
+      }
+    }
+  },
+  "timeseries": {
+    "form": {
+      "title": "Search filters",
+      "fields": {
+        "dataType": "Series type",
+        "dataType_placeholder": "Select series type",
+        "varType": "Data type",
+        "varType_placeholder": "Select data type",
+        "flow": "Flow",
+        "flow_placeholder": "Select a flow",
+        "country": "Country",
+        "country_placeholder": "Select a country",
+        "partner": "Partner",
+        "partner_placeholder": "Select a partner",
+        "productsCPA": "Products CPA2",
+        "productsCPA_placeholder": "Select a product"
+      }
+    },
+    "card": {
+      "title": "Time Series visualization",
+      "comext": "Monthly COMEXT Data"
+    },
+    "modal": {
+      "main": {
+        "title": "Time Series visualizatiion",
+        "body": "<b>Visualization tool</b> for <b>monthly COMEXT</b> foreign trade data. Despite the large amount of underlying data, it allows an easily understandable series reading. Time series are provided in euros and <b>dowload is available</b> in various formats."
+      }
+    },
+    "message":{
+      "empty": "No time series is available for the selected filters!"
+    },
+    "download":{
+      "title": "Cosmopolitics - Timeseries"
+    }
+  },
+  "trade": {
+    "card": {
+      "title": "Basket of traded products:"
+    },
+    "form": {
+      "title": "Search filters",
+      "fields": {
+        "varType": "Series type",
+        "varType_placeholder": "Select a series type",
+        "country": "Country",
+        "country_placeholder": "Select a country",
+        "products": "Products CPA2",
+        "products_placeholder": "Select a product",
+        "flow": "Flow",
+        "flow_placeholder": "Select a flow"
+      }
+    },
+    "modal": {
+      "main": {
+        "title": "Changes in basket composition of traded products (CPA - classification of products by activity) by Member State",
+        "body": "This section provides, for each Member State, the <b>monthly time series of year-over-year changes</b> in the basket composition of exported and imported goods, classified according to <b>CPA-2 digits.</b>"
+      }
+    },
+    "download":{
+      "title": "Cosmopolitics - Basket of Traded Products Filter"
+    }
+  }
+}
