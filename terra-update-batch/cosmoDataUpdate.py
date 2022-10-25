@@ -30,6 +30,7 @@ from cosmoUtility import *
 import multiprocessing as mp
 from functools import partial
 
+import zipfile
 
 def is_application_insight_configured():
     return os.getenv('APPINSIGHTS_INSTRUMENTATIONKEY')!=None or os.getenv('APPLICATIONINSIGHTS_CONNECTION_STRING')!=None
@@ -1082,6 +1083,23 @@ def exportOutputs():
     logger.info('exportOutputs END')
     return 'exportOutputs END'
 
+def createAndSendBackupFiles():
+    logger.info('createAndSendBackupFiles START')
+
+    listFiles=[GENERAL_INFO_FILE,ieinfo_filename,IMPORT_SERIES_JSON,EXPORT_SERIES_JSON,IMPORT_QUANTITY_JSON,EXPORT_QUANTITY_JSON,IMPORT_VALUE_JSON,EXPORT_VALUE_JSON,
+    DATA_FOLDER+"clsProductsCPA.json", DATA_FOLDER+"clsProductsGraphExtraNSTR.json",DATA_FOLDER+"clsProductsGraphIntra.json",COMEXT_IMP_CSV,COMEXT_EXP_CSV,CPA_INTRA_CSV,CPA_TRIM_CSV,TR_EXTRA_UE_CSV,TR_EXTRA_UE_TRIMESTRALI_CSV]
+    OUTPUT_FOLDER=DATA_FOLDER+os.sep
+    fileZip=OUTPUT_FOLDER+os.sep+"backup_"+str(this_year)+str(this_month)+".zip"
+    print(fileZip)
+    with zipfile.ZipFile(fileZip, 'w',zipfile.ZIP_DEFLATED) as zipObj:
+    # Iterate over all the files in list
+        for filename in listFiles:
+            zipObj.write(filename)
+
+    copyFileToAzure("istat-cosmo-data-backup", "files",fileZip )
+
+    logger.info('createAndSendBackupFiles END')
+    return 'createAndSendBackupFiles END'
 
 def refreshMicroservicesDATA():
     logger.info('refreshMicroservices DATA START')
@@ -1226,7 +1244,11 @@ def executeUpdate():
         repo+='<!-- 21 --><br/>\n'
         repo+=exportOutputs()
         repo+='<!-- 22 --><br/>\n'
+        
+        repo+=createAndSendBackupFiles()
+        repo+='<!-- 22.1 --><br/>\n'
         repo+='time: '+getPassedTime(start_time)+'<br/>\n'
+        
         repo+=deleteFolder(DATA_FOLDER)
         repo+='<!-- 23 --><br/>\n'
         
