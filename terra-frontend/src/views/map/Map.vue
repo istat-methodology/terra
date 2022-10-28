@@ -157,7 +157,6 @@ import mapInfoMixin from "@/components/mixins/mapInfo.mixin"
 import sliderMixin from "@/components/mixins/slider.mixin"
 import SimpleMapScreenshoter from "leaflet-simple-map-screenshoter"
 import VueSlider from "vue-slider-component"
-//import * as d3 from "d3";
 
 export default {
   name: "Map",

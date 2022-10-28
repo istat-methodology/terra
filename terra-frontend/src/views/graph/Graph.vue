@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-9">
+      <div class="col-sm-6 col-md-9">
         <CTabs variant="tabs" :active-tab="0">
           <CTab :title="$t('graph.card.title')">
             <cosmo-graph
@@ -43,7 +43,7 @@
           </CTab>
         </CTabs>
       </div>
-      <div class="col-3 padding-tab">
+      <div class="col-sm-6 col-md-3 padding-tab">
         <cosmo-form
           :graphPeriod="timePeriod"
           :currentTime="selectedPeriod"

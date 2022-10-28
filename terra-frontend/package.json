@@ -1,5 +1,5 @@
 {
-  "name": "cosmopolitics",
+  "name": "terra",
   "version": "1.0.0",
   "private": true,
   "engines": {
@@ -19,9 +19,6 @@
     "chart.js": "^2.9.4",
     "core-js": "^3.8.3",
     "d3": "^7.6.1",
-    "d3-color-legend": "^1.3.2",
-    "d3-scale-chromatic": "^3.0.0",
-    "d3-svg-legend": "^2.25.6",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",

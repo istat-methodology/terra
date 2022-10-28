@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-9">
+    <div class="col-sm-6 col-md-9">
       <CCard>
         <CCardHeader>
           <span class="float-left">
@@ -148,7 +148,7 @@
         </CCardBody>
       </CCard>
     </div>
-    <div class="col-3">
+    <div class="col-sm-6 col-md-3">
       <CCard>
         <CCardHeader>
           <span class="float-left">{{ $t("timeseries.form.title") }}</span>

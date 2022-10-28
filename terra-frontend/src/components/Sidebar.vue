@@ -7,16 +7,10 @@
       (value) => $store.commit('coreui/set', ['sidebarShow', 'responsive'])
     ">
     <CSidebarBrand to="/">
-      <div class="brand c-sidebar-brand-full text-center">
-        <div class="col-1"></div>
-        <CImg src="../img/LogoCircolareSperiStat.png" class="col-8 mt-2 p-0" />
-        <div class="col-12 p-0 text-green">TERRA</div>
-        <div class="col-12 p-0 text-white-50 pb-2">
-          imporT ExpoRt netwoRk Analysis
-        </div>
-      </div>
+      <earth-icon class="icon-2x" />
+      <span class="brand c-sidebar-brand-full ml-2">{{ title }}</span>
     </CSidebarBrand>
-    <ul class="c-sidebar-nav h-100 ps" style="position: relative">
+    <ul class="c-sidebar-nav h-100">
       <li class="c-sidebar-nav-item">
         <router-link
           tag="a"
@@ -83,11 +77,12 @@
         </router-link>
       </li>
     </ul>
-    <CSidebarMinimizer
-      class="d-none d-lg-flex"
-      @click.native="
-        $store.commit('coreui/set', ['sidebarMinimize', !minimize])
-      " />
+    <div class="brand c-sidebar-brand-full text-center">
+      <CImg
+        src="../img/LogoCircolareSperiStat.png"
+        class="mb-3 p-0"
+        style="max-width: 50%" />
+    </div>
   </CSidebar>
 </template>
 <script>
@@ -116,9 +111,10 @@ export default {
 </script>
 <style scoped>
 .brand {
-  font-size: 1.2em;
+  font-size: 2rem;
   padding-left: 1rem;
 }
+
 .c-active-primary {
   border-left: 3px solid#321fdb;
 }
@@ -139,5 +135,8 @@ export default {
   font-size: 1.6rem;
   font-family: Verdana;
   text-shadow: 0.05rem 0.05rem #6fb2ffb6;
+}
+a:hover {
+  text-decoration: none;
 }
 </style>

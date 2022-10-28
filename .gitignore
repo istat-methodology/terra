@@ -1,5 +1,5 @@
-cosmo-backend/json-server/node_modules/
-cosmo-backend/R-server/data/
-cosmo-backend/python-server/data/
-cosmo-update-batch/cosmoDataUpdate-*.zip
-cosmo-backend/R-server/.Rhistory
+terra-backend/json-server/node_modules/
+terra-backend/R-server/data/
+terra-backend/python-server/data/
+terra-update-batch/cosmoDataUpdate-*.zip
+terra-backend/R-server/.Rhistory
