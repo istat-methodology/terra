@@ -23,10 +23,3 @@ situation between the two countries in the period before and after a specific re
 - **Trade**: Member State monthly imports and exports have been decomposed in terms of traded products in order to give a picture of trade trends under the Covid-19 pandemic in a short-term perspective. Despite the global drop of international trade during the pandemic, a strong heterogeneity across traded products is observed by computing year-over-year monthly percentage changes for each considered product class. Indeed, for each Member State, the critical pandemic months show an increase of share in the export
 of non-durable consumer goods, such as pharmaceutical products, chemicals or floods and beverage, and at the same time a drop in export of durable consumer goods or investment goods, such as motor vehicles, trailers and semi-trailers. On the other hand, the import side shows an increase of share for products needed to fight against coronavirus, such as textiles (facial masks). Since for most Member State the heterogeneity is strong localized during the pandemic waves, the indicators provide a clear picture of national deficit or surplus of specific products most needed at crisis time. The input data source consists in Comext monthly dataset by products, where Member State trade classified
 according to CPA2.1 at 2 digits classification level was considered. Comext data were appropriately transformed in order to get, for each Member State, shares of CPA product divisions on total export and import, and finally compute year-over-year (YOY) changes of such shares during 2020.
-
-## Installation
-If you are curious about our work and want to play with Cosmopolitcs, clone the repo and execute the following command
-`docker-compose up -d`
-then open the browser at the following url
-`http://localhost:8070`
-Now you can have great fun!
