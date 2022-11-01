@@ -39,7 +39,7 @@
             <span class="float-right">
               <exporter
                 v-if="timeseriesCharts"
-                filename="cosmopolitics_timeseries"
+                filename="terra_timeseries"
                 :data="getTabularData(timeseriesCharts.diagMain, 'timeseries')"
                 :filter="getSearchFilter()"
                 source="table">
@@ -92,7 +92,7 @@
             </span>
             <span class="float-right">
               <exporter
-                filename="cosmopolitics_diagnorm"
+                filename="Terra_diagnorm"
                 :data="getData(chartDataDiagNorm, 'diagnorm')">
               </exporter>
             </span>
@@ -134,7 +134,7 @@
             </span>
             <span class="float-right">
               <exporter
-                filename="cosmopolitics_diagacf"
+                filename="Terra_diagacf"
                 :data="getData(chartDataDiagACF, 'diagacf')">
               </exporter>
             </span>
@@ -154,7 +154,7 @@
           <span class="float-left">{{ $t("timeseries.form.title") }}</span>
           <!--span class="float-right">
             <exporter
-              filename="cosmopolitics_timeseries_filter"
+              filename="Terra_timeseries_filter"
               :data="getSearchFilter()"
               :options="['csv']"
               source="filter"

@@ -2,7 +2,7 @@
   "common": {
     "submit": "Esegui!",
     "exporter": "Esporta",
-    "apply":"Aggiorna il grafo",
+    "apply": "Aggiorna il grafo",
     "close": "Chiudi",
     "mandatory": "Campi obbligatori",
     "update": "Dati COMEXT aggiornati al ",
@@ -105,23 +105,23 @@
         "weight_placeholder": "Seleziona i pesi"
       }
     },
-    "scenario":{
+    "scenario": {
       "main": "Informazioni di dettaglio per {country}",
       "mainEdge": "Relazioni commerciali",
       "title_extra_edge": "Vuoi modificare i mezzi di trasporto in questo scambio?",
       "title_extra_node": "Vuoi modificare i mezzi di trasporto negli scambi di questo paese?",
       "title_world_edge": "Vuoi eliminare questo scambio?",
       "title_world_node": "Vuoi eliminare tutti gli scambi di questo paese?",
-      "transports_selected":"Grafo corrente",
-      "transports_scenario":"Nuovo scenario",
+      "transports_selected": "Grafo corrente",
+      "transports_scenario": "Nuovo scenario",
       "success": "Il grafo è stato modificato coerentemente con i vincoli"
     },
-    "message":{
+    "message": {
       "scenario": "Analisi di scenario effettuata con successo!",
       "graph_wide": "Warning N.05: Grafo troppo ampio  \n Ridurre la soglia o cambiare i mezzi di trasporto",
       "graph_empty": "Warning N.06 Graph vuoto \n Ridurre la soglia o cambiare i mezzi di trasporto"
     },
-    "table":{
+    "table": {
       "title": "Metriche"
     },
     "card": {
@@ -174,11 +174,11 @@
         "body": "<b>Strumento di visualizzazione</b> delle serie <b>mensili</b> di dati sul commercio estero <b>COMEXT</b>. Questa sezione consente una lettura facile e comprensibile nonostante la mole di dati sottostanti. Utile come strumento di divulgazione. E serie sono fornite serie in valore e il <b>download è disponibile</b> in vari formati."
       }
     },
-    "message":{
+    "message": {
       "empty": "Non sono disponibili dati per i filtri di ricerca selezionati!"
     },
-    "download":{
-      "title": "Cosmopolitics - Serie storiche"
+    "download": {
+      "title": "Terra - Serie storiche"
     }
   },
   "trade": {
@@ -195,7 +195,7 @@
         "products": "Prodotti CPA2",
         "products_placeholder": "Seleziona un prodotto",
         "flow": "Flusso",
-        "flow_placeholder": "Seleziona il flusso"        
+        "flow_placeholder": "Seleziona il flusso"
       }
     },
     "modal": {
@@ -204,8 +204,8 @@
         "body": "Questa sezione fornisce, per ciascuno Stato membro, le <b>serie storiche mensili delle variazioni tendenziali</b> della composizione del paniere delle merci esportate e importate, classificate secondo le <b>cifre CPA-2 cifre.</b>"
       }
     },
-    "download":{
-      "title": "Cosmopolitics - Paniere dei prodotti"
+    "download": {
+      "title": "Terra - Paniere dei prodotti"
     }
   }
 }

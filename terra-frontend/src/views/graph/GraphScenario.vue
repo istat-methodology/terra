@@ -8,7 +8,7 @@
       <span class="float-left">{{ modalTitle }}</span>
       <span class="float-right">
         <exporter
-          filename="cosmopolitics_scenario"
+          filename="terra_scenario"
           :data="getData(csvTable, 'table')"
           :options="['csv']"
           source="table"

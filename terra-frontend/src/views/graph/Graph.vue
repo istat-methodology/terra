@@ -24,7 +24,7 @@
               <CCardHeader>
                 <span class="float-right">
                   <exporter
-                    filename="cosmopolitics_metrics"
+                    filename="terra_metrics"
                     :data="getData(csvFields, 'table')"
                     :options="['csv']"
                     :filter="graphFilter"

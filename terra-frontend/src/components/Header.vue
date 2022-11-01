@@ -25,7 +25,7 @@
           <a
             class="nav-link"
             target="_blank"
-            href="https://istatcosmostorage.blob.core.windows.net/public/Cosmopolitics_Manuale.pdf">
+            href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf">
             {{ $t("header.userguide") }}
           </a>
         </li>

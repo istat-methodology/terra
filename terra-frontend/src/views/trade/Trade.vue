@@ -18,7 +18,7 @@
           <span class="float-right">
             <exporter
               v-if="this.charts && this.tradePeriod"
-              filename="cosmopolitics_basket"
+              filename="terra_basket"
               :data="getData(this.charts.data, 'trade')"
               :filter="getSearchFilter()"
               source="matrix"

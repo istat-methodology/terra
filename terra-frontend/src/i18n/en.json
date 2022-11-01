@@ -2,7 +2,7 @@
   "common": {
     "submit": "Go!",
     "exporter": "export",
-    "apply":"Update graph!",
+    "apply": "Update graph!",
     "close": "Close",
     "mandatory": "Mandatory fields",
     "update": "COMEXT data updated on ",
@@ -106,23 +106,23 @@
         "weight_placeholder": "Select weights"
       }
     },
-    "scenario":{
+    "scenario": {
       "main": "Trade relazions for {country}",
       "mainEdge": "Trade relations",
       "title_extra_edge": "Do you want to modify the transports for this flow?",
       "title_extra_node": "Do you want to modify the transports in the flows of the selected country?",
       "title_world_edge": "Do you want to delete this flow?",
       "title_world_node": "Do you want to delete all the flow of the selected country?",
-      "transports_selected":"Current graph",
-      "transports_scenario":"New scenario",
+      "transports_selected": "Current graph",
+      "transports_scenario": "New scenario",
       "success": "The graph has been modified according to the new constraints"
     },
-    "message":{
+    "message": {
       "scenario": "Scenario analysis successfully performed!",
       "graph_wide": "Warning N.05: Graph is too wide  \n Decrease the treshold or change means of transport",
       "graph_empty": "Warning N.06 Graph empty \n Increase the treshold or change means of transport"
     },
-    "table":{
+    "table": {
       "title": "Graph metrics"
     },
     "card": {
@@ -175,11 +175,11 @@
         "body": "<b>Visualization tool</b> for <b>monthly COMEXT</b> foreign trade data. Despite the large amount of underlying data, it allows an easily understandable series reading. Time series are provided in euros and <b>dowload is available</b> in various formats."
       }
     },
-    "message":{
+    "message": {
       "empty": "No time series is available for the selected filters!"
     },
-    "download":{
-      "title": "Cosmopolitics - Timeseries"
+    "download": {
+      "title": "Terra - Timeseries"
     }
   },
   "trade": {
@@ -205,8 +205,8 @@
         "body": "This section provides, for each Member State, the <b>monthly time series of year-over-year changes</b> in the basket composition of exported and imported goods, classified according to <b>CPA-2 digits.</b>"
       }
     },
-    "download":{
-      "title": "Cosmopolitics - Basket of Traded Products Filter"
+    "download": {
+      "title": "Terra - Basket of Traded Products Filter"
     }
   }
 }

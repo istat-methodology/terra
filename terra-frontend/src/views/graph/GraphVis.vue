@@ -14,7 +14,7 @@
           </span>
           <span class="float-right">
             <exporter
-              filename="cosmopolitics_graph_analysis"
+              filename="terra_graph_analysis"
               :data="getData('graph', this.$refs.graph)"
               :options="['jpeg', 'png', 'pdf', 'json']"
               source="graph">

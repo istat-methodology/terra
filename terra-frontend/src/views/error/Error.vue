@@ -4,9 +4,9 @@
       <div class="clearfix">
         <h1 class="float-left display-3 mr-4">500</h1>
         <h4 class="pt-3">Houston, we have a problem!</h4>
-        <p class="text-muted">
-          An error occurred, please contact Cosmopolitics administrator
-        </p>
+        <!--p class="text-muted">
+          An error occurred, please contact Terra administrator
+        </p-->
       </div>
       <div class="clearfix mb-3">
         <h4 class="pt-3">Error message:</h4>

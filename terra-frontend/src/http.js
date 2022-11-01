@@ -1,5 +1,6 @@
 import axios from "axios"
 import store from "@/store"
+import router from "@/router"
 
 const axiosAuth = axios.create({
   baseURL: process.env.VUE_APP_CLS_SERVER + "/security"
@@ -75,9 +76,10 @@ export { axiosAuth, axiosHack, axiosR, axiosPython }
 
 function manageServerError(error, server) {
   console.log("[Error] Ops, something went wrong in " + server)
-  var err = {
+  console.log("[Error] Error message " + error)
+  store.dispatch("error/serverError", {
     code: 500,
     message: "Sorry, something went wrong in " + server + " server!"
-  }
-  store.dispatch("error/serverError", err)
+  })
+  if (router.currentRoute.path != "/error") router.push("/error")
 }
