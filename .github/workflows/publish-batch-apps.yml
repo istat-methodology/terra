@@ -79,7 +79,7 @@ jobs:
         if: ${{ env.PUBLISH_PREPARE_NODE == '1' }}
         shell: pwsh
         run: |
-          pushd cosmo-update-batch
+          pushd terra-update-batch
           
           Get-Content prepare-node.sh | ?{ $_ -match '^# Version ([0-9]+)\.([0-9]+)\.([0-9\.]*)$' }
           if ($Env:USE_RUN_NUMBER_AS_VERSION -eq "1") {
