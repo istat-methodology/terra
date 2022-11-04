@@ -23,9 +23,14 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:  
+      name: production
 
     steps:
       - uses: actions/checkout@v3
@@ -33,7 +38,9 @@ jobs:
       - name: Azure Login
         uses: Azure/login@v1.4.3
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZ_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZ_TENANT_ID }}
+          subscription-id: ${{ secrets.AZ_SUBSCRIPTION_ID }}
 
       - name: Publish 'Data Update' application
         shell: pwsh
@@ -72,7 +79,7 @@ jobs:
         if: ${{ env.PUBLISH_PREPARE_NODE == '1' }}
         shell: pwsh
         run: |
-          pushd cosmo-update-batch
+          pushd terra-update-batch
           
           Get-Content prepare-node.sh | ?{ $_ -match '^# Version ([0-9]+)\.([0-9]+)\.([0-9\.]*)$' }
           if ($Env:USE_RUN_NUMBER_AS_VERSION -eq "1") {
