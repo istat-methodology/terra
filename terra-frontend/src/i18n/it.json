@@ -11,6 +11,12 @@
     "footer": {
       "experimental": "Statistiche sperimentali 2022",
       "coreui": "Con il supporto di"
+    },
+    "error": {
+      "main": "Houston, abbiamo un problema!",
+      "txt": "Qualcosa non sta funzionando correttamente...",
+      "error": "Messaggio di errore",
+      "goHome": "Torna alla pagina Home"
     }
   },
   "header": {

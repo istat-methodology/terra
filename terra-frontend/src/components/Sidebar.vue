@@ -7,7 +7,7 @@
       (value) => $store.commit('coreui/set', ['sidebarShow', 'responsive'])
     ">
     <CSidebarBrand to="/">
-      <earth-icon class="icon-2x" />
+      <flower-tulip-icon class="icon-2x" />
       <span class="brand c-sidebar-brand-full ml-2">{{ title }}</span>
     </CSidebarBrand>
     <ul class="c-sidebar-nav h-100">
@@ -81,7 +81,7 @@
       <CImg
         src="../img/LogoCircolareSperiStat.png"
         class="mb-3 p-0"
-        style="max-width: 50%" />
+        style="max-width: 40%" />
     </div>
   </CSidebar>
 </template>
@@ -111,10 +111,8 @@ export default {
 </script>
 <style scoped>
 .brand {
-  font-size: 2rem;
-  padding-left: 1rem;
+  font-size: 1.2rem;
 }
-
 .c-active-primary {
   border-left: 3px solid#321fdb;
 }
@@ -126,15 +124,6 @@ export default {
 }
 .c-active-danger {
   border-left: 3px solid#e55353;
-}
-.brand {
-  padding-left: 0 !important;
-}
-.text-green {
-  color: #76b729;
-  font-size: 1.6rem;
-  font-family: Verdana;
-  text-shadow: 0.05rem 0.05rem #6fb2ffb6;
 }
 a:hover {
   text-decoration: none;
