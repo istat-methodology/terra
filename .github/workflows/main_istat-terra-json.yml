@@ -20,8 +20,10 @@ jobs:
       uses: docker/login-action@v1
       with:
         registry: https://istatcosmo.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername }}
-        password: ${{ secrets.AzureAppService_ContainerPassword }}
+        client-id: ${{ secrets.AZ_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZ_TENANT_ID }}
+        subscription-id: ${{ secrets.AZ_SUBSCRIPTION_ID }}
+        
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v2
