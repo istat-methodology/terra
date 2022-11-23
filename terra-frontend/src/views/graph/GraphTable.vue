@@ -4,9 +4,7 @@
     :items="data"
     :fields="fields"
     :sorterValue="sorterValue"
-    table-filter
     column-filter
-    items-per-page-select
     :items-per-page="10"
     sorter
     hover

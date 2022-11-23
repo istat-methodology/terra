@@ -143,7 +143,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
-import { Context } from "@/common"
+import { Context, sliderDefault } from "@/common"
 import {
   LMap,
   LGeoJson,
@@ -179,7 +179,7 @@ export default {
     // ---------------------------------------
     // @TODO Change hard coded value
     // ---------------------------------------
-    seriesPeriod: "202101",
+    seriesPeriod: "",
     markerPeriodSeries: [],
     markerMax: 60,
     markerMin: -60,
@@ -397,12 +397,16 @@ export default {
   },
   created() {
     this.$store.dispatch("coreui/setContext", Context.Map)
+    this.seriesPeriod = sliderDefault
     this.getDataSeries("exportseries")
   }
 }
 </script>
 <style scoped>
 @import "~leaflet/dist/leaflet.css";
+.card {
+  margin-bottom: 0px;
+}
 .card-body {
   padding: 0;
 }
@@ -470,7 +474,9 @@ export default {
   font: bold 12px "Lucida Console", Monaco, monospace;
   text-indent: 1px;
 }
-
+.vue-slider {
+  margin-bottom: 2rem;
+}
 .vue-slider-ltr .vue-slider-mark-label,
 .vue-slider-rtl .vue-slider-mark-label {
   -webkit-transform: rotate(20deg) !important;

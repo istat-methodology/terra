@@ -18,13 +18,13 @@ export default {
         this.mean = null
         this.std = null
       }
-      this.diagNormTitle = "NQQ-Norm Plot"
+      this.diagNormTitle = this.$t("timeseries.plot.qqnorm")
       if (statusNorm != "00") {
         this.chartDataDiagNorm = this.getDiagNormChart(data["diagNorm"])
       } else {
         this.chartDataDiagNorm = null
       }
-      this.diagACFTitle = "AUTOCORRELATION"
+      this.diagACFTitle = this.$t("timeseries.plot.corr")
       if (statusACF != "00") {
         this.chartDataDiagACF = this.getDiagACFChart(data["diagACF"])
       } else {
@@ -62,7 +62,7 @@ export default {
         })
         //Mean line
         chartData.datasets.push({
-          label: "Mean",
+          label: this.$t("common.mean"),
           fill: false,
           borderColor: "rgba(249, 177, 21,0.4)",
           data: Array(data["series"].length).fill(mean),

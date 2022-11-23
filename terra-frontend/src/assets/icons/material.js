@@ -29,6 +29,7 @@ import GsimOutlineIcon from "icons/PuzzleOutline.vue"
 import EarthIcon from "icons/Earth.vue"
 import GraphqlIcon from "icons/Graphql.vue"
 import FlowerTulipIcon from "icons/FlowerTulip.vue"
+import InfoIcon from "icons/InformationOutline.vue"
 
 Vue.component("chevron-right-icon", ChevronRightBoxIcon)
 Vue.component("home-icon", HomeIcon)
@@ -49,3 +50,4 @@ Vue.component("gsim-outline-icon", GsimOutlineIcon)
 Vue.component("earth-icon", EarthIcon)
 Vue.component("graphql-icon", GraphqlIcon)
 Vue.component("flower-tulip-icon", FlowerTulipIcon)
+Vue.component("info-icon", InfoIcon)

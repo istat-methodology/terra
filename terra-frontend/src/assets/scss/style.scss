@@ -25,12 +25,24 @@
 
 .c-app:not(.c-dark-theme) .btn:not([class*=ghost]):not([class*=link]):not([class*=outline]):not([class*=transparent]) {
   border: 0;
-  box-shadow: 0 1px 1px 0 rgba(60,75,100,.14), 0 2px 1px -1px rgba(60,75,100,.12), 0 1px 3px 0 rgba(60,75,100,.2);
+  box-shadow: none;
+}
+
+.btn-export .btn:not([class*=ghost]):not([class*=link]):not([class*=outline]):not([class*=transparent]) {
+  border: 0;
+  box-shadow: none;
+}
+
+.card-header {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1.25rem 1.25rem 0.5rem 1.25rem;
+  border-bottom: none;
 }
 
 .card-header:not(.content-center) > .c-icon:first-child {
   margin-right: 0.1rem;
-  margin-top: 0.1rem;
+  margin-top: 0.2rem;
   vertical-align: top;
   width: 1.2rem;
   height: 1.2rem;
@@ -58,7 +70,7 @@ button:focus {
 }
 
 .section-link {
-  margin-top: 15px;
+  margin-top: 1.2rem;
 }
 
 .section-link a {
@@ -83,7 +95,7 @@ button:focus {
   bottom: auto;
 }
 .card-label {
-  color: #321fdb;
+  color: $primary;
   font-size: 0.9em;
 }
 .card-no-border {
@@ -93,6 +105,29 @@ button:focus {
 .card-no-shadow{
   box-shadow: none !important;
 }
+
+.card-title{
+  line-height: 2; 
+  padding-left: 0.8rem;
+}
+
+.card-filter .card-body {
+  padding-top: 0.5rem;
+}
+
+.card-filter-title{
+  line-height: 2; 
+}
+
+.btn-help{
+  float: right;
+}
+
+.btn-help .btn-sm, .btn-help .btn-group-sm > .btn {
+  font-size: 0.875rem;
+  padding: 0.3rem 0.5rem 0.1rem 0.5rem;
+}
+
 
 /* Forms */
 .form-group {
@@ -127,22 +162,32 @@ button:focus {
   visibility: visible;
 }
 /*Tabs*/
+.nav-tabs {
+  border-bottom: none;
+}
 .nav-tabs .nav-link {
   color: #4f5d73;
+  border-bottom: 2px solid #ebedef;
   margin-bottom: 5px;
 }
+.nav-tabs .nav-link:hover {
+  border-color: #ebedef;
+}
+
+.nav-tabs .nav-link:focus { 
+  outline: none; 
+}
+
 .nav-tabs .nav-link.active {
-  color: #321fdb;
-  background-color: white;
-  border: 0;
-  box-shadow: 0 1px 1px 0 rgb(60 75 100 / 14%), 0 2px 1px -1px rgb(60 75 100 / 12%), 0 1px 3px 0 rgb(60 75 100 / 20%);
+  color: $primary;
+  border: none;
+  border-bottom: 2px solid $primary;
 }
+
 .nav-tabs .nav-item.show .nav-link {
-  color: #321fdb;
+  color: $primary;
   background-color: white;
 }
-
-
 
 /* V-Select*/
 .vs__search::placeholder{
@@ -156,7 +201,7 @@ button:focus {
 }
 .vs__dropdown-option--highlight{
   color: white;
-  background-color:	#321fdb;
+  background-color:	$primary;
 }
 .vs__selected-options {
   padding: 2px 3px 2px 6px;
@@ -173,6 +218,7 @@ button:focus {
 .is-invalid > .form-control {
   border-color: $danger;
 }
+
 /* Spinner */
 .spinner > div {
   background-color: $primary !important;
@@ -193,34 +239,28 @@ button:focus {
   margin-right: 6px;
   opacity: 0.7;
 }
+
 .info h4 {
   margin: 0 0 5px;
   color: #777;
 }
+
 .legend {
-  
   line-height: 15px;
   color: #555;
   padding: 8px;
   font: 16px/18px Arial, Helvetica, sans-serif;
-  /*
-  background: white;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  */
   width: 300px;
   height: auto;
   margin: 6px;
-  /*
-  opacity: 0.7;
-  */
 }
+
 .legend ul {
   display: block;
   padding-inline-start: 25px !important;
   padding-inline-end: 25px !important;
 }
+
 .legend li {
   list-style-type: none;
 }
@@ -267,4 +307,13 @@ $themeColor: #321fdb;
 .material-design-icon.icon-2x > .material-design-icon__svg {
   height: 1.8em;
   width: 1.8em;
+}
+
+/* Network*/
+.network:focus { 
+  outline: none; 
+}
+
+.vis-network:focus { 
+  outline: none; 
 }

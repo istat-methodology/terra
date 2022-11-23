@@ -8,7 +8,7 @@ export default {
       },
       title: {
         display: true,
-        text: "QQ-Norm Plot",
+        text: "",
         fontColor: "#404040",
         fontSize: 16,
         fontWeight: "bold",
@@ -56,7 +56,7 @@ export default {
       },
       title: {
         display: true,
-        text: "AUTOCORRELATION",
+        text: "",
         fontColor: "#404040",
         fontSize: 16,
         fontWeight: "bold",

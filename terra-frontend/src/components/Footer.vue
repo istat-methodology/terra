@@ -9,7 +9,7 @@
     </div>
     <div class="ml-auto d-md-down-none">
       <span class="mr-1">{{ $t("common.footer.coreui") }}</span>
-      <a href="https://coreui.io/vue" target="_blank">CoreUI for Vue</a>
+      <a href="https://coreui.io/vue" target="_blank">CoreUI</a>
     </div>
   </CFooter>
 </template>

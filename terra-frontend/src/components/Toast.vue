@@ -57,7 +57,7 @@ export default {
   border-color: #ffeeba;
 }
 .toaster-top-center {
-  left: 37.5% !important;
-  transform: translateY(550%) !important;
+  left: 40% !important;
+  transform: translateY(50%) !important;
 }
 </style>

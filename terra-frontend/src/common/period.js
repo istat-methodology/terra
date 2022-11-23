@@ -1,4 +1,4 @@
-export function getPeriod(start, end) {
+export function getPeriod(start, end, lan) {
   var arr = new Array()
   var dt = new Date(Number(start.year), Number(start.month) - 1)
   var de = new Date(Number(end.year), Number(end.month) - 1)
@@ -8,9 +8,9 @@ export function getPeriod(start, end) {
     monthIndex = monthIndex + 1
     monthIndex = String(monthIndex)
     monthIndex = monthIndex.length > 1 ? monthIndex : "0" + monthIndex
-    var shortYear = dt.toLocaleDateString("en", { year: "2-digit" })
-    var shortMonth = dt.toLocaleString("en-US", { month: "short" })
-    var longYear = dt.toLocaleDateString("en", { year: "numeric" })
+    var shortYear = dt.toLocaleDateString(lan, { year: "2-digit" })
+    var shortMonth = dt.toLocaleString(lan, { month: "short" })
+    var longYear = dt.toLocaleDateString(lan, { year: "numeric" })
     var idString = String(longYear) + String(monthIndex)
     var isoDate = String(longYear) + "-" + String(monthIndex) + "-01"
     var selectString = shortMonth + " " + longYear
@@ -27,7 +27,7 @@ export function getPeriod(start, end) {
   }
   return arr
 }
-export function getTrimesterPeriod(start, end) {
+export function getTrimesterPeriod(start, end, lan) {
   var trim = new Array()
   var dt = new Date(Number(start.year), Number(start.month) - 1)
   var de = new Date(Number(end.year), Number(end.month) - 1)
@@ -40,10 +40,10 @@ export function getTrimesterPeriod(start, end) {
     monthIndex = String(monthIndex)
     monthIndex = monthIndex.length > 1 ? monthIndex : "0" + monthIndex
 
-    var shortYear = dt.toLocaleDateString("en", {
+    var shortYear = dt.toLocaleDateString(lan, {
       year: "2-digit"
     })
-    var longYear = dt.toLocaleDateString("en", {
+    var longYear = dt.toLocaleDateString(lan, {
       year: "numeric"
     })
 

@@ -8,28 +8,27 @@
       in-header
       class="ml-3 d-md-down-none"
       @click="$store.dispatch('coreui/toggleSidebarDesktop')" />
-    <CHeaderBrand class="mx-auto d-lg-none" to="/">
-      <img src="/img/istat-logo.png" height="20" />
-    </CHeaderBrand>
-    <CHeaderNav class="d-md-down-none mr-auto">
-      <CHeaderNavItem class="px-3">
-        <span class="px-3"
+    <CHeaderNav class="mr-auto">
+      <CHeaderNavItem>
+        <span class="title mr-2">TERRA</span>
+        <span class="acronym">imporT ExpoRt netwoRk Analysis</span>
+      </CHeaderNavItem>
+    </CHeaderNav>
+    <CHeaderNav class="mr-lang">
+      <CHeaderNavItem class="d-md-down-none">
+        <span
           ><CIcon name="cil-tags" /> {{ $t("common.update") }}
           {{ lastLoadedData }}</span
         >
       </CHeaderNavItem>
-    </CHeaderNav>
-    <CHeaderNav class="mr-lang">
-      <ul class="ul-lang d-none d-md-flex">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            target="_blank"
-            href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf">
-            {{ $t("header.userguide") }}
-          </a>
-        </li>
-      </ul>
+      <CHeaderNavItem class="d-md-down-none">
+        <a
+          class="nav-link"
+          target="_blank"
+          href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf">
+          {{ $t("header.userguide") }}
+        </a>
+      </CHeaderNavItem>
       <CButtonGroup role="group">
         <CButton
           color="primary"
@@ -75,12 +74,27 @@ export default {
       this.selectedIt = lan == "it" ? true : false
       this.selectedEn = lan == "en" ? true : false
       this.$store.dispatch("coreui/setLanguage", lan)
+      //update classifications
+      this.$store.dispatch("classification/getClassifications")
+      //redirect to Home
+      if (this.$router.currentRoute.path != "/") this.$router.push("/")
+      this.$store.dispatch("message/success", this.$t("common.update_cls"))
     }
   }
 }
 </script>
 
 <style scoped>
+.title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #321fdb;
+}
+.acronym {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3c4b64;
+}
 .c-header-nav {
   padding-left: 0.5rem;
 }

@@ -9,31 +9,38 @@
               :edges="edges"
               :metrics="metrics"
               :spinner="spinner"
+              :isIntra="isIntra"
               :displayTransport="!isIntra"
-              :transports="selectedTransports"
+              :transports="transport"
               @applyConstraints="handleApplyConstraints"
               @showinfo="showMainModal">
               <cosmo-slider
-                :interval="timePeriod"
-                :currentTime="selectedPeriod"
-                @change="handlePeriodChange" />
+                :interval="timeRange"
+                :currentTime="currentTime"
+                @change="handleTimeChange" />
             </cosmo-graph>
           </CTab>
           <CTab :title="$t('graph.table.title')">
             <CCard>
               <CCardHeader>
+                <span class="card-title">{{ title }}</span>
+                <span class="btn-help">
+                  <CButton color="link" size="sm" @click="showMainModal"
+                    >Info</CButton
+                  >
+                </span>
                 <span class="float-right">
                   <exporter
                     filename="terra_metrics"
                     :data="getData(csvFields, 'table')"
                     :options="['csv']"
-                    :filter="graphFilter"
+                    :filter="getSearchFilter"
                     source="table"
                     :header="csvHeader">
                   </exporter>
                 </span>
               </CCardHeader>
-              <CCardBody>
+              <CCardBody class="pb-1">
                 <cosmo-table
                   :data="metricsTable"
                   :fields="metricsFields"
@@ -44,19 +51,103 @@
         </CTabs>
       </div>
       <div class="col-sm-6 col-md-3 padding-tab">
-        <cosmo-form
-          :graphPeriod="timePeriod"
-          :currentTime="selectedPeriod"
-          :currentRadio="selectedRadio"
-          :transports="transports"
-          :products="products"
-          :flows="flows"
-          :displayTransport="!isIntra"
-          @updateFilter="handleUpdateFilter"
-          @submit="handleSubmit"
-          @updatePeriod="handlePeriodChange"
-          @updateRadio="handleRadioChange"
-          @showinfo="showInfoModal" />
+        <CCard>
+          <CCardHeader>
+            <span class="card-title">{{ $t("graph.form.title") }}</span>
+            <span class="btn-help">
+              <CButton color="link" size="sm" @click="showInfoModal"
+                >Info</CButton
+              >
+            </span>
+          </CCardHeader>
+          <CCardBody>
+            <label class="card-label">{{
+              $t("graph.form.fields.period")
+            }}</label>
+            <div>
+              <label class="radio">
+                <input
+                  type="radio"
+                  name="radioPeriod"
+                  value="Monthly"
+                  v-model="frequency" />
+                <span>{{ $t("graph.form.fields.monthly") }}</span>
+              </label>
+              <label class="radio">
+                <input
+                  type="radio"
+                  name="radioPeriod"
+                  value="Trimester"
+                  v-model="frequency" />
+                <span>{{ $t("graph.form.fields.trimester") }}</span>
+              </label>
+            </div>
+            <v-select
+              v-if="timeRange"
+              label="selectName"
+              :options="timeRange"
+              :placeholder="$t('graph.form.fields.period_placeholder')"
+              v-model="currentTime"
+              :class="{
+                'is-invalid': $v.currentTime.$error
+              }" />
+            <label class="card-label mt-3">{{
+              $t("graph.form.fields.percentage")
+            }}</label>
+            <CInput
+              :placeholder="$t('graph.form.fields.percentage_placeholder')"
+              v-model="percentage"
+              :class="{
+                'is-invalid': $v.percentage.$error
+              }" />
+            <label class="card-label mt-3" v-if="displayTransport">{{
+              $t("graph.form.fields.transport")
+            }}</label>
+            <v-select
+              v-if="displayTransport"
+              label="descr"
+              multiple
+              :options="transports"
+              :placeholder="$t('graph.form.fields.transport_placeholder')"
+              v-model="transport"
+              :class="{
+                'is-invalid': $v.transport.$error
+              }" />
+            <label class="card-label mt-3" v-if="displayTransport">{{
+              $t("graph.form.fields.product_nstr")
+            }}</label>
+            <label class="card-label mt-3" v-else>{{
+              $t("graph.form.fields.product_cpa3")
+            }}</label>
+            <v-select
+              label="descr"
+              :options="products"
+              :placeholder="$t('graph.form.fields.product_placeholder')"
+              v-model="product"
+              :class="{
+                'is-invalid': $v.product.$error
+              }" />
+            <label class="card-label mt-3">{{
+              $t("graph.form.fields.flow")
+            }}</label>
+            <v-select
+              label="descr"
+              :options="flows"
+              :placeholder="$t('graph.form.fields.flow_placeholder')"
+              v-model="flow"
+              :class="{
+                'is-invalid': $v.flow.$error
+              }" />
+            <CButton
+              color="primary"
+              shape="square"
+              size="sm"
+              @click="handleSubmit"
+              class="mt-3"
+              >{{ $t("common.submit") }}</CButton
+            >
+          </CCardBody>
+        </CCard>
       </div>
     </div>
     <cosmo-info-modal
@@ -70,16 +161,22 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { required, numeric } from "vuelidate/lib/validators"
+import { metadataService } from "@/services"
 import {
   Context,
   Status,
   getScenarioNodes,
   metricsFieldsIt,
-  metricsFieldsEn
+  metricsFieldsEn,
+  monthDefault,
+  trimesterDefault,
+  getCleanTransports,
+  getTransportIds,
+  restoreAllProdId
 } from "@/common"
 import Slider from "@/components/Slider"
 import GraphVis from "@/views/graph/GraphVis"
-import GraphForm from "@/views/graph/GraphForm"
 import GraphTable from "@/views/graph/GraphTable"
 import GraphInfoModal from "@/views/graph/GraphInfoModal"
 import exporter from "@/components/Exporter"
@@ -89,7 +186,6 @@ export default {
   components: {
     "cosmo-slider": Slider,
     "cosmo-graph": GraphVis,
-    "cosmo-form": GraphForm,
     "cosmo-table": GraphTable,
     "cosmo-info-modal": GraphInfoModal,
     exporter
@@ -101,25 +197,42 @@ export default {
     }
   },
   data: () => ({
-    //Default state
-    selectedPeriod: { id: "202003", selectName: "Mar 20" },
-    selectedRadio: "Monthly",
-    selectedTransports: [],
+    //State
+    displayTransport: true,
+    currentTime: null,
+    frequency: "",
+
+    //Form fields
+    percentage: 0,
+    transport: null,
+    product: null,
+    flow: null,
+
+    //Graph
     graphForm: null,
-    graphFilter: null,
+
     //Metrics table
     metricsFieldsIt: [...metricsFieldsIt],
     metricsFieldsEn: [...metricsFieldsEn],
     sorterValue: { column: "vulnerability", asc: false },
+
     //Spinner
     spinner: false,
+
     //Modal
     isHelpModal: false,
     isMainModal: false
   }),
+  watch: {
+    frequency() {
+      this.currentTime = this.isTrimester
+        ? { id: trimesterDefault.id, selectName: trimesterDefault.descr }
+        : { id: monthDefault.id, selectName: monthDefault.descr_it }
+    }
+  },
   computed: {
     ...mapGetters("metadata", ["graphPeriod", "graphTrimesterPeriod"]),
-    ...mapGetters("coreui", ["isItalian"]),
+    ...mapGetters("coreui", ["isItalian", "language"]),
     ...mapGetters("graph", ["nodes", "edges", "metrics", "metricsTable"]),
     ...mapGetters("classification", [
       "transports",
@@ -128,10 +241,15 @@ export default {
       "flows"
     ]),
     isTrimester() {
-      return this.selectedRadio == "Monthly" ? false : true
+      return this.frequency == "Monthly" ? false : true
     },
-    timePeriod() {
+    timeRange() {
       return this.isTrimester ? this.graphTrimesterPeriod : this.graphPeriod
+    },
+    title() {
+      return this.isIntra
+        ? this.$t("graph.metricIntra")
+        : this.$t("graph.metricExtra")
     },
     products() {
       return this.isIntra ? this.productsIntra : this.productsExtra
@@ -154,20 +272,31 @@ export default {
       return this.metricsFields.map((field) => field.label)
     }
   },
+  validations: {
+    currentTime: {
+      required
+    },
+    percentage: {
+      required,
+      numeric
+    },
+    transport: {
+      validationRule(tr) {
+        return this.displayTransport ? tr !== null : true
+      }
+    },
+    product: {
+      required
+    },
+    flow: {
+      required
+    }
+  },
   methods: {
-    handleUpdateFilter(filter) {
-      this.graphFilter = filter
-    },
-    handleRadioChange(radioValue) {
-      this.selectedRadio = radioValue
-      this.selectedPeriod = this.isTrimester
-        ? { id: "202001", selectName: "T1 2020" }
-        : { id: "202003", selectName: "Mar 2020" }
-    },
-    handlePeriodChange(period) {
-      this.selectedPeriod = period
+    handleTimeChange(time) {
+      this.currentTime = time
       if (this.graphForm) {
-        this.graphForm.tg_period = this.selectedPeriod.id
+        this.graphForm.tg_period = this.currentTime.id
         this.graphForm.pos = { nodes: this.nodes }
         this.requestToServer()
       }
@@ -181,21 +310,37 @@ export default {
         this.requestToServer()
       }
     },
-    handleSubmit(form) {
+    handleSubmit() {
       //Save selected transports for scenario analysis
-      this.selectedTransports = form.transports
+      //this.transport = form.transports
 
-      this.graphForm = {
-        tg_period: this.selectedPeriod.id,
-        tg_perc: form.percentage,
-        listaMezzi: form.transportIds,
-        product: form.product,
-        flow: form.flow,
-        weight_flag: true,
-        pos: "None",
-        selezioneMezziEdges: "None"
+      this.$v.$touch() //validate form data
+      if (
+        !this.$v.currentTime.$invalid &&
+        !this.$v.percentage.$invalid &&
+        !this.$v.transport.$invalid &&
+        !this.$v.product.$invalid &&
+        !this.$v.flow.$invalid
+      ) {
+        //Manage "all" transports in the select (if select is displayed)
+        var cleanTransports = []
+        var cleanTransportIds = []
+        if (this.displayTransport) {
+          cleanTransports = getCleanTransports(this.transport, this.transports)
+          cleanTransportIds = getTransportIds(cleanTransports)
+        }
+        this.graphForm = {
+          tg_period: this.currentTime.id,
+          tg_perc: this.percentage,
+          listaMezzi: cleanTransportIds,
+          product: restoreAllProdId(this.product),
+          flow: this.flow.id,
+          weight_flag: true,
+          pos: "None",
+          selezioneMezziEdges: "None"
+        }
+        this.requestToServer()
       }
-      this.requestToServer()
     },
     requestToServer() {
       this.spinnerStart(true)
@@ -221,6 +366,43 @@ export default {
           }
           this.spinnerStart(false)
         })
+    },
+    getSearchFilter() {
+      let data = []
+      data.push({
+        field: this.$t("graph.form.fields.period"),
+        value: this.currentTime.selectName ? this.currentTime.selectName : ""
+      })
+      data.push({
+        field: this.$t("graph.form.fields.percentage"),
+        value: this.percentage ? this.percentage : ""
+      })
+      if (this.displayTransport) {
+        data.push({
+          field: this.$t("graph.form.fields.transport"),
+          value: this.transport
+            ? this.transport
+                .map((transp) => {
+                  return transp.descr
+                })
+                .join("#")
+            : ""
+        })
+        data.push({
+          field: this.$t("graph.form.fields.product_nstr"),
+          value: this.product.descr
+        })
+      } else {
+        data.push({
+          field: this.$t("graph.form.fields.product_cpa3"),
+          value: this.product.descr
+        })
+      }
+      data.push({
+        field: this.$t("graph.form.fields.flow"),
+        value: this.flow.descr ? this.flow.descr : ""
+      })
+      return data
     },
     showMainModal() {
       this.isMainModal = true
@@ -250,6 +432,23 @@ export default {
       this.isIntra ? Context.GraphIntra : Context.Graph
     )
     this.$store.dispatch("graph/clear")
+
+    this.displayTransport = !this.isIntra
+
+    // Set form default values
+    metadataService
+      .getGraphDefault(this.isIntra, this.language)
+      .then((formDefaults) => {
+        // Default state
+        this.currentTime = formDefaults.time
+        this.frequency = formDefaults.frequency
+        this.percentage = formDefaults.percentage
+        this.transport = this.displayTransport ? formDefaults.transport : null
+        this.product = formDefaults.product
+        this.flow = formDefaults.flow
+        //Sumit form
+        this.handleSubmit()
+      })
   }
 }
 </script>
@@ -259,14 +458,22 @@ export default {
   color: #321fdb;
   font-size: 0.9em;
 }
-.card-header {
-  padding: 1rem 1.25rem 0.7rem 1.25rem;
-}
-.card-header span {
-  font-size: 0.875rem;
-  font-weight: 500;
-}
 .padding-tab {
   padding-top: 45px;
+}
+
+label.radio {
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+span {
+  padding-left: 5px;
+}
+
+.result {
+  margin-top: 15px;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
 }
 </style>

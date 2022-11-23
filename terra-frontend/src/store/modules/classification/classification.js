@@ -1,44 +1,48 @@
-import { classificationService } from "@/services"
+import { metadataService } from "@/services"
 import { replaceAllProdId } from "@/common"
 
 const state = {
+  loaded: false,
   countries: [],
-  products: [],
-  productPlus: [],
   transports: [],
   partners: [],
-  becs: [],
   productsCPA: [],
   productsIntra: [],
   productsExtra: [],
   dataType: [
     {
       id: 1,
-      descr: "Yearly variation series"
+      descr_en: "Yearly variation series",
+      descr_it: "Variazioni tendenziali"
     },
     {
       id: 2,
-      descr: "Raw data series"
+      descr_en: "Raw data series",
+      descr_it: "Dati grezzi"
     }
   ],
   varType: [
     {
       id: 1,
-      descr: "Euro"
+      descr_en: "Euro",
+      descr_it: "Euro"
     },
     {
       id: 2,
-      descr: "Kilograms"
+      descr_en: "Kilograms",
+      descr_it: "Chilogrammi"
     }
   ],
   flows: [
     {
       id: 1,
-      descr: "Import"
+      descr_en: "Import",
+      descr_it: "Import"
     },
     {
       id: 2,
-      descr: "Export"
+      descr_en: "Export",
+      descr_it: "Export"
     }
   ],
   weights: [
@@ -53,6 +57,9 @@ const state = {
   ]
 }
 const mutations = {
+  SET_CLS_LOADED(state, loaded) {
+    state.loaded = loaded
+  },
   SET_COUNTRIES(state, countries) {
     state.countries = countries
   },
@@ -82,9 +89,23 @@ const mutations = {
   }
 }
 const actions = {
-  getCountries({ commit }) {
-    return classificationService
-      .findAll("countries")
+  getClassifications({ dispatch, commit, rootGetters }) {
+    const lan = rootGetters["coreui/language"]
+    return Promise.all([
+      dispatch("getCountries", lan),
+      dispatch("getProductsCPA", lan),
+      dispatch("getProductsIntra", lan),
+      dispatch("getProductsExtra", lan),
+      dispatch("getTransports", lan),
+      dispatch("getPartners", lan)
+    ]).then(() => {
+      commit("SET_CLS_LOADED", true)
+      return true
+    })
+  },
+  getCountries({ commit }, lan) {
+    return metadataService
+      .getClassification("countries", lan)
       .then((data) => {
         commit("SET_COUNTRIES", data)
       })
@@ -92,9 +113,9 @@ const actions = {
         console.log(err)
       })
   },
-  getProductsCPA({ commit }) {
-    return classificationService
-      .findAll("productsCPA")
+  getProductsCPA({ commit }, lan) {
+    return metadataService
+      .getClassification("productsCPA", lan)
       .then((data) => {
         commit(
           "SET_PRODUCTS_CPA",
@@ -110,9 +131,9 @@ const actions = {
         console.log(err)
       })
   },
-  getProductsIntra({ commit }) {
-    return classificationService
-      .findAll("productsIntra")
+  getProductsIntra({ commit }, lan) {
+    return metadataService
+      .getClassification("productsIntra", lan)
       .then((data) => {
         const prods = replaceAllProdId(data)
         commit(
@@ -129,9 +150,9 @@ const actions = {
         console.log(err)
       })
   },
-  getProductsExtra({ commit }) {
-    return classificationService
-      .findAll("productsExtra")
+  getProductsExtra({ commit }, lan) {
+    return metadataService
+      .getClassification("productsExtra", lan)
       .then((data) => {
         const prods = replaceAllProdId(data)
         commit(
@@ -148,9 +169,9 @@ const actions = {
         console.log(err)
       })
   },
-  getTransports({ commit }) {
-    return classificationService
-      .findAll("transports")
+  getTransports({ commit }, lan) {
+    return metadataService
+      .getClassification("transports", lan)
       .then((data) => {
         //Add 'All' to the list of transports
         data.push({
@@ -163,21 +184,11 @@ const actions = {
         console.log(err)
       })
   },
-  getPartners({ commit }) {
-    return classificationService
-      .findAll("partners")
+  getPartners({ commit }, lan) {
+    return metadataService
+      .getClassification("partners", lan)
       .then((data) => {
         commit("SET_PARTNERS", data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  },
-  getBecs({ commit }) {
-    return classificationService
-      .findAll("becs")
-      .then((data) => {
-        commit("SET_BECS", data)
       })
       .catch((err) => {
         console.log(err)
@@ -185,48 +196,56 @@ const actions = {
   }
 }
 const getters = {
+  clsLoaded: (state) => {
+    return state.loaded
+  },
   countries: (state) => {
     return state.countries
-  },
-  products: (state) => {
-    return state.products
-  },
-  productPlus: (state) => {
-    return state.productPlus
   },
   productsCPA: (state) => {
     return state.productsCPA
   },
-  //graph intra
   productsIntra: (state) => {
     return state.productsIntra
   },
-  //graph extra
   productsExtra: (state) => {
     return state.productsExtra
   },
   transports: (state) => {
     return state.transports
   },
-  flows: (state) => {
-    return state.flows
+  flows: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
+    const descrKey = "descr_" + lan
+    return state.flows.map((obj) => {
+      return {
+        id: obj.id,
+        descr: obj[descrKey]
+      }
+    })
   },
-  //timeseries
-  dataType: (state) => {
-    return state.dataType
+  dataTypes: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
+    const descrKey = "descr_" + lan
+    return state.dataType.map((obj) => {
+      return {
+        id: obj.id,
+        descr: obj[descrKey]
+      }
+    })
   },
-  //timeseries //trade
-  varType: (state) => {
-    return state.varType
-  },
-  weights: (state) => {
-    return state.weights
+  varTypes: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
+    const descrKey = "descr_" + lan
+    return state.varType.map((obj) => {
+      return {
+        id: obj.id,
+        descr: obj[descrKey]
+      }
+    })
   },
   partners: (state) => {
     return state.partners
-  },
-  becs: (state) => {
-    return state.becs
   },
   timeNext: (state) => {
     return state.timeNext

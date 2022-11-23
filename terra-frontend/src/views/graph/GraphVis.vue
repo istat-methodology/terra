@@ -2,42 +2,35 @@
   <div>
     <CCard>
       <CCardHeader>
-        <div>
-          <span class="float-right">
-            <button
-              class="btn mr-2 float-right btn-sm btn-square"
-              title="Info"
-              role="button"
-              @click="showInfo">
-              i
-            </button>
-          </span>
-          <span class="float-right">
-            <exporter
-              filename="terra_graph_analysis"
-              :data="getData('graph', this.$refs.graph)"
-              :options="['jpeg', 'png', 'pdf', 'json']"
-              source="graph">
-            </exporter>
-          </span>
-        </div>
+        <span class="card-title">{{ title }}</span>
+        <span class="btn-help">
+          <CButton color="link" size="sm" @click="showInfo">Info</CButton>
+        </span>
+        <span class="float-right">
+          <exporter
+            filename="terra_graph_analysis"
+            :data="getData('graph', this.$refs.graph)"
+            :options="['jpeg', 'png', 'pdf', 'json']"
+            source="graph">
+          </exporter>
+        </span>
         <div class="graph-info">
           <span v-if="graphDensity > 0">
             <span class="text-primary"> {{ $t("graph.stats.density") }} </span
             >{{ graphDensity }}</span
           >
           <span class="pl-2" v-if="nodeMetric">
-            <span class="text-primary">{{ $t("graph.stats.country") }}</span
-            >: {{ nodeMetric.country }}
+            <span class="text-primary">{{ $t("graph.stats.country") }} </span
+            >{{ nodeMetric.country }}
             <span class="text-primary"
-              >, {{ $t("graph.stats.exportationstrength") }}</span
-            >: {{ nodeMetric.exportationstrength }}
+              >, {{ $t("graph.stats.exportationstrength") }} </span
+            >{{ nodeMetric.exportationstrength }}
             <span class="text-primary"
-              >, {{ $t("graph.stats.vulnerability") }}</span
-            >
-            : {{ nodeMetric.vulnerability }}
+              >, {{ $t("graph.stats.vulnerability") }}
+            </span>
+            {{ nodeMetric.vulnerability }}
             <span class="text-primary">, {{ $t("graph.stats.hubness") }} </span
-            >: {{ nodeMetric.hubness }}</span
+            >{{ nodeMetric.hubness }}</span
           >
         </div>
       </CCardHeader>
@@ -110,6 +103,11 @@ export default {
   }),
   computed: {
     ...mapGetters("coreui", ["isItalian"]),
+    title() {
+      return this.isIntra
+        ? this.$t("graph.titleIntra")
+        : this.$t("graph.titleExtra")
+    },
     scenarioFields() {
       return this.isItalian ? this.scenarioFieldsIt : this.scenarioFieldsEn
     },
@@ -118,6 +116,10 @@ export default {
     }
   },
   props: {
+    isIntra: {
+      type: Boolean,
+      default: true
+    },
     nodes: {
       type: Array,
       default: () => []
@@ -209,7 +211,7 @@ export default {
         })
       })
       //Local copy of selected transports
-      this.localTransports = [...this.transports]
+      this.localTransports = this.displayTransport ? [...this.transports] : []
       this.scenarioModal = true
     },
     handleEdgeSelect(selectedGraph) {
@@ -244,7 +246,7 @@ export default {
         })
       })
       //Local copy of selected transports
-      this.localTransports = [...this.transports]
+      this.localTransports = this.displayTransport ? [...this.transports] : []
       this.scenarioModal = true
     },
     handleOverNode(event) {
@@ -303,8 +305,12 @@ export default {
   margin: 0 0;
 }
 .graph-info {
-  margin-top: 0.4em;
+  margin-top: 0.6em;
   font-size: small;
+  min-height: 30px;
+  padding-left: 0.8rem;
+  margin-bottom: 0.6rem;
+  font-weight: 400;
 }
 .circle-spin {
   position: absolute;

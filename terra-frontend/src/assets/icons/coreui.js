@@ -14,7 +14,9 @@ import {
   cilTags,
   cilAsterisk,
   cilBell,
-  cilStar
+  cilStar,
+  cilInfo,
+  cilSpeech
 } from "@coreui/icons"
 
 export const iconsSet = Object.assign(
@@ -34,6 +36,8 @@ export const iconsSet = Object.assign(
     cilTags,
     cilAsterisk,
     cilBell,
-    cilStar
+    cilStar,
+    cilInfo,
+    cilSpeech
   }
 )

@@ -3,17 +3,11 @@
     <div class="col-sm-6 col-md-9">
       <CCard>
         <CCardHeader>
-          <span
-            >{{ $t("trade.card.title") }} {{ this.flowSelected.descr }} -
-            {{ this.countrySelected.name }}
+          <span class="card-title">
+            {{ $t("trade.card.title") }} {{ title }}
           </span>
-          <span class="float-right">
-            <button
-              class="btn mr-2 float-right btn-sm btn-square"
-              role="button"
-              @click="helpOn(true)">
-              i
-            </button>
+          <span class="btn-help">
+            <CButton color="link" size="sm" @click="helpOn(true)">Info</CButton>
           </span>
           <span class="float-right">
             <exporter
@@ -38,9 +32,9 @@
       </CCard>
     </div>
     <div class="col-sm-6 col-md-3">
-      <CCard>
+      <CCard class="card-filter">
         <CCardHeader>
-          <span class="float-left">{{ $t("trade.form.title") }} </span>
+          <span class="card-filter-title">{{ $t("trade.form.title") }} </span>
         </CCardHeader>
         <CCardBody>
           <label class="card-label">{{
@@ -48,9 +42,9 @@
           }}</label>
           <v-select
             label="descr"
-            :options="varType"
+            :options="varTypes"
             :placeholder="$t('trade.form.fields.varType_placeholder')"
-            v-model="varTypeSelected" />
+            v-model="varType" />
           <label class="card-label mt-3">{{
             $t("trade.form.fields.country")
           }}</label>
@@ -58,7 +52,7 @@
             label="name"
             :options="countries"
             :placeholder="$t('trade.form.fields.country_placeholder')"
-            v-model="countrySelected" />
+            v-model="country" />
           <label class="card-label mt-3">{{
             $t("trade.form.fields.flow")
           }}</label>
@@ -66,7 +60,7 @@
             label="descr"
             :options="flows"
             :placeholder="$t('trade.form.fields.flow_placeholder')"
-            v-model="flowSelected" />
+            v-model="flow" />
           <label v-if="products" class="card-label mt-3">
             {{ $t("trade.form.fields.products") }}
           </label>
@@ -76,7 +70,7 @@
             :options="products"
             :placeholder="$t('trade.form.fields.products_placeholder')"
             multiple
-            v-model="productSelected"
+            v-model="product"
             ref="prod" />
           <CButton
             color="primary"
@@ -105,6 +99,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { Context } from "@/common"
+import { metadataService } from "@/services"
 import paletteMixin from "@/components/mixins/palette.mixin"
 import tradeMixin from "@/components/mixins/tradeDiag.mixin"
 import LineChart from "@/components/charts/LineChart"
@@ -117,22 +112,11 @@ export default {
   mixins: [tradeMixin, paletteMixin, spinnerMixin],
   data: () => ({
     //Form (default values)
-    idAllProducts: "00",
-    productSelected: [
-      { id: "00", dataname: "All products", displayName: "00 - All products" }
-    ],
-    varTypeSelected: {
-      id: 1,
-      descr: "Euro"
-    },
-    countrySelected: {
-      country: "IT",
-      name: "Italy"
-    },
-    flowSelected: {
-      id: 1,
-      descr: "Import"
-    },
+    idAllProducts: "",
+    product: null,
+    varType: null,
+    country: null,
+    flow: null,
     //Chart
     chartData: null,
     labelPeriod: [],
@@ -141,28 +125,34 @@ export default {
     isModalHelp: false
   }),
   computed: {
-    ...mapGetters("classification", ["varType", "countries", "flows"]),
+    ...mapGetters("classification", ["varTypes", "countries", "flows"]),
     ...mapGetters("trade", ["charts", "products"]),
-    ...mapGetters("metadata", ["tradePeriod"])
+    ...mapGetters("metadata", ["tradePeriod"]),
+    ...mapGetters("coreui", ["language"]),
+    title() {
+      return this.flow && this.country
+        ? this.flow.descr + " - " + this.country.name
+        : ""
+    }
   },
   methods: {
     helpOn(showModal) {
       this.isModalHelp = showModal
     },
     handleSubmit() {
-      if (this.varTypeSelected && this.countrySelected && this.flowSelected) {
+      if (this.varType && this.country && this.flow) {
         this.spinnerStart(true)
         this.$store
           .dispatch("trade/findByName", {
-            type: this.varTypeSelected.id,
-            country: this.countrySelected.country,
-            flow: this.flowSelected.id
+            type: this.varType.id,
+            country: this.country.country,
+            flow: this.flow.id
           })
           .then(() => {
             this.chartData = {}
             this.chartData.datasets = []
             this.chartData.labels = this.labelPeriod
-            this.productSelected.forEach((product) => {
+            this.product.forEach((product) => {
               if (product.id === "00") {
                 this.charts.data.forEach((element) => {
                   this.buildChartObject(element.dataname, element.value)
@@ -181,6 +171,8 @@ export default {
     },
     buildChartObject(description, value) {
       const color = this.getColor()
+      this.optionsTrade.scales.yAxes[0].scaleLabel.labelString =
+        this.$t("trade.plot.label")
       this.chartData.datasets.push({
         label: description,
         fill: false,
@@ -192,9 +184,9 @@ export default {
       })
     },
     getData(data, id) {
-      if (data != null) {
+      if (data != null && this.product != null) {
         let selectedAll = false
-        const selectedProds = this.productSelected.map((prod) => {
+        const selectedProds = this.product.map((prod) => {
           if (prod.id == "00") selectedAll = true
           return prod.dataname
         })
@@ -217,20 +209,20 @@ export default {
       })
       data.push({
         field: this.$t("trade.form.fields.varType"),
-        value: this.varTypeSelected ? this.varTypeSelected.descr : ""
+        value: this.varType ? this.varType.descr : ""
       })
       data.push({
         field: this.$t("trade.form.fields.country"),
-        value: this.countrySelected ? this.countrySelected.name : ""
+        value: this.country ? this.country.name : ""
       })
       data.push({
         field: this.$t("trade.form.fields.flow"),
-        value: this.flowSelected ? this.flowSelected.descr : ""
+        value: this.flow ? this.flow.descr : ""
       })
       data.push({
         field: this.$t("timeseries.form.fields.productsCPA"),
-        value: this.productSelected
-          ? this.productSelected
+        value: this.product
+          ? this.product
               .map((prod) => {
                 return prod.dataname
               })
@@ -261,26 +253,36 @@ export default {
       }
     }
     this.$store.dispatch("coreui/setContext", Context.Trade)
-    this.$store
-      .dispatch("trade/findByName", {
-        type: this.varTypeSelected.id,
-        country: this.countrySelected.country,
-        flow: this.flowSelected.id
-      })
-      .then(() => {
-        this.chartData = {}
-        this.chartData.datasets = []
-        this.chartData.labels = this.labelPeriod
-        this.charts.data.forEach((element) => {
-          this.buildChartObject(element.dataname, element.value)
-        })
-      })
 
-    this.spinnerStart(false)
+    //Set form default values
+    metadataService.getTradeDefault(this.language).then((formDefaults) => {
+      this.idAllProducts = formDefaults.idAllProducts
+      this.varType = formDefaults.varType
+      this.flow = formDefaults.flow
+      this.country = formDefaults.country
+      this.product = formDefaults.product
+
+      this.$store
+        .dispatch("trade/findByName", {
+          type: this.varType.id,
+          country: this.country.country,
+          flow: this.flow.id
+        })
+        .then(() => {
+          this.chartData = {}
+          this.chartData.datasets = []
+          this.chartData.labels = this.labelPeriod
+          this.charts.data.forEach((element) => {
+            this.buildChartObject(element.dataname, element.value)
+          })
+        })
+
+      this.spinnerStart(false)
+    })
   }
 }
 </script>
-<style>
+<style scoped>
 .circle-spin {
   position: absolute;
   top: 20%;
@@ -288,12 +290,5 @@ export default {
 }
 .align-right {
   text-align: right;
-}
-.card-header {
-  padding: 1rem 1.25rem 0.7rem 1.25rem;
-}
-.card-header span {
-  font-size: 0.875rem;
-  font-weight: 500;
 }
 </style>

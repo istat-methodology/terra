@@ -38,7 +38,6 @@ export default {
         //debounce
         if (this.timeout) clearTimeout(this.timeout)
         this.timeout = setTimeout(() => {
-          console.log("Changed!")
           this.$emit("change", this.getSelectedPeriod(value))
         }, 300)
       }

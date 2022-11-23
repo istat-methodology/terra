@@ -3,48 +3,27 @@
     <div class="col-sm-6 col-md-9">
       <CCard>
         <CCardHeader>
-          <span class="float-left">
-            <span class="float-left">
-              <label class="form-check-label c-switch c-switch-sm">
-                <input
-                  type="checkbox"
-                  class="form-check-input c-switch-input"
-                  checked
-                  @click="handleMainChart" />
-                <span class="c-switch-slider"></span>
-              </label>
-            </span>
-            <span class="padding-right">
-              <span v-if="countrySelected && partnerSelected"
-                >{{ $t("timeseries.card.title") }}:
-                {{ this.countrySelected.name }} -
-                {{ this.partnerSelected.descr }}</span
-              >
-              <span v-else
-                >{{ $t("timeseries.card.title") }} -
-                {{ $t("timeseries.card.comext") }}</span
-              >
-            </span>
+          <span class="card-title">
+            <span v-if="country && partner"
+              >{{ $t("timeseries.card.title") }}: {{ this.country.name }} -
+              {{ this.partner.descr }}</span
+            >
+            <span v-else
+              >{{ $t("timeseries.card.title") }} -
+              {{ $t("timeseries.card.comext") }}</span
+            >
+          </span>
+          <span class="btn-help">
+            <CButton color="link" size="sm" @click="helpOn(true)">Info</CButton>
           </span>
           <span class="float-right">
-            <span class="float-right">
-              <button
-                class="btn sm-2 btn-sm btn-square"
-                title="Info"
-                role="button"
-                @click="helpOn(true)">
-                i
-              </button>
-            </span>
-            <span class="float-right">
-              <exporter
-                v-if="timeseriesCharts"
-                filename="terra_timeseries"
-                :data="getTabularData(timeseriesCharts.diagMain, 'timeseries')"
-                :filter="getSearchFilter()"
-                source="table">
-              </exporter>
-            </span>
+            <exporter
+              v-if="timeseriesCharts"
+              filename="terra_timeseries"
+              :data="getTabularData(timeseriesCharts.diagMain, 'timeseries')"
+              :filter="getSearchFilter()"
+              source="table">
+            </exporter>
           </span>
         </CCardHeader>
         <CCardBody v-if="isMainChart">
@@ -55,9 +34,11 @@
             id="timeseries" />
           <div class="timeseries-info">
             <span>
-              <span class="text-primary" v-if="mean"> Mean: </span
+              <span class="text-primary" v-if="mean">
+                {{ $t("common.mean") }}: </span
               >{{ this.mean }},
-              <span class="text-primary" v-if="std">Standard deviation: </span
+              <span class="text-primary" v-if="std"
+                >{{ $t("common.std") }}: </span
               >{{ this.std }}
             </span>
           </div>
@@ -65,37 +46,17 @@
       </CCard>
       <CCard v-if="chartDataDiagNorm">
         <CCardHeader>
-          <span class="float-left">
-            <span class="float-left">
-              <label class="form-check-label c-switch c-switch-sm">
-                <input
-                  type="checkbox"
-                  class="form-check-input c-switch-input"
-                  checked
-                  @click="handleDiagNorm" />
-                <span class="c-switch-slider"></span>
-              </label>
-            </span>
-            <span class="padding-right">
-              <b>{{ this.diagNormTitle }}</b>
-            </span>
+          <span class="card-title">
+            {{ this.diagNormTitle }}
+          </span>
+          <span class="btn-help">
+            <CButton color="link" size="sm" @click="helpOn(true)">Info</CButton>
           </span>
           <span class="float-right">
-            <span class="float-right">
-              <button
-                class="btn sm-2 btn-sm btn-square"
-                title="Info"
-                role="button"
-                @click="helpOn(true)">
-                i
-              </button>
-            </span>
-            <span class="float-right">
-              <exporter
-                filename="Terra_diagnorm"
-                :data="getData(chartDataDiagNorm, 'diagnorm')">
-              </exporter>
-            </span>
+            <exporter
+              filename="Terra_diagnorm"
+              :data="getData(chartDataDiagNorm, 'diagnorm')">
+            </exporter>
           </span>
         </CCardHeader>
         <CCardBody v-if="isDiagNorm">
@@ -107,37 +68,17 @@
       </CCard>
       <CCard v-if="chartDataDiagACF">
         <CCardHeader>
-          <span class="float-left">
-            <span class="float-left">
-              <label class="form-check-label c-switch c-switch-sm">
-                <input
-                  type="checkbox"
-                  class="form-check-input c-switch-input"
-                  checked
-                  @click="handleDiagACF" />
-                <span class="c-switch-slider"></span>
-              </label>
-            </span>
-            <span class="padding-right">
-              <b>{{ this.diagACFTitle }}</b>
-            </span>
+          <span class="card-title">
+            {{ this.diagACFTitle }}
+          </span>
+          <span class="btn-help">
+            <CButton color="link" size="sm" @click="helpOn(true)">Info</CButton>
           </span>
           <span class="float-right">
-            <span class="float-right">
-              <button
-                class="btn sm-2 btn-sm btn-square"
-                title="Info"
-                role="button"
-                @click="helpOn(true)">
-                i
-              </button>
-            </span>
-            <span class="float-right">
-              <exporter
-                filename="Terra_diagacf"
-                :data="getData(chartDataDiagACF, 'diagacf')">
-              </exporter>
-            </span>
+            <exporter
+              filename="Terra_diagacf"
+              :data="getData(chartDataDiagACF, 'diagacf')">
+            </exporter>
           </span>
         </CCardHeader>
         <CCardBody v-if="isDiagACF">
@@ -149,18 +90,11 @@
       </CCard>
     </div>
     <div class="col-sm-6 col-md-3">
-      <CCard>
+      <CCard class="card-filter">
         <CCardHeader>
-          <span class="float-left">{{ $t("timeseries.form.title") }}</span>
-          <!--span class="float-right">
-            <exporter
-              filename="Terra_timeseries_filter"
-              :data="getSearchFilter()"
-              :options="['csv']"
-              source="filter"
-            >
-            </exporter>
-          </span-->
+          <span class="card-filter-title">{{
+            $t("timeseries.form.title")
+          }}</span>
         </CCardHeader>
         <CCardBody>
           <label class="card-label">{{
@@ -168,22 +102,22 @@
           }}</label>
           <v-select
             label="descr"
-            :options="dataType"
+            :options="dataTypes"
             :placeholder="$t('timeseries.form.fields.dataType_placeholder')"
-            v-model="dataTypeSelected"
+            v-model="dataType"
             :class="{
-              'is-invalid': $v.dataTypeSelected.$error
+              'is-invalid': $v.dataType.$error
             }" />
           <label class="card-label mt-3">{{
             $t("timeseries.form.fields.varType")
           }}</label>
           <v-select
             label="descr"
-            :options="varType"
+            :options="varTypes"
             :placeholder="$t('timeseries.form.fields.varType_placeholder')"
-            v-model="varTypeSelected"
+            v-model="varType"
             :class="{
-              'is-invalid': $v.varTypeSelected.$error
+              'is-invalid': $v.varType.$error
             }" />
           <label class="card-label mt-3">{{
             $t("timeseries.form.fields.flow")
@@ -192,9 +126,9 @@
             label="descr"
             :options="flows"
             :placeholder="$t('timeseries.form.fields.flow_placeholder')"
-            v-model="flowSelected"
+            v-model="flow"
             :class="{
-              'is-invalid': $v.flowSelected.$error
+              'is-invalid': $v.flow.$error
             }" />
           <label class="card-label mt-3">{{
             $t("timeseries.form.fields.country")
@@ -203,9 +137,9 @@
             label="name"
             :options="countries"
             :placeholder="$t('timeseries.form.fields.country_placeholder')"
-            v-model="countrySelected"
+            v-model="country"
             :class="{
-              'is-invalid': $v.countrySelected.$error
+              'is-invalid': $v.country.$error
             }" />
           <label class="card-label mt-3">{{
             $t("timeseries.form.fields.partner")
@@ -214,9 +148,9 @@
             label="descr"
             :options="partners"
             :placeholder="$t('timeseries.form.fields.partner_placeholder')"
-            v-model="partnerSelected"
+            v-model="partner"
             :class="{
-              'is-invalid': $v.partnerSelected.$error
+              'is-invalid': $v.partner.$error
             }" />
           <label class="card-label mt-3">{{
             $t("timeseries.form.fields.productsCPA")
@@ -225,9 +159,9 @@
             label="descr"
             :options="productsCPA"
             :placeholder="$t('timeseries.form.fields.productsCPA_placeholder')"
-            v-model="productsCPASelected"
+            v-model="productCPA"
             :class="{
-              'is-invalid': $v.productsCPASelected.$error
+              'is-invalid': $v.productCPA.$error
             }" />
           <CButton
             color="primary"
@@ -256,6 +190,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { Context, Status } from "@/common"
+import { metadataService } from "@/services"
 import paletteMixin from "@/components/mixins/palette.mixin"
 import timeseriesDiagMixin from "@/components/mixins/timeseriesDiag.mixin"
 import timeseriesMixin from "@/components/mixins/timeseries.mixin"
@@ -274,14 +209,17 @@ export default {
   },
   mixins: [paletteMixin, timeseriesDiagMixin, timeseriesMixin, spinnerMixin],
   data: () => ({
+    //Spinner
     spinner: false,
+
     //Form fields
-    dataTypeSelected: null,
-    varTypeSelected: null,
-    flowSelected: null,
-    countrySelected: null,
-    partnerSelected: null,
-    productsCPASelected: null,
+    dataType: null,
+    varType: null,
+    flow: null,
+    country: null,
+    partner: null,
+    productCPA: null,
+
     //Charts
     chartDataDiagMain: null,
     chartDataDiagNorm: null,
@@ -296,13 +234,15 @@ export default {
   }),
   computed: {
     ...mapGetters("classification", [
+      "loaded",
       "countries",
       "partners",
       "flows",
-      "dataType",
-      "varType",
+      "dataTypes",
+      "varTypes",
       "productsCPA"
     ]),
+    ...mapGetters("coreui", ["language"]),
     ...mapGetters("timeseries", [
       "timeseriesCharts",
       "statusMain",
@@ -314,25 +254,22 @@ export default {
     }
   },
   validations: {
-    dataTypeSelected: {
+    dataType: {
       required
     },
-    varTypeSelected: {
+    varType: {
       required
     },
-    flowSelected: {
+    flow: {
       required
     },
-    countrySelected: {
+    country: {
       required
     },
-    partnerSelected: {
+    partner: {
       required
     },
-    productsCPASelected: {
-      required
-    },
-    becSelected: {
+    productCPA: {
       required
     }
   },
@@ -352,33 +289,37 @@ export default {
     handleSubmit() {
       this.$v.$touch()
       if (
-        !this.$v.dataTypeSelected.$invalid &&
-        !this.$v.varTypeSelected.$invalid &&
-        !this.$v.flowSelected.$invalid &&
-        !this.$v.productsCPASelected.$invalid &&
-        !this.$v.countrySelected.$invalid &&
-        !this.$v.partnerSelected.$invalid
+        !this.$v.dataType.$invalid &&
+        !this.$v.varType.$invalid &&
+        !this.$v.flow.$invalid &&
+        !this.$v.productCPA.$invalid &&
+        !this.$v.country.$invalid &&
+        !this.$v.partner.$invalid
       ) {
         const form = {
-          flow: this.flowSelected.id,
-          var: this.productsCPASelected.id,
-          country: this.countrySelected.country,
-          partner: this.partnerSelected.id,
-          dataType: this.dataTypeSelected.id,
-          varType: this.varTypeSelected.id
+          flow: this.flow.id,
+          var: this.productCPA.id,
+          country: this.country.country,
+          partner: this.partner.id,
+          dataType: this.dataType.id,
+          varType: this.varType.id
         }
         this.spinnerStart(true)
         this.$store.dispatch("timeseries/findByFilters", form).then(() => {
           if (this.statusMain == Status.success) {
             this.buildTimeseriesCharts(
               this.timeseriesCharts,
-              this.dataTypeSelected.descr,
+              this.dataType.descr,
               this.statusMain,
               this.statusNorm,
               this.statusACF
             )
-            this.optionsNorm.title.text =
-              "QQ-Norm Plot (in " + this.diagNormMag + ")"
+            this.optionsNorm.scales.yAxes[0].scaleLabel.labelString = this.$t(
+              "timeseries.plot.qqnormy"
+            )
+            this.optionsNorm.scales.xAxes[0].scaleLabel.labelString = this.$t(
+              "timeseries.plot.qqnormx"
+            )
           } else {
             this.chartDataDiagMain = this.emptyChart()
             this.mean = null
@@ -415,27 +356,27 @@ export default {
       })
       data.push({
         field: this.$t("timeseries.form.fields.dataType"),
-        value: this.dataTypeSelected ? this.dataTypeSelected.descr : ""
+        value: this.dataType ? this.dataType.descr : ""
       })
       data.push({
         field: this.$t("timeseries.form.fields.varType"),
-        value: this.varTypeSelected ? this.varTypeSelected.descr : ""
+        value: this.varType ? this.varType.descr : ""
       })
       data.push({
         field: this.$t("timeseries.form.fields.flow"),
-        value: this.flowSelected ? this.flowSelected.descr : ""
+        value: this.flow ? this.flow.descr : ""
       })
       data.push({
         field: this.$t("timeseries.form.fields.country"),
-        value: this.countrySelected ? this.countrySelected.name : ""
+        value: this.country ? this.country.name : ""
       })
       data.push({
         field: this.$t("timeseries.form.fields.partner"),
-        value: this.partnerSelected ? this.partnerSelected.descr : ""
+        value: this.partner ? this.partner.descr : ""
       })
       data.push({
         field: this.$t("timeseries.form.fields.productsCPA"),
-        value: this.productsCPASelected ? this.productsCPASelected.descr : ""
+        value: this.productCPA ? this.productCPA.descr : ""
       })
       data.push({
         field: this.$t("common.start_date"),
@@ -482,22 +423,26 @@ export default {
   },
   created() {
     this.$store.dispatch("coreui/setContext", Context.Policy)
+    //Set form default values
+    metadataService.getTimeSeriesDefault(this.language).then((formDefaults) => {
+      this.dataType = formDefaults.dataType
+      this.varType = formDefaults.varType
+      this.flow = formDefaults.flow
+      this.country = formDefaults.country
+      this.partner = formDefaults.partner
+      this.productCPA = formDefaults.productCPA
+      //Sumit form
+      this.handleSubmit()
+    })
   }
 }
 </script>
-<style>
+<style scoped>
 .align-right {
   text-align: right;
 }
 .padding-right {
   padding-left: 10px;
-}
-.card-header {
-  padding: 1rem 1.25rem 0.7rem 1.25rem;
-}
-.card-header span {
-  font-size: 0.875rem;
-  font-weight: 500;
 }
 .timeseries-info {
   margin-left: 2.5em;

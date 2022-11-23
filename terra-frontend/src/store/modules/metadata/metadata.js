@@ -21,27 +21,40 @@ const actions = {
   }
 }
 const getters = {
-  mapPeriod: (state) => {
+  mapPeriod: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
     return state.metadata
-      ? getPeriod(state.metadata.map.timeStart, state.metadata.map.timeEnd)
+      ? getPeriod(state.metadata.map.timeStart, state.metadata.map.timeEnd, lan)
       : null
   },
-  graphPeriod: (state) => {
+  graphPeriod: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
     return state.metadata
-      ? getPeriod(state.metadata.graph.timeStart, state.metadata.graph.timeEnd)
-      : null
-  },
-  graphTrimesterPeriod: (state) => {
-    return state.metadata
-      ? getTrimesterPeriod(
+      ? getPeriod(
           state.metadata.graph.timeStart,
-          state.metadata.graph.timeEnd
+          state.metadata.graph.timeEnd,
+          lan
         )
       : null
   },
-  tradePeriod: (state) => {
+  graphTrimesterPeriod: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
     return state.metadata
-      ? getPeriod(state.metadata.trade.timeStart, state.metadata.trade.timeEnd)
+      ? getTrimesterPeriod(
+          state.metadata.graph.timeStart,
+          state.metadata.graph.timeEnd,
+          lan
+        )
+      : null
+  },
+  tradePeriod: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
+    return state.metadata
+      ? getPeriod(
+          state.metadata.trade.timeStart,
+          state.metadata.trade.timeEnd,
+          lan
+        )
       : null
   },
   processingDay: (state) => {

@@ -1,6 +1,6 @@
 {
   "common": {
-    "submit": "Esegui!",
+    "submit": "Esegui",
     "exporter": "Esporta",
     "apply": "Aggiorna il grafo",
     "close": "Chiudi",
@@ -8,6 +8,9 @@
     "update": "Dati COMEXT aggiornati al ",
     "start_date": "Data inizio serie",
     "end_date": "Data fine serie",
+    "update_cls": "Sto ricaricando i dati...",
+    "mean": "Media",
+    "std": "Deviazione standard",
     "footer": {
       "experimental": "Statistiche sperimentali 2022",
       "coreui": "Con il supporto di"
@@ -25,37 +28,38 @@
   },
   "sidebar": {
     "home": "Home",
+    "analysis": "Analisi dati COMEXT",
     "map": "Mappa Interattiva",
-    "graphExtra": "Graph analysis: UE - Extra UE",
-    "graphWorld": "Graph analysis: UE - Mondo",
+    "graphExtra": "Grafi UE - Extra UE",
+    "graphWorld": "Grafi UE - Mondo",
     "timeseries": "Serie storiche",
     "trade": "Paniere dei prodotti"
   },
   "landing": {
     "map": {
-      "title": "Indicatori economici e del commercio internazionale",
+      "title": "Mappa Interattiva",
       "body": "Questa sezione fornisce una mappa che mostra per ogni paese la <b>popolazione totale</b>, alcuni <b>indicatori macroeconomici</b>, i principali <b>prodotti importati ed esportati </b>e i principali <b>paesi partner commerciali</b>.<br><br>Inoltre, viene fornita una funzionalità <b>time-lapse</b> per rappresentare le variazioni mensili tendenziali del commercio internazionale per gli ultimi tre anni.",
       "link": "Vai alla sezione Mappa interattiva"
     },
     "graph": {
       "extra-ue": {
-        "title": "Relazioni nel commercio internazionale UE - Extra UE",
+        "title": "Grafi UE - Extra UE",
         "body": "Questa sezione visualizza grafi che rappresentano il <b>commercio internazionale per prodotto (classificazione NSTR) e modalità di trasporto da fonte COMEXT</b>, insieme alle <b>misure globali e locali pertinenti</b> che descrivono in dettaglio la struttura delle relazioni commerciali tra i paesi UE quelli dell’area Extra-UE. Il pannello è interattivo e offre la possibilità di applicare diversi filtri e di vedere come la struttura del grafico e le misure cambiano di conseguenza.<br>Inoltre viene fornita un'animazione che mostra l'<b>evoluzione del grafico del commercio internazionale nel tempo</b>.",
-        "link": "Vai alla sezione Graph analysis UE - Extra UE"
+        "link": "Vai alla sezione Grafi UE - Extra UE"
       },
       "intra-ue": {
-        "title": "Relazioni nel commercio internazionale UE - Mondo",
+        "title": "Grafi UE - Mondo",
         "body": "Questa sezione visualizza grafi che rappresentano il <b>commercio internazionale per prodotto (classificazione CPA 2.1) da fonte COMEXT</b>, insieme alle <b>misure globali e locali pertinenti</b> che descrivono in dettaglio la struttura delle relazioni commerciali dai paesi UE verso/da ogni paese partner commerciale. Il pannello è interattivo e offre la possibilità di applicare diversi filtri e di vedere come la struttura del grafico e le misure cambiano di conseguenza.<br>Inoltre viene fornita un'animazione che mostra l'<b>evoluzione del grafico del commercio internazionale nel tempo</b>.",
-        "link": "Vai alla sezione Graph analysis UE - Mondo"
+        "link": "Vai alla sezione Grafi UE - Mondo"
       }
     },
     "timeseries": {
-      "title": "Visualizzazione Serie storiche",
+      "title": "Serie storiche",
       "body": "<b>Strumento di visualizzazione</b> delle serie <b>mensili</b> di dati sul commercio estero <b>COMEXT</b>. Questa sezione consente una lettura facile e comprensibile nonostante la mole di dati sottostanti. Utile come strumento di divulgazione. Le serie sono fornite in valore ed il <b>download è disponibile</b> in vari formati.",
       "link": "Vai alla sezione Serie storiche"
     },
     "trade": {
-      "title": "Variazioni nella composizione del paniere dei prodotti importati ed esportati (classificazione CPA – classificazione dei prodotti per attività economica) per Paese Membro",
+      "title": "Paniere dei prodotti",
       "body": "Questa sezione fornisce, per ciascuno Stato membro, le <b>serie storiche mensili delle variazioni tendenziali</b> della composizione del paniere delle merci esportate e importate, classificate secondo le <b>cifre CPA-2 cifre.</b>",
       "link": "Vai alla sezione Paniere dei prodotti"
     }
@@ -83,13 +87,17 @@
     }
   },
   "graph": {
+    "titleExtra": "Grafo: UE - Extra UE",
+    "titleIntra": "Grafo: UE - Mondo",
+    "metricExtra": "Metriche: UE - Extra UE",
+    "metricIntra": "Metriche: UE - Mondo",
     "stats": {
-      "country": "Paese",
-      "density": "Diffusione delle merci",
-      "centrality": "Centralità",
-      "exportationstrength": "Forza di esportazione",
-      "vulnerability": "Vulnerabilità",
-      "hubness": "Hubness"
+      "country": "Paese:",
+      "density": "Diffusione delle merci:",
+      "centrality": "Centralità:",
+      "exportationstrength": "Forza di esportazione:",
+      "vulnerability": "Vulnerabilità:",
+      "hubness": "Hubness:"
     },
     "form": {
       "title": "Filtri di ricerca",
@@ -131,7 +139,7 @@
       "title": "Metriche"
     },
     "card": {
-      "title": "Graph analysis"
+      "title": "Grafo"
     },
     "modal": {
       "main": {
@@ -170,8 +178,14 @@
         "productsCPA_placeholder": "Seleziona un prodotto"
       }
     },
+    "plot": {
+      "qqnorm": "Grafico: QQ-Norm",
+      "qqnormx": "Quantili teorici",
+      "qqnormy": "Quantili campionati",
+      "corr": "Grafico: Autocorrelazione"
+    },
     "card": {
-      "title": "Visualizzazione serie storiche",
+      "title": "Serie storica",
       "comext": "Dati COMEXT mensili"
     },
     "modal": {
@@ -189,7 +203,7 @@
   },
   "trade": {
     "card": {
-      "title": "Paniere di prodotti :"
+      "title": "Paniere dei prodotti :"
     },
     "form": {
       "title": "Filtri di ricerca",
@@ -203,6 +217,9 @@
         "flow": "Flusso",
         "flow_placeholder": "Seleziona il flusso"
       }
+    },
+    "plot": {
+      "label": "Variazione anno-su-anno (%)"
     },
     "modal": {
       "main": {

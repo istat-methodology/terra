@@ -7,8 +7,9 @@
       (value) => $store.commit('coreui/set', ['sidebarShow', 'responsive'])
     ">
     <CSidebarBrand to="/">
-      <flower-tulip-icon class="icon-2x" />
-      <span class="brand c-sidebar-brand-full ml-2">{{ title }}</span>
+      <a href="https://www.istat.it/it/" target="_blank">
+        <CImg src="../img/istat-logo-bianco.png" style="max-width: 80%" />
+      </a>
     </CSidebarBrand>
     <ul class="c-sidebar-nav h-100">
       <li class="c-sidebar-nav-item">
@@ -23,7 +24,7 @@
           <span class="badge badge-primary"> Ver: {{ appVersion }}</span>
         </router-link>
       </li>
-      <li class="c-sidebar-nav-title">Analysis</li>
+      <li class="c-sidebar-nav-title">{{ $t("sidebar.analysis") }}</li>
       <li class="c-sidebar-nav-item">
         <router-link
           tag="a"
@@ -78,10 +79,14 @@
       </li>
     </ul>
     <div class="brand c-sidebar-brand-full text-center">
-      <CImg
-        src="../img/LogoCircolareSperiStat.png"
-        class="mb-3 p-0"
-        style="max-width: 40%" />
+      <a
+        href="https://www.istat.it/it/statistiche-sperimentali"
+        target="_blank">
+        <CImg
+          src="../img/LogoCircolareSperiStat.png"
+          class="mb-3 p-0"
+          style="max-width: 45%" />
+      </a>
     </div>
   </CSidebar>
 </template>

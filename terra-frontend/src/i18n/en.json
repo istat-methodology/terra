@@ -1,13 +1,16 @@
 {
   "common": {
-    "submit": "Go!",
-    "exporter": "export",
-    "apply": "Update graph!",
+    "submit": "Go",
+    "exporter": "Export",
+    "apply": "Update graph",
     "close": "Close",
     "mandatory": "Mandatory fields",
     "update": "COMEXT data updated on ",
     "start_date": "Series start date",
     "end_date": "Series end date",
+    "update_cls": "Updating data...",
+    "mean": "Mean",
+    "std": "Standard deviation",
     "footer": {
       "experimental": "Experimental Statistics 2022",
       "coreui": "Powered by"
@@ -25,38 +28,39 @@
   },
   "sidebar": {
     "home": "Home",
+    "analysis": "COMEXT data analysis",
     "map": "Interactive map",
-    "graphExtra": "Graph analysis: UE - Extra UE",
-    "graphWorld": "Graph analysis: UE - World",
+    "graphExtra": "Graph UE - Extra UE",
+    "graphWorld": "Graph UE - World",
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
     "trade": "Basket of traded products"
   },
   "landing": {
     "map": {
-      "title": "Economic and International Trade Indicators",
+      "title": "Interactive map",
       "body": "This section provides a map displaying for each country the <b>total population</b>, <b>some macro-economic indicators</b>, main <b>imported and exported goods</b> ,and main <b>trade partner countries</b>. <br><br>Moreover, a <b>time-lapse</b> functionality to represent the international trade year-on-year monthly variations for the last three years is provided.",
       "link": "Go to Interactive map section"
     },
     "graph": {
       "extra-ue": {
-        "title": "International Trade Relations UE - Extra UE",
+        "title": "Graph analysis UE - Extra UE",
         "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT transport data (NSTR classification)</strong>, along with relevant global and local measures detailing the structure of relations between UE and Extra UE countries. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
         "link": "Go to Graph analisys section UE - Extra UE"
       },
       "intra-ue": {
-        "title": "International Trade Relations UE - World",
+        "title": "Graph analysis UE - World",
         "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT data, with CPA 2.1 product  classification</strong>, along with relevant global and local measures detailing the structure of relations between UE countries and their economic partners. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
         "link": "Go to Graph analisys section UE - World"
       }
     },
     "timeseries": {
-      "title": "Time Series",
+      "title": "Time series",
       "body": "<b>Visualization tool</b> for <b>monthly COMEXT</b> foreign trade data. Despite the large amount of underlying data, it allows an easily understandable series reading. Time series are provided in euros and <b>dowload is available</b> in various formats.",
       "link": "Go to Time series section"
     },
     "trade": {
-      "title": "Changes in basket composition of traded products (CPA - classification of products by activity) by Member State",
+      "title": "Basket of traded products",
       "body": "This section provides, for each Member State, the <b>monthly time series of year-over-year changes</b> in the basket composition of exported and imported goods, classified according to <b>CPA-2 digits.</b>",
       "link": "Go to Basket of traded products section"
     }
@@ -84,9 +88,13 @@
     }
   },
   "graph": {
+    "titleExtra": "Graph UE - Extra UE",
+    "titleIntra": "Graph UE - World",
+    "metricExtra": "Metrics: UE - Extra UE",
+    "metricIntra": "Metrics: UE - World",
     "stats": {
-      "country": "Country",
-      "density": "Product spread",
+      "country": "Country:",
+      "density": "Product spread:",
       "centrality": "Centrality:",
       "exportationstrength": "Exportation strength:",
       "vulnerability": "Vulnerability:",
@@ -171,8 +179,15 @@
         "productsCPA_placeholder": "Select a product"
       }
     },
+    "plot": {
+      "qqnorm": "Plot: QQ-Norm",
+      "qqnormx": "Theoretical quantiles",
+      "qqnormy": "Sample quantiles",
+
+      "corr": "Plot: Autocorrelation"
+    },
     "card": {
-      "title": "Time Series visualization",
+      "title": "Time Series",
       "comext": "Monthly COMEXT Data"
     },
     "modal": {
@@ -204,6 +219,9 @@
         "flow": "Flow",
         "flow_placeholder": "Select a flow"
       }
+    },
+    "plot": {
+      "label": "Year on year change (%)"
     },
     "modal": {
       "main": {

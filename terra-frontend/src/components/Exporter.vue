@@ -1,8 +1,7 @@
 <template>
   <CDropdown
     :togglerText="$t('common.exporter')"
-    className="c-header-nav-items mr-2 "
-    size="sm"
+    className="exporter mr-2"
     direction="down">
     <CDropdownItem
       v-for="item in options"

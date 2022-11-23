@@ -13,6 +13,7 @@ const state = {
   isTrade: false,
   isMobility: false,
   isItalian: true,
+  language: "it", //default language
   breadcrumbs: [
     {
       path: "metadata",
@@ -34,6 +35,7 @@ const mutations = {
     state.isLoading = isLoading
   },
   SET_LANGUAGE(state, language) {
+    state.language = language
     state.isItalian = language == "it" ? true : false
   },
   SET_CONTEXT(state, context) {
@@ -138,6 +140,9 @@ const getters = {
   },
   context: (state) => {
     return state.context
+  },
+  language: (state) => {
+    return state.language
   },
   isLoading: (state) => {
     return state.isLoading

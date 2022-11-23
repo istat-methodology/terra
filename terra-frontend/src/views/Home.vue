@@ -3,14 +3,14 @@
     <div class="col-sm-6 col-md-4">
       <div class="card">
         <header class="card-header">
-          <span class="card-title">{{ $t("landing.map.title") }}</span>
+          <CIcon name="cil-location-pin" />{{ $t("landing.map.title") }}
         </header>
         <div class="card-body">
           <p v-html="$t('landing.map.body')"></p>
           <p class="section-link">
             <router-link :to="{ name: 'Map' }" custom v-slot="{ navigate }">
               <a @click="navigate" @keypress.enter="navigate" role="link">
-                {{ $t("landing.map.link") }}<chevron-right-icon />
+                {{ $t("landing.map.link") }}
               </a>
             </router-link>
           </p>
@@ -20,9 +20,8 @@
     <div class="col-sm-6 col-md-4">
       <div class="card">
         <header class="card-header">
-          <span class="card-title"
-            >{{ $t("landing.graph.extra-ue.title") }}
-          </span>
+          <CIcon name="cil-graph" />
+          {{ $t("landing.graph.extra-ue.title") }}
         </header>
         <div class="card-body">
           <p v-html="$t('landing.graph.extra-ue.body')"></p>
@@ -32,7 +31,7 @@
               custom
               v-slot="{ navigate }">
               <a @click="navigate" @keypress.enter="navigate" role="link">
-                {{ $t("landing.graph.extra-ue.link") }} <chevron-right-icon />
+                {{ $t("landing.graph.extra-ue.link") }}
               </a>
             </router-link>
           </p>
@@ -42,9 +41,8 @@
     <div class="col-sm-6 col-md-4">
       <div class="card">
         <header class="card-header">
-          <span class="card-title"
-            >{{ $t("landing.graph.intra-ue.title") }}
-          </span>
+          <CIcon name="cil-graph" />
+          {{ $t("landing.graph.intra-ue.title") }}
         </header>
         <div class="card-body">
           <p v-html="$t('landing.graph.intra-ue.body')"></p>
@@ -54,7 +52,7 @@
               custom
               v-slot="{ navigate }">
               <a @click="navigate" @keypress.enter="navigate" role="link">
-                {{ $t("landing.graph.intra-ue.link") }} <chevron-right-icon />
+                {{ $t("landing.graph.intra-ue.link") }}
               </a>
             </router-link>
           </p>
@@ -64,7 +62,8 @@
     <div class="col-sm-6 col-md-4">
       <div class="card">
         <header class="card-header">
-          <span class="card-title">{{ $t("landing.timeseries.title") }}</span>
+          <CIcon name="cil-chart-line" />
+          {{ $t("landing.timeseries.title") }}
         </header>
         <div class="card-body">
           <p v-html="$t('landing.timeseries.body')"></p>
@@ -74,7 +73,7 @@
               custom
               v-slot="{ navigate }">
               <a @click="navigate" @keypress.enter="navigate" role="link">
-                {{ $t("landing.timeseries.link") }}<chevron-right-icon />
+                {{ $t("landing.timeseries.link") }}
               </a>
             </router-link>
           </p>
@@ -84,14 +83,15 @@
     <div class="col-sm-6 col-md-4">
       <div class="card">
         <header class="card-header">
-          <span class="card-title">{{ $t("landing.trade.title") }}</span>
+          <CIcon name="cil-layers" />
+          {{ $t("landing.trade.title") }}
         </header>
         <div class="card-body">
           <p v-html="$t('landing.trade.body')"></p>
           <p class="section-link">
             <router-link :to="{ name: 'Trade' }" custom v-slot="{ navigate }">
               <a @click="navigate" @keypress.enter="navigate" role="link">
-                {{ $t("landing.trade.link") }}<chevron-right-icon />
+                {{ $t("landing.trade.link") }}
               </a>
             </router-link>
           </p>
@@ -107,6 +107,11 @@ export default {
   name: "Home",
   created() {
     this.$store.dispatch("coreui/setContext", Context.Home)
+    // load metadata
+    this.$store.dispatch("metadata/getMetadata").then(() => {
+      // load classifications
+      this.$store.dispatch("classification/getClassifications")
+    })
   }
 }
 </script>
@@ -114,8 +119,8 @@ export default {
 .material-design-icon > .material-design-icon__svg {
   bottom: -0.17rem;
 }
-.card-title {
-  font-weight: 600;
+.card-body {
+  padding-bottom: 0.5rem;
 }
 a:not([href]) {
   text-decoration: none;

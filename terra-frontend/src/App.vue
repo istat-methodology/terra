@@ -37,16 +37,6 @@ export default {
     //Clear messages
     this.$store.dispatch("message/clear")
     this.$store.dispatch("coreui/clearContext")
-    // load metadata
-    this.$store.dispatch("metadata/getMetadata").then(() => {
-      // load classifications
-      this.$store.dispatch("classification/getTransports")
-      this.$store.dispatch("classification/getCountries")
-      this.$store.dispatch("classification/getPartners")
-      this.$store.dispatch("classification/getProductsCPA")
-      this.$store.dispatch("classification/getProductsIntra")
-      this.$store.dispatch("classification/getProductsExtra")
-    })
   }
 }
 </script>
