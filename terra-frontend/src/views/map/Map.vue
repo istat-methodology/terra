@@ -1,13 +1,14 @@
 <template>
   <div class="row">
     <div class="col-sm-12 col-md-12">
-      <div class="card">
+      <div class="card card-map">
         <CCardBody>
           <l-map
             ref="map"
             :zoom="zoom"
             :center="center"
-            style="height: 650px; width: 100%"
+            class
+            style="height: 100%; width: 100%"
             @ready="
               setShooter()
               openInfoStart('IT', 'Italy')
@@ -171,8 +172,7 @@ export default {
   },
   mixins: [mapMixin, mapInfoMixin, sliderMixin],
   data: () => ({
-    attribution:
-      '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
     url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     center: [51.16423, 1.45412],
     zoom: 4,
@@ -413,6 +413,9 @@ export default {
 .card-footer {
   background-color: #ebedef;
 }
+.card-map {
+  height: calc(100vh - 200px);
+}
 /* Modal */
 @media (min-width: 576px) {
   .modal-dialog {
@@ -442,8 +445,8 @@ export default {
 .legend-title {
   margin-top: 0px;
   margin-left: 0px;
-  font-size: 1.1em;
-  font-weight: 500;
+  font-size: 1.2em;
+  font-weight: 600;
   fill: rgb(102, 102, 102);
   text-align: center;
 
@@ -464,10 +467,9 @@ export default {
   height: 400px;
 }
 .info h5 {
-  /*margin: 0 0 5px;*/
   text-align: center;
   text-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-
+  padding-top: 0.4rem;
   color: #777;
 }
 .control-btn {

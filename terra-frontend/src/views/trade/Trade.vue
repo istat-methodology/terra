@@ -24,7 +24,7 @@
           <circle-spin v-if="!this.chartData" class="circle-spin"></circle-spin>
           <line-chart
             :chartData="chartData"
-            :options="optionsTrade"
+            :options="options"
             :height="600"
             id="trade"
             ref="trade" />
@@ -98,10 +98,9 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
-import { Context } from "@/common"
+import { Context, optionsTrade } from "@/common"
 import { metadataService } from "@/services"
 import paletteMixin from "@/components/mixins/palette.mixin"
-import tradeMixin from "@/components/mixins/tradeDiag.mixin"
 import LineChart from "@/components/charts/LineChart"
 import spinnerMixin from "@/components/mixins/spinner.mixin"
 import exporter from "@/components/Exporter"
@@ -109,7 +108,7 @@ import exporter from "@/components/Exporter"
 export default {
   name: "Trade",
   components: { LineChart, exporter },
-  mixins: [tradeMixin, paletteMixin, spinnerMixin],
+  mixins: [paletteMixin, spinnerMixin],
   data: () => ({
     //Form (default values)
     idAllProducts: "",
@@ -120,6 +119,7 @@ export default {
     //Chart
     chartData: null,
     labelPeriod: [],
+    options: { ...optionsTrade },
     //Spinner
     spinner: false,
     isModalHelp: false
@@ -171,7 +171,7 @@ export default {
     },
     buildChartObject(description, value) {
       const color = this.getColor()
-      this.optionsTrade.scales.yAxes[0].scaleLabel.labelString =
+      this.options.scales.yAxes[0].scaleLabel.labelString =
         this.$t("trade.plot.label")
       this.chartData.datasets.push({
         label: description,

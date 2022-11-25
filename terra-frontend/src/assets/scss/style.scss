@@ -180,8 +180,10 @@ button:focus {
 
 .nav-tabs .nav-link.active {
   color: $primary;
+  font-weight: 600;
   border: none;
   border-bottom: 2px solid $primary;
+  background-color: white;
 }
 
 .nav-tabs .nav-item.show .nav-link {

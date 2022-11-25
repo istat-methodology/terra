@@ -86,12 +86,12 @@ export default {
 
 <style scoped>
 .title {
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: #321fdb;
 }
 .acronym {
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 500;
   color: #3c4b64;
 }

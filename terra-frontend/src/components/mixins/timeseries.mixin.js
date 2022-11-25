@@ -49,11 +49,11 @@ export default {
               if (value.x > 0) {
                 return "rgba(255,128,0,0.6)"
               } else {
-                return "rgba(46, 184, 92, 0.2)"
+                return "rgba(46,184,92,0.2)"
               }
             }
           },
-          borderColor: "rgba(46, 184, 92,1)",
+          borderColor: "rgba(46,184,92,1)",
           data: data["series"],
           showLine: true,
           lineTension: 0,
