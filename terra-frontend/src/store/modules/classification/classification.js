@@ -202,6 +202,10 @@ const getters = {
   countries: (state) => {
     return state.countries
   },
+  getCountryName: (state) => (code) => {
+    const country = state.countries.find((ctr) => ctr.country == code)
+    return country ? country.name : ""
+  },
   productsCPA: (state) => {
     return state.productsCPA
   },

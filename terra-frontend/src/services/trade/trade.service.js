@@ -3,15 +3,15 @@ export const tradeService = {
   findByName
 }
 
-function findByName(filter) {
+function findByName(filter, lan) {
   const endpoint =
     filter.type == 1
       ? filter.flow == 1
-        ? "importValue"
-        : "exportValue"
+        ? "importValue_" + lan
+        : "exportValue_" + lan
       : filter.flow == 1
-      ? "importQuantity"
-      : "exportQuantity"
+      ? "importQuantity_" + lan
+      : "exportQuantity_" + lan
 
   return axiosHack
     .get("/" + endpoint + "/" + filter.country)

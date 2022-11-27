@@ -23,9 +23,10 @@ const actions = {
         console.log(err)
       })
   },
-  findByName({ commit }, filter) {
+  findByName({ commit, rootGetters }, filter) {
+    const lan = rootGetters["coreui/language"]
     return tradeService
-      .findByName(filter)
+      .findByName(filter, lan)
       .then((data) => {
         commit("SET_LINE_CHARTS", data)
       })
@@ -42,7 +43,8 @@ const getters = {
   chart: (state) => {
     return state.chart ? state.chart : null
   },
-  products: (state) => {
+  products: (state, getters, rootState, rootGetters) => {
+    const isItalian = rootGetters["coreui/isItalian"]
     let products = []
     if (state.charts !== null) {
       state.charts.data.forEach((element, index) => {
@@ -52,10 +54,10 @@ const getters = {
           displayName: element.productID + " - " + element.dataname
         })
       })
-      products.push({
+      products.unshift({
         id: "00",
-        dataname: "All products",
-        displayName: "00 - All products"
+        dataname: isItalian ? "Tutti i prodotti" : "All products",
+        displayName: isItalian ? "00 - Tutti i prodotti" : "00 - All products"
       })
     }
     return products ? products : null

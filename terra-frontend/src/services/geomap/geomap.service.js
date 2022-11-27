@@ -17,7 +17,9 @@ function findAll() {
       throw err
     })
 }
-
+/**
+ * TODO: Missing endpoint
+ */
 function findByName(name) {
   return axiosHack
     .get("/ieinfo?Country_Code=" + name)

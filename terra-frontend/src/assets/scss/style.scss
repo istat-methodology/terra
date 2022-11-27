@@ -85,6 +85,11 @@ button:focus {
   color: $secondary;
 }
 
+@media (max-width: 1100px){
+  .data-info-none {
+    display: none !important;
+  }  
+}
 /* Cards */
 .card-header-actions {
   margin-right: 0;

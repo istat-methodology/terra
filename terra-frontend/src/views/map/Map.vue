@@ -54,7 +54,7 @@
                 }}
               </div>
             </l-control>
-
+            <!--
             <l-control position="bottomleft">
               <div class="info" v-if="isInfo">
                 <h5>{{ this.infoTitle }}</h5>
@@ -77,7 +77,7 @@
                 </CTabs>
               </div>
             </l-control>
-
+            -->
             <l-control position="topleft">
               <div class="leaflet-bar">
                 <a
@@ -218,6 +218,7 @@ export default {
   }),
   computed: {
     ...mapGetters("metadata", ["mapPeriod", "mapSeries"]),
+    ...mapGetters("classification", ["getCountryName"]),
     ...mapGetters("geomap", {
       markers: "geomap",
       infoData: "infoData",
@@ -262,7 +263,9 @@ export default {
       return (feature, layer) => {
         var value = this.jsonData[feature.properties.iso_a2]
         this.selectedCountry.code = feature.properties.iso_a2
-        this.selectedCountry.name = feature.properties.admin
+        this.selectedCountry.name = this.getCountryName(
+          feature.properties.iso_a2
+        )
         layer.options.fillColor = "#00000000"
         if (value != undefined) {
           layer.options.fillColor = this.getColor(
@@ -273,7 +276,7 @@ export default {
           layer.options.color = "gray"
           layer.bindTooltip(
             "<div>" +
-              feature.properties.admin +
+              this.selectedCountry.name +
               "<span> " +
               this.ie +
               "</span> " +

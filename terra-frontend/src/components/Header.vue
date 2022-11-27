@@ -15,7 +15,7 @@
       </CHeaderNavItem>
     </CHeaderNav>
     <CHeaderNav class="mr-lang">
-      <CHeaderNavItem class="d-md-down-none">
+      <CHeaderNavItem class="data-info-none">
         <span
           ><CIcon name="cil-tags" /> {{ $t("common.update") }}
           {{ lastLoadedData }}</span
