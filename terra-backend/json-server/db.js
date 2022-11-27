@@ -41,9 +41,17 @@ const exportseries = JSON.parse(fs.readFileSync("./data/map/exportseries.json"))
 //data value
 const exportValue = JSON.parse(fs.readFileSync("./data/trade/exportValue.json"));
 const importValue = JSON.parse(fs.readFileSync("./data/trade/importValue.json"));
+const exportValue_it = JSON.parse(fs.readFileSync("./data/trade/exportValue_it.json"));
+const importValue_it = JSON.parse(fs.readFileSync("./data/trade/importValue_it.json"));
+const exportValue_en = JSON.parse(fs.readFileSync("./data/trade/exportValue_en.json"));
+const importValue_en = JSON.parse(fs.readFileSync("./data/trade/importValue_en.json"));
 //data quantity
 const exportQuantity = JSON.parse(fs.readFileSync("./data/trade/exportQuantity.json"));
 const importQuantity = JSON.parse(fs.readFileSync("./data/trade/importQuantity.json"));
+const exportQuantity_it = JSON.parse(fs.readFileSync("./data/trade/exportQuantity_it.json"));
+const importQuantity_it = JSON.parse(fs.readFileSync("./data/trade/importQuantity_it.json"));
+const exportQuantity_en = JSON.parse(fs.readFileSync("./data/trade/exportQuantity_en.json"));
+const importQuantity_en = JSON.parse(fs.readFileSync("./data/trade/importQuantity_en.json"));
 
 module.exports = () => ({
   // application setup
@@ -75,6 +83,14 @@ module.exports = () => ({
   //trade
   exportValue,
   importValue,
+  exportValue_it,
+  importValue_it,
+  exportValue_en,
+  importValue_en,
   exportQuantity,
-  importQuantity
+  importQuantity,
+  exportQuantity_it,
+  importQuantity_it,
+  exportQuantity_en,
+  importQuantity_en
 });
