@@ -124,17 +124,17 @@ export default {
             break
           case "Industrial Production.":
             info["Year"] = isItalian
-              ? "Produzione industriale"
-              : "Industrial Production"
+              ? "Produzione industriale (indice corretto per effetti di calendario)"
+              : "Industrial production (calendar adjusted index)"
             break
           case "Unemployment.":
-            info["Year"] = isItalian ? "Disoccuapzione" : "Unemployment"
+            info["Year"] = isItalian ? "Disoccupazione" : "Unemployment"
             break
           case "Import.":
-            info["Year"] = isItalian ? "Importazione" : "Import"
+            info["Year"] = isItalian ? "Importazioni (euro)" : "Import (eur)"
             break
           case "Export.":
-            info["Year"] = isItalian ? "Esportazione" : "Export"
+            info["Year"] = isItalian ? "Esportazioni (euro)" : "Export (eur)"
             break
         }
         mainInfoItalian.push(info)

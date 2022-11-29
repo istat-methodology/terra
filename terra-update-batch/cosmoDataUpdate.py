@@ -773,7 +773,7 @@ def createMonthlyOutputVQSTrade():
     ieVQSFlows={}
 
     cls_products_cpa=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
-    logger.info('cls_products: '+CLS_PRODUCTS_FILE)
+    logger.info('cls_products: '+CLS_PRODUCTS_CPA_FILE)
 
     conn = sqlite3.connect(SQLLITE_DB)
     variazioni = pd.read_sql_query("SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, var_val_basket var_basket FROM variazioni where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;", conn)
@@ -830,7 +830,7 @@ def createMonthlyOutputVQSTradeQuantity():
     ieVQSFlows={}
 
     cls_products_cpa=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
-    logger.info('cls_products: '+CLS_PRODUCTS_FILE)
+    logger.info('cls_products: '+CLS_PRODUCTS_CPA_FILE)
 
     conn = sqlite3.connect(SQLLITE_DB)
     variazioni = pd.read_sql_query("SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, var_qua_basket as var_basket FROM variazioni where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;", conn)
