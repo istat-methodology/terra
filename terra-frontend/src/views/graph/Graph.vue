@@ -34,7 +34,7 @@
                     filename="terra_metrics"
                     :data="getData(csvFields, 'table')"
                     :options="['csv']"
-                    :filter="getSearchFilter"
+                    :filter="getSearchFilter()"
                     source="table"
                     :header="csvHeader">
                   </exporter>
@@ -232,7 +232,7 @@ export default {
   },
   computed: {
     ...mapGetters("metadata", ["graphPeriod", "graphTrimesterPeriod"]),
-    ...mapGetters("coreui", ["isItalian", "language"]),
+    ...mapGetters("coreui", ["isItalian"]),
     ...mapGetters("graph", ["nodes", "edges", "metrics", "metricsTable"]),
     ...mapGetters("classification", [
       "transports",
@@ -371,7 +371,7 @@ export default {
       let data = []
       data.push({
         field: this.$t("graph.form.fields.period"),
-        value: this.currentTime.selectName ? this.currentTime.selectName : ""
+        value: this.currentTime ? this.currentTime.selectName : ""
       })
       data.push({
         field: this.$t("graph.form.fields.percentage"),
@@ -390,17 +390,17 @@ export default {
         })
         data.push({
           field: this.$t("graph.form.fields.product_nstr"),
-          value: this.product.descr
+          value: this.product ? this.product.descr : ""
         })
       } else {
         data.push({
           field: this.$t("graph.form.fields.product_cpa3"),
-          value: this.product.descr
+          value: this.product ? this.product.descr : ""
         })
       }
       data.push({
         field: this.$t("graph.form.fields.flow"),
-        value: this.flow.descr ? this.flow.descr : ""
+        value: this.flow ? this.flow.descr : ""
       })
       return data
     },
@@ -437,15 +437,15 @@ export default {
 
     // Set form default values
     metadataService
-      .getGraphDefault(this.isIntra, this.language)
-      .then((formDefaults) => {
+      .getGraphDefault(this.isIntra)
+      .then(({ time, frequency, percentage, transport, product, flow }) => {
         // Default state
-        this.currentTime = formDefaults.time
-        this.frequency = formDefaults.frequency
-        this.percentage = formDefaults.percentage
-        this.transport = this.displayTransport ? formDefaults.transport : null
-        this.product = formDefaults.product
-        this.flow = formDefaults.flow
+        this.currentTime = time
+        this.frequency = frequency
+        this.percentage = percentage
+        this.transport = this.isIntra ? null : transport
+        this.product = product
+        this.flow = flow
         //Sumit form
         this.handleSubmit()
       })
@@ -454,10 +454,6 @@ export default {
 </script>
 
 <style scoped>
-.card-label {
-  color: #321fdb;
-  font-size: 0.9em;
-}
 .padding-tab {
   padding-top: 45px;
 }
@@ -469,11 +465,5 @@ label.radio {
 
 span {
   padding-left: 5px;
-}
-
-.result {
-  margin-top: 15px;
-  border-top: 1px solid #ddd;
-  padding-top: 15px;
 }
 </style>

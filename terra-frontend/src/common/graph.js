@@ -298,6 +298,8 @@ export const scenarioFieldsIt = [
   }
 ]
 
+export const getMetricFields = () => {}
+
 export const scenarioFieldsEn = [
   { key: "source", label: "Source", _style: "width:25%" },
   { key: "destination", label: "Destination", _style: "width:25%" },

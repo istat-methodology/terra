@@ -1,5 +1,5 @@
 <template>
-  <div class="row w-100 justify-content-center mt">
+  <div class="row w-100 justify-content-center mt-3">
     <div class="col-6">
       <div class="clearfix">
         <h1 class="float-left display-3 mr-4">500</h1>
@@ -26,6 +26,7 @@
 import { mapGetters } from "vuex"
 
 export default {
+  name: "Error",
   computed: {
     ...mapGetters("error", ["msg"])
   }

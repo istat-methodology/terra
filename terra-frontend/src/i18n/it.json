@@ -1,5 +1,6 @@
 {
   "common": {
+    "acronym": "imporT ExpoRt netwoRk Analysis",
     "submit": "Esegui",
     "exporter": "Esporta",
     "apply": "Aggiorna il grafo",
@@ -12,8 +13,7 @@
     "mean": "Media",
     "std": "Deviazione standard",
     "footer": {
-      "experimental": "Statistiche sperimentali 2022",
-      "coreui": "Con il supporto di"
+      "source": "Fonte dati: "
     },
     "error": {
       "main": "Houston, abbiamo un problema!",

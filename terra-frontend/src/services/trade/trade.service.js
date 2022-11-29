@@ -1,9 +1,11 @@
 import { axiosHack } from "@/http"
+import store from "@/store"
 export const tradeService = {
   findByName
 }
 
-function findByName(filter, lan) {
+function findByName(filter) {
+  const lan = store.getters["coreui/language"]
   const endpoint =
     filter.type == 1
       ? filter.flow == 1

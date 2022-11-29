@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CCard>
+    <CCard class="card-graph">
       <CCardHeader>
         <span class="card-title">{{ title }}</span>
         <span class="btn-help">
@@ -301,7 +301,7 @@ export default {
 <style scoped>
 .network {
   text-align: center;
-  height: 580px;
+  height: 100%;
   margin: 0 0;
 }
 .graph-info {
@@ -311,10 +311,5 @@ export default {
   padding-left: 0.8rem;
   margin-bottom: 0.6rem;
   font-weight: 400;
-}
-.circle-spin {
-  position: absolute;
-  top: 20%;
-  left: 50%;
 }
 </style>

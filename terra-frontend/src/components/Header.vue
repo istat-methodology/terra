@@ -90,11 +90,6 @@ export default {
   font-weight: 600;
   color: #321fdb;
 }
-.acronym {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #3c4b64;
-}
 .c-header-nav {
   padding-left: 0.5rem;
 }

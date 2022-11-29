@@ -116,19 +116,20 @@ export default {
     varType: null,
     country: null,
     flow: null,
+
     //Chart
     chartData: null,
     labelPeriod: [],
     options: { ...optionsTrade },
+
     //Spinner
     spinner: false,
     isModalHelp: false
   }),
   computed: {
+    ...mapGetters("metadata", ["tradePeriod"]),
     ...mapGetters("classification", ["varTypes", "countries", "flows"]),
     ...mapGetters("trade", ["charts", "products"]),
-    ...mapGetters("metadata", ["tradePeriod"]),
-    ...mapGetters("coreui", ["language"]),
     title() {
       return this.flow && this.country
         ? this.flow.descr + " - " + this.country.name
@@ -255,39 +256,36 @@ export default {
     this.$store.dispatch("coreui/setContext", Context.Trade)
 
     //Set form default values
-    metadataService.getTradeDefault(this.language).then((formDefaults) => {
-      this.idAllProducts = formDefaults.idAllProducts
-      this.varType = formDefaults.varType
-      this.flow = formDefaults.flow
-      this.country = formDefaults.country
-      this.product = formDefaults.product
+    metadataService
+      .getTradeDefault()
+      .then(({ idAllProducts, varType, flow, country, product }) => {
+        this.idAllProducts = idAllProducts
+        this.varType = varType
+        this.flow = flow
+        this.country = country
+        this.product = product
 
-      this.$store
-        .dispatch("trade/findByName", {
-          type: this.varType.id,
-          country: this.country.country,
-          flow: this.flow.id
-        })
-        .then(() => {
-          this.chartData = {}
-          this.chartData.datasets = []
-          this.chartData.labels = this.labelPeriod
-          this.charts.data.forEach((element) => {
-            this.buildChartObject(element.dataname, element.value)
+        this.$store
+          .dispatch("trade/findByName", {
+            type: this.varType.id,
+            country: this.country.country,
+            flow: this.flow.id
           })
-        })
+          .then(() => {
+            this.chartData = {}
+            this.chartData.datasets = []
+            this.chartData.labels = this.labelPeriod
+            this.charts.data.forEach((element) => {
+              this.buildChartObject(element.dataname, element.value)
+            })
+          })
 
-      this.spinnerStart(false)
-    })
+        this.spinnerStart(false)
+      })
   }
 }
 </script>
 <style scoped>
-.circle-spin {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-}
 .align-right {
   text-align: right;
 }

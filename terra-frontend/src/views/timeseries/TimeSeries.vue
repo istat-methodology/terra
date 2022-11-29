@@ -242,7 +242,6 @@ export default {
       "varTypes",
       "productsCPA"
     ]),
-    ...mapGetters("coreui", ["language"]),
     ...mapGetters("timeseries", [
       "timeseriesCharts",
       "statusMain",
@@ -424,37 +423,25 @@ export default {
   created() {
     this.$store.dispatch("coreui/setContext", Context.Policy)
     //Set form default values
-    metadataService.getTimeSeriesDefault(this.language).then((formDefaults) => {
-      this.dataType = formDefaults.dataType
-      this.varType = formDefaults.varType
-      this.flow = formDefaults.flow
-      this.country = formDefaults.country
-      this.partner = formDefaults.partner
-      this.productCPA = formDefaults.productCPA
-      //Sumit form
-      this.handleSubmit()
-    })
+    metadataService
+      .getTimeSeriesDefault()
+      .then(({ dataType, varType, flow, country, partner, productCPA }) => {
+        this.dataType = dataType
+        this.varType = varType
+        this.flow = flow
+        this.country = country
+        this.partner = partner
+        this.productCPA = productCPA
+        //Sumit form
+        this.handleSubmit()
+      })
   }
 }
 </script>
 <style scoped>
-.align-right {
-  text-align: right;
-}
-.padding-right {
-  padding-left: 10px;
-}
 .timeseries-info {
   margin-left: 2.5em;
   margin-top: 0.4em;
   font-size: small;
-}
-.circle-spin {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-}
-.align-right {
-  text-align: right;
 }
 </style>

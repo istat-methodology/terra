@@ -1,5 +1,6 @@
 {
   "common": {
+    "acronym": "imporT ExpoRt netwoRk Analysis",
     "submit": "Go",
     "exporter": "Export",
     "apply": "Update graph",
@@ -12,8 +13,7 @@
     "mean": "Mean",
     "std": "Standard deviation",
     "footer": {
-      "experimental": "Experimental Statistics 2022",
-      "coreui": "Powered by"
+      "source": "Data source: "
     },
     "error": {
       "main": "Houston, we have a problem!",
@@ -96,7 +96,7 @@
       "country": "Country:",
       "density": "Product spread:",
       "centrality": "Centrality:",
-      "exportationstrength": "Exportation strength:",
+      "exportationstrength": "Export strength:",
       "vulnerability": "Vulnerability:",
       "hubness": "Hubness:"
     },

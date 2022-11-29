@@ -9,10 +9,7 @@
             :center="center"
             class
             style="height: 100%; width: 100%"
-            @ready="
-              setShooter()
-              openInfoStart('IT', 'Italy')
-            "
+            @ready="setShooter()"
             @click="closeInfo()">
             <l-tile-layer :url="url" :attribution="attribution" />
             <l-geo-json
@@ -54,30 +51,34 @@
                 }}
               </div>
             </l-control>
-            <!--
             <l-control position="bottomleft">
               <div class="info" v-if="isInfo">
-                <h5>{{ this.infoTitle }}</h5>
+                <h5>{{ infoTitle }}</h5>
                 <CTabs v-if="infoData" variant="tabs" :active-tab="0">
-                  <CTab title="Main">
+                  <CTab :title="infoTabMain">
                     <CDataTable :items="micro" :fields="mainFields" hover />
                   </CTab>
-                  <CTab title="Import partners">
-                    <CDataTable :items="importDataItems" hover />
+                  <CTab :title="infoTabImport">
+                    <CDataTable
+                      :items="importDataItems"
+                      :fields="importFields"
+                      hover />
                   </CTab>
-                  <CTab title="Export partners">
-                    <CDataTable :items="exportDataItems" hover />
+                  <CTab :title="infoTabExport">
+                    <CDataTable
+                      :items="exportDataItems"
+                      :fields="exportFields"
+                      hover />
                   </CTab>
-                  <CTab title="Import goods">
+                  <!--CTab title="Import goods">
                     <CDataTable :items="importGoods" hover />
-                  </CTab>
-                  <CTab title="Export goods">
+                  </CTab-->
+                  <!--CTab title="Export goods">
                     <CDataTable :items="exportGoods" hover />
-                  </CTab>
+                  </CTab-->
                 </CTabs>
               </div>
             </l-control>
-            -->
             <l-control position="topleft">
               <div class="leaflet-bar">
                 <a
@@ -96,7 +97,7 @@
                   "
                   role="button"
                   @click="setFeatureMarker()"
-                  >{{ this.btnFeatureMarker }}</a
+                  >{{ btnFeatureMarker }}</a
                 >
                 <a
                   class="control-btn"
@@ -107,7 +108,7 @@
                   "
                   role="button"
                   @click="setImportExport()"
-                  >{{ this.btnImportExport }}</a
+                  >{{ btnImportExport }}</a
                 >
               </div>
             </l-control>
@@ -218,6 +219,7 @@ export default {
   }),
   computed: {
     ...mapGetters("metadata", ["mapPeriod", "mapSeries"]),
+    ...mapGetters("coreui", ["isItalian"]),
     ...mapGetters("classification", ["getCountryName"]),
     ...mapGetters("geomap", {
       markers: "geomap",
@@ -229,7 +231,27 @@ export default {
       jsonData: "jsonData"
     }),
     micro() {
-      return this.infoData ? this.infoData[0]["Main information"] : []
+      return this.infoData
+        ? this.localizeMain(
+            this.infoData[0]["Main information"],
+            this.isItalian
+          )
+        : []
+    },
+    infoTabMain() {
+      return this.isItalian ? "Dati macro" : "Main"
+    },
+    infoTabImport() {
+      return this.isItalian ? "Partner di importazione" : "Import partners"
+    },
+    infoTabExport() {
+      return this.isItalian ? "Partner di esportazione" : "Export partners"
+    },
+    importFields() {
+      return this.isItalian ? this.importFields_it : this.importFields_en
+    },
+    exportFields() {
+      return this.isItalian ? this.exportFields_it : this.exportFields_en
     },
     importDataItems() {
       return this.infoData ? this.infoData[0]["Main Import Partners"] : []
@@ -416,9 +438,6 @@ export default {
 .card-footer {
   background-color: #ebedef;
 }
-.card-map {
-  height: calc(100vh - 200px);
-}
 /* Modal */
 @media (min-width: 576px) {
   .modal-dialog {
@@ -441,7 +460,6 @@ export default {
   background-color: transparent;
   width: 360px;
   height: 40px;
-  /*border: 1px solid #bbb;*/
   margin-left: 10px;
   padding: 1px !important;
 }
@@ -452,31 +470,14 @@ export default {
   font-weight: 600;
   fill: rgb(102, 102, 102);
   text-align: center;
-
-  /*text-shadow: 0.03em 0.04em #321fdb;*/
 }
+
 #Legend .colorlegend-labels {
-  font-size: 11px;
+  font-size: 1em;
   fill: black;
 }
-.info {
-  /*padding: 6px 8px;*/
-  font: 11px Arial, Helvetica, sans-serif;
-  background: white;
-  /*background: rgba(255,255,255,0.8);*/
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  width: 550px;
-  height: 400px;
-}
-.info h5 {
-  text-align: center;
-  text-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  padding-top: 0.4rem;
-  color: #777;
-}
 .control-btn {
-  font: bold 12px "Lucida Console", Monaco, monospace;
+  font-weight: bold;
   text-indent: 1px;
 }
 .vue-slider {

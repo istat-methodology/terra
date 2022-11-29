@@ -12,8 +12,8 @@ const state = {
   dataType: [
     {
       id: 1,
-      descr_en: "Yearly variation series",
-      descr_it: "Variazioni tendenziali"
+      descr_en: "Yearly differences series",
+      descr_it: "Serie delle differenze annuali"
     },
     {
       id: 2,
@@ -89,23 +89,22 @@ const mutations = {
   }
 }
 const actions = {
-  getClassifications({ dispatch, commit, rootGetters }) {
-    const lan = rootGetters["coreui/language"]
+  getClassifications({ dispatch, commit }) {
     return Promise.all([
-      dispatch("getCountries", lan),
-      dispatch("getProductsCPA", lan),
-      dispatch("getProductsIntra", lan),
-      dispatch("getProductsExtra", lan),
-      dispatch("getTransports", lan),
-      dispatch("getPartners", lan)
+      dispatch("getCountries"),
+      dispatch("getProductsCPA"),
+      dispatch("getProductsIntra"),
+      dispatch("getProductsExtra"),
+      dispatch("getTransports"),
+      dispatch("getPartners")
     ]).then(() => {
       commit("SET_CLS_LOADED", true)
       return true
     })
   },
-  getCountries({ commit }, lan) {
+  getCountries({ commit }) {
     return metadataService
-      .getClassification("countries", lan)
+      .getClassification("countries")
       .then((data) => {
         commit("SET_COUNTRIES", data)
       })
@@ -113,9 +112,9 @@ const actions = {
         console.log(err)
       })
   },
-  getProductsCPA({ commit }, lan) {
+  getProductsCPA({ commit }) {
     return metadataService
-      .getClassification("productsCPA", lan)
+      .getClassification("productsCPA")
       .then((data) => {
         commit(
           "SET_PRODUCTS_CPA",
@@ -131,9 +130,9 @@ const actions = {
         console.log(err)
       })
   },
-  getProductsIntra({ commit }, lan) {
+  getProductsIntra({ commit }) {
     return metadataService
-      .getClassification("productsIntra", lan)
+      .getClassification("productsIntra")
       .then((data) => {
         const prods = replaceAllProdId(data)
         commit(
@@ -150,9 +149,9 @@ const actions = {
         console.log(err)
       })
   },
-  getProductsExtra({ commit }, lan) {
+  getProductsExtra({ commit }) {
     return metadataService
-      .getClassification("productsExtra", lan)
+      .getClassification("productsExtra")
       .then((data) => {
         const prods = replaceAllProdId(data)
         commit(

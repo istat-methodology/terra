@@ -1,4 +1,6 @@
 import { axiosHack } from "@/http"
+import store from "@/store"
+
 import {
   defaultTimeSeriesForm,
   defaultGraphExtraForm,
@@ -27,7 +29,8 @@ function getMetadata() {
     })
 }
 
-function getClassification(classification, lan) {
+function getClassification(classification) {
+  const lan = store.getters["coreui/language"]
   return axiosHack
     .get("/" + classification + "_" + lan)
     .then((res) => {
@@ -40,29 +43,33 @@ function getClassification(classification, lan) {
     })
 }
 
-function getTimeSeriesDefault(lan) {
+function getTimeSeriesDefault() {
+  const lan = store.getters["coreui/language"]
   return new Promise(function (resolve) {
     setTimeout(() => resolve(defaultTimeSeriesForm(lan)), 200)
   })
 }
 
-function getGraphDefault(isIntra, lan) {
-  return isIntra ? getGraphIntraDefault(lan) : getGraphExtraDefault(lan)
+function getGraphDefault(isIntra) {
+  return isIntra ? getGraphIntraDefault() : getGraphExtraDefault()
 }
 
-function getGraphExtraDefault(lan) {
+function getGraphExtraDefault() {
+  const lan = store.getters["coreui/language"]
   return new Promise(function (resolve) {
     setTimeout(() => resolve(defaultGraphExtraForm(lan)), 200)
   })
 }
 
-function getGraphIntraDefault(lan) {
+function getGraphIntraDefault() {
+  const lan = store.getters["coreui/language"]
   return new Promise(function (resolve) {
     setTimeout(() => resolve(defaultGraphIntraForm(lan)), 200)
   })
 }
 
-function getTradeDefault(lan) {
+function getTradeDefault() {
+  const lan = store.getters["coreui/language"]
   return new Promise(function (resolve) {
     setTimeout(() => resolve(defaultTradeForm(lan)), 200)
   })

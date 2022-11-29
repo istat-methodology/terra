@@ -157,6 +157,7 @@ export const defaultGraphIntraForm = (lan) => {
     time: monthDefault,
     frequency: frequencyDefault,
     percentage: percentageDefault,
+    transport: [],
     product: defaultForm.productIntra,
     flow: defaultForm.flow
   }
