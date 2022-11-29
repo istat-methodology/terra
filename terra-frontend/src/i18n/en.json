@@ -6,7 +6,7 @@
     "apply": "Update graph",
     "close": "Close",
     "mandatory": "Mandatory fields",
-    "update": "COMEXT data updated on ",
+    "update": "COMEXT data updated to ",
     "start_date": "Series start date",
     "end_date": "Series end date",
     "update_cls": "Updating data...",
