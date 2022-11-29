@@ -79,7 +79,7 @@ export const productIntraDefault = {
 export const transportDefault = {
   id: 1,
   descr_en: "Sea",
-  descr_it: "Mare"
+  descr_it: "Trasporto marittimo"
 }
 
 export const getDefaultForm = (lan) => {
