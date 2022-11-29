@@ -19,8 +19,8 @@ export const percentageDefault = "90"
 // Form defaults
 export const dataTypeDefault = {
   id: 1,
-  descr_en: "Yearly variation series",
-  descr_it: "Variazioni tendenziali"
+  descr_en: "Yearly differences series",
+  descr_it: "Serie delle differenze annuali"
 }
 
 export const varTypeDefault = {
