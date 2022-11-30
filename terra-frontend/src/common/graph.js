@@ -408,11 +408,14 @@ export function getTransportDifference(transports, scenarioTransports) {
   )
 }
 
-export function replaceAllProdId(products) {
+export function replaceAllProdId(products, isItalian) {
   var prods = []
   if (products) {
     prods = products.filter((pr) => pr.id != "TOT")
-    prods.unshift({ id: "000", descr: "All Products" })
+    prods.unshift({
+      id: "000",
+      descr: isItalian ? "Tutti i prodotti" : "All Products"
+    })
   }
   return prods
 }

@@ -14,7 +14,7 @@ export const frequencyDefault = "Monthly"
 export const sliderDefault = monthDefault.id
 
 //Graph percentage
-export const percentageDefault = "90"
+export const percentageDefault = "80"
 
 // Form defaults
 export const dataTypeDefault = {
@@ -48,9 +48,9 @@ export const partnerDefault = {
 }
 
 export const productCPADefault = {
-  id: "06",
-  descr_en: "Crude petroleum and natural gas",
-  descr_it: "Petrolio e gas naturale"
+  id: "00",
+  descr_en: "00 - All products",
+  descr_it: "00 - Tutti i prodotti"
 }
 
 /** Trade default */
@@ -65,21 +65,21 @@ export const productCPA2Default = {
 }
 
 export const productExtraDefault = {
-  id: "330",
-  descr_en: "GASEOUS HYDROCARBONS, LIQUID OR COMPRESSED",
-  descr_it: "IDROCARBURI GASSOSI, LIQUIDI O COMPRESSI"
+  id: "000",
+  descr_en: "000 - All products",
+  descr_it: "000 - Tutti i prodotti"
 }
 
 export const productIntraDefault = {
-  id: "062",
-  descr_en: "Natural gas, liquefied or in gaseous state",
-  descr_it: "Gas naturale, liquefatto o allo stato gassoso"
+  id: "000",
+  descr_en: "000 - All products",
+  descr_it: "000 - Tutti i prodotti"
 }
 
 export const transportDefault = {
-  id: 1,
-  descr_en: "Sea",
-  descr_it: "Trasporto marittimo"
+  id: 99,
+  descr_en: "All transports",
+  descr_it: "Tutti i mezzi di trasporto "
 }
 
 export const getDefaultForm = (lan) => {

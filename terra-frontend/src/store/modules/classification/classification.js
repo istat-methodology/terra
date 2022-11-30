@@ -130,11 +130,12 @@ const actions = {
         console.log(err)
       })
   },
-  getProductsIntra({ commit }) {
+  getProductsIntra({ commit, rootGetters }) {
+    const isItalian = rootGetters["coreui/isItalian"]
     return metadataService
       .getClassification("productsIntra")
       .then((data) => {
-        const prods = replaceAllProdId(data)
+        const prods = replaceAllProdId(data, isItalian)
         commit(
           "SET_PRODUCTS_INTRA",
           prods.map((prod) => {
@@ -149,11 +150,12 @@ const actions = {
         console.log(err)
       })
   },
-  getProductsExtra({ commit }) {
+  getProductsExtra({ commit, rootGetters }) {
+    const isItalian = rootGetters["coreui/isItalian"]
     return metadataService
       .getClassification("productsExtra")
       .then((data) => {
-        const prods = replaceAllProdId(data)
+        const prods = replaceAllProdId(data, isItalian)
         commit(
           "SET_PRODUCTS_EXTRA",
           prods.map((prod) => {
@@ -168,14 +170,15 @@ const actions = {
         console.log(err)
       })
   },
-  getTransports({ commit }, lan) {
+  getTransports({ commit, rootGetters }) {
+    const isItalian = rootGetters["coreui/isItalian"]
     return metadataService
-      .getClassification("transports", lan)
+      .getClassification("transports")
       .then((data) => {
         //Add 'All' to the list of transports
-        data.push({
+        data.unshift({
           id: 99,
-          descr: "All"
+          descr: isItalian ? "Tutti i mezzi di trasporto" : "All transports"
         })
         commit("SET_TRANSPORTS", data)
       })
@@ -183,9 +186,9 @@ const actions = {
         console.log(err)
       })
   },
-  getPartners({ commit }, lan) {
+  getPartners({ commit }) {
     return metadataService
-      .getClassification("partners", lan)
+      .getClassification("partners")
       .then((data) => {
         commit("SET_PARTNERS", data)
       })

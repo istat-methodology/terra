@@ -114,7 +114,7 @@ button:focus {
   bottom: auto;
 }
 .card-map{
-  height: calc(100vh - 230px);
+  height: calc(100vh - 200px);
 }
 .card-graph {
   height: calc(100vh - 250px);
@@ -266,9 +266,11 @@ button:focus {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   margin-right: 6px;
+  margin-left: 45px;
   opacity: 0.8;
-  width: 550px;
-  height: 400px;
+  width: calc(35vw);
+  height: calc(40vh);
+  overflow-y: scroll;
 }
 
 .info h4 {
@@ -282,7 +284,6 @@ button:focus {
   padding-top: 0.4rem;
   color: #3c4b64;
 }
-
 
 .legend {
   line-height: 15px;
