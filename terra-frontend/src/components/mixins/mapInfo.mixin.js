@@ -124,8 +124,8 @@ export default {
             break
           case "Industrial Production.":
             info["Year"] = isItalian
-              ? "Produzione industriale (indice corretto per effetti di calendario)"
-              : "Industrial production (calendar adjusted index)"
+              ? "Produzione industriale"
+              : "Industrial production"
             break
           case "Unemployment.":
             info["Year"] = isItalian ? "Disoccupazione" : "Unemployment"
