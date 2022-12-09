@@ -73,8 +73,7 @@ const importQuantity_en = JSON.parse(fs.readFileSync("./data/trade/importQuantit
 //quote 
 
 const quoteTrade = JSON.parse(fs.readFileSync("./data/trade/quoteTrade.json"));
-const quoteTrade_it = JSON.parse(fs.readFileSync("./data/trade/quoteTrade_it.json"));
-const quoteTrade_en = JSON.parse(fs.readFileSync("./data/trade/quoteTrade_en.json"));
+
 
 module.exports = () => ({
   // application setup
@@ -119,8 +118,6 @@ module.exports = () => ({
   exportQuantity_en,
   importQuantity_en,
   quoteTrade,
-  quoteTrade_it,
-  quoteTrade_en,
   exportQuoteValue_it ,
   importQuoteValue_it,
   exportQuoteValue_en,
