@@ -39,6 +39,15 @@ const exportseries = JSON.parse(fs.readFileSync("./data/map/exportseries.json"))
 
 //Trade
 //data value
+
+
+const exportQuoteValue = JSON.parse(fs.readFileSync("./data/trade/exportQuoteValue.json"));
+const importQuoteValue = JSON.parse(fs.readFileSync("./data/trade/importQuoteValue.json"));
+const exportQuoteValue_it = JSON.parse(fs.readFileSync("./data/trade/exportQuoteValue_it.json"));
+const importQuoteValue_it = JSON.parse(fs.readFileSync("./data/trade/importQuoteValue_it.json"));
+const exportQuoteValue_en = JSON.parse(fs.readFileSync("./data/trade/exportQuoteValue_en.json"));
+const importQuoteValue_en = JSON.parse(fs.readFileSync("./data/trade/importQuoteValue_en.json"));
+
 const exportValue = JSON.parse(fs.readFileSync("./data/trade/exportValue.json"));
 const importValue = JSON.parse(fs.readFileSync("./data/trade/importValue.json"));
 const exportValue_it = JSON.parse(fs.readFileSync("./data/trade/exportValue_it.json"));
@@ -46,12 +55,26 @@ const importValue_it = JSON.parse(fs.readFileSync("./data/trade/importValue_it.j
 const exportValue_en = JSON.parse(fs.readFileSync("./data/trade/exportValue_en.json"));
 const importValue_en = JSON.parse(fs.readFileSync("./data/trade/importValue_en.json"));
 //data quantity
+
+const exportQuoteQuantity = JSON.parse(fs.readFileSync("./data/trade/exportQuoteQuantity.json"));
+const importQuoteQuantity = JSON.parse(fs.readFileSync("./data/trade/importQuoteQuantity.json"));
+const exportQuoteQuantity_it = JSON.parse(fs.readFileSync("./data/trade/exportQuoteQuantity_it.json"));
+const importQuoteQuantity_it = JSON.parse(fs.readFileSync("./data/trade/importQuoteQuantity_it.json"));
+const exportQuoteQuantity_en = JSON.parse(fs.readFileSync("./data/trade/exportQuoteQuantity_en.json"));
+const importQuoteQuantity_en = JSON.parse(fs.readFileSync("./data/trade/importQuoteQuantity_en.json"));
+
 const exportQuantity = JSON.parse(fs.readFileSync("./data/trade/exportQuantity.json"));
 const importQuantity = JSON.parse(fs.readFileSync("./data/trade/importQuantity.json"));
 const exportQuantity_it = JSON.parse(fs.readFileSync("./data/trade/exportQuantity_it.json"));
 const importQuantity_it = JSON.parse(fs.readFileSync("./data/trade/importQuantity_it.json"));
 const exportQuantity_en = JSON.parse(fs.readFileSync("./data/trade/exportQuantity_en.json"));
 const importQuantity_en = JSON.parse(fs.readFileSync("./data/trade/importQuantity_en.json"));
+
+//quote 
+
+const quoteTrade = JSON.parse(fs.readFileSync("./data/trade/quoteTrade.json"));
+const quoteTrade_it = JSON.parse(fs.readFileSync("./data/trade/quoteTrade_it.json"));
+const quoteTrade_en = JSON.parse(fs.readFileSync("./data/trade/quoteTrade_en.json"));
 
 module.exports = () => ({
   // application setup
@@ -83,6 +106,8 @@ module.exports = () => ({
   //trade
   exportValue,
   importValue,
+  exportQuoteValue,
+  importQuoteValue,
   exportValue_it,
   importValue_it,
   exportValue_en,
@@ -92,5 +117,18 @@ module.exports = () => ({
   exportQuantity_it,
   importQuantity_it,
   exportQuantity_en,
-  importQuantity_en
+  importQuantity_en,
+  quoteTrade,
+  quoteTrade_it,
+  quoteTrade_en,
+  exportQuoteValue_it ,
+  importQuoteValue_it,
+  exportQuoteValue_en,
+  importQuoteValue_en,
+  exportQuoteQuantity,
+  importQuoteQuantity, 
+  exportQuoteQuantity_it,
+  importQuoteQuantity_it,
+  exportQuoteQuantity_en,
+  importQuoteQuantity_en  
 });

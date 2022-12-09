@@ -111,11 +111,19 @@ ieinfo_filename=DATA_FOLDER_ANNUAL_OUTPUT+os.sep+"ieinfo.json"
 IMPORT_SERIES_JSON=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"importseries.json"
 EXPORT_SERIES_JSON=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"exportseries.json"
 
+QUOTE_TRADE=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"quoteTrade.json"
+
 IMPORT_QUANTITY_JSON=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"importQuantity.json"
 EXPORT_QUANTITY_JSON=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"exportQuantity.json"
 
+IMPORT_QUOTE_QUANTITY_JSON=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"importQuoteQuantity.json"
+EXPORT_QUOTE_QUANTITY_JSON=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"exportQuoteQuantity.json"
+
 IMPORT_VALUE_JSON=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"importValue.json"
 EXPORT_VALUE_JSON=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"exportValue.json"
+
+IMPORT_QUOTE_VALUE_JSON=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"importQuoteValue.json"
+EXPORT_QUOTE_VALUE_JSON=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"exportQuoteValue.json"
 
 COMEXT_IMP_CSV=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"comext_imp.csv"
 COMEXT_EXP_CSV=DATA_FOLDER_MONTHLY+os.sep+"output"+os.sep+"comext_exp.csv"
@@ -763,7 +771,7 @@ def createMonthlyOutputTimeSeries():
     return "TIME SERIES processing OK; files created: "+IMPORT_SERIES_JSON+" and "+EXPORT_SERIES_JSON
 
 
-def createMonthlyOutputVQSTrade():
+def createMonthlyOutputVQSTradeValue():
     logger.info('createMonthlyOutputVQSTrade START')
     DATA_FOLDER_WORKING=DATA_FOLDER_MONTHLY+os.sep+"output"
     createFolder(DATA_FOLDER_WORKING)
@@ -875,6 +883,139 @@ def createMonthlyOutputVQSTradeQuantity():
             json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent = 1, cls=NpEncoder)
 
     return "VQS QUANTITY TRADE processing OK; files created: "+IMPORT_QUANTITY_JSON+" and "+EXPORT_QUANTITY_JSON
+
+
+def createMonthlyOutputQuoteSTrade():
+    logger.info('createMonthlyOutputQuoteSTrade quote START')
+    DATA_FOLDER_WORKING=DATA_FOLDER_MONTHLY+os.sep+"output"
+    createFolder(DATA_FOLDER_WORKING)
+    
+    conn = sqlite3.connect(SQLLITE_DB)
+    quote = pd.read_sql_query("SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, q_val_cpa as quote_valore, q_qua_cpa as quote_quantita FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;", conn)
+      
+   
+    if conn:
+        conn.close()
+    
+    
+    quote.to_json(QUOTE_TRADE,orient='records')
+
+    return "Quote  TRADE processing OK; files created: "+QUOTE_TRADE
+
+
+
+def createMonthlyOutputQuoteSTradeValue():
+    logger.info('createMonthlyOutputQuoteSTrade START')
+    DATA_FOLDER_WORKING=DATA_FOLDER_MONTHLY+os.sep+"output"
+    createFolder(DATA_FOLDER_WORKING)
+    iesVQSFiles={}
+    iesVQSFiles[FLOW_IMPORT]=IMPORT_QUOTE_VALUE_JSON
+    iesVQSFiles[FLOW_EXPORT]=EXPORT_QUOTE_VALUE_JSON
+    ieVQSFlows={}
+
+    cls_products_cpa=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
+    logger.info('cls_products: '+CLS_PRODUCTS_CPA_FILE)
+
+    conn = sqlite3.connect(SQLLITE_DB)
+    quote = pd.read_sql_query("SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, q_val_cpa as q_val_basket FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;", conn)
+    countries=sorted(pd.unique(quote["DECLARANT_ISO"]))
+
+    for flow in [FLOW_IMPORT,FLOW_EXPORT]:
+        logger.info('FLOW_IMPORT,FLOW_EXPORT: '+str(flow))
+        ieVQS=[]
+
+        for country  in countries:
+            logger.info('country: '+country)
+            ieVQS_country={}
+            ieVQS_country["id"]=country
+            dataVQSs=[]
+            vqs_country=quote[(quote["DECLARANT_ISO"]==country) & (quote["FLOW"]==flow)]
+
+            products_country=sorted(pd.unique(vqs_country["PRODUCT"]))
+            for product  in products_country:
+                logger.debug('product: '+product)
+                dataVQS={}
+
+                dataVQS["productID"]=product
+                dataVQS["dataname"]=getClsProductByCode(cls_products_cpa, product,1)
+                valuesVQS=[]
+                vqs=vqs_country[vqs_country["PRODUCT"]==product].fillna('NA')
+                for indexp, row_vqs in vqs.iterrows():
+                    valuesVQS.append(row_vqs["q_val_basket"])
+
+                dataVQS["value"]=valuesVQS
+                dataVQSs.append(dataVQS)
+
+            ieVQS_country["data"]=dataVQSs
+            ieVQS.append(ieVQS_country)
+        ieVQSFlows[flow]=ieVQS
+
+    if conn:
+        conn.close()
+
+    for flow in [FLOW_IMPORT,FLOW_EXPORT]:
+        logger.info('File '+iesVQSFiles[flow])
+        with open(iesVQSFiles[flow], 'w') as f:
+            json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=NpEncoder)
+
+    return "Quote VALUE TRADE processing OK; files created: "+IMPORT_QUOTE_VALUE_JSON+" and "+EXPORT_QUOTE_VALUE_JSON
+
+
+def createMonthlyOutputQuoteSTradeQuantity():
+    logger.info('createMonthlyOutputQuoteSTrade START')
+    DATA_FOLDER_WORKING=DATA_FOLDER_MONTHLY+os.sep+"output"
+    createFolder(DATA_FOLDER_WORKING)
+    iesVQSFiles={}
+    iesVQSFiles[FLOW_IMPORT]=IMPORT_QUOTE_QUANTITY_JSON
+    iesVQSFiles[FLOW_EXPORT]=EXPORT_QUOTE_QUANTITY_JSON
+    ieVQSFlows={}
+
+    cls_products_cpa=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
+    logger.info('cls_products: '+CLS_PRODUCTS_CPA_FILE)
+
+    conn = sqlite3.connect(SQLLITE_DB)
+    quote = pd.read_sql_query("SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, q_qua_cpa as q_qua_basket FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;", conn)
+    countries=sorted(pd.unique(quote["DECLARANT_ISO"]))
+
+    for flow in [FLOW_IMPORT,FLOW_EXPORT]:
+        logger.info('FLOW_IMPORT,FLOW_EXPORT: '+str(flow))
+        ieVQS=[]
+
+        for country  in countries:
+            logger.info('country: '+country)
+            ieVQS_country={}
+            ieVQS_country["id"]=country
+            dataVQSs=[]
+            vqs_country=quote[(quote["DECLARANT_ISO"]==country) & (quote["FLOW"]==flow)]
+
+            products_country=sorted(pd.unique(vqs_country["PRODUCT"]))
+            for product  in products_country:
+                logger.debug('product: '+product)
+                dataVQS={}
+
+                dataVQS["productID"]=product
+                dataVQS["dataname"]=getClsProductByCode(cls_products_cpa, product,1)
+                valuesVQS=[]
+                vqs=vqs_country[vqs_country["PRODUCT"]==product].fillna('NA')
+                for indexp, row_vqs in vqs.iterrows():
+                    valuesVQS.append(row_vqs["q_qua_basket"])
+
+                dataVQS["value"]=valuesVQS
+                dataVQSs.append(dataVQS)
+
+            ieVQS_country["data"]=dataVQSs
+            ieVQS.append(ieVQS_country)
+        ieVQSFlows[flow]=ieVQS
+    
+    if conn:
+        conn.close()
+
+    for flow in [FLOW_IMPORT,FLOW_EXPORT]:
+        logger.info('File '+iesVQSFiles[flow])
+        with open(iesVQSFiles[flow], 'w') as f:
+            json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent = 1, cls=NpEncoder)
+
+    return "QUOTE S QUANTITY TRADE processing OK; files created: "+IMPORT_QUOTE_QUANTITY_JSON+" and "+EXPORT_QUOTE_QUANTITY_JSON
 
 
 def createOutputVariazioniQuoteCPA():
@@ -1066,6 +1207,11 @@ def exportOutputs():
     copyFileToAzure("istat-cosmo-data-json", "trade", IMPORT_VALUE_JSON)
     copyFileToAzure("istat-cosmo-data-json", "trade", EXPORT_VALUE_JSON)
 
+    copyFileToAzure("istat-cosmo-data-json", "trade", IMPORT_QUOTE_QUANTITY_JSON)
+    copyFileToAzure("istat-cosmo-data-json", "trade", EXPORT_QUOTE_QUANTITY_JSON)
+    copyFileToAzure("istat-cosmo-data-json", "trade", IMPORT_QUOTE_VALUE_JSON)
+    copyFileToAzure("istat-cosmo-data-json", "trade", EXPORT_QUOTE_VALUE_JSON)
+    
     copyFileToAzure("istat-cosmo-data-json", "classification", DATA_FOLDER+"clsProductsCPA.json")
     copyFileToAzure("istat-cosmo-data-json", "classification", DATA_FOLDER+"clsProductsGraphExtraNSTR.json")
     copyFileToAzure("istat-cosmo-data-json", "classification", DATA_FOLDER+"clsProductsGraphIntra.json")
@@ -1086,7 +1232,7 @@ def exportOutputs():
 def createAndSendBackupFiles():
     logger.info('createAndSendBackupFiles START')
 
-    listFiles=[GENERAL_INFO_FILE,ieinfo_filename,IMPORT_SERIES_JSON,EXPORT_SERIES_JSON,IMPORT_QUANTITY_JSON,EXPORT_QUANTITY_JSON,IMPORT_VALUE_JSON,EXPORT_VALUE_JSON,
+    listFiles=[GENERAL_INFO_FILE,ieinfo_filename,IMPORT_SERIES_JSON,EXPORT_SERIES_JSON,IMPORT_QUANTITY_JSON,EXPORT_QUANTITY_JSON,IMPORT_VALUE_JSON,EXPORT_VALUE_JSON,IMPORT_QUOTE_QUANTITY_JSON,EXPORT_QUOTE_QUANTITY_JSON,IMPORT_QUOTE_VALUE_JSON,EXPORT_QUOTE_VALUE_JSON,
     DATA_FOLDER+"clsProductsCPA.json", DATA_FOLDER+"clsProductsGraphExtraNSTR.json",DATA_FOLDER+"clsProductsGraphIntra.json",COMEXT_IMP_CSV,COMEXT_EXP_CSV,CPA_INTRA_CSV,CPA_TRIM_CSV,TR_EXTRA_UE_CSV,TR_EXTRA_UE_TRIMESTRALI_CSV]
     OUTPUT_FOLDER=DATA_FOLDER+os.sep
     fileZip=OUTPUT_FOLDER+os.sep+"backup_"+str(this_year)+str(this_month)+".zip"
@@ -1176,7 +1322,7 @@ def executeUpdate():
         repo+=createGeneralInfoOutput()
         repo+='<!-- 1 --><br/>\n'
         repo+='time: '+getPassedTime(start_time)+'<br/>\n'
-        
+        """"
         repo+=downloadAndExtractComextAnnualDATAParallel()  
         repo+='<!-- 2 --><br/>\n'
         repo+='time: '+getPassedTime(start_time)+'<br/>\n'
@@ -1217,9 +1363,16 @@ def executeUpdate():
         repo+='time: '+getPassedTime(start_time)+'<br/>\n'
         repo+=createMonthlyOutputTimeSeries()
         repo+='<!-- 11 --><br/>\n'
-        repo+=createMonthlyOutputVQSTrade()
+        repo+=createMonthlyOutputVQSTradeValue()
         repo+='<!-- 12 --><br/>\n'
         repo+=createMonthlyOutputVQSTradeQuantity()
+        """
+        repo+='<!-- 12.1 --><br/>\n'
+        repo+=createMonthlyOutputQuoteSTrade()
+        """
+        repo+=createMonthlyOutputQuoteSTradeValue()
+        repo+='<!-- 12.2 --><br/>\n'
+        repo+=createMonthlyOutputQuoteSTradeQuantity()
         repo+='<!-- 13 --><br/>\n'
         repo+=createOutputGraphCPAIntraUE()
         repo+='<!-- 14 --><br/>\n'
@@ -1241,6 +1394,7 @@ def executeUpdate():
         repo+=createClsNOTEmptyProducts(3,CLS_PRODUCTS_CPA_FILE,"GraphIntra",37,CPA3_PRODUCT_CODE_CSV)
         repo+='<!-- 20 --><br/>\n'
         repo+=createClsNOTEmptyProducts(3,CLS_NSTR_FILE,"GraphExtraNSTR",999999,TR_PRODUCT_CODE_CSV)
+        
         repo+='<!-- 21 --><br/>\n'
         repo+=exportOutputs()
         repo+='<!-- 22 --><br/>\n'
@@ -1258,6 +1412,7 @@ def executeUpdate():
         
         repo+=checkUPMicroservices()
         repo+='<!-- 25 --><br/>\n'
+        """
         repo+='time: '+getPassedTime(start_time)+'<br/>\n'
         
     except BaseException as e:
@@ -1266,7 +1421,7 @@ def executeUpdate():
     
     finally:
         end_time = datetime.datetime.now()
-        logger.info('end time: '+end_time.strftime("%H:%M:%S"))
+        logger.info(' end time: '+end_time.strftime("%H:%M:%S"))
         total_time=end_time-start_time
         logger.info('TOTAL time: '+str(total_time))
         repo+='end time: '+end_time.strftime("%H:%M:%S")+'<br/>\n'
