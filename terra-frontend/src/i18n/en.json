@@ -50,7 +50,7 @@
       },
       "intra-ue": {
         "title": "Graph analysis UE - World",
-        "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT data, with CPA 2.1 product  classification</strong>, along with relevant global and local measures detailing the structure of relations between UE countries and their economic partners. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
+        "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT data, with 3 digits CPA 2.1 product classification</strong>, along with relevant global and local measures detailing the structure of relations between UE countries and their economic partners. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
         "link": "Go to Graph analisys section UE - World"
       }
     },
@@ -61,7 +61,7 @@
     },
     "trade": {
       "title": "Basket of traded products",
-      "body": "This section provides, for each Member State, the <b>monthly time series of year-over-year changes</b> in the basket composition of exported and imported goods, classified according to <b>CPA-2 digits.</b>",
+      "body": "This section provides, for each Member State, the <b>monthly time series of year-over-year changes</b> in the basket composition of exported and imported goods, classified according to <b>2 digits CPA 2.1.</b>",
       "link": "Go to Basket of traded products section"
     }
   },
@@ -112,7 +112,7 @@
         "transport": "Transport",
         "transport_placeholder": "Select transport",
         "product_nstr": "Products NSTR",
-        "product_cpa3": "Products CPA3",
+        "product_cpa3": "Products CPA 2.1 - 3 digits",
         "product_placeholder": "Select a product",
         "flow": "Flow",
         "flow_placeholder": "Select a flow",
@@ -175,7 +175,7 @@
         "country_placeholder": "Select a country",
         "partner": "Partner",
         "partner_placeholder": "Select a partner",
-        "productsCPA": "Products CPA2",
+        "productsCPA": "Products CPA 2.1 - 2 digits",
         "productsCPA_placeholder": "Select a product"
       }
     },
@@ -210,11 +210,13 @@
     "form": {
       "title": "Search filters",
       "fields": {
+        "seriesType": "Quotes",
+        "seriesType_placeholder": "Select a quote",
         "varType": "Series type",
         "varType_placeholder": "Select a series type",
         "country": "Country",
         "country_placeholder": "Select a country",
-        "products": "Products CPA2",
+        "products": "Products CPA 2.1 - 2 digits",
         "products_placeholder": "Select a product",
         "flow": "Flow",
         "flow_placeholder": "Select a flow"
@@ -226,7 +228,7 @@
     "modal": {
       "main": {
         "title": "Changes in basket composition of traded products (CPA - classification of products by activity) by Member State",
-        "body": "This section provides, for each Member State, the <b>monthly time series of year-over-year changes</b> in the basket composition of exported and imported goods, classified according to <b>CPA-2 digits.</b>"
+        "body": "This section provides, for each Member State, the <b>monthly time series of year-over-year changes</b> in the basket composition of exported and imported goods, classified according to <b>2 digits CPA 2.1.</b>"
       }
     },
     "download": {

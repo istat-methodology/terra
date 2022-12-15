@@ -38,6 +38,14 @@
         </CCardHeader>
         <CCardBody>
           <label class="card-label">{{
+            $t("trade.form.fields.seriesType")
+          }}</label>
+          <v-select
+            label="descr"
+            :options="seriesTypes"
+            :placeholder="$t('trade.form.fields.seriesType_placeholder')"
+            v-model="seriesType" />
+          <label class="card-label mt-3">{{
             $t("trade.form.fields.varType")
           }}</label>
           <v-select
@@ -46,14 +54,6 @@
             :placeholder="$t('trade.form.fields.varType_placeholder')"
             v-model="varType" />
           <label class="card-label mt-3">{{
-            $t("trade.form.fields.country")
-          }}</label>
-          <v-select
-            label="name"
-            :options="countries"
-            :placeholder="$t('trade.form.fields.country_placeholder')"
-            v-model="country" />
-          <label class="card-label mt-3">{{
             $t("trade.form.fields.flow")
           }}</label>
           <v-select
@@ -61,6 +61,14 @@
             :options="flows"
             :placeholder="$t('trade.form.fields.flow_placeholder')"
             v-model="flow" />
+          <label class="card-label mt-3">{{
+            $t("trade.form.fields.country")
+          }}</label>
+          <v-select
+            label="name"
+            :options="countries"
+            :placeholder="$t('trade.form.fields.country_placeholder')"
+            v-model="country" />
           <label v-if="products" class="card-label mt-3">
             {{ $t("trade.form.fields.products") }}
           </label>
@@ -113,6 +121,7 @@ export default {
     //Form (default values)
     idAllProducts: "",
     product: null,
+    seriesType: null,
     varType: null,
     country: null,
     flow: null,
@@ -128,7 +137,12 @@ export default {
   }),
   computed: {
     ...mapGetters("metadata", ["tradePeriod"]),
-    ...mapGetters("classification", ["varTypes", "countries", "flows"]),
+    ...mapGetters("classification", [
+      "seriesTypes",
+      "varTypes",
+      "countries",
+      "flows"
+    ]),
     ...mapGetters("trade", ["charts", "products"]),
     title() {
       return this.flow && this.country
@@ -258,30 +272,34 @@ export default {
     //Set form default values
     metadataService
       .getTradeDefault()
-      .then(({ idAllProducts, varType, flow, country, product }) => {
-        this.idAllProducts = idAllProducts
-        this.varType = varType
-        this.flow = flow
-        this.country = country
-        this.product = product
+      .then(
+        ({ idAllProducts, seriesType, varType, flow, country, product }) => {
+          this.idAllProducts = idAllProducts
+          this.seriesType = seriesType
+          this.varType = varType
+          this.flow = flow
+          this.country = country
+          this.product = product
 
-        this.$store
-          .dispatch("trade/findByName", {
-            type: this.varType.id,
-            country: this.country.country,
-            flow: this.flow.id
-          })
-          .then(() => {
-            this.chartData = {}
-            this.chartData.datasets = []
-            this.chartData.labels = this.labelPeriod
-            this.charts.data.forEach((element) => {
-              this.buildChartObject(element.dataname, element.value)
+          this.$store
+            .dispatch("trade/findByName", {
+              type: this.varType.id,
+              seriesType: this.seriesType.id,
+              country: this.country.country,
+              flow: this.flow.id
             })
-          })
+            .then(() => {
+              this.chartData = {}
+              this.chartData.datasets = []
+              this.chartData.labels = this.labelPeriod
+              this.charts.data.forEach((element) => {
+                this.buildChartObject(element.dataname, element.value)
+              })
+            })
 
-        this.spinnerStart(false)
-      })
+          this.spinnerStart(false)
+        }
+      )
   }
 }
 </script>

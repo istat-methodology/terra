@@ -49,7 +49,7 @@
       },
       "intra-ue": {
         "title": "Grafi UE - Mondo",
-        "body": "Questa sezione visualizza grafi che rappresentano il <b>commercio internazionale per prodotto (classificazione CPA 2.1) da fonte COMEXT</b>, insieme alle <b>misure globali e locali pertinenti</b> che descrivono in dettaglio la struttura delle relazioni commerciali dai paesi UE verso/da ogni paese partner commerciale. Il pannello è interattivo e offre la possibilità di applicare diversi filtri e di vedere come la struttura del grafico e le misure cambiano di conseguenza.<br>Inoltre viene fornita un'animazione che mostra l'<b>evoluzione del grafico del commercio internazionale nel tempo</b>.",
+        "body": "Questa sezione visualizza grafi che rappresentano il <b>commercio internazionale per prodotto (classificazione CPA 2.1 a 3 cifre) da fonte COMEXT</b>, insieme alle <b>misure globali e locali pertinenti</b> che descrivono in dettaglio la struttura delle relazioni commerciali dai paesi UE verso/da ogni paese partner commerciale. Il pannello è interattivo e offre la possibilità di applicare diversi filtri e di vedere come la struttura del grafico e le misure cambiano di conseguenza.<br>Inoltre viene fornita un'animazione che mostra l'<b>evoluzione del grafico del commercio internazionale nel tempo</b>.",
         "link": "Vai alla sezione Grafi UE - Mondo"
       }
     },
@@ -60,7 +60,7 @@
     },
     "trade": {
       "title": "Paniere dei prodotti",
-      "body": "Questa sezione fornisce, per ciascuno Stato membro, le <b>serie storiche mensili delle variazioni tendenziali</b> della composizione del paniere delle merci esportate e importate, classificate secondo le <b>cifre CPA-2 cifre.</b>",
+      "body": "Questa sezione fornisce, per ciascuno Stato membro, le <b>serie storiche mensili delle variazioni tendenziali</b> della composizione del paniere delle merci esportate e importate, classificate secondo le <b>CPA 2.1 a 2 cifre.</b>",
       "link": "Vai alla sezione Paniere dei prodotti"
     }
   },
@@ -111,7 +111,7 @@
         "transport": "Mezzi di trasporto",
         "transport_placeholder": "Seleziona mezzi di trasporto",
         "product_nstr": "Prodotti NSTR",
-        "product_cpa3": "Prodotti CPA3",
+        "product_cpa3": "Prodotti CPA 2.1 - 3 cifre",
         "product_placeholder": "Seleziona un prodotto",
         "flow": "Flussi",
         "flow_placeholder": "Seleziona un flusso",
@@ -174,7 +174,7 @@
         "country_placeholder": "Seleziona un paese",
         "partner": "Partner",
         "partner_placeholder": "Seleziona un partner",
-        "productsCPA": "Prodotti CPA2",
+        "productsCPA": "Prodotti CPA 2.1 - 2 cifre",
         "productsCPA_placeholder": "Seleziona un prodotto"
       }
     },
@@ -208,11 +208,13 @@
     "form": {
       "title": "Filtri di ricerca",
       "fields": {
+        "seriesType": "Quote",
+        "seriesType_placeholder": "Seleziona la quota",
         "varType": "Variazione",
         "varType_placeholder": "Seleziona la variazione",
         "country": "Paese",
         "country_placeholder": "Seleziona un paese",
-        "products": "Prodotti CPA2",
+        "products": "Prodotti CPA 2.1 - 2 cifre",
         "products_placeholder": "Seleziona un prodotto",
         "flow": "Flusso",
         "flow_placeholder": "Seleziona il flusso"
@@ -224,7 +226,7 @@
     "modal": {
       "main": {
         "title": "Variazioni nella composizione del paniere dei prodotti importati ed esportato (classificazione CPA – classificazione dei prodotti per attività economica) per Paese Membro",
-        "body": "Questa sezione fornisce, per ciascuno Stato membro, le <b>serie storiche mensili delle variazioni tendenziali</b> della composizione del paniere delle merci esportate e importate, classificate secondo le <b>cifre CPA-2 cifre.</b>"
+        "body": "Questa sezione fornisce, per ciascuno Stato membro, le <b>serie storiche mensili delle variazioni tendenziali</b> della composizione del paniere delle merci esportate e importate, classificate secondo le <b>CPA 2.1 a 2 cifre.</b>"
       }
     },
     "download": {

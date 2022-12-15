@@ -19,14 +19,20 @@ export const percentageDefault = "80"
 // Form defaults
 export const dataTypeDefault = {
   id: 1,
-  descr_en: "Yearly differences series",
-  descr_it: "Serie delle differenze annuali"
+  descr_en: "Series of differences at 12 months",
+  descr_it: "Serie delle differenze a 12 mesi"
 }
 
 export const varTypeDefault = {
   id: 1,
   descr_en: "Euro",
   descr_it: "Euro"
+}
+
+export const seriesTypeDefault = {
+  id: 1,
+  descr_en: "Share trend",
+  descr_it: "Andamento delle quote"
 }
 
 export const flowDefault = {
@@ -88,6 +94,10 @@ export const getDefaultForm = (lan) => {
   const time = { id: monthDefault.id, descr: monthDefault[descrKey] }
   const dataType = { id: dataTypeDefault.id, descr: dataTypeDefault[descrKey] }
   const varType = { id: varTypeDefault.id, descr: varTypeDefault[descrKey] }
+  const seriesType = {
+    id: seriesTypeDefault.id,
+    descr: seriesTypeDefault[descrKey]
+  }
   const flow = { id: flowDefault.id, descr: flowDefault[descrKey] }
   const country = { country: countryDefault.id, name: countryDefault[descrKey] }
   const partner = { id: partnerDefault.id, descr: partnerDefault[descrKey] }
@@ -116,6 +126,7 @@ export const getDefaultForm = (lan) => {
     time,
     dataType,
     varType,
+    seriesType,
     flow,
     country,
     partner,
@@ -168,6 +179,7 @@ export const defaultTradeForm = (lan) => {
   return {
     idAllProducts: idAllProducts,
     varType: defaultForm.varType,
+    seriesType: defaultForm.seriesType,
     flow: defaultForm.flow,
     country: defaultForm.country,
     product: [defaultForm.productCPA2]

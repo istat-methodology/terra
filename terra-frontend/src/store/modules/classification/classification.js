@@ -12,8 +12,8 @@ const state = {
   dataType: [
     {
       id: 1,
-      descr_en: "Yearly differences series",
-      descr_it: "Serie delle differenze annuali"
+      descr_en: "Series of differences at 12 months",
+      descr_it: "Serie delle differenze a 12 mesi"
     },
     {
       id: 2,
@@ -31,6 +31,18 @@ const state = {
       id: 2,
       descr_en: "Kilograms",
       descr_it: "Chilogrammi"
+    }
+  ],
+  seriesType: [
+    {
+      id: 1,
+      descr_en: "Share trend",
+      descr_it: "Andamento delle quote"
+    },
+    {
+      id: 2,
+      descr_en: "Share variation",
+      descr_it: "Variazioni delle quote"
     }
   ],
   flows: [
@@ -244,6 +256,16 @@ const getters = {
     const lan = rootGetters["coreui/language"]
     const descrKey = "descr_" + lan
     return state.varType.map((obj) => {
+      return {
+        id: obj.id,
+        descr: obj[descrKey]
+      }
+    })
+  },
+  seriesTypes: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
+    const descrKey = "descr_" + lan
+    return state.seriesType.map((obj) => {
       return {
         id: obj.id,
         descr: obj[descrKey]
