@@ -160,6 +160,7 @@ export default {
         this.$store
           .dispatch("trade/findByName", {
             type: this.varType.id,
+            seriesType: this.seriesType.id,
             country: this.country.country,
             flow: this.flow.id
           })
