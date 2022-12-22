@@ -13,6 +13,7 @@
               </transition>
             </CContainer>
           </main>
+          <div class="disclaimer">{{ $t("landing.disclaimer") }}</div>
           <app-footer />
         </div>
       </CWrapper>
@@ -52,5 +53,13 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.disclaimer {
+  position: relative;
+  bottom: 0;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 1rem 1.8rem 1.2rem 1.8rem;
 }
 </style>

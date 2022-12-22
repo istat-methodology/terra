@@ -36,6 +36,7 @@
     "trade": "Paniere dei prodotti"
   },
   "landing": {
+    "disclaimer": "*Le classificazioni Eurostat CPA 2.1 e NSTR possono differire dalle corrispondenti versioni nazionali",
     "map": {
       "title": "Mappa Interattiva",
       "body": "Questa sezione fornisce una mappa che mostra per ogni paese la <b>popolazione totale</b>, alcuni <b>indicatori macroeconomici</b>, i principali <b>prodotti importati ed esportati </b>e i principali <b>paesi partner commerciali</b>.<br><br>Inoltre, viene fornita una funzionalità <b>time-lapse</b> per rappresentare le variazioni mensili tendenziali del commercio internazionale per gli ultimi tre anni.",
@@ -60,7 +61,7 @@
     },
     "trade": {
       "title": "Paniere dei prodotti",
-      "body": "Questa sezione fornisce, per ciascuno Stato membro, le <b>serie storiche mensili delle variazioni tendenziali</b> della composizione del paniere delle merci esportate e importate, classificate secondo le <b>CPA 2.1 a 2 cifre.</b>",
+      "body": "Questa sezione fornisce, per ciascuno Stato membro, le <b>serie storiche mensili delle quote di composizione del paniere delle merci esportate e importate</b>, classificate secondo le CPA 2.1 a 2 cifre, insieme alle relative variazioni tendenziali.",
       "link": "Vai alla sezione Paniere dei prodotti"
     }
   },
@@ -221,7 +222,8 @@
       }
     },
     "plot": {
-      "label": "Variazione anno-su-anno (%)"
+      "label": "Variazione anno-su-anno (%)",
+      "share": "Year on year change (%)"
     },
     "modal": {
       "main": {

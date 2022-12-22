@@ -24,7 +24,7 @@
           <span class="badge badge-primary"> Ver: {{ appVersion }}</span>
         </router-link>
       </li>
-      <li class="c-sidebar-nav-title">{{ $t("sidebar.analysis") }}</li>
+      <li class="c-sidebar-nav-title pb-2">{{ $t("sidebar.analysis") }}</li>
       <li class="c-sidebar-nav-item">
         <router-link
           tag="a"

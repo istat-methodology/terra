@@ -12,7 +12,7 @@ const state = {
   dataType: [
     {
       id: 1,
-      descr_en: "Lag of differences at 12 months",
+      descr_en: "Lag 12 months differences",
       descr_it: "Serie delle differenze a 12 mesi"
     },
     {

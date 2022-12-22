@@ -1,4 +1,4 @@
-// Time default
+// Dynamyc Time default
 export const monthDefault = {
   id: "202201",
   descr_en: "Jan 2022",
@@ -19,7 +19,7 @@ export const percentageDefault = "80"
 // Form defaults
 export const dataTypeDefault = {
   id: 1,
-  descr_en: "Lag of differences at 12 months",
+  descr_en: "Lag 12 months differences",
   descr_it: "Serie delle differenze a 12 mesi"
 }
 

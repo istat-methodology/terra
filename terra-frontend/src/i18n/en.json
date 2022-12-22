@@ -37,6 +37,7 @@
     "trade": "Basket of traded products"
   },
   "landing": {
+    "disclaimer": "*Eurostat and National CPA 2.1 and NSTR classifications may differ",
     "map": {
       "title": "Interactive map",
       "body": "This section provides a map displaying for each country the <b>total population</b>, <b>some macro-economic indicators</b>, main <b>imported and exported goods</b> ,and main <b>trade partner countries</b>. <br><br>Moreover, a <b>time-lapse</b> functionality to represent the international trade year-on-year monthly variations for the last three years is provided.",
@@ -61,7 +62,7 @@
     },
     "trade": {
       "title": "Basket of traded products",
-      "body": "This section provides, for each Member State, the <b>monthly time series of year-over-year changes</b> in the basket composition of exported and imported goods, classified according to <b>2 digits CPA 2.1.</b>",
+      "body": "This section provides, for each Member State, the <b>monthly time series of basket composition for exported and imported goods</b>, classified according to 2 digits CPA 2.1, together with year-over-year changes.",
       "link": "Go to Basket of traded products section"
     }
   },
@@ -210,7 +211,7 @@
     "form": {
       "title": "Search filters",
       "fields": {
-        "seriesType": "Quotes",
+        "seriesType": "Shares",
         "seriesType_placeholder": "Select a quote",
         "varType": "Series type",
         "varType_placeholder": "Select a series type",
@@ -223,7 +224,8 @@
       }
     },
     "plot": {
-      "label": "Year on year change (%)"
+      "label": "Year on year change (%)",
+      "share": "Share (%)"
     },
     "modal": {
       "main": {

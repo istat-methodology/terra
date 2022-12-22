@@ -188,7 +188,9 @@ export default {
     buildChartObject(description, value) {
       const color = this.getColor()
       this.options.scales.yAxes[0].scaleLabel.labelString =
-        this.$t("trade.plot.label")
+        this.seriesType.id == 1
+          ? this.$t("trade.plot.share")
+          : this.$t("trade.plot.label")
       this.chartData.datasets.push({
         label: description,
         fill: false,
