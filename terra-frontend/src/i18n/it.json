@@ -223,7 +223,7 @@
     },
     "plot": {
       "label": "Variazione anno-su-anno (%)",
-      "share": "Year on year change (%)"
+      "share": "Quota (%)"
     },
     "modal": {
       "main": {

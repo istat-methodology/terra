@@ -187,6 +187,9 @@ export default {
     },
     buildChartObject(description, value) {
       const color = this.getColor()
+      //reset options to default (to force update)
+      this.options = { ...optionsTrade }
+
       this.options.scales.yAxes[0].scaleLabel.labelString =
         this.seriesType.id == 1
           ? this.$t("trade.plot.share")
