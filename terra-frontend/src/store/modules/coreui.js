@@ -12,8 +12,8 @@ const state = {
   isPolicy: false,
   isTrade: false,
   isMobility: false,
-  isItalian: true,
-  language: "it", //default language
+  isItalian: localStorage.getItem("lan") == "en" ? false : true,
+  language: localStorage.getItem("lan") || "it", //default language
   breadcrumbs: [
     {
       path: "metadata",
@@ -37,6 +37,9 @@ const mutations = {
   SET_LANGUAGE(state, language) {
     state.language = language
     state.isItalian = language == "it" ? true : false
+
+    //store auth data in browser storage
+    localStorage.setItem("lan", language)
   },
   SET_CONTEXT(state, context) {
     state.context = context

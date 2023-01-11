@@ -107,11 +107,6 @@ export default {
   name: "Home",
   created() {
     this.$store.dispatch("coreui/setContext", Context.Home)
-    // load metadata
-    this.$store.dispatch("metadata/getMetadata").then(() => {
-      // load classifications
-      this.$store.dispatch("classification/getClassifications")
-    })
   }
 }
 </script>

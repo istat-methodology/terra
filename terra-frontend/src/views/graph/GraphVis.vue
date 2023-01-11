@@ -44,7 +44,8 @@
           :edges="edges"
           :options="options"
           @select-edge="handleGraphSelect"
-          @hover-node="handleOverNode" />
+          @hover-node="handleOverNode"
+          @after-drawing="handleGraphFit" />
       </CCardBody>
       <slot>
         <!-- Slider -->
@@ -252,6 +253,9 @@ export default {
     handleOverNode(event) {
       const nodeId = event.node
       this.nodeMetric = getCentrality(this.nodes, nodeId, this.metrics)
+    },
+    handleGraphFit() {
+      this.$refs.graph.fit()
     },
     applyConstraints() {
       const constraints = []

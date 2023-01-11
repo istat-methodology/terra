@@ -9,7 +9,9 @@
           <main class="c-main">
             <CContainer fluid>
               <transition name="fade" mode="out-in">
-                <router-view :key="$route.fullPath"></router-view>
+                <router-view
+                  :key="$route.fullPath"
+                  v-if="isMetaLoaded"></router-view>
               </transition>
             </CContainer>
           </main>
@@ -34,10 +36,20 @@ export default {
     "app-sidebar": Sidebar,
     "app-toast": Toast
   },
+  data: () => ({
+    isMetaLoaded: false
+  }),
   created() {
     //Clear messages
     this.$store.dispatch("message/clear")
     this.$store.dispatch("coreui/clearContext")
+    // load metadata
+    this.$store.dispatch("metadata/getMetadata").then(() => {
+      // load classifications
+      this.$store.dispatch("classification/getClassifications").then(() => {
+        this.isMetaLoaded = true
+      })
+    })
   }
 }
 </script>

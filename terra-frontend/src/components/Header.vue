@@ -60,13 +60,13 @@ export default {
   data() {
     return {
       langs: ["it", "en"],
-      selectedIt: true,
+      selectedIt: false,
       selectedEn: false
     }
   },
   computed: {
-    ...mapGetters("auth", ["isAuthenticated"]),
-    ...mapGetters("metadata", ["lastLoadedData"])
+    ...mapGetters("metadata", ["lastLoadedData"]),
+    ...mapGetters("coreui", ["isItalian"])
   },
   methods: {
     selectLanguage(lan) {
@@ -80,6 +80,10 @@ export default {
       if (this.$router.currentRoute.path != "/") this.$router.push("/")
       this.$store.dispatch("message/success", this.$t("common.update_cls"))
     }
+  },
+  created() {
+    this.selectedIt = this.isItalian
+    this.selectedEn = !this.isItalian
   }
 }
 </script>

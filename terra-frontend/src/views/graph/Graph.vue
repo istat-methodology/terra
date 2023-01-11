@@ -51,7 +51,7 @@
         </CTabs>
       </div>
       <div class="col-sm-6 col-md-3 padding-tab">
-        <CCard>
+        <CCard class="card-filter">
           <CCardHeader>
             <span class="card-title">{{ $t("graph.form.title") }}</span>
             <span class="btn-help">
@@ -92,6 +92,17 @@
                 'is-invalid': $v.currentTime.$error
               }" />
             <label class="card-label mt-3">{{
+              $t("graph.form.fields.flow")
+            }}</label>
+            <v-select
+              label="descr"
+              :options="flows"
+              :placeholder="$t('graph.form.fields.flow_placeholder')"
+              v-model="flow"
+              :class="{
+                'is-invalid': $v.flow.$error
+              }" />
+            <label class="card-label mt-3">{{
               $t("graph.form.fields.percentage")
             }}</label>
             <CInput
@@ -126,17 +137,6 @@
               v-model="product"
               :class="{
                 'is-invalid': $v.product.$error
-              }" />
-            <label class="card-label mt-3">{{
-              $t("graph.form.fields.flow")
-            }}</label>
-            <v-select
-              label="descr"
-              :options="flows"
-              :placeholder="$t('graph.form.fields.flow_placeholder')"
-              v-model="flow"
-              :class="{
-                'is-invalid': $v.flow.$error
               }" />
             <CButton
               color="primary"
