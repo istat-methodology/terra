@@ -8,7 +8,7 @@
     ">
     <CSidebarBrand to="/">
       <a href="https://www.istat.it/it/" target="_blank">
-        <CImg src="../img/istat-logo-bianco.png" style="max-width: 80%" />
+        <CImg src="../img/LogoIstatCompleto.png" style="max-width: 100%" />
       </a>
     </CSidebarBrand>
     <ul class="c-sidebar-nav h-100">
@@ -78,16 +78,6 @@
         </router-link>
       </li>
     </ul>
-    <div class="brand c-sidebar-brand-full text-center">
-      <a
-        href="https://www.istat.it/it/statistiche-sperimentali"
-        target="_blank">
-        <CImg
-          src="../img/LogoCircolareSperiStat.png"
-          class="mb-3 p-0"
-          style="max-width: 45%" />
-      </a>
-    </div>
   </CSidebar>
 </template>
 <script>

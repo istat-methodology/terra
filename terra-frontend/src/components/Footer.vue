@@ -13,5 +13,13 @@
         >EUROSTAT COMEXT</a
       >
     </div>
+    <div class="ml-auto">
+      <a
+        class="nav-link"
+        target="_blank"
+        href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf">
+        {{ $t("header.userguide") }}
+      </a>
+    </div>
   </CFooter>
 </template>

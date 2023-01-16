@@ -8,26 +8,25 @@
       in-header
       class="ml-3 d-md-down-none"
       @click="$store.dispatch('coreui/toggleSidebarDesktop')" />
+
     <CHeaderNav class="mr-auto">
-      <CHeaderNavItem>
-        <span class="title mr-2">TERRA</span>
-        <span class="acronym">imporT ExpoRt netwoRk Analysis</span>
-      </CHeaderNavItem>
-    </CHeaderNav>
-    <CHeaderNav class="mr-lang">
-      <CHeaderNavItem class="data-info-none">
+      <CHeaderNavItem class="col-sm-5 col-md-5">
         <span
           ><CIcon name="cil-tags" /> {{ $t("common.update") }}
           {{ lastLoadedData }}</span
         >
       </CHeaderNavItem>
-      <CHeaderNavItem class="d-md-down-none">
-        <a
-          class="nav-link"
-          target="_blank"
-          href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf">
-          {{ $t("header.userguide") }}
-        </a>
+      <CHeaderNavItem class="col-sm-6 col-md-6 mr-title">
+        <span class="mr-title">
+          <CImg src="../img/LogoTerraFull.png" />
+        </span>
+      </CHeaderNavItem>
+    </CHeaderNav>
+    <CHeaderNav class="mr-lang">
+      <CHeaderNavItem class="mr-lang">
+        <span class="mr-3">
+          <CImg src="../img/LogoSTSP.png" />
+        </span>
       </CHeaderNavItem>
       <CButtonGroup role="group">
         <CButton
@@ -131,6 +130,11 @@ export default {
 }
 .mr-lang {
   margin-right: 2.5rem;
+  text-align: right;
+}
+.mr-title {
+  margin-right: 2.5rem;
+  text-align: center;
 }
 .ul-lang {
   margin-right: 2rem;
