@@ -10,25 +10,22 @@
       @click="$store.dispatch('coreui/toggleSidebarDesktop')" />
 
     <CHeaderNav class="mr-auto">
-      <CHeaderNavItem class="col-sm-5 col-md-5">
-        <span
-          ><CIcon name="cil-tags" /> {{ $t("common.update") }}
-          {{ lastLoadedData }}</span
-        >
-      </CHeaderNavItem>
-      <CHeaderNavItem class="col-sm-6 col-md-6 mr-title">
-        <span class="mr-title">
-          <CImg src="../img/LogoTerraFull.png" />
-        </span>
+      <CHeaderNavItem>
+        <CImg
+          src="../img/LogoTerraFull.png"
+          style="max-width: 80%"
+          class="d-md-down-none" />
+        <CImg
+          src="../img/LogoTerraShort.png"
+          style="max-width: 80%"
+          class="d-lg-none" />
       </CHeaderNavItem>
     </CHeaderNav>
-    <CHeaderNav class="mr-lang">
-      <CHeaderNavItem class="mr-lang">
-        <span class="mr-3">
-          <CImg src="../img/LogoSTSP.png" />
-        </span>
+    <CHeaderNav>
+      <CHeaderNavItem>
+        <CImg src="../img/LogoSTSP.png" style="max-width: 75%" />
       </CHeaderNavItem>
-      <CButtonGroup role="group">
+      <CButtonGroup role="group" class="mr-lang">
         <CButton
           color="primary"
           variant="ghost"
@@ -131,6 +128,12 @@ export default {
 .mr-lang {
   margin-right: 2.5rem;
   text-align: right;
+}
+@media (max-width: 450px) {
+  .mr-lang {
+    margin-right: 0.9rem;
+    text-align: right;
+  }
 }
 .mr-title {
   margin-right: 2.5rem;

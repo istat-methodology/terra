@@ -3,7 +3,10 @@
     <div>
       <span class="mr-1 text-dark"
         ><a href="https://www.terra.statlab.it" target="_blank"
-          >TERRA <span class="acronym"> - {{ $t("common.acronym") }}</span></a
+          >TERRA
+          <span class="acronym d-md-down-none">
+            - {{ $t("common.acronym") }}</span
+          ></a
         >
       </span>
     </div>

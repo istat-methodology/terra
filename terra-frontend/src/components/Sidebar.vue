@@ -78,6 +78,10 @@
         </router-link>
       </li>
     </ul>
+    <span class="data-update">
+      <CIcon name="cil-tags" /> {{ $t("common.update") }}
+      {{ lastLoadedData }}</span
+    >
   </CSidebar>
 </template>
 <script>
@@ -100,7 +104,8 @@ export default {
       isTrade: "isTrade",
       isMobility: "isMobility"
     }),
-    ...mapGetters("metadata", ["appVersion"])
+    ...mapGetters("metadata", ["appVersion"]),
+    ...mapGetters("metadata", ["lastLoadedData"])
   }
 }
 </script>
@@ -122,5 +127,10 @@ export default {
 }
 a:hover {
   text-decoration: none;
+}
+.data-update {
+  position: absolute;
+  bottom: 0;
+  padding: 0.8445rem 1rem;
 }
 </style>

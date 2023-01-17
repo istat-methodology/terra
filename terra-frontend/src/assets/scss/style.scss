@@ -3,6 +3,9 @@
 @import "vue-select/src/scss/vue-select.scss";
 
 /* Layout */
+.c-header {
+  min-height: 66px;
+}
 .c-header.c-header-fixed {
   border: 0;
   -webkit-box-shadow: 0 2px 2px 0 rgba(60, 75, 100, 0.14),
@@ -26,6 +29,10 @@
 .c-app:not(.c-dark-theme) .btn:not([class*=ghost]):not([class*=link]):not([class*=outline]):not([class*=transparent]) {
   border: 0;
   box-shadow: none;
+}
+
+.c-sidebar-brand {
+  flex: 0 0 66px;
 }
 
 .btn-export .btn:not([class*=ghost]):not([class*=link]):not([class*=outline]):not([class*=transparent]) {
