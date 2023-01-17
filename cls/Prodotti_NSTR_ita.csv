@@ -1,0 +1,176 @@
+CODICE;DESCRIZIONE
+001;Animali vivi
+011;Frumento, spelta, frumento segalato
+012;Orzo
+013;Segala
+014;Avena
+015;Granturco
+016;Riso
+019;Altri cereali n.n.a.
+020;Patate
+031;Agrumi
+035;Altre frutta e noci, fresche
+039;Altri legumi e ortaggi, freschi e congelati
+041;Lana, e altri peli d'origine animale
+042;Cotone
+043;Fibre tessili artificiali o sintetiche
+045;Seta, lino, iuta, canapa e altre fibre tessili vegetali
+049;Stracci, cascami di tessili
+051;Legno per carta, legno per pasta
+052;Legno per miniere
+055;Altro legno non scortecciato
+056;Traversine di legno per strade ferrate e altro legno squadrato o segato
+057;Legna da ardere, carbone di legna, cascami, sughero greggio e cascami
+060;Barbabietole da zucchero
+091;Pelli e pelli da pellicceria gregge, cascami
+092;Gomma, naturale e sintetica, greggia e rigenerata
+099;Materie prime e altri prodotti greggi, non commestibili, d'origine animale o vegetale n.n.a.
+111;Zucchero greggio
+112;Zucchero raffinato
+113;Melassi
+121;Vino, mosto di uve
+122;Birra
+125;Altre bevande alcoliche
+128;Bevande non alcoliche
+131;Caffè
+132;Cacao e cioccolata
+133;Tè, matè, spezie
+134;Tabacchi greggi e cascami
+135;Tabacchi manufatti
+136;Glucosio, destrosio, altri zuccheri, dolciumi, altri prodotti a base di zucchero, miele
+139;Preparazioni alimentari n.n.a.
+141;Carni fresche, refrigerate e congelate
+142;Pesci, crostacei, molluschi freschi, congelati, secchi, salati, affumicati
+143;Latte fresco e crema fresca
+144;Burro, formaggio, altri derivati a base di latte
+145;Margarina, strutto, grassi alimentari
+146;Uova
+147;Carni secche, salate, affumicate, preparazioni e conserve di carni
+148;Preparazioni e conserve di pesci, di crostacei o di molluschi
+161;Farine, semolini, semole di cereali
+162;Malto
+163;Altri prodotti a base di cereali
+164;Frutta secche, congelate, o disidratate, preparazioni e conserve di frutta
+165;Legumi secchi
+166;Preparazioni e conserve a base di legumi e ortaggi
+167;Luppolo
+171;Paglia, fieno, lolla di cereali
+172;Panelli e residui dell'estrazione degli oli vegetali
+179;Crusche e mondiglia, altri alimenti per animali n.n.a., cascami delle industrie alimentari
+181;Semi oleosi, noci, mandorle oleose
+182;Oli e grassi di origine animale o vegetale e prodotti derivati
+211;Carbon fossile (CECA)
+213;Agglomerati di carbon fossile (CECA)
+221;Lignite (CECA)
+223;Agglomerati di lignite (CECA)
+224;Torba
+231;Coke e semi-coke di carbon fossile (CECA)
+233;Coke e semi-coke di lignite (CECA)
+310;Petrolio greggio
+321;Benzina
+323;Petrolio illuminante, cherosene, carboreattore, white spirit
+325;Gasoli, oli combustibili leggeri e ad uso domestico
+327;Oli combustibili pesanti
+330;Idrocarburi energetici gassosi, liquefatti o compressi
+341;Oli e grassi lubrificanti
+343;Bitumi di petrolio e miscele bituminose
+349;Altri derivati del petrolio non energetici
+410;Minerali di ferro e concentrati, escluse le piriti (CECA)
+451;Cascami di metalli non ferrosi
+452;Minerale di rame e concentrati, metalline cuprifere
+453;Minerale d'alluminio e concentrati, bauxite
+455;Minerali di manganese e concentrati (CECA)
+459;Altri minerali di metalli non ferrosi e concentrati
+462;Rottami per la rifusione (CECA)
+463;Cascami di ferro e d'acciaio, non destinati alla rifusione (non CECA)
+465;Scorie per la rifusione (non CECA)
+466;Polveri d'altoforno (CECA)
+467;Piriti di ferro arrostite (non CECA)
+512;Ghisa greggia, ghisa specolare, ferro-manganese carburato (CECA)
+513;Ferro-leghe escluso ferro-manganese carburato (non CECA)
+515;Acciaio greggio (CECA)
+522;Semi-lavorati siderurgici laminati, blumi, billette, bramme, bidoni, sbozzi in rotoli per lamiere (coils) (CECA)
+523;Altri semi-lavorati siderurgici (non CECA)
+532;Barre laminate e estruse a caldo (CECA)
+533;Barre laminate e estruse a freddo o fucinate (non CECA)
+535;Vergella o bordione (CECA)
+536;Filo di ferro o d'acciaio (non CECA)
+537;Rotaie e elementi di strada ferrata d'acciaio (CECA)
+542;Lamiere d'acciaio laminate in fogli piani o in rotoli, larghi piatti (CECA)
+543;Altre lamiere d'acciaio (non CECA)
+545;Nastri e bande di acciaio latta (CECA)
+546;Altri nastri, bande di acciaio (non CECA)
+551;Tubi e accessori per tubi
+552;Getti e pezzi forgiati, di ferro o di acciaio
+561;Rame e sue leghe, greggi
+562;Alluminio e sue leghe, greggi
+563;Piombo e sue leghe, greggi
+564;Zinco e sue leghe, greggi
+565;Altri metalli non ferrosi e loro leghe, greggi
+568;Prodotti finiti e semi-lavorati di metalli non ferrosi, esclusi articoli manufatti
+611;Sabbie per usi industriali
+612;Sabbie ordinarie e ghiaie
+613;Pietra pomice, sabbie e ghiaie pomiciose
+614;Argille e terre argillose
+615;Scorie, non destinate alla rifusione, ceneri, loppe
+621;Sale greggio o raffinato
+622;Piriti di ferro non arrostite
+623;Zolfo
+631;Pietre frantumate, sassi, macadam, tarmacadam
+632;Pietre da taglio o da costruzione, gregge
+633;Pietre calcaree per l'industria
+634;Creta
+639;Altri minerali greggi
+641;Cementi
+642;Calci
+650;Gesso
+691;Agglomerati pomiciosi, lavori di calcestruzzo e di cemento o simili
+692;Mattoni, tegole e altri materiali da costruzione di argilla e materiali da costruzione refrattari
+711;Nitrato di soda naturale
+712;Fosfati naturali greggi
+713;Sali potassici naturali greggi
+719;Altri concimi naturali
+721;Scorie di defosforazione
+722;Altri concimi fosfatici
+723;Concimi potassici
+724;Concimi nitrati
+729;Concimi composti e altri concimi manufatti
+811;Acido solforico, oleum
+812;Soda caustica e lisciva di soda
+813;Carbonato di sodio
+814;Carburo di calcio
+819;Altri prodotti chimici di base
+820;Allumina
+831;Benzoli
+839;Pece, catrame minerale e altri prodotti chimici greggi derivati dal carbone e dai gas naturali
+841;Pasta per carta, cellulosa
+842;Avanzi di carta, vecchia carta
+891;Materie plastiche gregge
+892;Prodotti per tinta, per concia e coloranti
+893;Prodotti medicinali e farmaceutici, per profumeria, per pulire e lucidare
+894;Esplosivi manufatti, articoli pirotecnici, munizioni per la caccia e lo sport
+895;Amidi, fecole, glutine
+896;Materie e prodotti chimici diversi
+910;Veicoli e materiale da trasporto anche smontati e parti
+920;Trattori, macchine e attrezzature agricole, anche smontati e parti
+931;Macchine, attrezzature, motori elettrici e parti
+939;Altre macchine, attrezzature, motori non elettrici e parti
+941;Elementi di costruzione finiti e di costruzioni in metallo
+949;Altri articoli manufatti in metallo
+951;Vetro
+952;Vetreria, stoviglie e altri articoli minerali manufatti
+961;Cuoio, articoli manufatti di cuoio o di pelle
+962;Filati, tessuti, articoli tessili e prodotti connessi
+963;Oggetti da viaggio, di vestiario, maglierie, calzature
+971;Semilavorati e articoli manufatti di gomma naturale
+972;Carta, cartone, greggi
+973;Articoli manufatti di carta e di cartone
+974;Stampati
+975;Mobilio e oggetti d'arredamento nuovi
+976;Articoli manufatti di legno e di sughero, esclusi i mobili
+979;Articoli manufatti n.n.a.
+991;Imballaggi usati
+992;Materiale delle imprese di costruzione, vetture e materiale da circo, usati
+993;Mobilio di trasloco
+994;Oro, monete, medaglie
+999;Merci che non è possibile classificare secondo la loro natura

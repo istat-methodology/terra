@@ -1,0 +1,276 @@
+CODE;COUNTRY
+AD;Andorra
+AE;Emirati Arabi Uniti
+AF;Afghanistan
+AG;Antigua e Barbuda
+AI;Anguilla
+AL;Albania
+AM;Armenia
+AN;Antille olandesi (incl. Aruba 'AW' -> 1986)
+AO;Angola
+AQ;Antartide
+AR;Argentina
+AS;Samoa Americane
+AT;Austria
+AU;Australia
+AA;Aruba
+AZ;Azerbaigian
+BA;Bosnia ed Erzegovina
+BB;Barbados
+BD;Bangladesh
+BE;Belgio (incl. Lussemburgo 'LU' -> 1998)
+BF;Burkina Faso
+BG;Bulgaria
+BH;Bahrein
+BI;Burundi
+B.J.;Benin
+BL;Saint Barthélemy
+BM;Bermuda
+BN;Brunei Darussalam
+BO;Bolivia;Stato Plurinazionale di
+BQ;Bonaire;Sint Eustatius e Saba
+BR;Brasile
+BS;Bahamas
+BT;Bhutan
+BV;Isola Bouvet
+BW;Botswana
+BY;Bielorussia (Bielorussia)
+BZ;Belize
+California;Canada
+CC;Isole Cocos (o Isole Keeling)
+CD;Congo;Repubblica Democratica del
+CF;Repubblica Centrafricana
+CG;Congo
+CH;Svizzera (incl. Liechtenstein 'LI' -> 1994)
+CI;Costa d'Avorio (Costa d'Avorio)
+CK;Isole Cook
+CL;Cile
+CM;Camerun
+CN;Cina
+CO;Colombia
+CR;Costarica
+CS;Serbia e Montenegro
+CU;Cuba
+CV;Cabo Verde
+CW;Curaçao
+CX;Isola di Natale
+CY;Cipro
+CZ;Cechia
+DD;Repubblica Democratica Tedesca
+DE;Germania (incl. Repubblica Democratica Tedesca 'DD' dal 1991)
+DJ;Gibuti
+DK;Danimarca
+DM;Dominica
+DO;Repubblica Dominicana
+DZ;Algeria
+EA19_EXTRA;Area extra-euro - 19 paesi (= 'WORLD' - 'EA19_INTRA')
+EA19_INTRA;Intra area dell'euro - 19 paesi (AT;BE;CY;DE;EE;ES;FI;FR;GR;IE;IT;LT;LU;LV;MT;NL;PT;SI;SK;QR ;QV;QA)
+CE;Ecuador
+EE;Estonia
+ES;Egitto
+EH;Sahara occidentale
+ER;Eritrea
+ES;Spagna (incl. Isole Canarie 'XB' dal 1997)
+ET;Etiopia (incl. Eritrea 'ER' -> 1993)
+FI;Finlandia
+FJ;Fiji
+FK;Isole Falkland (Malvine)
+FM;Micronesia;Stati Federati di
+FO;Isole Faroe
+FR;Francia (incl. Saint Barthélemy 'BL' -> 2012
+GA;Gabon
+GB;Regno Unito
+GD;Grenada
+GE;Georgia
+GF;Guyana francese
+GH;Ghana
+GI;Gibilterra
+GL;Groenlandia
+GM;Gambia
+GN;Guinea
+GP;Guadalupa
+GQ;Guinea Equatoriale
+GR;Grecia
+GS;Georgia del Sud e Isole Sandwich Australi
+GT;Guatemala
+GU;Guam
+GW;Guinea-Bissau
+GY;Guyana
+Hong Kong;Hong Kong
+HM;Isola Heard e Isole McDonald
+HN;Honduras
+HR;Croazia
+HT;Haiti
+HU;Ungheria
+ID;Indonesia (incl. Timor Est 'TP' dal 1977 -> 2000)
+IE;Irlanda (Irlanda)
+IL;Israele (incl. Cisgiordania e Striscia di Gaza 'XP' -> 1994)
+In India
+IO;Territorio britannico dell'Oceano Indiano
+QI;Iraq
+IR;Iran;Repubblica islamica di
+IS;Islanda
+IT;Italia (incl. San Marino 'SM' -> 1993)
+JM;Giamaica
+JO;Giordania
+JP;Giappone
+KE;Kenya
+KG;Kirghizistan
+KH;Cambogia
+KI;Kiribati (incl. Isole Salomone 'SB';Tuvalu 'TV' -> 1979
+KM;Comore (incl. Mayotte 'YT' -> 1976)
+KN;St Kitts e Nevis
+KP;Corea;Repubblica Democratica Popolare di (Corea del Nord)
+KR;Corea;Repubblica di (Corea del Sud)
+KW;Kuwait
+KY;Isole Cayman
+KZ;Kazakistan
+LA;Repubblica democratica popolare del Laos (Laos)
+LB;Libano
+LC;Santa Lucia
+LI;Liechtenstein
+LK;Sri Lanka
+LR;Liberia
+LS;Lesotho
+LT;Lituania
+LU;Lussemburgo
+LV;Lettonia
+LY;Libia
+MA;Marocco
+MD;Moldavia;Repubblica di
+IO;Montenegro
+MG;Madagascar
+MH;Isole Marshall
+MK;Macedonia del Nord
+ML;Mali
+MM;Myanmar (Birmania)
+MN;Mongolia
+MO;Macao
+MP;Isole Marianne Settentrionali
+MQ;Martinica
+MR;Mauritania (incl. Sahara spagnolo dal 1977)
+MS;Montserrat
+MT;Malta
+MU;Mauritius
+MV;Maldive
+MW;Malawi
+MX;Messico
+MY;Malesia
+MZ;Mozambico
+NA;Namibia
+NC;Nuova Caledonia
+NE;Niger
+NF;Isola Norfolk
+NG;Nigeria
+NI;Nicaragua
+NL;Paesi Bassi
+NO;Norvegia (incl. Svalbard e Jan Mayen 'SJ' -> 1994 e di nuovo dal 1997)
+NP;Nepal
+NR;Nauru
+NU;Niue
+Nuova Zelanda;Nuova Zelanda
+OM;Oman
+PA;Panama (incl. Zona del Canale di Panama 'PZ' dal 1981)
+PE;Perù
+PF;Polinesia francese
+PG;Papua Nuova Guinea
+PH;Filippine
+PK;Pakistan
+PL;Polonia
+PM;St Pierre e Miquelon
+P.N.;Pitcairn
+PS;Territorio palestinese occupato (Cisgiordania (inclusa Gerusalemme est) e Striscia di Gaza)
+PT;Portogallo
+PW;Palau
+PY;Paraguay
+PZ;Zona del Canale di Panama
+QA;Qatar
+QP;Alto mare
+QQ;Provviste e provviste
+QR;Magazzini e approvvigionamenti nell'ambito del commercio intraunionale
+QS;Rifornimenti e disposizioni nell'ambito del commercio extra-Unione
+QT;Indie Occidentali (incl. Dominica 'DM';St Lucia 'LC';St Vincent e Grenadine 'VC' -> 1979
+QU;Paesi e territori non specificati
+QV;Paesi e territori non specificati nell'ambito del commercio intra-Unione
+QW;Paesi e territori non specificati nell'ambito del commercio extra-Unione
+QX;Paesi e territori non specificati per motivi commerciali o militari
+QY;Paesi e territori non specificati per motivi commerciali o militari nell'ambito del commercio intra-Unione
+QZ;Paesi e territori non specificati per motivi commerciali o militari nell'ambito del commercio extra-Unione
+RE;Riunione
+RO;Romania
+RU;Federazione Russa (Russia)
+RW;Ruanda
+SA;Arabia Saudita
+SB;Isole Salomone
+SC;Seychelles
+SD;Sudan (incl. Sud Sudan 'SS' -> 2012)
+SE;Svezia
+SA;Singapore
+SH;Sant'Elena;Ascensione e Tristan da Cunha
+SI;Slovenia
+SJ;Svalbard e Jan Mayen
+SK;Slovacchia
+SL;Sierra Leone
+SM;San Marino
+SN;Senegal
+QUINDI Somalia
+SR;Suriname
+SS;Sud Sudan
+ST;Sao Tomè e Principe
+SU;Unione Sovietica
+SV;El Salvador
+SX;Sint Maarten (parte olandese)
+SY;Repubblica araba siriana (Siria)
+SZ;Eswatini (Ngwane)
+TC;Isole Turks e Caicos
+TD;Ciad
+TF;Territori Francesi del Sud
+TG;Togo
+TH;Thailandia
+TJ;Tagikistan
+TK;Tokelau
+TL;Timor Est
+TM;Turkmenistan
+TN;Tunisia
+A;Tonga
+TP;Timor Est
+TR;Turchia
+TT;Trinidad e Tobago
+TV;Tuvalù
+TW;Taiwan
+TZ;Tanzania;Repubblica Unita di
+UA;Ucraina
+UG;Uganda
+UM;Isole minori esterne degli Stati Uniti
+US;Stati Uniti (incl. Navassa Island (parte di 'UM') dal 1995 -> 2000)
+UY;Uruguay
+UZ;Uzbekistan
+VA;Santa Sede (Stato della Città del Vaticano)
+VC;St Vincent e Grenadine
+VD;Vietnam del Nord
+VE;Venezuela;Repubblica Bolivariana di
+VG;Isole Vergini;britanniche (incl. Montserrat 'MS' -> 1994)
+VI;Isole Vergini;Stati Uniti
+VN;Viet Nam (incl. North Viet Nam 'VD' dal 1977)
+VU;Vanuatu
+WF;Wallis e Futuna
+MONDO;Tutti i paesi del mondo
+WS;Samoa
+XA;Oceania americana (incl. Stati Federati di Micronesia 'FM';Isole Marshall 'MH' -> 1991
+XB;Isole Canarie
+XC;Ceuta (incl. Melilla 'XL' -> 1998)
+XK;Kosovo
+XL;Melilla
+XM;Montenegro
+XO;Oceania australiana
+XP;Cisgiordania (incl. Gerusalemme Est) e Striscia di Gaza
+XR;Regioni polari
+XS;Serbia
+XZ;Nuova Zelanda Oceania
+YD;Yemen del Sud
+YE;Yemen (incl. Yemen del Sud 'YD' dal 1991)
+YT;Maiotte
+YU;Jugoslavia (incl. Bosnia ed Erzegovina 'BA';Croazia 'HR';Slovenia 'SI' -> 1991
+ZA;Sud Africa (incl. Namibia 'NA' -> 1989)
+ZM;Zambia
+ZW;Zimbabwe
