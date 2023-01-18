@@ -13,7 +13,7 @@
       <CHeaderNavItem>
         <CImg
           src="../img/LogoTerraFull.png"
-          style="max-width: 80%"
+          style="max-width: 95%"
           class="d-md-down-none" />
         <CImg
           src="../img/LogoTerraShort.png"
@@ -23,7 +23,14 @@
     </CHeaderNav>
     <CHeaderNav>
       <CHeaderNavItem>
-        <CImg src="../img/LogoSTSP.png" style="max-width: 75%" />
+        <CImg
+          src="../img/LogoSTSP.png"
+          style="max-width: 90%"
+          class="d-md-down-none mr-1" />
+        <CImg
+          src="../img/LogoSTSP.png"
+          style="max-width: 80%"
+          class="d-lg-none" />
       </CHeaderNavItem>
       <CButtonGroup role="group" class="mr-lang">
         <CButton
