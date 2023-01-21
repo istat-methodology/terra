@@ -1,35 +1,34 @@
-Code;Description
-01;Prodotti dell'agricoltura e della caccia e relativi servizi
-02;Prodotti della silvicoltura, delle operazioni di taglio e trasporto dei tronchi e servizi connessi
-03;Pesci ed altri prodotti della pesca, prodotti dell'acquacoltura, servizi di supporto per la pesca
-05;Carboni fossili e ligniti
-06;Petrolio greggio e gas naturale
-07;Minerali metalliferi
-08;Altri prodotti delle miniere e delle cave
-09;Servizi di supporto per le attività di estrazione
-10;Prodotti alimentari
-11;Bevande
-12;Prodotti a base di tabacco
-13;Prodotti tessili
-14;Articoli di abbigliamento
-15;Cuoio e relativi prodotti
-16;Legno e prodotti in legno e sughero (esclusi i mobili), articoli di paglia e materiali da intreccio
-17;Carta e prodotti di carta
-18;Servizi di stampa e di registrazione
-19;Coke e prodotti petroliferi raffinati
-20;Prodotti chimici
-21;Prodotti farmaceutici di base e preparati farmaceutici
-22;Articoli in gomma e materie plastiche
-23;Altri prodotti della lavorazione di minerali non metalliferi
-24;Metalli
-25;Prodotti in metallo, esclusi macchine e impianti
-26;Prodotti informatici, elettronici ed ottici
-27;Apparecchiature elettriche
-28;Macchine ed apparecchi meccanici n.c.a.
-29;Autoveicoli, rimorchi e semirimorchi
-30;Altri mezzi di trasporto
-31;Mobilio
-32;Altri manufatti
-33;Servizi di riparazione e installazione di macchinari e apparecchi
-35;Energia elettrica, gas, vapore e aria condizionata
-36;Acqua naturale, servizi di trattamento delle acque e di produzione e distribuzione d'acqua
+01	Prodotti dell'agricoltura e della caccia e relativi servizi
+02	Prodotti della silvicoltura, delle operazioni di taglio e trasporto dei tronchi e servizi connessi
+03	Pesci ed altri prodotti della pesca, prodotti dell'acquacoltura, servizi di supporto per la pesca
+05	Carboni fossili e ligniti
+06	Petrolio greggio e gas naturale
+07	Minerali metalliferi
+08	Altri prodotti delle miniere e delle cave
+09	Servizi di supporto per le attività di estrazione
+10	Prodotti alimentari
+11	Bevande
+12	Prodotti a base di tabacco
+13	Prodotti tessili
+14	Articoli di abbigliamento
+15	Cuoio e relativi prodotti
+16	Legno e prodotti in legno e sughero (esclusi i mobili), articoli di paglia e materiali da intreccio
+17	Carta e prodotti di carta
+18	Servizi di stampa e di registrazione
+19	Coke e prodotti petroliferi raffinati
+20	Prodotti chimici
+21	Prodotti farmaceutici di base e preparati farmaceutici
+22	Articoli in gomma e materie plastiche
+23	Altri prodotti della lavorazione di minerali non metalliferi
+24	Metalli
+25	Prodotti in metallo, esclusi macchine e impianti
+26	Prodotti informatici, elettronici ed ottici
+27	Apparecchiature elettriche
+28	Macchine ed apparecchi meccanici n.c.a.
+29	Autoveicoli, rimorchi e semirimorchi
+30	Altri mezzi di trasporto
+31	Mobilio
+32	Altri manufatti
+33	Servizi di riparazione e installazione di macchinari e apparecchi
+35	Energia elettrica, gas, vapore e aria condizionata
+36	Acqua naturale, servizi di trattamento delle acque e di produzione e distribuzione d'acqua
