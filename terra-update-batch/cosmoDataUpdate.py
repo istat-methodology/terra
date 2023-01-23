@@ -43,6 +43,7 @@ PREFIX_TRANSPORT="tr"
 FLOW_IMPORT=1
 FLOW_EXPORT=2
 COLS_CLS_PRODUCTS=4
+SUPPORTED_LANGUAGES=["it","en"]
 
 KEY_VAULT_NAME="statlab-key-vault"
 SECRETNAME_ACCOUNTKEY="cosmostoragekey"
@@ -77,6 +78,7 @@ start_data_PAGE_BASKET=start_data_load_36
 months_extracted=months_to_extract_136
 
 WORKING_FOLDER=os.environ['WORKING_FOLDER']
+
 logging.basicConfig(level=logging.INFO,
     format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S')
@@ -164,11 +166,17 @@ CLS_PRODUCTS_FILE=DATA_FOLDER+os.sep+"cls_products.dat"
 URL_CLS_NSTR="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2Fbulk_download%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FNSTR.txt"
 CLS_NSTR_FILE=DATA_FOLDER+os.sep+"NSTR.txt"
 
+URL_CLS_NSTR_ITA="https://raw.githubusercontent.com/istat-methodology/terra/main/cls/Prodotti_NSTR_ita.csv"
+CLS_NSTR_FILE_ITA=DATA_FOLDER+os.sep+"NSTR_ITA.txt"
+
 URL_CLS_CPA="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2Fbulk_download%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCPA21.txt"
 CLS_PRODUCTS_CPA_FILE=DATA_FOLDER+os.sep+"cls_products_CPA21.txt"
 
+URL_CLS_CPA_3D_ITA="https://raw.githubusercontent.com/istat-methodology/terra/main/cls/CPA_2_1_3digits_ita.csv"
+CLS_PRODUCTS_CPA_FILE_3D_ITA=DATA_FOLDER+os.sep+"cls_products_CPA21_3D_ITA.txt"
 
-
+URL_CLS_CPA_2D_ITA="https://raw.githubusercontent.com/istat-methodology/terra/main/cls/cpa2.1_2digit_ita.csv"
+CLS_PRODUCTS_CPA_FILE_2D_ITA=DATA_FOLDER+os.sep+"cls_products_CPA21_2D_ITA.txt"
 
 def downloadAndExtractFile(param,extract_path):
     url_file=param[0]
@@ -370,10 +378,12 @@ def getClsProductByCode(cls_products, product,position=(COLS_CLS_PRODUCTS-1)):
 
 
 def getValueFromList(clsRow,code,position):
+    ret=""
     if ((len(clsRow)>0) & (len(clsRow.columns)>=position)):
-        return clsRow.iat[0,position]
+        ret= clsRow.iat[0,position]
     else:
-        return code
+        ret= code
+    return ("" if pd.isnull(ret) else ret)
 
 
 def annualProcessing():
@@ -445,8 +455,8 @@ def annualProcessing():
         summary_unemployement={}
         summary_unemployement["Year"]= "Unemployment"
 
-        summary_unemployement[str(annual_previous_year)]=getValueFromList(annual_unemployement[(annual_unemployement["age"]=="Y15-74") & (annual_unemployement["geo"]==country) & (annual_unemployement["TIME_PERIOD"]==annual_previous_year) ],"",8)
-        summary_unemployement[str(annual_current_year)]=getValueFromList(annual_unemployement[(annual_unemployement["age"]=="Y15-74") & (annual_unemployement["geo"]==country) & (annual_unemployement["TIME_PERIOD"]==annual_current_year) ],"",8)
+        summary_unemployement[str(annual_previous_year)]=getValueFromList(annual_unemployement[(annual_unemployement["sex"]=="T") & (annual_unemployement["unit"]=="PC_ACT") & (annual_unemployement["age"]=="Y15-74") & (annual_unemployement["geo"]==country) & (annual_unemployement["TIME_PERIOD"]==annual_previous_year) ],"",8)
+        summary_unemployement[str(annual_current_year)]=getValueFromList(annual_unemployement[(annual_unemployement["sex"]=="T") & (annual_unemployement["unit"]=="PC_ACT") & (annual_unemployement["age"]=="Y15-74") & (annual_unemployement["geo"]==country) & (annual_unemployement["TIME_PERIOD"]==annual_current_year) ],"",8)
         minfo.append(summary_unemployement)
 
         minfo_imp={}
@@ -652,7 +662,7 @@ def monthlyProcessing():
     cur.execute('DROP TABLE IF EXISTS serie_per_mappa0;')
     cur.execute("Create table serie_per_mappa0 as select declarant_iso, period, flow, sum(value_in_euros) as value_in_euros from comext_full where product_nc= 'TOTAL' and period>="+filter_yyymm+" group by declarant_iso, period,flow;")
     cur.execute('DROP TABLE IF EXISTS serie_per_mappa;')
-    cur.execute("Create table serie_per_mappa as select a.declarant_iso, a.period, a.flow, round(100.00*( (a.value_in_euros-b.value_in_euros)*1.0  / b.value_in_euros ),2) as tendenziale from serie_per_mappa0 a, serie_per_mappa0 b where a.flow=b.flow and a.declarant_iso=b.declarant_iso and a.period=(b.period+100);")
+    cur.execute("Create table serie_per_mappa as select a.declarant_iso, a.period, a.flow, round(100.00*( (a.value_in_euros-b.value_in_euros)*1.0  / b.value_in_euros ),2) as TENDENZIALE from serie_per_mappa0 a, serie_per_mappa0 b where a.flow=b.flow and a.declarant_iso=b.declarant_iso and a.period=(b.period+100);")
     conn.commit()
 
     #/* calcolo i valori per cpa */
@@ -744,6 +754,7 @@ def createMonthlyOutputTimeSeries():
     ieFlows={}
 
     conn = sqlite3.connect(SQLLITE_DB)
+   
     serie = pd.read_sql_query("SELECT * from serie_per_mappa", conn)
     countries=sorted(pd.unique(serie["DECLARANT_ISO"]))
     for flow in [FLOW_IMPORT,FLOW_EXPORT]:
@@ -753,8 +764,9 @@ def createMonthlyOutputTimeSeries():
             ieIseries_country={}
             ieIseries_country["country"]=country
             serie_country=serie[(serie["DECLARANT_ISO"]==country) & (serie["FLOW"]==flow)]
-            for index, row in serie_country.iterrows():
-                ieIseries_country[str(row["PERIOD"])]=row["tendenziale"]
+            
+            for index,row in serie_country.iterrows():
+                ieIseries_country[str(row["PERIOD"])]=row["TENDENZIALE"]
             ieSeries.append(ieIseries_country)
         ieFlows[flow]=ieSeries
 
@@ -780,7 +792,12 @@ def createMonthlyOutputVQSTradeValue():
     iesVQSFiles[FLOW_EXPORT]=EXPORT_VALUE_JSON
     ieVQSFlows={}
 
-    cls_products_cpa=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
+    cls_products_cpa_en=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
+    cls_products_cpa_it=pd.read_csv(CLS_PRODUCTS_CPA_FILE_2D_ITA, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''], dtype = str)
+    cls_products_cpa_langs={}
+    cls_products_cpa_langs['it']=cls_products_cpa_it
+    print(cls_products_cpa_en)
+    cls_products_cpa_langs['en']=cls_products_cpa_en
     logger.info('cls_products: '+CLS_PRODUCTS_CPA_FILE)
 
     conn = sqlite3.connect(SQLLITE_DB)
@@ -792,29 +809,32 @@ def createMonthlyOutputVQSTradeValue():
         ieVQS=[]
 
         for country  in countries:
-            logger.info('country: '+country)
-            ieVQS_country={}
-            ieVQS_country["id"]=country
-            dataVQSs=[]
-            vqs_country=variazioni[(variazioni["DECLARANT_ISO"]==country) & (variazioni["FLOW"]==flow)]
+            for lang in SUPPORTED_LANGUAGES:
+                cls_products_cpa=cls_products_cpa_langs[lang]
+                logger.info('country: '+country)
+                ieVQS_country={}
+                ieVQS_country["id"]=country
+                ieVQS_country["lang"]=lang
+                dataVQSs=[]
+                vqs_country=variazioni[(variazioni["DECLARANT_ISO"]==country) & (variazioni["FLOW"]==flow)]
 
-            products_country=sorted(pd.unique(vqs_country["PRODUCT"]))
-            for product  in products_country:
-                logger.debug('product: '+product)
-                dataVQS={}
+                products_country=sorted(pd.unique(vqs_country["PRODUCT"]))
+                for product  in products_country:
+                    logger.debug('product: '+product)
+                    dataVQS={}
 
-                dataVQS["productID"]=product
-                dataVQS["dataname"]=getClsProductByCode(cls_products_cpa, product,1)
-                valuesVQS=[]
-                vqs=vqs_country[vqs_country["PRODUCT"]==product].fillna('NA')
-                for indexp, row_vqs in vqs.iterrows():
-                    valuesVQS.append(row_vqs["var_basket"])
+                    dataVQS["productID"]=product
+                    dataVQS["dataname"]=getClsProductByCode(cls_products_cpa, product,1)
+                    valuesVQS=[]
+                    vqs=vqs_country[vqs_country["PRODUCT"]==product].fillna('NA')
+                    for indexp, row_vqs in vqs.iterrows():
+                        valuesVQS.append(row_vqs["var_basket"])
 
-                dataVQS["value"]=valuesVQS
-                dataVQSs.append(dataVQS)
+                    dataVQS["value"]=valuesVQS
+                    dataVQSs.append(dataVQS)
 
-            ieVQS_country["data"]=dataVQSs
-            ieVQS.append(ieVQS_country)
+                ieVQS_country["data"]=dataVQSs
+                ieVQS.append(ieVQS_country)
         ieVQSFlows[flow]=ieVQS
 
     if conn:
@@ -836,8 +856,12 @@ def createMonthlyOutputVQSTradeQuantity():
     iesVQSFiles[FLOW_IMPORT]=IMPORT_QUANTITY_JSON
     iesVQSFiles[FLOW_EXPORT]=EXPORT_QUANTITY_JSON
     ieVQSFlows={}
-
-    cls_products_cpa=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
+  
+    cls_products_cpa_en=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
+    cls_products_cpa_it=pd.read_csv(CLS_PRODUCTS_CPA_FILE_2D_ITA, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''], dtype = str)
+    cls_products_cpa_langs={}
+    cls_products_cpa_langs['it']=cls_products_cpa_it
+    cls_products_cpa_langs['en']=cls_products_cpa_en
     logger.info('cls_products: '+CLS_PRODUCTS_CPA_FILE)
 
     conn = sqlite3.connect(SQLLITE_DB)
@@ -849,29 +873,32 @@ def createMonthlyOutputVQSTradeQuantity():
         ieVQS=[]
 
         for country  in countries:
-            logger.info('country: '+country)
-            ieVQS_country={}
-            ieVQS_country["id"]=country
-            dataVQSs=[]
-            vqs_country=variazioni[(variazioni["DECLARANT_ISO"]==country) & (variazioni["FLOW"]==flow)]
+            for lang in SUPPORTED_LANGUAGES:
+                cls_products_cpa=cls_products_cpa_langs[lang]
+                logger.info('country: '+country)
+                ieVQS_country={}
+                ieVQS_country["id"]=country
+                ieVQS_country["lang"]=lang
+                dataVQSs=[]
+                vqs_country=variazioni[(variazioni["DECLARANT_ISO"]==country) & (variazioni["FLOW"]==flow)]
 
-            products_country=sorted(pd.unique(vqs_country["PRODUCT"]))
-            for product  in products_country:
-                logger.debug('product: '+product)
-                dataVQS={}
+                products_country=sorted(pd.unique(vqs_country["PRODUCT"]))
+                for product  in products_country:
+                    logger.debug('product: '+product)
+                    dataVQS={}
 
-                dataVQS["productID"]=product
-                dataVQS["dataname"]=getClsProductByCode(cls_products_cpa, product,1)
-                valuesVQS=[]
-                vqs=vqs_country[vqs_country["PRODUCT"]==product].fillna('NA')
-                for indexp, row_vqs in vqs.iterrows():
-                    valuesVQS.append(row_vqs["var_basket"])
+                    dataVQS["productID"]=product
+                    dataVQS["dataname"]=getClsProductByCode(cls_products_cpa, product,1)
+                    valuesVQS=[]
+                    vqs=vqs_country[vqs_country["PRODUCT"]==product].fillna('NA')
+                    for indexp, row_vqs in vqs.iterrows():
+                        valuesVQS.append(row_vqs["var_basket"])
 
-                dataVQS["value"]=valuesVQS
-                dataVQSs.append(dataVQS)
+                    dataVQS["value"]=valuesVQS
+                    dataVQSs.append(dataVQS)
 
-            ieVQS_country["data"]=dataVQSs
-            ieVQS.append(ieVQS_country)
+                ieVQS_country["data"]=dataVQSs
+                ieVQS.append(ieVQS_country)
         ieVQSFlows[flow]=ieVQS
     
     if conn:
@@ -891,7 +918,7 @@ def createMonthlyOutputQuoteSTrade():
     createFolder(DATA_FOLDER_WORKING)
     
     conn = sqlite3.connect(SQLLITE_DB)
-    quote = pd.read_sql_query("SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, q_val_cpa as quote_valore, q_qua_cpa as quote_quantita FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;", conn)
+    quote = pd.read_sql_query("SELECT DECLARANT_ISO as id, FLOW,cpa2 as PRODUCT, PERIOD, q_val_cpa as quote_valore, q_qua_cpa as quote_quantita FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;", conn)
       
    
     if conn:
@@ -913,7 +940,11 @@ def createMonthlyOutputQuoteSTradeValue():
     iesVQSFiles[FLOW_EXPORT]=EXPORT_QUOTE_VALUE_JSON
     ieVQSFlows={}
 
-    cls_products_cpa=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
+    cls_products_cpa_en=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
+    cls_products_cpa_it=pd.read_csv(CLS_PRODUCTS_CPA_FILE_2D_ITA, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''], dtype = str)
+    cls_products_cpa_langs={}
+    cls_products_cpa_langs['it']=cls_products_cpa_it
+    cls_products_cpa_langs['en']=cls_products_cpa_en
     logger.info('cls_products: '+CLS_PRODUCTS_CPA_FILE)
 
     conn = sqlite3.connect(SQLLITE_DB)
@@ -925,29 +956,32 @@ def createMonthlyOutputQuoteSTradeValue():
         ieVQS=[]
 
         for country  in countries:
-            logger.info('country: '+country)
-            ieVQS_country={}
-            ieVQS_country["id"]=country
-            dataVQSs=[]
-            vqs_country=quote[(quote["DECLARANT_ISO"]==country) & (quote["FLOW"]==flow)]
+            for lang in SUPPORTED_LANGUAGES:
+                cls_products_cpa=cls_products_cpa_langs[lang]
+                logger.info('country: '+country)
+                ieVQS_country={}
+                ieVQS_country["id"]=country
+                ieVQS_country["lang"]=lang
+                dataVQSs=[]
+                vqs_country=quote[(quote["DECLARANT_ISO"]==country) & (quote["FLOW"]==flow)]
 
-            products_country=sorted(pd.unique(vqs_country["PRODUCT"]))
-            for product  in products_country:
-                logger.debug('product: '+product)
-                dataVQS={}
+                products_country=sorted(pd.unique(vqs_country["PRODUCT"]))
+                for product  in products_country:
+                    logger.debug('product: '+product)
+                    dataVQS={}
 
-                dataVQS["productID"]=product
-                dataVQS["dataname"]=getClsProductByCode(cls_products_cpa, product,1)
-                valuesVQS=[]
-                vqs=vqs_country[vqs_country["PRODUCT"]==product].fillna('NA')
-                for indexp, row_vqs in vqs.iterrows():
-                    valuesVQS.append(row_vqs["q_val_basket"])
+                    dataVQS["productID"]=product
+                    dataVQS["dataname"]=getClsProductByCode(cls_products_cpa, product,1)
+                    valuesVQS=[]
+                    vqs=vqs_country[vqs_country["PRODUCT"]==product].fillna('NA')
+                    for indexp, row_vqs in vqs.iterrows():
+                        valuesVQS.append(row_vqs["q_val_basket"])
 
-                dataVQS["value"]=valuesVQS
-                dataVQSs.append(dataVQS)
+                    dataVQS["value"]=valuesVQS
+                    dataVQSs.append(dataVQS)
 
-            ieVQS_country["data"]=dataVQSs
-            ieVQS.append(ieVQS_country)
+                ieVQS_country["data"]=dataVQSs
+                ieVQS.append(ieVQS_country)
         ieVQSFlows[flow]=ieVQS
 
     if conn:
@@ -970,7 +1004,11 @@ def createMonthlyOutputQuoteSTradeQuantity():
     iesVQSFiles[FLOW_EXPORT]=EXPORT_QUOTE_QUANTITY_JSON
     ieVQSFlows={}
 
-    cls_products_cpa=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
+    cls_products_cpa_en=pd.read_csv(CLS_PRODUCTS_CPA_FILE, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''])
+    cls_products_cpa_it=pd.read_csv(CLS_PRODUCTS_CPA_FILE_2D_ITA, sep="\t", low_memory=True, header=None, keep_default_na=False, na_values=[''], dtype = str)
+    cls_products_cpa_langs={}
+    cls_products_cpa_langs['it']=cls_products_cpa_it
+    cls_products_cpa_langs['en']=cls_products_cpa_en
     logger.info('cls_products: '+CLS_PRODUCTS_CPA_FILE)
 
     conn = sqlite3.connect(SQLLITE_DB)
@@ -982,29 +1020,32 @@ def createMonthlyOutputQuoteSTradeQuantity():
         ieVQS=[]
 
         for country  in countries:
-            logger.info('country: '+country)
-            ieVQS_country={}
-            ieVQS_country["id"]=country
-            dataVQSs=[]
-            vqs_country=quote[(quote["DECLARANT_ISO"]==country) & (quote["FLOW"]==flow)]
+            for lang in SUPPORTED_LANGUAGES:
+                cls_products_cpa=cls_products_cpa_langs[lang]
+                logger.info('country: '+country)
+                ieVQS_country={}
+                ieVQS_country["id"]=country
+                ieVQS_country["lang"]=lang
+                dataVQSs=[]
+                vqs_country=quote[(quote["DECLARANT_ISO"]==country) & (quote["FLOW"]==flow)]
 
-            products_country=sorted(pd.unique(vqs_country["PRODUCT"]))
-            for product  in products_country:
-                logger.debug('product: '+product)
-                dataVQS={}
+                products_country=sorted(pd.unique(vqs_country["PRODUCT"]))
+                for product  in products_country:
+                    logger.debug('product: '+product)
+                    dataVQS={}
 
-                dataVQS["productID"]=product
-                dataVQS["dataname"]=getClsProductByCode(cls_products_cpa, product,1)
-                valuesVQS=[]
-                vqs=vqs_country[vqs_country["PRODUCT"]==product].fillna('NA')
-                for indexp, row_vqs in vqs.iterrows():
-                    valuesVQS.append(row_vqs["q_qua_basket"])
+                    dataVQS["productID"]=product
+                    dataVQS["dataname"]=getClsProductByCode(cls_products_cpa, product,1)
+                    valuesVQS=[]
+                    vqs=vqs_country[vqs_country["PRODUCT"]==product].fillna('NA')
+                    for indexp, row_vqs in vqs.iterrows():
+                        valuesVQS.append(row_vqs["q_qua_basket"])
 
-                dataVQS["value"]=valuesVQS
-                dataVQSs.append(dataVQS)
+                    dataVQS["value"]=valuesVQS
+                    dataVQSs.append(dataVQS)
 
-            ieVQS_country["data"]=dataVQSs
-            ieVQS.append(ieVQS_country)
+                ieVQS_country["data"]=dataVQSs
+                ieVQS.append(ieVQS_country)
         ieVQSFlows[flow]=ieVQS
     
     if conn:
@@ -1178,6 +1219,48 @@ def createClsNOTEmptyProducts(digit,cls,filename,filterValue,fileExistingProduct
     logger.info('cls_products created: '+CPA2_JSON_FILE)
     return 'cls_products created: '+CPA2_JSON_FILE
 
+def createClsNOTEmptyProductsLang(digit,langs,clsfiles,filename,filterValue,fileExistingProducts):
+    logger.info('createCls START')
+    cls_products_cpa_langs = pd.DataFrame()
+    for i in range(len(langs)):
+        lang=langs[i]
+        clsfile=clsfiles[i]
+        cls_products_cpa=pd.read_csv(clsfile,sep="\t",low_memory=True,names=["id","descr"],keep_default_na=False, na_values=[''],dtype={'id': str})
+        cls_products_cpa['lang'] = lang
+        logger.info('cls_products: '+clsfile)
+
+        cls_products_cpa=cls_products_cpa[(cls_products_cpa["id"].str.len() == digit) & (cls_products_cpa["id"].str.isnumeric()) &  (pd.to_numeric(cls_products_cpa["id"].str.slice(stop=2), errors='coerce').fillna(999).astype(int) < filterValue)]
+        if (fileExistingProducts):
+            products=pd.read_csv(fileExistingProducts,sep=",",low_memory=True,dtype={'PRODUCT': str})
+            cls_products_cpa= pd.merge(cls_products_cpa, products, left_on="id", right_on="PRODUCT")
+            cls_products_cpa=cls_products_cpa[["id","descr","lang"]]
+
+        if (digit==2):
+            #cls_products_cpa.insert(0,{"id":"00","descr":"All Products" })
+            if (lang=='it'):
+                cls_products_cpa=pd.concat([pd.DataFrame({"id":"00","descr":"Tutti i prodotti","lang":"it" },index=[0]),cls_products_cpa]).reset_index(drop = True)
+                cls_products_cpa=pd.concat([pd.DataFrame({"id":"061","descr":"Petrolio greggio","lang":"it"  },index=[0]),cls_products_cpa]).reset_index(drop = True)
+                cls_products_cpa=pd.concat([pd.DataFrame({"id":"062","descr":"Gas naturale, liquefatto o allo stato gassoso","lang":"it"  },index=[0]),cls_products_cpa]).reset_index(drop = True)
+            else:
+                cls_products_cpa=pd.concat([pd.DataFrame({"id":"00","descr":"All Products","lang":"en" },index=[0]),cls_products_cpa]).reset_index(drop = True)
+                cls_products_cpa=pd.concat([pd.DataFrame({"id":"061","descr":"Crude petroleum","lang":"en"  },index=[0]),cls_products_cpa]).reset_index(drop = True)
+                cls_products_cpa=pd.concat([pd.DataFrame({"id":"062","descr":"Natural gas, liquefied or in gaseous state","lang":"en"  },index=[0]),cls_products_cpa]).reset_index(drop = True)
+            cls_products_cpa = cls_products_cpa.sort_values('id')
+            cls_products_cpa = cls_products_cpa.reset_index(drop=True)
+        
+        if (digit==3):
+            if (lang=='it'):
+                 cls_products_cpa=pd.concat([cls_products_cpa,pd.DataFrame({"id":"TOT","descr":"Tutti i prodotti","lang":"it" },index=[0])]).reset_index(drop = True)
+            else:
+                #cls_products_cpa.append({"id":"TOT","descr":"All Products" })
+                cls_products_cpa=pd.concat([cls_products_cpa,pd.DataFrame({"id":"TOT","descr":"All Products","lang":"en" },index=[0])]).reset_index(drop = True)
+        cls_products_cpa_langs = pd.concat([cls_products_cpa_langs, cls_products_cpa], axis=0).reset_index(drop=True)
+    
+    CPA2_JSON_FILE=DATA_FOLDER+os.sep+"clsProducts"+filename+".json"
+    cls_products_cpa_langs.to_json(CPA2_JSON_FILE, orient='records',default_handler=None,lines=False,indent=1  )
+    logger.info('cls_products created: '+CPA2_JSON_FILE)
+    return 'cls_products created: '+CPA2_JSON_FILE
+
 
 def copyFileToAzure(storage,folder,path_file_source):
     logger.info('copyFileToAzure START:'+ os.path.basename(path_file_source))
@@ -1322,7 +1405,7 @@ def executeUpdate():
         repo+=createGeneralInfoOutput()
         repo+='<!-- 1 --><br/>\n'
         repo+='time: '+getPassedTime(start_time)+'<br/>\n'
-        """"
+        
         repo+=downloadAndExtractComextAnnualDATAParallel()  
         repo+='<!-- 2 --><br/>\n'
         repo+='time: '+getPassedTime(start_time)+'<br/>\n'
@@ -1340,9 +1423,19 @@ def executeUpdate():
          
         repo+=downloadfile(URL_CLS_CPA,CLS_PRODUCTS_CPA_FILE)
         repo+='<!-- 6 --><br/>\n'
+        
+        repo+=downloadfile(URL_CLS_CPA_3D_ITA,CLS_PRODUCTS_CPA_FILE_3D_ITA)
+        repo+='<!-- 6.1 --><br/>\n'
+        
+        repo+=downloadfile(URL_CLS_CPA_2D_ITA,CLS_PRODUCTS_CPA_FILE_2D_ITA)
+        repo+='<!-- 6.2 --><br/>\n'
+
         repo+=downloadfile(URL_CLS_NSTR,CLS_NSTR_FILE)
         repo+='<!-- 7 --><br/>\n'
         
+        repo+=downloadfile(URL_CLS_NSTR_ITA,CLS_NSTR_FILE_ITA)
+        repo+='<!-- 7.1a --><br/>\n'
+
         repo+=downloadfile(ANNUAL_POPULATION_URL,ANNUAL_POPULATION_CSV)
         repo+='<!-- 7.1 --><br/>\n'
         repo+=downloadfile(ANNUAL_INDUSTRIAL_PRODUCTION_URL,ANNUAL_INDUSTRIAL_PRODUCTION_FILE_CSV)
@@ -1361,15 +1454,19 @@ def executeUpdate():
         repo+=monthlyProcessing()
         repo+='<!-- 10 --><br/>\n'
         repo+='time: '+getPassedTime(start_time)+'<br/>\n'
+        
+        
         repo+=createMonthlyOutputTimeSeries()
+        
         repo+='<!-- 11 --><br/>\n'
         repo+=createMonthlyOutputVQSTradeValue()
         repo+='<!-- 12 --><br/>\n'
+        
         repo+=createMonthlyOutputVQSTradeQuantity()
-        """
+        
         repo+='<!-- 12.1 --><br/>\n'
-        repo+=createMonthlyOutputQuoteSTrade()
-        """
+        #repo+=createMonthlyOutputQuoteSTrade()
+        
         repo+=createMonthlyOutputQuoteSTradeValue()
         repo+='<!-- 12.2 --><br/>\n'
         repo+=createMonthlyOutputQuoteSTradeQuantity()
@@ -1388,12 +1485,12 @@ def executeUpdate():
         repo += createOutputVariazioniQuoteCPA()
         repo+='<!-- 18 --><br/>\n'
         repo+='time: '+getPassedTime(start_time)+'<br/>\n'
-
-        repo+=createClsNOTEmptyProducts(2,CLS_PRODUCTS_CPA_FILE,"CPA",37,CPA2_PRODUCT_CODE_CSV)
+        
+        repo+=createClsNOTEmptyProductsLang(2,SUPPORTED_LANGUAGES,[CLS_PRODUCTS_CPA_FILE_2D_ITA,CLS_PRODUCTS_CPA_FILE],"CPA",37,CPA2_PRODUCT_CODE_CSV)
         repo+='<!-- 19 --><br/>\n'
-        repo+=createClsNOTEmptyProducts(3,CLS_PRODUCTS_CPA_FILE,"GraphIntra",37,CPA3_PRODUCT_CODE_CSV)
+        repo+=createClsNOTEmptyProductsLang(3,SUPPORTED_LANGUAGES,[CLS_PRODUCTS_CPA_FILE_3D_ITA,CLS_PRODUCTS_CPA_FILE],"GraphIntra",37,CPA3_PRODUCT_CODE_CSV)
         repo+='<!-- 20 --><br/>\n'
-        repo+=createClsNOTEmptyProducts(3,CLS_NSTR_FILE,"GraphExtraNSTR",999999,TR_PRODUCT_CODE_CSV)
+        repo+=createClsNOTEmptyProductsLang(3,SUPPORTED_LANGUAGES,[CLS_NSTR_FILE_ITA,CLS_NSTR_FILE],"GraphExtraNSTR",999999,TR_PRODUCT_CODE_CSV)
         
         repo+='<!-- 21 --><br/>\n'
         repo+=exportOutputs()
@@ -1412,7 +1509,7 @@ def executeUpdate():
         
         repo+=checkUPMicroservices()
         repo+='<!-- 25 --><br/>\n'
-        """
+        
         repo+='time: '+getPassedTime(start_time)+'<br/>\n'
         
     except BaseException as e:
