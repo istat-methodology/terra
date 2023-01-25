@@ -5,8 +5,7 @@
  library(stringi)
  library(dplyr)
  
-# basedir = ("C:\\git\\cosmopolitics\\cosmo-backend\\R-server\\rscript")
-# basedirData=("C:\\git\\cosmopolitics\\cosmo-backend\\R-server\\data")
+
 
 basedir = ("./rscript")
 basedirData=("./data")

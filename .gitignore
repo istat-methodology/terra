@@ -1,4 +1,5 @@
 terra-backend/json-server/node_modules/
+terra-backend/json-server/data/
 terra-backend/R-server/data/
 terra-backend/python-server/data/
 terra-update-batch/cosmoDataUpdate-*.zip
