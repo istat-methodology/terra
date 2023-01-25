@@ -23,7 +23,7 @@ EXTRA_FILE="data/tr_extra_ue.csv"
 CPA_TRIM_FILE="data/cpa_trim.csv"
 NSTR_TRIM_FILE="data/tr_extra_ue_trim.csv"
 
-criterio="VALUE_IN_EUROS" #VALUE_IN_EUROS 	QUANTITY_IN_KG
+criterio="VALUE_IN_EUROS" #VALUE_IN_EUROS QUANTITY_IN_KG
 
 def is_application_insight_configured():
     return os.getenv('APPINSIGHTS_INSTRUMENTATIONKEY')!=None or os.getenv('APPLICATIONINSIGHTS_CONNECTION_STRING')!=None
