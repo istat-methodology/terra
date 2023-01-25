@@ -178,6 +178,11 @@ CLS_PRODUCTS_CPA_FILE_3D_ITA=DATA_FOLDER+os.sep+"cls_products_CPA21_3D_ITA.txt"
 URL_CLS_CPA_2D_ITA="https://raw.githubusercontent.com/istat-methodology/terra/main/cls/cpa2.1_2digit_ita.csv"
 CLS_PRODUCTS_CPA_FILE_2D_ITA=DATA_FOLDER+os.sep+"cls_products_CPA21_2D_ITA.txt"
 
+
+URL_JSONDATA_SERVER="https://api.cosmo.statlab.it/cls"
+URL_RDATA_SERVER="https://api.cosmo.statlab.it/time-series"
+URL_PYTHONDATA_SERVER="https://api.cosmo.statlab.it/graph"
+
 def downloadAndExtractFile(param,extract_path):
     url_file=param[0]
     file_zip=param[1]
@@ -1334,11 +1339,11 @@ def refreshMicroservicesDATA():
     logger.info('refreshMicroservices DATA START')
     resultRefresh=""
     try:
-        contents = urllib.request.urlopen("https://rdata.cosmo.statlab.it/load-comext",timeout=300).read()
+        contents = urllib.request.urlopen(URL_RDATA_SERVER+"/load-comext",timeout=300).read()
         resultRefresh+="Refresh DATA R-SERVER OK<br/>\n"
-        contents = urllib.request.urlopen("https://jsondata.cosmo.statlab.it/stop",timeout=300).read()
+        contents = urllib.request.urlopen(URL_JSONDATA_SERVER+"/stop",timeout=300).read()
         resultRefresh+="Refresh DATA JSON-SERVER OK<br/>\n"
-        contents = urllib.request.urlopen("https://pythondata.cosmo.statlab.it/refreshdata",timeout=500).read()
+        contents = urllib.request.urlopen(URL_PYTHONDATA_SERVER+"/refreshdata",timeout=500).read()
         resultRefresh+="Refresh DATA PYTHON-SERVER OK<br/>\n"
         time.sleep(30)
     except BaseException as e:
@@ -1350,13 +1355,13 @@ def checkUPMicroservices():
     logger.info('checkUPMicroservices START')
     resultCall=""
     try:
-        call=urllib.request.urlopen("https://rdata.cosmo.statlab.it/hello",timeout=30).read()
+        call=urllib.request.urlopen(URL_RDATA_SERVER+"/hello",timeout=30).read()
         logger.info(str(call))
         resultCall+=" Check UP R-SERVER OK<br/>\n"
-        call=urllib.request.urlopen("https://jsondata.cosmo.statlab.it/hello",timeout=30).read()
+        call=urllib.request.urlopen(URL_JSONDATA_SERVER+"/hello",timeout=30).read()
         logger.info(str(call))
         resultCall+=" Check UP JSON-SERVER OK<br/>\n"
-        call=urllib.request.urlopen("https://pythondata.cosmo.statlab.it/hello",timeout=30).read()
+        call=urllib.request.urlopen(URL_PYTHONDATA_SERVER+"/hello",timeout=30).read()
         logger.info(str(call))
         resultCall+=" Check UP PYTHON-SERVER OK<br/>\n"
     except BaseException as e:
