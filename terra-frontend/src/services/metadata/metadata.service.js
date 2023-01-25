@@ -32,7 +32,7 @@ function getMetadata() {
 function getClassification(classification) {
   const lan = store.getters["coreui/language"]
   return axiosHack
-    .get("/" + classification + "_" + lan)
+    .get("/" + classification, { params: { lang: lan } })
     .then((res) => {
       var data = res.data ? res.data : {}
       //console.log(data);
@@ -46,7 +46,7 @@ function getClassification(classification) {
 function getTimeSeriesDefault() {
   const lan = store.getters["coreui/language"]
   return new Promise(function (resolve) {
-    setTimeout(() => resolve(defaultTimeSeriesForm(lan)), 200)
+    setTimeout(() => resolve(defaultTimeSeriesForm(lan)), 100)
   })
 }
 
@@ -57,20 +57,20 @@ function getGraphDefault(isIntra) {
 function getGraphExtraDefault() {
   const lan = store.getters["coreui/language"]
   return new Promise(function (resolve) {
-    setTimeout(() => resolve(defaultGraphExtraForm(lan)), 200)
+    setTimeout(() => resolve(defaultGraphExtraForm(lan)), 100)
   })
 }
 
 function getGraphIntraDefault() {
   const lan = store.getters["coreui/language"]
   return new Promise(function (resolve) {
-    setTimeout(() => resolve(defaultGraphIntraForm(lan)), 200)
+    setTimeout(() => resolve(defaultGraphIntraForm(lan)), 100)
   })
 }
 
 function getTradeDefault() {
   const lan = store.getters["coreui/language"]
   return new Promise(function (resolve) {
-    setTimeout(() => resolve(defaultTradeForm(lan)), 200)
+    setTimeout(() => resolve(defaultTradeForm(lan)), 100)
   })
 }

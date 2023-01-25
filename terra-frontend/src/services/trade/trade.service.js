@@ -10,22 +10,22 @@ function findByName(filter) {
     filter.seriesType == 1
       ? filter.type == 1
         ? filter.flow == 1
-          ? "importQuoteValue_" + lan
-          : "exportQuoteValue_" + lan
+          ? "importQuoteValue"
+          : "exportQuoteValue"
         : filter.flow == 1
-        ? "importQuoteQuantity_" + lan
-        : "exportQuoteQuantity_" + lan
+        ? "importQuoteQuantity"
+        : "exportQuoteQuantity"
       : filter.type == 1
       ? filter.flow == 1
-        ? "importValue_" + lan
-        : "exportValue_" + lan
+        ? "importValue"
+        : "exportValue"
       : filter.flow == 1
-      ? "importQuantity_" + lan
-      : "exportQuantity_" + lan
+      ? "importQuantity"
+      : "exportQuantity"
   return axiosHack
-    .get("/" + endpoint + "/" + filter.country)
+    .get("/" + endpoint, { params: { id: filter.country, lang: lan } })
     .then((res) => {
-      var data = res.data ? res.data : {}
+      var data = res.data ? res.data[0] : {}
       //console.log(data);
       return data
     })

@@ -26,7 +26,7 @@
         <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 90%"
-          class="d-md-down-none mr-1" />
+          class="d-md-down-none mr-3" />
         <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 80%"
