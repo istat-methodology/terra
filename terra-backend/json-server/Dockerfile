@@ -1,4 +1,4 @@
-FROM node
+FROM node:latest
 
 ARG DOCKER_TAG
 ENV APP_VERSION=$DOCKER_TAG
