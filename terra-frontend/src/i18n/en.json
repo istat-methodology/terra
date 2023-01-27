@@ -20,11 +20,16 @@
       "txt": "Something is not working as expected...",
       "error": "Error message",
       "goHome": "Go to home page"
-    }
+    },
+    "select_language":"Select language",
+    "language_it":"Italian",
+    "language_en":"English"
   },
   "header": {
     "userguide": "User guide",
-    "methodology": "Methodological note"
+    "methodology": "Methodological note",
+    "logo_terra":"Terra Logo",
+    "logo_statistica_sp":"Experimental Statistic Logo"
   },
   "sidebar": {
     "home": "Home",
@@ -34,7 +39,8 @@
     "graphWorld": "Graph UE - World",
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
-    "trade": "Basket of traded products"
+    "trade": "Basket of traded products",
+    "logo_istat":"Istat Logo"
   },
   "landing": {
     "disclaimer": "*Eurostat and National CPA 2.1 and NSTR classifications may differ",

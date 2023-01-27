@@ -8,7 +8,10 @@
     ">
     <CSidebarBrand to="/">
       <a href="https://www.istat.it/it/" target="_blank">
-        <CImg src="../img/LogoIstatCompleto.png" style="max-width: 100%" />
+        <CImg
+          src="../img/LogoIstatCompleto.png"
+          style="max-width: 100%"
+          alt="$t('sidebar.logo_istat')" />
       </a>
     </CSidebarBrand>
     <ul class="c-sidebar-nav h-100">

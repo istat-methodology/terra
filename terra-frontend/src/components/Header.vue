@@ -1,5 +1,5 @@
 <template>
-  <CHeader fixed with-subheader light>
+  <CHeader with-subheader light>
     <CToggler
       in-header
       class="ml-3 d-lg-none"
@@ -14,11 +14,13 @@
         <CImg
           src="../img/LogoTerraFull.png"
           style="max-width: 95%"
-          class="d-md-down-none" />
+          class="d-md-down-none"
+          alt="$t('header.logo_terra')" />
         <CImg
           src="../img/LogoTerraShort.png"
           style="max-width: 80%"
-          class="d-lg-none" />
+          class="d-lg-none"
+          alt="$t('header.logo_terra')" />
       </CHeaderNavItem>
     </CHeaderNav>
     <CHeaderNav>
@@ -26,13 +28,18 @@
         <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 90%"
-          class="d-md-down-none mr-3" />
+          class="d-md-down-none mr-3"
+          alt="$t('header.logo_statistica_sp')" />
         <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 80%"
-          class="d-lg-none" />
+          class="d-lg-none"
+          alt="$t('header.logo_statistica_sp')" />
       </CHeaderNavItem>
-      <CButtonGroup role="group" class="mr-lang">
+      <CButtonGroup
+        role="group"
+        class="mr-lang"
+        aria-label="$t('common.select_language')">
         <CButton
           color="primary"
           variant="ghost"
@@ -40,6 +47,7 @@
           size="sm"
           :class="{ active: selectedIt }"
           @click="selectLanguage('it')"
+          aria-label="$t('common.language_it')"
           >IT</CButton
         >
         <CButton
@@ -49,6 +57,7 @@
           size="sm"
           :class="{ active: selectedEn }"
           @click="selectLanguage('en')"
+          aria-label="$t('common.language_en')"
           >EN</CButton
         >
       </CButtonGroup>

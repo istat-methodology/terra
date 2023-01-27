@@ -18,7 +18,6 @@
     </div>
     <div class="ml-auto">
       <a
-        class="nav-link"
         target="_blank"
         href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf">
         {{ $t("header.userguide") }}
@@ -26,3 +25,17 @@
     </div>
   </CFooter>
 </template>
+
+<style scoped>
+a {
+  text-decoration: underline;
+}
+a:not([href]) {
+  background-color: transparent;
+  color: #321fdb;
+}
+a:not([href]):hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+</style>

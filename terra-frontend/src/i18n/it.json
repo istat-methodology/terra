@@ -20,11 +20,16 @@
       "txt": "Qualcosa non sta funzionando correttamente...",
       "error": "Messaggio di errore",
       "goHome": "Torna alla pagina Home"
-    }
+    },
+    "select_language":"Seleziona la lingua",
+    "language_it":"Italiano",
+    "language_en":"Inglese"
   },
   "header": {
     "userguide": "Manuale utente",
-    "methodology": "Nota metodologica"
+    "methodology": "Nota metodologica",
+    "logo_terra":"Logo Terra",
+    "logo_statistica_sp":"Logo Statistica Sperimentale"
   },
   "sidebar": {
     "home": "Home",
@@ -33,7 +38,8 @@
     "graphExtra": "Grafi UE - Extra UE",
     "graphWorld": "Grafi UE - Mondo",
     "timeseries": "Serie storiche",
-    "trade": "Paniere dei prodotti"
+    "trade": "Paniere dei prodotti",
+    "logo_istat":"Logo Istat"
   },
   "landing": {
     "disclaimer": "*Le classificazioni Eurostat CPA 2.1 e NSTR possono differire dalle corrispondenti versioni nazionali",

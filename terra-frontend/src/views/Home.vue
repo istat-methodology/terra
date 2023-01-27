@@ -9,7 +9,7 @@
           <p v-html="$t('landing.map.body')"></p>
           <p class="section-link">
             <router-link :to="{ name: 'Map' }" custom v-slot="{ navigate }">
-              <a @click="navigate" @keypress.enter="navigate" role="link">
+              <a @click="navigate" @keypress.enter="navigate">
                 {{ $t("landing.map.link") }}
               </a>
             </router-link>
@@ -30,7 +30,7 @@
               :to="{ name: 'GraphExtraUe' }"
               custom
               v-slot="{ navigate }">
-              <a @click="navigate" @keypress.enter="navigate" role="link">
+              <a @click="navigate" @keypress.enter="navigate">
                 {{ $t("landing.graph.extra-ue.link") }}
               </a>
             </router-link>
@@ -51,7 +51,7 @@
               :to="{ name: 'GraphIntraUe' }"
               custom
               v-slot="{ navigate }">
-              <a @click="navigate" @keypress.enter="navigate" role="link">
+              <a @click="navigate" @keypress.enter="navigate">
                 {{ $t("landing.graph.intra-ue.link") }}
               </a>
             </router-link>
@@ -72,7 +72,7 @@
               :to="{ name: 'TimeSeries' }"
               custom
               v-slot="{ navigate }">
-              <a @click="navigate" @keypress.enter="navigate" role="link">
+              <a @click="navigate" @keypress.enter="navigate">
                 {{ $t("landing.timeseries.link") }}
               </a>
             </router-link>
@@ -90,7 +90,7 @@
           <p v-html="$t('landing.trade.body')"></p>
           <p class="section-link">
             <router-link :to="{ name: 'Trade' }" custom v-slot="{ navigate }">
-              <a @click="navigate" @keypress.enter="navigate" role="link">
+              <a @click="navigate" @keypress.enter="navigate">
                 {{ $t("landing.trade.link") }}
               </a>
             </router-link>
@@ -117,8 +117,10 @@ export default {
 .card-body {
   padding-bottom: 0.5rem;
 }
+a {
+  text-decoration: underline;
+}
 a:not([href]) {
-  text-decoration: none;
   background-color: transparent;
   color: #321fdb;
 }

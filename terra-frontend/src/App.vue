@@ -14,8 +14,10 @@
                   v-if="isMetaLoaded"></router-view>
               </transition>
             </CContainer>
+            <div class="disclaimer" role="note">
+              {{ $t("landing.disclaimer") }}
+            </div>
           </main>
-          <div class="disclaimer">{{ $t("landing.disclaimer") }}</div>
           <app-footer />
         </div>
       </CWrapper>
