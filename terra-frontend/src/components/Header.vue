@@ -85,12 +85,11 @@ export default {
       this.$i18n.locale = lan
       this.selectedIt = lan == "it" ? true : false
       this.selectedEn = lan == "en" ? true : false
+      //update page language
+      const html = document.documentElement
+      html.setAttribute("lang", lan)
+      //store language
       this.$store.dispatch("coreui/setLanguage", lan)
-      //update classifications
-      this.$store.dispatch("classification/getClassifications")
-      //redirect to Home
-      if (this.$router.currentRoute.path != "/") this.$router.push("/")
-      this.$store.dispatch("message/success", this.$t("common.update_cls"))
     }
   },
   created() {

@@ -232,7 +232,16 @@ export default {
     mean: null,
     std: null
   }),
+  watch: {
+    language() {
+      this.$store.dispatch("message/success", this.$t("common.update_cls"))
+      this.$store.dispatch("classification/getClassifications").then(() => {
+        this.loadData()
+      })
+    }
+  },
   computed: {
+    ...mapGetters("coreui", ["language"]),
     ...mapGetters("classification", [
       "loaded",
       "countries",
@@ -334,6 +343,22 @@ export default {
         })
       }
     },
+    loadData() {
+      this.$store.dispatch("coreui/setContext", Context.Policy)
+      //Set form default values
+      metadataService
+        .getTimeSeriesDefault()
+        .then(({ dataType, varType, flow, country, partner, productCPA }) => {
+          this.dataType = dataType
+          this.varType = varType
+          this.flow = flow
+          this.country = country
+          this.partner = partner
+          this.productCPA = productCPA
+          //Sumit form
+          this.handleSubmit()
+        })
+    },
     removeData(chart) {
       chart.data.labels.pop()
       chart.data.datasets.forEach((dataset) => {
@@ -421,20 +446,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("coreui/setContext", Context.Policy)
-    //Set form default values
-    metadataService
-      .getTimeSeriesDefault()
-      .then(({ dataType, varType, flow, country, partner, productCPA }) => {
-        this.dataType = dataType
-        this.varType = varType
-        this.flow = flow
-        this.country = country
-        this.partner = partner
-        this.productCPA = productCPA
-        //Sumit form
-        this.handleSubmit()
-      })
+    this.loadData()
   }
 }
 </script>

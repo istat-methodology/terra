@@ -177,9 +177,6 @@ export default {
     url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     center: [51.16423, 1.45412],
     zoom: 4,
-    // ---------------------------------------
-    // @TODO Change hard coded value
-    // ---------------------------------------
     seriesPeriod: "",
     markerPeriodSeries: [],
     markerMax: 60,
@@ -217,9 +214,17 @@ export default {
 
     isModalHelp: false
   }),
+  watch: {
+    language() {
+      this.$store.dispatch("message/success", this.$t("common.update_cls"))
+      this.$store.dispatch("classification/getClassifications").then(() => {
+        this.loadData()
+      })
+    }
+  },
   computed: {
     ...mapGetters("metadata", ["mapPeriod", "mapSeries"]),
-    ...mapGetters("coreui", ["isItalian"]),
+    ...mapGetters("coreui", ["isItalian", "language"]),
     ...mapGetters("classification", ["getCountryName"]),
     ...mapGetters("geomap", {
       markers: "geomap",
@@ -377,6 +382,11 @@ export default {
       })
       return data
     },
+    loadData() {
+      this.$store.dispatch("coreui/setContext", Context.Map)
+      this.seriesPeriod = sliderDefault
+      this.getDataSeries("exportseries")
+    },
     getMax() {
       return 60
     },
@@ -421,9 +431,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("coreui/setContext", Context.Map)
-    this.seriesPeriod = sliderDefault
-    this.getDataSeries("exportseries")
+    this.loadData()
   }
 }
 </script>

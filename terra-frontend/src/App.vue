@@ -14,7 +14,7 @@
                   v-if="isMetaLoaded"></router-view>
               </transition>
             </CContainer>
-            <div class="disclaimer" role="note">
+            <div class="disclaimer" role="note" v-if="isHome">
               {{ $t("landing.disclaimer") }}
             </div>
           </main>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import Sidebar from "@/components/Sidebar"
@@ -41,6 +42,11 @@ export default {
   data: () => ({
     isMetaLoaded: false
   }),
+  computed: {
+    ...mapGetters("coreui", ["isHome"]),
+    ...mapGetters("metadata", ["appVersion"]),
+    ...mapGetters("metadata", ["lastLoadedData"])
+  },
   created() {
     //Clear messages
     this.$store.dispatch("message/clear")

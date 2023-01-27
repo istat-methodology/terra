@@ -224,6 +224,12 @@ export default {
     isMainModal: false
   }),
   watch: {
+    language() {
+      this.$store.dispatch("message/success", this.$t("common.update_cls"))
+      this.$store.dispatch("classification/getClassifications").then(() => {
+        this.loadData()
+      })
+    },
     frequency() {
       this.currentTime = this.isTrimester
         ? { id: trimesterDefault.id, selectName: trimesterDefault.descr }
@@ -232,7 +238,7 @@ export default {
   },
   computed: {
     ...mapGetters("metadata", ["graphPeriod", "graphTrimesterPeriod"]),
-    ...mapGetters("coreui", ["isItalian"]),
+    ...mapGetters("coreui", ["isItalian", "language"]),
     ...mapGetters("graph", ["nodes", "edges", "metrics", "metricsTable"]),
     ...mapGetters("classification", [
       "transports",
@@ -367,6 +373,30 @@ export default {
           this.spinnerStart(false)
         })
     },
+    loadData() {
+      this.$store.dispatch(
+        "coreui/setContext",
+        this.isIntra ? Context.GraphIntra : Context.Graph
+      )
+      this.$store.dispatch("graph/clear")
+
+      this.displayTransport = !this.isIntra
+
+      // Set form default values
+      metadataService
+        .getGraphDefault(this.isIntra)
+        .then(({ time, frequency, percentage, transport, product, flow }) => {
+          // Default state
+          this.currentTime = time
+          this.frequency = frequency
+          this.percentage = percentage
+          this.transport = this.isIntra ? null : transport
+          this.product = product
+          this.flow = flow
+          //Sumit form
+          this.handleSubmit()
+        })
+    },
     getSearchFilter() {
       let data = []
       data.push({
@@ -427,28 +457,7 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch(
-      "coreui/setContext",
-      this.isIntra ? Context.GraphIntra : Context.Graph
-    )
-    this.$store.dispatch("graph/clear")
-
-    this.displayTransport = !this.isIntra
-
-    // Set form default values
-    metadataService
-      .getGraphDefault(this.isIntra)
-      .then(({ time, frequency, percentage, transport, product, flow }) => {
-        // Default state
-        this.currentTime = time
-        this.frequency = frequency
-        this.percentage = percentage
-        this.transport = this.isIntra ? null : transport
-        this.product = product
-        this.flow = flow
-        //Sumit form
-        this.handleSubmit()
-      })
+    this.loadData()
   }
 }
 </script>

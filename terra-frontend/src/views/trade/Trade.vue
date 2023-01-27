@@ -135,8 +135,17 @@ export default {
     spinner: false,
     isModalHelp: false
   }),
+  watch: {
+    language() {
+      this.$store.dispatch("message/success", this.$t("common.update_cls"))
+      this.$store.dispatch("classification/getClassifications").then(() => {
+        this.loadData()
+      })
+    }
+  },
   computed: {
     ...mapGetters("metadata", ["tradePeriod"]),
+    ...mapGetters("coreui", ["language"]),
     ...mapGetters("classification", [
       "seriesTypes",
       "varTypes",
@@ -222,6 +231,48 @@ export default {
       }
       return null
     },
+    loadData() {
+      this.spinnerStart(true)
+      if (this.tradePeriod !== null) {
+        this.labelPeriod = []
+        for (const period of this.tradePeriod) {
+          this.labelPeriod.push(period.name)
+        }
+      }
+      this.$store.dispatch("coreui/setContext", Context.Trade)
+
+      //Set form default values
+      metadataService
+        .getTradeDefault()
+        .then(
+          ({ idAllProducts, seriesType, varType, flow, country, product }) => {
+            this.idAllProducts = idAllProducts
+            this.seriesType = seriesType
+            this.varType = varType
+            this.flow = flow
+            this.country = country
+            this.product = product
+
+            this.$store
+              .dispatch("trade/findByName", {
+                type: this.varType.id,
+                seriesType: this.seriesType.id,
+                country: this.country.country,
+                flow: this.flow.id
+              })
+              .then(() => {
+                this.chartData = {}
+                this.chartData.datasets = []
+                this.chartData.labels = this.labelPeriod
+                this.charts.data.forEach((element) => {
+                  this.buildChartObject(element.dataname, element.value)
+                })
+              })
+
+            this.spinnerStart(false)
+          }
+        )
+    },
     getSearchFilter() {
       let data = []
       data.push({
@@ -267,45 +318,7 @@ export default {
     }
   },
   created() {
-    this.spinnerStart(true)
-    if (this.tradePeriod !== null) {
-      for (const period of this.tradePeriod) {
-        this.labelPeriod.push(period.name)
-      }
-    }
-    this.$store.dispatch("coreui/setContext", Context.Trade)
-
-    //Set form default values
-    metadataService
-      .getTradeDefault()
-      .then(
-        ({ idAllProducts, seriesType, varType, flow, country, product }) => {
-          this.idAllProducts = idAllProducts
-          this.seriesType = seriesType
-          this.varType = varType
-          this.flow = flow
-          this.country = country
-          this.product = product
-
-          this.$store
-            .dispatch("trade/findByName", {
-              type: this.varType.id,
-              seriesType: this.seriesType.id,
-              country: this.country.country,
-              flow: this.flow.id
-            })
-            .then(() => {
-              this.chartData = {}
-              this.chartData.datasets = []
-              this.chartData.labels = this.labelPeriod
-              this.charts.data.forEach((element) => {
-                this.buildChartObject(element.dataname, element.value)
-              })
-            })
-
-          this.spinnerStart(false)
-        }
-      )
+    this.loadData()
   }
 }
 </script>
