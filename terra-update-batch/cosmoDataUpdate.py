@@ -156,9 +156,9 @@ SQLLITE_DB=DATA_FOLDER_MONTHLY+os.sep+PREFIX_FULL+os.sep+"commext.db"
 
 ## ogni 20 del mese scaricare il file annuale fullAAAAMM.7z con 52 al posto del mese (esempio file full201952.7z)
 ## data URL_COMEXT
-URL_COMEXT_PRODUCTS="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&dir=comext%2FCOMEXT_DATA%2FPRODUCTS%2F"
+URL_COMEXT_PRODUCTS="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FPRODUCTS%2F"
 
-URL_COMEXT_TR="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&dir=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR%2F"
+URL_COMEXT_TR="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR%2F"
 
 URL_COMEXT_CLS_PRODUCTS="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt"
 CLS_PRODUCTS_FILE=DATA_FOLDER+os.sep+"cls_products.dat"
