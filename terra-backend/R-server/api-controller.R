@@ -61,7 +61,7 @@ add_get_cors(
     COMEXT_IMP <<- load_comext("1")
     COMEXT_EXP <<- load_comext("2")
     
-    .res$set_body("Load data ok")
+    .res$set_body(paste("Load data ok! Range data:",min(COMEXT_IMP$PERIOD),max(COMEXT_IMP$PERIOD),sep = " "))
     .res$set_content_type("application/json")
   })
 
