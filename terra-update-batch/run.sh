@@ -11,6 +11,9 @@ FREESPACE_ON_WORKING_FOLDER=$(( $(stat -f --format="%a" $WORKING_FOLDER) * $(sta
 echo "Free Space on $WORKING_FOLDER: $FREESPACE_ON_WORKING_FOLDER GB"
 if [ $FREESPACE_ON_WORKING_FOLDER -lt $MIN_WORKING_FOLDER_SPACE_GB ]; then
    echo "Insufficient disk space. Aborting." 1>&2
-   exit 1
+   exit 2
 fi
-python cosmoDataUpdate.py
+if ! python cosmoDataUpdate.py
+then
+   exit 3
+fi
