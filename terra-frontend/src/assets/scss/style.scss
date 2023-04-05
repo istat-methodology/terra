@@ -15,9 +15,6 @@
   -webkit-clip-path: inset(0 0 -1000px 0);
   clip-path: inset(0 0 -1000px 0);
 }
-.c-header .c-header-toggler-icon:focus {
-  outline: none;
-}
 .header-link {
   padding-left: 0.2rem;
 }
@@ -33,6 +30,10 @@
 
 .c-sidebar-brand {
   flex: 0 0 66px;
+}
+
+.c-sidebar-nav-link:focus-visible {
+  border: 1px solid white;
 }
 
 .btn-export .btn:not([class*=ghost]):not([class*=link]):not([class*=outline]):not([class*=transparent]) {
@@ -54,10 +55,6 @@
   width: 1.2rem;
   height: 1.2rem;
   font-size: 1.2rem;
-}
-
-button:focus {
-  outline: none;
 }
 
 .c-icon:not(.c-icon-c-s):not(.c-icon-custom-size){
@@ -206,9 +203,6 @@ button:focus {
   border-color: #ebedef;
 }
 
-.nav-tabs .nav-link:focus { 
-  outline: none; 
-}
 
 .nav-tabs .nav-link.active {
   color: $primary;
@@ -328,7 +322,7 @@ $themeColor: #321fdb;
   margin-top: 0.5rem;
   margin-left: 0.5rem;
   margin-right:0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 3rem;
 }
 
 .vue-slider-mark-label {
@@ -337,11 +331,12 @@ $themeColor: #321fdb;
 
 .vue-slider-ltr .vue-slider-mark-label,
 .vue-slider-rtl .vue-slider-mark-label {  
-      -webkit-transform: rotate(-15deg) !important;
-      -webkit-transform-origin: 1% 500% !important;      
-      transform: rotate(-15deg) !important;
-      transform-origin: 1% 500% !important;
+      -webkit-transform: rotate(60deg) !important;
+      -webkit-transform-origin: top !important;      
+      transform: rotate(60deg) !important;
+      transform-origin: top !important;
       filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+      margin-top: 20px!important;
       
  }
  
@@ -354,13 +349,4 @@ $themeColor: #321fdb;
 .material-design-icon.icon-2x > .material-design-icon__svg {
   height: 1.8em;
   width: 1.8em;
-}
-
-/* Network*/
-.network:focus { 
-  outline: none; 
-}
-
-.vis-network:focus { 
-  outline: none; 
 }
