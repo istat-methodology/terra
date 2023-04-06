@@ -2,7 +2,10 @@
   <CFooter :fixed="false">
     <div>
       <span class="mr-1 text-dark"
-        ><a href="https://www.terra.statlab.it" target="_blank"
+        ><a
+          href="https://www.terra.statlab.it"
+          target="_blank"
+          aria-label="TERRA"
           >TERRA
           <span class="acronym d-md-down-none">
             - {{ $t("common.acronym") }}</span
@@ -12,13 +15,17 @@
     </div>
     <div class="ml-auto">
       <span class="mr-1 d-md-down-none">{{ $t("common.footer.source") }}</span>
-      <a href="http://epp.eurostat.ec.europa.eu/newxtweb/" target="_blank"
+      <a
+        href="http://epp.eurostat.ec.europa.eu/newxtweb/"
+        target="_blank"
+        aria-label="EUROSTAT COMEXT"
         >EUROSTAT COMEXT</a
       >
     </div>
     <div class="ml-auto">
       <a
         target="_blank"
+        aria-label="Manuale"
         href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf">
         {{ $t("header.userguide") }}
       </a>

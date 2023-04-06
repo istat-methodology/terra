@@ -8,10 +8,8 @@
         <div class="card-body">
           <p v-html="$t('landing.map.body')"></p>
           <p class="section-link">
-            <router-link :to="{ name: 'Map' }" custom v-slot="{ navigate }">
-              <a @click="navigate" @keypress.enter="navigate">
-                {{ $t("landing.map.link") }}
-              </a>
+            <router-link tag="a" :to="{ name: 'Map' }">
+              {{ $t("landing.map.link") }}
             </router-link>
           </p>
         </div>
@@ -26,13 +24,8 @@
         <div class="card-body">
           <p v-html="$t('landing.graph.extra-ue.body')"></p>
           <p class="section-link">
-            <router-link
-              :to="{ name: 'GraphExtraUe' }"
-              custom
-              v-slot="{ navigate }">
-              <a @click="navigate" @keypress.enter="navigate">
-                {{ $t("landing.graph.extra-ue.link") }}
-              </a>
+            <router-link tag="a" :to="{ name: 'GraphExtraUe' }">
+              {{ $t("landing.graph.extra-ue.link") }}
             </router-link>
           </p>
         </div>
@@ -47,13 +40,8 @@
         <div class="card-body">
           <p v-html="$t('landing.graph.intra-ue.body')"></p>
           <p class="section-link">
-            <router-link
-              :to="{ name: 'GraphIntraUe' }"
-              custom
-              v-slot="{ navigate }">
-              <a @click="navigate" @keypress.enter="navigate">
-                {{ $t("landing.graph.intra-ue.link") }}
-              </a>
+            <router-link tag="a" :to="{ name: 'GraphIntraUe' }">
+              {{ $t("landing.graph.intra-ue.link") }}
             </router-link>
           </p>
         </div>
@@ -68,13 +56,8 @@
         <div class="card-body">
           <p v-html="$t('landing.timeseries.body')"></p>
           <p class="section-link">
-            <router-link
-              :to="{ name: 'TimeSeries' }"
-              custom
-              v-slot="{ navigate }">
-              <a @click="navigate" @keypress.enter="navigate">
-                {{ $t("landing.timeseries.link") }}
-              </a>
+            <router-link tag="a" :to="{ name: 'TimeSeries' }">
+              {{ $t("landing.timeseries.link") }}
             </router-link>
           </p>
         </div>
@@ -89,10 +72,8 @@
         <div class="card-body">
           <p v-html="$t('landing.trade.body')"></p>
           <p class="section-link">
-            <router-link :to="{ name: 'Trade' }" custom v-slot="{ navigate }">
-              <a @click="navigate" @keypress.enter="navigate">
-                {{ $t("landing.trade.link") }}
-              </a>
+            <router-link tag="a" :to="{ name: 'Trade' }">
+              {{ $t("landing.trade.link") }}
             </router-link>
           </p>
         </div>

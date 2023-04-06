@@ -3,11 +3,13 @@
     <CToggler
       in-header
       class="ml-3 d-lg-none"
-      @click="$store.dispatch('coreui/toggleSidebarMobile')" />
+      @click="$store.dispatch('coreui/toggleSidebarMobile')"
+      aria-label="toggle Sidebar Mobile" />
     <CToggler
       in-header
       class="ml-3 d-md-down-none"
-      @click="$store.dispatch('coreui/toggleSidebarDesktop')" />
+      @click="$store.dispatch('coreui/toggleSidebarDesktop')"
+      aria-label="toggle Sidebar Desktop" />
 
     <CHeaderNav class="mr-auto">
       <CHeaderNavItem>
@@ -15,12 +17,14 @@
           src="../img/LogoTerraFull.png"
           style="max-width: 95%"
           class="d-md-down-none"
-          alt="$t('header.logo_terra')" />
+          alt="$t('header.logo_terra')"
+          aria-label="Logo Terra" />
         <CImg
           src="../img/LogoTerraShort.png"
           style="max-width: 80%"
           class="d-lg-none"
-          alt="$t('header.logo_terra')" />
+          alt="$t('header.logo_terra')"
+          aria-label="Logo Terra" />
       </CHeaderNavItem>
     </CHeaderNav>
     <CHeaderNav>
@@ -29,12 +33,14 @@
           src="../img/LogoSTSP.png"
           style="max-width: 90%"
           class="d-md-down-none mr-3"
-          alt="$t('header.logo_statistica_sp')" />
+          alt="$t('header.logo_statistica_sp')"
+          aria-label="Statistiche sperimentali" />
         <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 80%"
           class="d-lg-none"
-          alt="$t('header.logo_statistica_sp')" />
+          alt="$t('header.logo_statistica_sp')"
+          aria-label="Statistiche sperimentali" />
       </CHeaderNavItem>
       <CButtonGroup
         role="group"
@@ -118,8 +124,7 @@ export default {
   color: #4f5d73;
 }
 .dropdown-item a:active,
-.dropdown-item a:hover,
-.dropdown-item a:focus {
+.dropdown-item a:hover {
   color: #321fdb;
   text-decoration: none;
 }
@@ -129,8 +134,7 @@ export default {
   color: #321fdb;
   background-color: #fff;
 }
-.dropdown-item:hover,
-.dropdown-item:focus {
+.dropdown-item:hover {
   text-decoration: none;
   color: #321fdb;
   background-color: #fff;

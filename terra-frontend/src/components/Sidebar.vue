@@ -6,16 +6,17 @@
     @update:show="
       (value) => $store.commit('coreui/set', ['sidebarShow', 'responsive'])
     ">
-    <CSidebarBrand to="/">
-      <a href="https://www.istat.it/it/" target="_blank">
+    <CSidebarBrand>
+      <a href="https://www.istat.it/it/" target="_blank" aria-label="Istat">
         <CImg
           src="../img/LogoIstatCompleto.png"
           style="max-width: 100%"
-          alt="$t('sidebar.logo_istat')" />
+          alt="$t('sidebar.logo_istat')"
+          aria-label="Logo Istat" />
       </a>
     </CSidebarBrand>
     <ul class="c-sidebar-nav h-100">
-      <li class="c-sidebar-nav-item">
+      <li class="c-sidebar-nav-item" role="navigation" aria-label="Home">
         <router-link
           tag="a"
           :to="{ name: 'Home' }"
@@ -24,11 +25,15 @@
           <CIcon name="cil-home" class="c-sidebar-nav-icon" />{{
             $t("sidebar.home")
           }}
-          <span class="badge badge-primary"> Ver: {{ appVersion }}</span>
         </router-link>
       </li>
-      <li class="c-sidebar-nav-title pb-2">{{ $t("sidebar.analysis") }}</li>
-      <li class="c-sidebar-nav-item">
+      <li
+        class="c-sidebar-nav-title pb-2"
+        role="navigation"
+        aria-label="Analisi">
+        {{ $t("sidebar.analysis") }}
+      </li>
+      <li class="c-sidebar-nav-item" role="navigation" aria-label="Mappa">
         <router-link
           tag="a"
           :to="{ name: 'Map' }"
@@ -38,7 +43,7 @@
           {{ $t("sidebar.map") }}
         </router-link>
       </li>
-      <li class="c-sidebar-nav-item">
+      <li class="c-sidebar-nav-item" role="navigation" aria-label="Grafo Extra">
         <router-link
           tag="a"
           :to="{ name: 'GraphExtraUe' }"
@@ -49,7 +54,7 @@
           }}
         </router-link>
       </li>
-      <li class="c-sidebar-nav-item">
+      <li class="c-sidebar-nav-item" role="navigation" aria-label="Grafo Intra">
         <router-link
           tag="a"
           :to="{ name: 'GraphIntraUe' }"
@@ -60,7 +65,10 @@
           }}
         </router-link>
       </li>
-      <li class="c-sidebar-nav-item">
+      <li
+        class="c-sidebar-nav-item"
+        role="navigation"
+        aria-label="Serie storica">
         <router-link
           tag="a"
           :to="{ name: 'TimeSeries' }"
@@ -70,7 +78,7 @@
           {{ $t("sidebar.timeseries") }}
         </router-link>
       </li>
-      <li class="c-sidebar-nav-item">
+      <li class="c-sidebar-nav-item" role="navigation" aria-label="Paniere">
         <router-link
           tag="a"
           :to="{ name: 'Trade' }"

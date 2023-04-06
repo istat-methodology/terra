@@ -9,6 +9,7 @@
             :center="center"
             class
             style="height: 100%; width: 100%"
+            aria-hidden="true"
             @ready="setShooter()"
             @click="closeInfo()">
             <l-tile-layer :url="url" :attribution="attribution" />
@@ -124,8 +125,12 @@
             v-model="seriesPeriod"
             :data="mapPeriod"
             :data-value="'id'"
-            :data-label="'name'"
-            @change="handleCounterChange" />
+            :data-label="'selectName'"
+            @change="handleCounterChange"
+            :dot-attrs="{
+              'aria-valuemin': mapPeriod[0].selectName,
+              'aria-valuemax': mapPeriod[mapPeriod.length - 1].selectName
+            }" />
         </div>
       </div>
     </div>
@@ -487,15 +492,5 @@ export default {
 .control-btn {
   font-weight: bold;
   text-indent: 1px;
-}
-.vue-slider {
-  margin-bottom: 2rem;
-}
-.vue-slider-ltr .vue-slider-mark-label,
-.vue-slider-rtl .vue-slider-mark-label {
-  -webkit-transform: rotate(20deg) !important;
-  -moz-transform: rotate(20deg) !important;
-  transform: rotate(20deg) !important;
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 </style>

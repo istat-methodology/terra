@@ -3,8 +3,12 @@
     <div class="row">
       <div class="col-sm-6 col-md-9">
         <CTabs variant="tabs" :active-tab="0">
-          <CTab :title="$t('graph.card.title')">
+          <CTab
+            :title="$t('graph.card.title')"
+            role="tablist"
+            :aria-labelledby="$t('graph.card.title')">
             <cosmo-graph
+              aria-hidden="true"
               :nodes="nodes"
               :edges="edges"
               :metrics="metrics"
@@ -20,7 +24,10 @@
                 @change="handleTimeChange" />
             </cosmo-graph>
           </CTab>
-          <CTab :title="$t('graph.table.title')">
+          <CTab
+            :title="$t('graph.table.title')"
+            role="tablist"
+            :aria-labelledby="$t('graph.table.title')">
             <CCard>
               <CCardHeader>
                 <span class="card-title">{{ title }}</span>
