@@ -7,7 +7,11 @@
       v-model="selectedPeriod"
       :data="interval"
       :data-value="'id'"
-      :data-label="'name'" />
+      :data-label="'selectName'"
+      :dot-attrs="{
+        'aria-valuemin': selectedPeriod[0].selectName,
+        'aria-valuemax': selectedPeriod[selectedPeriod.length - 1].selectName
+      }" />
   </div>
 </template>
 <script>
@@ -52,6 +56,6 @@ export default {
 </script>
 <style scoped>
 .vue-slider {
-  margin: 2rem;
+  margin: 2rem 2rem 3rem 2rem;
 }
 </style>

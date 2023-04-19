@@ -44,8 +44,7 @@
           :edges="edges"
           :options="options"
           @select-edge="handleGraphSelect"
-          @hover-node="handleOverNode"
-          @after-drawing="handleGraphFit" />
+          @hover-node="handleOverNode" />
       </CCardBody>
       <slot>
         <!-- Slider -->

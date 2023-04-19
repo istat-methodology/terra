@@ -159,6 +159,10 @@
 
 
 /* Forms */
+.form-control {
+  color:rgba(31, 37, 47, 0.95) !important;
+}
+
 .form-group {
   margin-bottom: 0.2rem;
 }
@@ -225,7 +229,7 @@
   border: 1px solid #ced2d8;
 }
 .vs__selected, .vs__dropdown-option{
-  color: #768192;
+  color:rgba(31, 37, 47, 0.95) !important;
 }
 .vs__dropdown-option--highlight{
   color: white;
@@ -327,6 +331,7 @@ $themeColor: #321fdb;
 
 .vue-slider-mark-label {
   font-size: 12px !important;
+  color:rgba(31, 37, 47, 0.95) !important;
 }
 
 .vue-slider-ltr .vue-slider-mark-label,

@@ -13,7 +13,7 @@ export function getPeriod(start, end, lan) {
     var longYear = dt.toLocaleDateString(lan, { year: "numeric" })
     var idString = String(longYear) + String(monthIndex)
     var isoDate = String(longYear) + "-" + String(monthIndex) + "-01"
-    var selectString = shortMonth + " " + longYear
+    var selectString = shortMonth + " " + shortYear
     var sliderString = counter % 3 == 0 ? shortMonth + " " + shortYear : ""
     var item = {
       id: idString,

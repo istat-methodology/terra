@@ -2,12 +2,17 @@
   <div>
     <div class="row">
       <div class="col-sm-6 col-md-9">
-        <CTabs variant="tabs" :active-tab="0">
+        <CTabs
+          variant="tabs"
+          :active-tab="0"
+          role="tablist"
+          :aria-labelledby="'Tabs'">
           <CTab
             :title="$t('graph.card.title')"
-            role="tablist"
-            :aria-labelledby="$t('graph.card.title')">
+            role="tab"
+            :aria-controls="$t('graph.card.title')">
             <cosmo-graph
+              ref="cosmograph"
               aria-hidden="true"
               :nodes="nodes"
               :edges="edges"
@@ -26,8 +31,8 @@
           </CTab>
           <CTab
             :title="$t('graph.table.title')"
-            role="tablist"
-            :aria-labelledby="$t('graph.table.title')">
+            role="tab"
+            :aria-controls="$t('graph.table.title')">
             <CCard>
               <CCardHeader>
                 <span class="card-title">{{ title }}</span>
@@ -49,6 +54,7 @@
               </CCardHeader>
               <CCardBody class="pb-1">
                 <cosmo-table
+                  aria-hidden="true"
                   :data="metricsTable"
                   :fields="metricsFields"
                   :sorterValue="sorterValue" />
@@ -122,6 +128,7 @@
               $t("graph.form.fields.transport")
             }}</label>
             <v-select
+              class="style-chooser"
               v-if="displayTransport"
               label="descr"
               multiple
@@ -357,6 +364,7 @@ export default {
     },
     requestToServer() {
       this.spinnerStart(true)
+
       this.$store
         .dispatch(
           this.isIntra ? "graph/postGraphIntra" : "graph/postGraphExtra",
@@ -376,6 +384,8 @@ export default {
               "message/error",
               this.$t("graph.message.graph_empty")
             )
+          } else {
+            this.$refs.cosmograph.handleGraphFit()
           }
           this.spinnerStart(false)
         })
