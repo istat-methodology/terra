@@ -1,7 +1,8 @@
 {
   "common": {
-    "acronym": "imporT ExpoRt netwoRk Analysis",
+    "acronym": "TERRA - imporT ExpoRt netwoRk Analysis",
     "submit": "Esegui",
+    "data_updated": "Dati aggiornati",
     "exporter": "Esporta",
     "apply": "Aggiorna il grafo",
     "close": "Chiudi",
@@ -139,8 +140,8 @@
     },
     "message": {
       "scenario": "Analisi di scenario effettuata con successo!",
-      "graph_wide": "Warning N.05: Grafo troppo ampio  \n Ridurre la soglia o cambiare i mezzi di trasporto",
-      "graph_empty": "Warning N.06 Graph vuoto \n Ridurre la soglia o cambiare i mezzi di trasporto"
+      "graph_wide": "Attenzione: Grafo troppo ampio  \n Ridurre la soglia o cambiare i mezzi di trasporto",
+      "graph_empty": "Attenzione: Grafo vuoto \n Ridurre la soglia o cambiare i mezzi di trasporto"
     },
     "table": {
       "title": "Metriche"

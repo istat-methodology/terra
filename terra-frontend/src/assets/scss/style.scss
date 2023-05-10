@@ -32,10 +32,15 @@
   flex: 0 0 66px;
 }
 
+.c-sidebar .c-sidebar-nav-link{
+  color: white;
+}
 .c-sidebar-nav-link:focus-visible {
   border: 1px solid white;
 }
-
+.c-sidebar .c-sidebar-nav-title {
+  color: white;
+}
 .btn-export .btn:not([class*=ghost]):not([class*=link]):not([class*=outline]):not([class*=transparent]) {
   border: 0;
   box-shadow: none;
@@ -199,7 +204,7 @@
   border-bottom: none;
 }
 .nav-tabs .nav-link {
-  color: #4f5d73;
+  color: rgba(31, 37, 47, 0.95);
   border-bottom: 2px solid #ebedef;
   margin-bottom: 5px;
 }
@@ -232,7 +237,7 @@
   color:rgba(31, 37, 47, 0.95) !important;
 }
 .vs__dropdown-option--highlight{
-  color: white;
+  color: white!important;
   background-color:	$primary;
 }
 .vs__selected-options {

@@ -9,8 +9,8 @@
       :data-value="'id'"
       :data-label="'selectName'"
       :dot-attrs="{
-        'aria-valuemin': selectedPeriod[0].selectName,
-        'aria-valuemax': selectedPeriod[selectedPeriod.length - 1].selectName
+        'aria-valuemin': selectedPeriod[0].id,
+        'aria-valuemax': selectedPeriod[selectedPeriod.length - 1].id
       }" />
   </div>
 </template>

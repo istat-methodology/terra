@@ -1,5 +1,9 @@
 <template>
   <CModal
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
     :title="
       isMainModal
         ? $t('graph.modal.main.title')
@@ -19,9 +23,14 @@
           : $t('graph.modal.filter.body') + $t('graph.modal.filter.keywords')
       "></p>
     <template #footer>
-      <CButton color="primary" shape="square" size="sm" @click="closeModal">{{
-        $t("common.close")
-      }}</CButton>
+      <CButton
+        color="primary"
+        shape="square"
+        size="sm"
+        @click="closeModal"
+        aria-label="Close"
+        >{{ $t("common.close") }}</CButton
+      >
     </template>
   </CModal>
 </template>

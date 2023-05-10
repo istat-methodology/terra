@@ -5,10 +5,9 @@
         ><a
           href="https://www.terra.statlab.it"
           target="_blank"
-          aria-label="TERRA"
-          >TERRA
+          :aria-label="$t('common.acronym')">
           <span class="acronym d-md-down-none">
-            - {{ $t("common.acronym") }}</span
+            {{ $t("common.acronym") }}</span
           ></a
         >
       </span>
@@ -25,7 +24,7 @@
     <div class="ml-auto">
       <a
         target="_blank"
-        aria-label="Manuale"
+        :aria-label="$t('header.userguide')"
         href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf">
         {{ $t("header.userguide") }}
       </a>

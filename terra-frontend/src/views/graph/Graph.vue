@@ -3,17 +3,16 @@
     <div class="row">
       <div class="col-sm-6 col-md-9">
         <CTabs
+          role="tablist"
           variant="tabs"
           :active-tab="0"
-          role="tablist"
           :aria-labelledby="'Tabs'">
           <CTab
-            :title="$t('graph.card.title')"
             role="tab"
+            :title="$t('graph.card.title')"
             :aria-controls="$t('graph.card.title')">
             <cosmo-graph
               ref="cosmograph"
-              aria-hidden="true"
               :nodes="nodes"
               :edges="edges"
               :metrics="metrics"
@@ -103,7 +102,8 @@
               v-model="currentTime"
               :class="{
                 'is-invalid': $v.currentTime.$error
-              }" />
+              }"
+              :clearable="false" />
             <label class="card-label mt-3">{{
               $t("graph.form.fields.flow")
             }}</label>
@@ -114,7 +114,8 @@
               v-model="flow"
               :class="{
                 'is-invalid': $v.flow.$error
-              }" />
+              }"
+              :clearable="false" />
             <label class="card-label mt-3">{{
               $t("graph.form.fields.percentage")
             }}</label>
@@ -137,7 +138,8 @@
               v-model="transport"
               :class="{
                 'is-invalid': $v.transport.$error
-              }" />
+              }"
+              :clearable="false" />
             <label class="card-label mt-3" v-if="displayTransport">{{
               $t("graph.form.fields.product_nstr")
             }}</label>
@@ -151,7 +153,8 @@
               v-model="product"
               :class="{
                 'is-invalid': $v.product.$error
-              }" />
+              }"
+              :clearable="false" />
             <CButton
               color="primary"
               shape="square"
@@ -385,7 +388,12 @@ export default {
               this.$t("graph.message.graph_empty")
             )
           } else {
+            this.$store.dispatch(
+              "message/success",
+              this.$t("common.data_updated")
+            )
             this.$refs.cosmograph.handleGraphFit()
+            this.fixAccessibility()
           }
           this.spinnerStart(false)
         })
@@ -471,10 +479,20 @@ export default {
         return [data, id]
       }
       return null
+    },
+    fixAccessibility() {
+      setTimeout(() => {
+        document.getElementsByClassName("vis-network")[0].tabIndex = -1
+        document
+          .getElementsByClassName("nav-tabs")[0]
+          .setAttribute("role", "tablist")
+      }, 200)
     }
   },
   created() {
     this.loadData()
+
+    // document.getElementsByClassName("vis-network")[0].tabIndex = -1
   }
 }
 </script>

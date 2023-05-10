@@ -2,8 +2,10 @@
   <div class="row">
     <div class="col-sm-6 col-md-4">
       <div class="card">
-        <header class="card-header">
-          <CIcon name="cil-location-pin" />{{ $t("landing.map.title") }}
+        <header class="card-header" role="heading" aria-level="1">
+          <CIcon name="cil-location-pin" title="Map" />{{
+            $t("landing.map.title")
+          }}
         </header>
         <div class="card-body">
           <p v-html="$t('landing.map.body')"></p>
@@ -17,8 +19,8 @@
     </div>
     <div class="col-sm-6 col-md-4">
       <div class="card">
-        <header class="card-header">
-          <CIcon name="cil-graph" />
+        <header class="card-header" role="heading" aria-level="1">
+          <CIcon name="cil-graph" title="GraphExtraUe" />
           {{ $t("landing.graph.extra-ue.title") }}
         </header>
         <div class="card-body">
@@ -33,8 +35,8 @@
     </div>
     <div class="col-sm-6 col-md-4">
       <div class="card">
-        <header class="card-header">
-          <CIcon name="cil-graph" />
+        <header class="card-header" role="heading" aria-level="1">
+          <CIcon name="cil-graph" title="GraphIntraUe" />
           {{ $t("landing.graph.intra-ue.title") }}
         </header>
         <div class="card-body">
@@ -49,8 +51,8 @@
     </div>
     <div class="col-sm-6 col-md-4">
       <div class="card">
-        <header class="card-header">
-          <CIcon name="cil-chart-line" />
+        <header class="card-header" role="heading" aria-level="1">
+          <CIcon name="cil-chart-line" title="TimeSeries" />
           {{ $t("landing.timeseries.title") }}
         </header>
         <div class="card-body">
@@ -65,8 +67,8 @@
     </div>
     <div class="col-sm-6 col-md-4">
       <div class="card">
-        <header class="card-header">
-          <CIcon name="cil-layers" />
+        <header class="card-header" role="heading" aria-level="1">
+          <CIcon name="cil-layers" title="Trade" />
           {{ $t("landing.trade.title") }}
         </header>
         <div class="card-body">

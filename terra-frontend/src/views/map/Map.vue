@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <div class="card card-map">
-        <CCardBody>
+        <CCardBody role="heading" aria-level="1" aria-label="Map">
           <l-map
             ref="map"
             :zoom="zoom"
@@ -10,6 +10,7 @@
             class
             style="height: 100%; width: 100%"
             aria-hidden="true"
+            aria-label="Map"
             @ready="setShooter()"
             @click="closeInfo()">
             <l-tile-layer :url="url" :attribution="attribution" />
@@ -128,8 +129,8 @@
             :data-label="'selectName'"
             @change="handleCounterChange"
             :dot-attrs="{
-              'aria-valuemin': mapPeriod[0].selectName,
-              'aria-valuemax': mapPeriod[mapPeriod.length - 1].selectName
+              'aria-valuemin': mapPeriod[0].id,
+              'aria-valuemax': mapPeriod[mapPeriod.length - 1].id
             }" />
         </div>
       </div>

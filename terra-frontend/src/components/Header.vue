@@ -18,12 +18,14 @@
           style="max-width: 95%"
           class="d-md-down-none"
           alt="$t('header.logo_terra')"
+          title="$t('header.logo_terra')"
           aria-label="Logo Terra" />
         <CImg
           src="../img/LogoTerraShort.png"
           style="max-width: 80%"
           class="d-lg-none"
           alt="$t('header.logo_terra')"
+          title="$t('header.logo_terra')"
           aria-label="Logo Terra" />
       </CHeaderNavItem>
     </CHeaderNav>
@@ -34,12 +36,14 @@
           style="max-width: 90%"
           class="d-md-down-none mr-3"
           alt="$t('header.logo_statistica_sp')"
+          title="$t('header.logo_statistica_sp')"
           aria-label="Statistiche sperimentali" />
         <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 80%"
           class="d-lg-none"
           alt="$t('header.logo_statistica_sp')"
+          title="$t('header.logo_statistica_sp')"
           aria-label="Statistiche sperimentali" />
       </CHeaderNavItem>
       <CButtonGroup

@@ -11,7 +11,7 @@
         <CImg
           src="../img/LogoIstatCompleto.png"
           style="max-width: 100%"
-          alt="$t('sidebar.logo_istat')"
+          :alt="$t('sidebar.logo_istat')"
           aria-label="Logo Istat" />
       </a>
     </CSidebarBrand>
@@ -22,9 +22,11 @@
           :to="{ name: 'Home' }"
           class="c-sidebar-nav-link"
           :class="{ 'c-active': isHome }">
-          <CIcon name="cil-home" class="c-sidebar-nav-icon" />{{
-            $t("sidebar.home")
-          }}
+          <CIcon
+            name="cil-home"
+            class="c-sidebar-nav-icon"
+            alt="Home"
+            title="Home" />{{ $t("sidebar.home") }}
         </router-link>
       </li>
       <li
@@ -39,7 +41,10 @@
           :to="{ name: 'Map' }"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-primary': isMap }">
-          <CIcon name="cil-location-pin" class="c-sidebar-nav-icon" />
+          <CIcon
+            name="cil-location-pin"
+            class="c-sidebar-nav-icon"
+            title="Map" />
           {{ $t("sidebar.map") }}
         </router-link>
       </li>
@@ -49,9 +54,10 @@
           :to="{ name: 'GraphExtraUe' }"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraph }">
-          <CIcon name="cil-graph" class="c-sidebar-nav-icon" />{{
-            $t("sidebar.graphExtra")
-          }}
+          <CIcon
+            name="cil-graph"
+            class="c-sidebar-nav-icon"
+            title="GraphExtraUe" />{{ $t("sidebar.graphExtra") }}
         </router-link>
       </li>
       <li class="c-sidebar-nav-item" role="navigation" aria-label="Grafo Intra">
@@ -60,9 +66,10 @@
           :to="{ name: 'GraphIntraUe' }"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraphIntra }">
-          <CIcon name="cil-graph" class="c-sidebar-nav-icon" />{{
-            $t("sidebar.graphWorld")
-          }}
+          <CIcon
+            name="cil-graph"
+            class="c-sidebar-nav-icon"
+            title="GraphIntraUe" />{{ $t("sidebar.graphWorld") }}
         </router-link>
       </li>
       <li
@@ -74,7 +81,10 @@
           :to="{ name: 'TimeSeries' }"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-warning': isPolicy }">
-          <CIcon name="cil-chart-line" class="c-sidebar-nav-icon" />
+          <CIcon
+            name="cil-chart-line"
+            class="c-sidebar-nav-icon"
+            title="TimeSeries" />
           {{ $t("sidebar.timeseries") }}
         </router-link>
       </li>
@@ -84,13 +94,16 @@
           :to="{ name: 'Trade' }"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-danger': isTrade }">
-          <CIcon name="cil-layers" class="c-sidebar-nav-icon" />
+          <CIcon name="cil-layers" class="c-sidebar-nav-icon" title="Trade" />
           {{ $t("sidebar.trade") }}
         </router-link>
       </li>
     </ul>
-    <span class="data-update">
-      <CIcon name="cil-tags" /> {{ $t("common.update") }}
+    <span
+      role="region"
+      class="data-update"
+      :aria-label="$t('common.update') + lastLoadedData">
+      <CIcon name="cil-tags" title="Update" /> {{ $t("common.update") }}
       {{ lastLoadedData }}</span
     >
   </CSidebar>
