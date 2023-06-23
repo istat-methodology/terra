@@ -37,55 +37,58 @@
           <span class="card-filter-title">{{ $t("trade.form.title") }} </span>
         </CCardHeader>
         <CCardBody>
-          <label class="card-label">{{
-            $t("trade.form.fields.seriesType")
-          }}</label>
-          <v-select
-            label="descr"
-            :options="seriesTypes"
-            :placeholder="$t('trade.form.fields.seriesType_placeholder')"
-            v-model="seriesType" />
-          <label class="card-label mt-3">{{
-            $t("trade.form.fields.varType")
-          }}</label>
-          <v-select
-            label="descr"
-            :options="varTypes"
-            :placeholder="$t('trade.form.fields.varType_placeholder')"
-            v-model="varType" />
-          <label class="card-label mt-3">{{
-            $t("trade.form.fields.flow")
-          }}</label>
-          <v-select
-            label="descr"
-            :options="flows"
-            :placeholder="$t('trade.form.fields.flow_placeholder')"
-            v-model="flow" />
-          <label class="card-label mt-3">{{
-            $t("trade.form.fields.country")
-          }}</label>
-          <v-select
-            label="name"
-            :options="countries"
-            :placeholder="$t('trade.form.fields.country_placeholder')"
-            v-model="country" />
-          <label v-if="products" class="card-label mt-3">
-            {{ $t("trade.form.fields.products") }}
+          <label aria-labelledby="input__1" class="card-label col-12"
+            >{{ $t("trade.form.fields.seriesType") }}
+            <v-select
+              label="descr"
+              :options="seriesTypes"
+              :placeholder="$t('trade.form.fields.seriesType_placeholder')"
+              v-model="seriesType" />
           </label>
-          <v-select
+          <label aria-labelledby="input__2" class="card-label mt-3 col-12"
+            >{{ $t("trade.form.fields.varType") }}
+            <v-select
+              label="descr"
+              :options="varTypes"
+              :placeholder="$t('trade.form.fields.varType_placeholder')"
+              v-model="varType" />
+          </label>
+          <label aria-labelledby="input__3" class="card-label mt-3 col-12"
+            >{{ $t("trade.form.fields.flow") }}
+            <v-select
+              label="descr"
+              :options="flows"
+              :placeholder="$t('trade.form.fields.flow_placeholder')"
+              v-model="flow" />
+          </label>
+          <label aria-labelledby="input__4" class="card-label mt-3 col-12"
+            >{{ $t("trade.form.fields.country") }}
+            <v-select
+              label="name"
+              :options="countries"
+              :placeholder="$t('trade.form.fields.country_placeholder')"
+              v-model="country" />
+          </label>
+          <label
+            aria-labelledby="input__5"
             v-if="products"
-            label="displayName"
-            :options="products"
-            :placeholder="$t('trade.form.fields.products_placeholder')"
-            multiple
-            v-model="product"
-            ref="prod" />
+            class="card-label mt-3 col-12"
+            >{{ $t("trade.form.fields.products") }}
+            <v-select
+              v-if="products"
+              label="displayName"
+              :options="products"
+              :placeholder="$t('trade.form.fields.products_placeholder')"
+              multiple
+              v-model="product"
+              ref="prod" />
+          </label>
           <CButton
             color="primary"
             shape="square"
             size="sm"
             @click="handleSubmit"
-            class="mt-3"
+            class="mt-3 ml-3"
             >{{ $t("common.submit") }}
           </CButton>
         </CCardBody>
@@ -315,10 +318,21 @@ export default {
     },
     spinnerStart(bool) {
       this.spinner = bool
+    },
+    fixLabelAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll("label > *").forEach((element, index) => {
+          const i = index + 1
+          element
+            .getElementsByClassName("vs__search")[0]
+            .setAttribute("id", "input__" + i)
+        })
+      }, 300)
     }
   },
   created() {
     this.loadData()
+    this.fixLabelAccessibility()
   }
 }
 </script>

@@ -84,6 +84,7 @@
             <l-control position="topleft">
               <div class="leaflet-bar">
                 <a
+                  aria-hidden="true"
                   class="control-btn"
                   :title="$t('map.toolbar.information')"
                   role="button"
@@ -91,6 +92,7 @@
                   >i</a
                 >
                 <a
+                  aria-hidden="true"
                   class="control-btn"
                   :title="
                     !isMarker
@@ -102,6 +104,7 @@
                   >{{ btnFeatureMarker }}</a
                 >
                 <a
+                  aria-hidden="true"
                   class="control-btn"
                   :title="
                     !isImport

@@ -97,78 +97,82 @@
           }}</span>
         </CCardHeader>
         <CCardBody>
-          <label class="card-label">{{
-            $t("timeseries.form.fields.dataType")
-          }}</label>
-          <v-select
-            label="descr"
-            :options="dataTypes"
-            :placeholder="$t('timeseries.form.fields.dataType_placeholder')"
-            v-model="dataType"
-            :class="{
-              'is-invalid': $v.dataType.$error
-            }" />
-          <label class="card-label mt-3">{{
-            $t("timeseries.form.fields.varType")
-          }}</label>
-          <v-select
-            label="descr"
-            :options="varTypes"
-            :placeholder="$t('timeseries.form.fields.varType_placeholder')"
-            v-model="varType"
-            :class="{
-              'is-invalid': $v.varType.$error
-            }" />
-          <label class="card-label mt-3">{{
-            $t("timeseries.form.fields.flow")
-          }}</label>
-          <v-select
-            label="descr"
-            :options="flows"
-            :placeholder="$t('timeseries.form.fields.flow_placeholder')"
-            v-model="flow"
-            :class="{
-              'is-invalid': $v.flow.$error
-            }" />
-          <label class="card-label mt-3">{{
-            $t("timeseries.form.fields.country")
-          }}</label>
-          <v-select
-            label="name"
-            :options="countries"
-            :placeholder="$t('timeseries.form.fields.country_placeholder')"
-            v-model="country"
-            :class="{
-              'is-invalid': $v.country.$error
-            }" />
-          <label class="card-label mt-3">{{
-            $t("timeseries.form.fields.partner")
-          }}</label>
-          <v-select
-            label="descr"
-            :options="partners"
-            :placeholder="$t('timeseries.form.fields.partner_placeholder')"
-            v-model="partner"
-            :class="{
-              'is-invalid': $v.partner.$error
-            }" />
-          <label class="card-label mt-3">{{
-            $t("timeseries.form.fields.productsCPA")
-          }}</label>
-          <v-select
-            label="descr"
-            :options="productsCPA"
-            :placeholder="$t('timeseries.form.fields.productsCPA_placeholder')"
-            v-model="productCPA"
-            :class="{
-              'is-invalid': $v.productCPA.$error
-            }" />
+          <label aria-labelledby="input__1" class="card-label col-12"
+            >{{ $t("timeseries.form.fields.dataType") }}
+            <v-select
+              label="descr"
+              :options="dataTypes"
+              :placeholder="$t('timeseries.form.fields.dataType_placeholder')"
+              v-model="dataType"
+              :class="{
+                'is-invalid': $v.dataType.$error
+              }" />
+          </label>
+          <label aria-labelledby="input__2" class="card-label col-12 mt-3">
+            {{ $t("timeseries.form.fields.varType") }}
+            <v-select
+              label="descr"
+              :options="varTypes"
+              :placeholder="$t('timeseries.form.fields.varType_placeholder')"
+              v-model="varType"
+              :class="{
+                'is-invalid': $v.varType.$error
+              }" />
+          </label>
+          <label aria-labelledby="input__3" class="card-label col-12 mt-3">
+            {{ $t("timeseries.form.fields.flow") }}
+            <v-select
+              label="descr"
+              :options="flows"
+              :placeholder="$t('timeseries.form.fields.flow_placeholder')"
+              v-model="flow"
+              :class="{
+                'is-invalid': $v.flow.$error
+              }" />
+          </label>
+          <label aria-labelledby="input__4" class="card-label col-12 mt-3">
+            {{ $t("timeseries.form.fields.country") }}
+            <v-select
+              label="name"
+              :options="countries"
+              :placeholder="$t('timeseries.form.fields.country_placeholder')"
+              v-model="country"
+              :class="{
+                'is-invalid': $v.country.$error
+              }" />
+          </label>
+          <label aria-labelledby="input__5" class="card-label col-12 mt-3">
+            {{ $t("timeseries.form.fields.partner") }}
+            <v-select
+              id="selectPartner"
+              name="selectPartner"
+              label="descr"
+              :options="partners"
+              :placeholder="$t('timeseries.form.fields.partner_placeholder')"
+              v-model="partner"
+              :class="{
+                'is-invalid': $v.partner.$error
+              }" />
+          </label>
+          <label aria-labelledby="input__6" class="card-label col-12 mt-3">
+            {{ $t("timeseries.form.fields.productsCPA") }}
+            <v-select
+              label="descr"
+              :options="productsCPA"
+              :placeholder="
+                $t('timeseries.form.fields.productsCPA_placeholder')
+              "
+              v-model="productCPA"
+              :class="{
+                'is-invalid': $v.productCPA.$error
+              }" />
+          </label>
           <CButton
             color="primary"
             shape="square"
             size="sm"
             @click="handleSubmit"
-            class="mt-3"
+            class="mt-3 ml-3"
             >{{ $t("common.submit") }}</CButton
           >
         </CCardBody>
@@ -438,6 +442,16 @@ export default {
       }
       return null
     },
+    fixLabelAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll("label > *").forEach((element, index) => {
+          const i = index + 1
+          element
+            .getElementsByClassName("vs__search")[0]
+            .setAttribute("id", "input__" + i)
+        })
+      }, 300)
+    },
     spinnerStart(bool) {
       this.spinner = bool
     },
@@ -447,6 +461,7 @@ export default {
   },
   created() {
     this.loadData()
+    this.fixLabelAccessibility()
   }
 }
 </script>

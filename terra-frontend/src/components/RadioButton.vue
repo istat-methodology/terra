@@ -1,6 +1,7 @@
 <template>
-  <label class="radio">
+  <label aria-labelledby="radioButton" class="radio">
     <input
+      id="radioButton"
       type="radio"
       :dat="dat"
       :value="value"
