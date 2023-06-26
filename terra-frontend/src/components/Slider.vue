@@ -11,7 +11,8 @@
       :dot-attrs="{
         'aria-valuemin': selectedPeriod[0].id,
         'aria-valuemax': selectedPeriod[selectedPeriod.length - 1].id
-      }" />
+      }"
+      :title="'data-value'" />
   </div>
 </template>
 <script>

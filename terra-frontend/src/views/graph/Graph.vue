@@ -3,14 +3,16 @@
     <div class="row">
       <div class="col-sm-6 col-md-9">
         <CTabs
+          class="ctablist"
           role="tablist"
+          aria-label="Tabs"
           variant="tabs"
-          :active-tab="0"
-          :aria-labelledby="'Tabs'">
+          :active-tab="0">
           <CTab
-            role="tab"
+            role="tablist"
             :title="$t('graph.card.title')"
-            :aria-controls="$t('graph.card.title')">
+            :aria-label="$t('graph.card.title')"
+            aria-busy="true">
             <cosmo-graph
               ref="cosmograph"
               :nodes="nodes"
@@ -29,9 +31,10 @@
             </cosmo-graph>
           </CTab>
           <CTab
+            role="tablist"
             :title="$t('graph.table.title')"
-            role="tab"
-            :aria-controls="$t('graph.table.title')">
+            :aria-label="$t('graph.table.title')"
+            aria-busy="true">
             <CCard>
               <CCardHeader>
                 <span class="card-title">{{ title }}</span>
@@ -487,12 +490,34 @@ export default {
           .getElementsByClassName("nav-tabs")[0]
           .setAttribute("role", "tablist")
       }, 200)
+    },
+    fixSliderAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vue-slider-dot").forEach((element) => {
+          element.setAttribute("aria-label", "slider-graph")
+        })
+      }, 300)
+    },
+    fixTabsAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".nav-tabs").forEach((element) => {
+          element.setAttribute("aria-busy", "true")
+        })
+      }, 300)
+    },
+    fixTabListAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".ctablist").forEach((element) => {
+          element.setAttribute("aria-busy", "true")
+        })
+      }, 300)
     }
   },
   created() {
     this.loadData()
-
-    // document.getElementsByClassName("vis-network")[0].tabIndex = -1
+    this.fixSliderAccessibility()
+    this.fixTabsAccessibility()
+    this.fixTabListAccessibility()
   }
 }
 </script>

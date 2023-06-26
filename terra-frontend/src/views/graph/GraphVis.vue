@@ -1,7 +1,7 @@
 <template>
   <div>
-    <CCard class="card-graph" role="heading" aria-level="1" :aria-label="title">
-      <CCardHeader>
+    <CCard class="card-graph" >
+      <CCardHeader role="navigation" aria-label="Graph">
         <span class="card-title">{{ title }}</span>
         <span class="btn-help">
           <CButton color="link" size="sm" @click="showInfo">Info</CButton>

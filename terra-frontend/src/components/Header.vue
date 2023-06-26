@@ -29,8 +29,8 @@
           aria-label="Logo Terra" />
       </CHeaderNavItem>
     </CHeaderNav>
-    <CHeaderNav>
-      <CHeaderNavItem>
+    <CHeaderNav role="navigation" aria-label="Main">
+      <CHeaderNavItem role="group">
         <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 90%"

@@ -15,11 +15,10 @@
           aria-label="Logo Istat" />
       </a>
     </CSidebarBrand>
-    <ul class="c-sidebar-nav h-100">
+    <ul class="c-sidebar-nav h-100" role="navigation" aria-label="Main">
       <li class="c-sidebar-nav-item" role="navigation" aria-label="Home">
-        <router-link
-          tag="a"
-          :to="{ name: 'Home' }"
+        <a
+          @click="handleHome"
           class="c-sidebar-nav-link"
           :class="{ 'c-active': isHome }">
           <CIcon
@@ -27,7 +26,7 @@
             class="c-sidebar-nav-icon"
             alt="Home"
             title="Home" />{{ $t("sidebar.home") }}
-        </router-link>
+        </a>
       </li>
       <li
         class="c-sidebar-nav-title pb-2"
@@ -36,9 +35,8 @@
         {{ $t("sidebar.analysis") }}
       </li>
       <li class="c-sidebar-nav-item" role="navigation" aria-label="Mappa">
-        <router-link
-          tag="a"
-          :to="{ name: 'Map' }"
+        <a
+          @click="handleMap"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-primary': isMap }">
           <CIcon
@@ -46,39 +44,36 @@
             class="c-sidebar-nav-icon"
             title="Map" />
           {{ $t("sidebar.map") }}
-        </router-link>
+        </a>
       </li>
       <li class="c-sidebar-nav-item" role="navigation" aria-label="Grafo Extra">
-        <router-link
-          tag="a"
-          :to="{ name: 'GraphExtraUe' }"
+        <a
+          @click="handleGraphExtraUe()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraph }">
           <CIcon
             name="cil-graph"
             class="c-sidebar-nav-icon"
             title="GraphExtraUe" />{{ $t("sidebar.graphExtra") }}
-        </router-link>
+        </a>
       </li>
       <li class="c-sidebar-nav-item" role="navigation" aria-label="Grafo Intra">
-        <router-link
-          tag="a"
-          :to="{ name: 'GraphIntraUe' }"
+        <a
+          @click="handleGraphIntraUe()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraphIntra }">
           <CIcon
             name="cil-graph"
             class="c-sidebar-nav-icon"
             title="GraphIntraUe" />{{ $t("sidebar.graphWorld") }}
-        </router-link>
+        </a>
       </li>
       <li
         class="c-sidebar-nav-item"
         role="navigation"
         aria-label="Serie storica">
-        <router-link
-          tag="a"
-          :to="{ name: 'TimeSeries' }"
+        <a
+          @click="handleTimeSeries()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-warning': isPolicy }">
           <CIcon
@@ -86,17 +81,16 @@
             class="c-sidebar-nav-icon"
             title="TimeSeries" />
           {{ $t("sidebar.timeseries") }}
-        </router-link>
+        </a>
       </li>
       <li class="c-sidebar-nav-item" role="navigation" aria-label="Paniere">
-        <router-link
-          tag="a"
-          :to="{ name: 'Trade' }"
+        <a
+          @click="handleTrade()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-danger': isTrade }">
           <CIcon name="cil-layers" class="c-sidebar-nav-icon" title="Trade" />
           {{ $t("sidebar.trade") }}
-        </router-link>
+        </a>
       </li>
     </ul>
     <span
@@ -130,6 +124,26 @@ export default {
     }),
     ...mapGetters("metadata", ["appVersion"]),
     ...mapGetters("metadata", ["lastLoadedData"])
+  },
+  methods: {
+    handleHome() {
+      this.$router.push({ name: "Home" })
+    },
+    handleMap() {
+      this.$router.push({ name: "Map" })
+    },
+    handleGraphExtraUe() {
+      this.$router.push({ name: "GraphExtraUe" })
+    },
+    handleGraphIntraUe() {
+      this.$router.push({ name: "GraphIntraUe" })
+    },
+    handleTimeSeries() {
+      this.$router.push({ name: "TimeSeries" })
+    },
+    handleTrade() {
+      this.$router.push({ name: "Trade" })
+    }
   }
 }
 </script>

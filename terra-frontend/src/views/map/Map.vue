@@ -2,14 +2,14 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <div class="card card-map">
-        <CCardBody role="heading" aria-level="1" aria-label="Map">
+        <CCardBody role="heading" aria-level="1" aria-label="map">
           <l-map
             ref="map"
+            id="map"
             :zoom="zoom"
             :center="center"
             class
             style="height: 100%; width: 100%"
-            aria-hidden="true"
             aria-label="Map"
             @ready="setShooter()"
             @click="closeInfo()">
@@ -437,10 +437,18 @@ export default {
           this.buildFeatures()
         })
       })
+    },
+    fixSliderAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vue-slider-dot").forEach((element) => {
+          element.setAttribute("aria-label", "slider-map")
+        })
+      }, 300)
     }
   },
   created() {
     this.loadData()
+    this.fixSliderAccessibility()
   }
 }
 </script>
