@@ -44,7 +44,7 @@
           </div>
         </CCardBody>
       </CCard>
-      <CCard v-if="chartDataDiagNorm">
+      <!--CCard v-if="chartDataDiagNorm">
         <CCardHeader>
           <span class="card-title">
             {{ this.diagNormTitle }}
@@ -65,8 +65,8 @@
             :options="optionsNorm"
             id="diagnorm" />
         </CCardBody>
-      </CCard>
-      <CCard v-if="chartDataDiagACF">
+      </CCard-->
+      <!--CCard v-if="chartDataDiagACF">
         <CCardHeader>
           <span class="card-title">
             {{ this.diagACFTitle }}
@@ -87,7 +87,7 @@
             :options="optionsACF"
             id="diagacf" />
         </CCardBody>
-      </CCard>
+      </CCard-->
     </div>
     <div class="col-sm-6 col-md-3">
       <CCard class="card-filter">
@@ -198,7 +198,7 @@ import { metadataService } from "@/services"
 import paletteMixin from "@/components/mixins/palette.mixin"
 import timeseriesDiagMixin from "@/components/mixins/timeseriesDiag.mixin"
 import timeseriesMixin from "@/components/mixins/timeseries.mixin"
-import ScatterChart from "@/components/charts/ScatterChart"
+//import ScatterChart from "@/components/charts/ScatterChart"
 import LineChart from "@/components/charts/LineChart"
 import { required } from "vuelidate/lib/validators"
 import spinnerMixin from "@/components/mixins/spinner.mixin"
@@ -207,7 +207,7 @@ import exporter from "@/components/Exporter"
 export default {
   name: "TimeSeries",
   components: {
-    ScatterChart,
+    //ScatterChart,
     LineChart,
     exporter
   },
