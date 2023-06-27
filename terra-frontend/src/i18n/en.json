@@ -3,7 +3,7 @@
     "acronym": "TERRA - imporT ExpoRt netwoRk Analysis",
     "submit": "Go",
     "data_updated": "Data updated",
-    "exporter": "Export",
+    "exporter": "Download",
     "apply": "Update graph",
     "close": "Close",
     "mandatory": "Mandatory fields",
@@ -22,15 +22,15 @@
       "error": "Error message",
       "goHome": "Go to home page"
     },
-    "select_language":"Select language",
-    "language_it":"Italian",
-    "language_en":"English"
+    "select_language": "Select language",
+    "language_it": "Italian",
+    "language_en": "English"
   },
   "header": {
     "userguide": "User guide",
     "methodology": "Methodological note",
-    "logo_terra":"Terra Logo",
-    "logo_statistica_sp":"Experimental Statistic Logo"
+    "logo_terra": "Terra Logo",
+    "logo_statistica_sp": "Experimental Statistic Logo"
   },
   "sidebar": {
     "home": "Home",
@@ -41,7 +41,7 @@
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
     "trade": "Basket of traded products",
-    "logo_istat":"Istat Logo"
+    "logo_istat": "Istat Logo"
   },
   "landing": {
     "disclaimer": "*Eurostat and National CPA 2.1 and NSTR classifications may differ",
@@ -115,8 +115,8 @@
         "trimester": "Quarterly",
         "period": "Period",
         "period_placeholder": "Select a period",
-        "percentage": "Percentage",
-        "percentage_placeholder": "Set a percentage",
+        "percentage": "Percentile",
+        "percentage_placeholder": "Set a percentile",
         "transport": "Transport",
         "transport_placeholder": "Select transport",
         "product_nstr": "Product NSTR",
@@ -164,7 +164,7 @@
       },
       "filter": {
         "title": "Search filters description",
-        "body": "<strong>Period:</strong> select the required time period for data underlying the graph (specific month or year)<br><strong>Percentage:</strong> select the percentage of data shown in the graph (integer value from 0 to 100). Once the percentage value is selected the data are filtered according to the following procedure: all the amounts (values in Euro) traded between countries (all edges) are listed in a descending order, then the cumulative sum is calculated along the list, from the top. All the trades associated to a cumulative sum above the percentage value, taken as threshold, are filtered out. This means that small trading amounts are considered in the graph only when “percentage” takes an high value.<br><strong>Transport: </strong> select data according to the means of transport used in the trades. The listed means of transport are: <br><strong>  “unknown”, “sea”, “rail”, “road”, ”air”, “post”, “fixed mechanism”, “inland waterway”, “self-propulsion”.</strong><br><strong>Product:</strong> select data according to the product exchanged in the trades. The user can select either a single product or all of them together.<br><strong>Flow:</strong> select either “Export” data or “Import” data, coming from two separate datasets.<br><strong>Weight:</strong> select the type of graph analysis. <strong>“True”</strong> select the weighted type of graph, <strong>“False”</strong> select the unweighted type of graph. Values for the links weights are the amounts (values in Euro) exchanged in the trades.",
+        "body": "<strong>Period:</strong> select the required time period for data underlying the graph (specific month or year)<br><strong>Percentile:</strong> select the percentile of data shown in the graph (integer value from 0 to 100). Once the percentile value is selected the data are filtered according to the following procedure: all the amounts (values in Euro) traded between countries (all edges) are listed in a descending order, then the cumulative sum is calculated along the list, from the top. All the trades associated to a cumulative sum above the percentile value, taken as threshold, are filtered out. This means that small trading amounts are considered in the graph only when “percentile” takes an high value.<br><strong>Transport: </strong> select data according to the means of transport used in the trades. The listed means of transport are: <br><strong>  “unknown”, “sea”, “rail”, “road”, ”air”, “post”, “fixed mechanism”, “inland waterway”, “self-propulsion”.</strong><br><strong>Product:</strong> select data according to the product exchanged in the trades. The user can select either a single product or all of them together.<br><strong>Flow:</strong> select either “Export” data or “Import” data, coming from two separate datasets.<br><strong>Weight:</strong> select the type of graph analysis. <strong>“True”</strong> select the weighted type of graph, <strong>“False”</strong> select the unweighted type of graph. Values for the links weights are the amounts (values in Euro) exchanged in the trades.",
         "keywords": ""
       }
     }
