@@ -3,7 +3,6 @@
     tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
     :title="
       isMainModal
         ? $t('graph.modal.main.title')

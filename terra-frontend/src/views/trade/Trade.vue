@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-6 col-md-9">
       <CCard>
-        <CCardHeader>
+        <CCardHeader role="heading" aria-level="1">
           <span class="card-title">
             {{ $t("trade.card.title") }} {{ title }}
           </span>
@@ -32,7 +32,7 @@
       </CCard>
     </div>
     <div class="col-sm-6 col-md-3">
-      <CCard class="card-filter">
+      <CCard class="card-filter" role="heading" aria-level="2">
         <CCardHeader>
           <span class="card-filter-title">{{ $t("trade.form.title") }} </span>
         </CCardHeader>

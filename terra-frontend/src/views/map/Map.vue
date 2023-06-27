@@ -4,6 +4,8 @@
       <div class="card card-map">
         <CCardBody role="heading" aria-level="1" aria-label="map">
           <l-map
+            role="heading"
+            aria-level="2"
             ref="map"
             id="map"
             :zoom="zoom"
@@ -12,7 +14,8 @@
             style="height: 100%; width: 100%"
             aria-label="Map"
             @ready="setShooter()"
-            @click="closeInfo()">
+            @click="closeInfo()"
+            tabindex="14">
             <l-tile-layer :url="url" :attribution="attribution" />
             <l-geo-json
               v-if="geoJson"
@@ -84,15 +87,14 @@
             <l-control position="topleft">
               <div class="leaflet-bar">
                 <a
-                  aria-hidden="true"
                   class="control-btn"
                   :title="$t('map.toolbar.information')"
                   role="button"
                   @click="helpOn(true)"
+                  tabindex="15"
                   >i</a
                 >
                 <a
-                  aria-hidden="true"
                   class="control-btn"
                   :title="
                     !isMarker
@@ -101,10 +103,10 @@
                   "
                   role="button"
                   @click="setFeatureMarker()"
+                  tabindex="16"
                   >{{ btnFeatureMarker }}</a
                 >
                 <a
-                  aria-hidden="true"
                   class="control-btn"
                   :title="
                     !isImport
@@ -113,6 +115,7 @@
                   "
                   role="button"
                   @click="setImportExport()"
+                  tabindex="17"
                   >{{ btnImportExport }}</a
                 >
               </div>
@@ -134,7 +137,8 @@
             :dot-attrs="{
               'aria-valuemin': mapPeriod[0].id,
               'aria-valuemax': mapPeriod[mapPeriod.length - 1].id
-            }" />
+            }"
+            tabindex="19" />
         </div>
       </div>
     </div>

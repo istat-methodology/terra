@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-sm-6 col-md-9">
+      <div class="col-sm-6 col-md-9" role="heading" aria-level="1">
         <CTabs
           class="ctablist"
           role="tablist"
@@ -56,7 +56,6 @@
               </CCardHeader>
               <CCardBody class="pb-1">
                 <cosmo-table
-                  aria-hidden="true"
                   :data="metricsTable"
                   :fields="metricsFields"
                   :sorterValue="sorterValue" />
@@ -67,7 +66,7 @@
       </div>
       <div class="col-sm-6 col-md-3 padding-tab">
         <CCard class="card-filter">
-          <CCardHeader>
+          <CCardHeader role="heading" aria-level="2">
             <span class="card-title">{{ $t("graph.form.title") }}</span>
             <span class="btn-help">
               <CButton color="link" size="sm" @click="showInfoModal"

@@ -1,5 +1,6 @@
 <template>
   <CSidebar
+    role="complementary"
     fixed
     :minimize="minimize"
     :show="show"
@@ -7,7 +8,11 @@
       (value) => $store.commit('coreui/set', ['sidebarShow', 'responsive'])
     ">
     <CSidebarBrand>
-      <a href="https://www.istat.it/it/" target="_blank" aria-label="Istat">
+      <a
+        href="https://www.istat.it/it/"
+        target="_blank"
+        aria-label="Istat"
+        tabindex="1">
         <CImg
           src="../img/LogoIstatCompleto.png"
           style="max-width: 100%"
@@ -15,12 +20,17 @@
           aria-label="Logo Istat" />
       </a>
     </CSidebarBrand>
-    <ul class="c-sidebar-nav h-100" role="navigation" aria-label="Main">
+    <ul
+      class="c-sidebar-nav h-100"
+      role="navigation"
+      aria-label="Main"
+      style="overflow: hidden">
       <li class="c-sidebar-nav-item" role="navigation" aria-label="Home">
         <a
           @click="handleHome"
           class="c-sidebar-nav-link"
-          :class="{ 'c-active': isHome }">
+          :class="{ 'c-active': isHome }"
+          tabindex="2">
           <CIcon
             name="cil-home"
             class="c-sidebar-nav-icon"
@@ -38,7 +48,8 @@
         <a
           @click="handleMap"
           class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-primary': isMap }">
+          :class="{ 'c-active c-active-primary': isMap }"
+          tabindex="3">
           <CIcon
             name="cil-location-pin"
             class="c-sidebar-nav-icon"
@@ -50,7 +61,8 @@
         <a
           @click="handleGraphExtraUe()"
           class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-success': isGraph }">
+          :class="{ 'c-active c-active-success': isGraph }"
+          tabindex="4">
           <CIcon
             name="cil-graph"
             class="c-sidebar-nav-icon"
@@ -61,7 +73,8 @@
         <a
           @click="handleGraphIntraUe()"
           class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-success': isGraphIntra }">
+          :class="{ 'c-active c-active-success': isGraphIntra }"
+          tabindex="5">
           <CIcon
             name="cil-graph"
             class="c-sidebar-nav-icon"
@@ -75,7 +88,8 @@
         <a
           @click="handleTimeSeries()"
           class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-warning': isPolicy }">
+          :class="{ 'c-active c-active-warning': isPolicy }"
+          tabindex="6">
           <CIcon
             name="cil-chart-line"
             class="c-sidebar-nav-icon"
@@ -87,7 +101,8 @@
         <a
           @click="handleTrade()"
           class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-danger': isTrade }">
+          :class="{ 'c-active c-active-danger': isTrade }"
+          tabindex="7">
           <CIcon name="cil-layers" class="c-sidebar-nav-icon" title="Trade" />
           {{ $t("sidebar.trade") }}
         </a>

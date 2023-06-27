@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-6 col-md-9">
       <CCard>
-        <CCardHeader>
+        <CCardHeader role="heading" aria-level="1">
           <span class="card-title">
             <span v-if="country && partner"
               >{{ $t("timeseries.card.title") }}: {{ this.country.name }} -
@@ -91,7 +91,7 @@
     </div>
     <div class="col-sm-6 col-md-3">
       <CCard class="card-filter">
-        <CCardHeader>
+        <CCardHeader role="heading" aria-level="2">
           <span class="card-filter-title">{{
             $t("timeseries.form.title")
           }}</span>

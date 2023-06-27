@@ -29,7 +29,7 @@
       pagination>
       <template #show_delete="{ item }">
         <td>
-          <span class="icon-link" @click="deleteRow(item)" aria-hidden="true">
+          <span class="icon-link" @click="deleteRow(item)">
             <delete-icon />
           </span>
         </td>
@@ -62,7 +62,6 @@
       </div>
       <div class="row drag-container">
         <div
-          aria-hidden="true"
           class="col-left drop-zone"
           @drop="onDropTransports($event)"
           @dragenter.prevent

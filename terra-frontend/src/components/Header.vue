@@ -1,5 +1,5 @@
 <template>
-  <CHeader with-subheader light>
+  <CHeader with-subheader light tabindex="-1">
     <CToggler
       in-header
       class="ml-3 d-lg-none"
