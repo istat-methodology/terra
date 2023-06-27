@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CCard class="card-graph" >
+    <CCard class="card-graph">
       <CCardHeader role="navigation" aria-label="Graph">
         <span class="card-title">{{ title }}</span>
         <span class="btn-help">
