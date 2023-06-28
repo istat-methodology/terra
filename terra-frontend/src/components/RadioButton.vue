@@ -1,12 +1,13 @@
 <template>
-  <label aria-labelledby="radioButton" class="radio">
+  <label aria-labelledby="radioButton" class="radio" tabindex="0">
     <input
       id="radioButton"
       type="radio"
       :dat="dat"
       :value="value"
       :name="name"
-      v-model="radioButtonValue" />
+      v-model="radioButtonValue"
+      tabindex="0" />
     <span>{{ label }}</span>
   </label>
 </template>

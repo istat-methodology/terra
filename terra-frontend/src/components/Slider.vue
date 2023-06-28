@@ -2,6 +2,7 @@
   <div>
     <vue-slider
       v-if="interval"
+      tabindex="0"
       :adsorb="true"
       :tooltip="'none'"
       v-model="selectedPeriod"

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-6 col-md-4">
       <div class="card">
-        <header class="card-header" role="heading" aria-level="1">
+        <header class="card-header">
           <CIcon name="cil-location-pin" title="Map" />{{
             $t("landing.map.title")
           }}
@@ -19,7 +19,7 @@
     </div>
     <div class="col-sm-6 col-md-4">
       <div class="card">
-        <header class="card-header" role="heading" aria-level="1">
+        <header class="card-header">
           <CIcon name="cil-graph" title="GraphExtraUe" />
           {{ $t("landing.graph.extra-ue.title") }}
         </header>
@@ -35,7 +35,7 @@
     </div>
     <div class="col-sm-6 col-md-4">
       <div class="card">
-        <header class="card-header" role="heading" aria-level="1">
+        <header class="card-header">
           <CIcon name="cil-graph" title="GraphIntraUe" />
           {{ $t("landing.graph.intra-ue.title") }}
         </header>
@@ -51,7 +51,7 @@
     </div>
     <div class="col-sm-6 col-md-4">
       <div class="card">
-        <header class="card-header" role="heading" aria-level="1">
+        <header class="card-header">
           <CIcon name="cil-chart-line" title="TimeSeries" />
           {{ $t("landing.timeseries.title") }}
         </header>
@@ -67,7 +67,7 @@
     </div>
     <div class="col-sm-6 col-md-4">
       <div class="card">
-        <header class="card-header" role="heading" aria-level="1">
+        <header class="card-header">
           <CIcon name="cil-layers" title="Trade" />
           {{ $t("landing.trade.title") }}
         </header>

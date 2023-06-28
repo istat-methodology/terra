@@ -15,7 +15,7 @@
             aria-label="Map"
             @ready="setShooter()"
             @click="closeInfo()"
-            tabindex="14">
+            tabindex="0">
             <l-tile-layer :url="url" :attribution="attribution" />
             <l-geo-json
               v-if="geoJson"
@@ -23,7 +23,8 @@
               :geojson="geoJson"
               :options="options"
               :options-style="styleFunction"
-              @click="openInfoOnFeature"></l-geo-json>
+              @click="openInfoOnFeature"
+              tabindex="0"></l-geo-json>
 
             <l-circle-marker
               v-for="(marker, i) in markerPeriodSeries"
@@ -37,16 +38,19 @@
               :radius="getRadius(marker.series)"
               :color="getColor(marker.series, markerMin, markerMax)"
               :fillColor="getColor(marker.series, markerMin, markerMax)"
-              @click="openInfo(marker)">
-              <l-tooltip :options="{ interactive: true, permanent: false }">
-                <span class="tooltip-span"
+              @click="openInfo(marker)"
+              tabindex="0">
+              <l-tooltip
+                :options="{ interactive: true, permanent: false }"
+                tabindex="0">
+                <span class="tooltip-span" tabindex="0"
                   >{{ marker.name }} {{ ie }}
                   {{ marker.series + "%" }}
                 </span>
               </l-tooltip>
             </l-circle-marker>
 
-            <l-control position="topright">
+            <l-control position="topright" tabindex="0">
               <div id="Legend" class="legend"></div>
               <div class="legend-title">
                 {{
@@ -56,7 +60,7 @@
                 }}
               </div>
             </l-control>
-            <l-control position="bottomleft">
+            <l-control position="bottomleft" tabindex="0">
               <div class="info" v-if="isInfo">
                 <h5>{{ infoTitle }}</h5>
                 <CTabs v-if="infoData" variant="tabs" :active-tab="0">
@@ -91,7 +95,7 @@
                   :title="$t('map.toolbar.information')"
                   role="button"
                   @click="helpOn(true)"
-                  tabindex="15"
+                  tabindex="0"
                   >i</a
                 >
                 <a
@@ -103,7 +107,7 @@
                   "
                   role="button"
                   @click="setFeatureMarker()"
-                  tabindex="16"
+                  tabindex="0"
                   >{{ btnFeatureMarker }}</a
                 >
                 <a
@@ -115,7 +119,7 @@
                   "
                   role="button"
                   @click="setImportExport()"
-                  tabindex="17"
+                  tabindex="0"
                   >{{ btnImportExport }}</a
                 >
               </div>
@@ -138,7 +142,7 @@
               'aria-valuemin': mapPeriod[0].id,
               'aria-valuemax': mapPeriod[mapPeriod.length - 1].id
             }"
-            tabindex="19" />
+            tabindex="0" />
         </div>
       </div>
     </div>

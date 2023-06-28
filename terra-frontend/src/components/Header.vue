@@ -1,76 +1,85 @@
 <template>
-  <CHeader with-subheader light tabindex="-1">
+  <CHeader with-subheader light tabindex="0">
     <CToggler
       in-header
       class="ml-3 d-lg-none"
       @click="$store.dispatch('coreui/toggleSidebarMobile')"
-      aria-label="toggle Sidebar Mobile" />
+      aria-label="toggle Sidebar Mobile"
+      tabindex="0" />
     <CToggler
       in-header
       class="ml-3 d-md-down-none"
       @click="$store.dispatch('coreui/toggleSidebarDesktop')"
-      aria-label="toggle Sidebar Desktop" />
+      aria-label="toggle Sidebar Desktop"
+      tabindex="0" />
 
-    <CHeaderNav class="mr-auto">
-      <CHeaderNavItem>
+    <CHeaderNav class="mr-auto" tabindex="0">
+      <CHeaderNavItem tabindex="0">
         <CImg
           src="../img/LogoTerraFull.png"
           style="max-width: 95%"
           class="d-md-down-none"
           alt="$t('header.logo_terra')"
           title="$t('header.logo_terra')"
-          aria-label="Logo Terra" />
+          aria-label="Logo Terra"
+          tabindex="0" />
         <CImg
           src="../img/LogoTerraShort.png"
           style="max-width: 80%"
           class="d-lg-none"
           alt="$t('header.logo_terra')"
           title="$t('header.logo_terra')"
-          aria-label="Logo Terra" />
+          aria-label="Logo Terra"
+          tabindex="0" />
       </CHeaderNavItem>
     </CHeaderNav>
-    <CHeaderNav role="navigation" aria-label="Main">
-      <CHeaderNavItem role="group">
-        <CImg
+
+    <CHeaderNav tabindex="0">
+      <CHeaderNavItem tabindex="0">
+        <!--CImg
           src="../img/LogoSTSP.png"
           style="max-width: 90%"
           class="d-md-down-none mr-3"
           alt="$t('header.logo_statistica_sp')"
           title="$t('header.logo_statistica_sp')"
-          aria-label="Statistiche sperimentali" />
-        <CImg
+          aria-label="Statistiche sperimentali"
+          tabindex="0" /-->
+        <!--CImg
           src="../img/LogoSTSP.png"
           style="max-width: 80%"
           class="d-lg-none"
           alt="$t('header.logo_statistica_sp')"
           title="$t('header.logo_statistica_sp')"
-          aria-label="Statistiche sperimentali" />
+          aria-label="Statistiche sperimentali"
+          tabindex="0" /-->
+        <CButtonGroup
+          role="group"
+          class="mr-lang"
+          aria-label="$t('common.select_language')">
+          <CButton
+            color="primary"
+            variant="ghost"
+            square
+            size="sm"
+            :class="{ active: selectedIt }"
+            @click="selectLanguage('it')"
+            aria-label="$t('common.language_it')"
+            tabindex="0"
+            >IT</CButton
+          >
+          <CButton
+            color="primary"
+            variant="ghost"
+            square
+            size="sm"
+            :class="{ active: selectedEn }"
+            @click="selectLanguage('en')"
+            aria-label="$t('common.language_en')"
+            tabindex="0"
+            >EN</CButton
+          >
+        </CButtonGroup>
       </CHeaderNavItem>
-      <CButtonGroup
-        role="group"
-        class="mr-lang"
-        aria-label="$t('common.select_language')">
-        <CButton
-          color="primary"
-          variant="ghost"
-          square
-          size="sm"
-          :class="{ active: selectedIt }"
-          @click="selectLanguage('it')"
-          aria-label="$t('common.language_it')"
-          >IT</CButton
-        >
-        <CButton
-          color="primary"
-          variant="ghost"
-          square
-          size="sm"
-          :class="{ active: selectedEn }"
-          @click="selectLanguage('en')"
-          aria-label="$t('common.language_en')"
-          >EN</CButton
-        >
-      </CButtonGroup>
     </CHeaderNav>
   </CHeader>
 </template>

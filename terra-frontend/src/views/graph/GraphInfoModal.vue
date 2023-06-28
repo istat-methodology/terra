@@ -1,6 +1,5 @@
 <template>
   <CModal
-    tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalLabel"
     :title="

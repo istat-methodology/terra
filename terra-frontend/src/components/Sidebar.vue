@@ -1,6 +1,6 @@
 <template>
   <CSidebar
-    role="complementary"
+    role="navigation"
     fixed
     :minimize="minimize"
     :show="show"
@@ -8,113 +8,109 @@
       (value) => $store.commit('coreui/set', ['sidebarShow', 'responsive'])
     ">
     <CSidebarBrand>
-      <a
+      <!--a
         href="https://www.istat.it/it/"
         target="_blank"
         aria-label="Istat"
-        tabindex="1">
-        <CImg
+        tabindex="0">        
+        <--CImg
           src="../img/LogoIstatCompleto.png"
           style="max-width: 100%"
           :alt="$t('sidebar.logo_istat')"
-          aria-label="Logo Istat" />
-      </a>
+          :aria-label="$t('sidebar.logo_istat')" />
+      </a-->
+      <CImg
+        src="../img/LogoTerraShort.png"
+        style="max-width: 100%"
+        :alt="$t('sidebar.logo_istat')"
+        :aria-label="$t('sidebar.logo_istat')" />
     </CSidebarBrand>
-    <ul
-      class="c-sidebar-nav h-100"
-      role="navigation"
-      aria-label="Main"
-      style="overflow: hidden">
-      <li class="c-sidebar-nav-item" role="navigation" aria-label="Home">
+    <div class="c-sidebar-nav h-100" style="overflow: hidden">
+      <div class="c-sidebar-nav-item" aria-busy="true">
         <a
           @click="handleHome"
           class="c-sidebar-nav-link"
           :class="{ 'c-active': isHome }"
-          tabindex="2">
+          tabindex="0">
           <CIcon
             name="cil-home"
             class="c-sidebar-nav-icon"
             alt="Home"
             title="Home" />{{ $t("sidebar.home") }}
         </a>
-      </li>
-      <li
-        class="c-sidebar-nav-title pb-2"
-        role="navigation"
-        aria-label="Analisi">
+      </div>
+      <div class="c-sidebar-nav-title pb-2">
         {{ $t("sidebar.analysis") }}
-      </li>
-      <li class="c-sidebar-nav-item" role="navigation" aria-label="Mappa">
+      </div>
+      <div class="c-sidebar-nav-item">
         <a
           @click="handleMap"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-primary': isMap }"
-          tabindex="3">
+          tabindex="0">
           <CIcon
             name="cil-location-pin"
             class="c-sidebar-nav-icon"
             title="Map" />
           {{ $t("sidebar.map") }}
         </a>
-      </li>
-      <li class="c-sidebar-nav-item" role="navigation" aria-label="Grafo Extra">
+      </div>
+      <div class="c-sidebar-nav-item">
         <a
           @click="handleGraphExtraUe()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraph }"
-          tabindex="4">
+          tabindex="0">
           <CIcon
             name="cil-graph"
             class="c-sidebar-nav-icon"
             title="GraphExtraUe" />{{ $t("sidebar.graphExtra") }}
         </a>
-      </li>
-      <li class="c-sidebar-nav-item" role="navigation" aria-label="Grafo Intra">
+      </div>
+      <div class="c-sidebar-nav-item">
         <a
           @click="handleGraphIntraUe()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraphIntra }"
-          tabindex="5">
+          tabindex="0">
           <CIcon
             name="cil-graph"
             class="c-sidebar-nav-icon"
             title="GraphIntraUe" />{{ $t("sidebar.graphWorld") }}
         </a>
-      </li>
-      <li
-        class="c-sidebar-nav-item"
-        role="navigation"
-        aria-label="Serie storica">
+      </div>
+      <div class="c-sidebar-nav-item">
         <a
           @click="handleTimeSeries()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-warning': isPolicy }"
-          tabindex="6">
+          tabindex="0">
           <CIcon
             name="cil-chart-line"
             class="c-sidebar-nav-icon"
             title="TimeSeries" />
           {{ $t("sidebar.timeseries") }}
         </a>
-      </li>
-      <li class="c-sidebar-nav-item" role="navigation" aria-label="Paniere">
+      </div>
+      <div class="c-sidebar-nav-item">
         <a
           @click="handleTrade()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-danger': isTrade }"
-          tabindex="7">
+          tabindex="0">
           <CIcon name="cil-layers" class="c-sidebar-nav-icon" title="Trade" />
           {{ $t("sidebar.trade") }}
         </a>
-      </li>
-    </ul>
-    <span
-      role="region"
-      class="data-update"
-      :aria-label="$t('common.update') + lastLoadedData">
-      <CIcon name="cil-tags" title="Update" /> {{ $t("common.update") }}
-      {{ lastLoadedData }}</span
-    >
+      </div>
+      <div class="c-sidebar-nav-item">
+        <span
+          class="data-update"
+          :aria-label="$t('common.update') + lastLoadedData">
+          <CIcon name="cil-tags" title="Update" /> {{ $t("common.update") }}
+          {{ lastLoadedData }}</span
+        >
+      </div>
+    </div>
   </CSidebar>
 </template>
 <script>

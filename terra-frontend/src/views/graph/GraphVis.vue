@@ -37,7 +37,6 @@
       <CCardBody class="card-no-border" tabindex="-1">
         <circle-spin v-if="this.spinner" class="circle-spin"></circle-spin>
         <network
-          tabindex="-1"
           id="graph"
           class="network"
           ref="graph"

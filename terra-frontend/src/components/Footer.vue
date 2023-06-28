@@ -1,11 +1,12 @@
 <template>
-  <CFooter :fixed="false">
+  <CFooter :fixed="false" tabindex="-1">
     <div>
       <span class="mr-1 text-dark"
         ><a
           href="https://www.terra.statlab.it"
           target="_blank"
-          :aria-label="$t('common.acronym')">
+          :aria-label="$t('common.acronym')"
+          tabindex="0">
           <span class="acronym d-md-down-none">
             {{ $t("common.acronym") }}</span
           ></a
@@ -18,6 +19,7 @@
         href="http://epp.eurostat.ec.europa.eu/newxtweb/"
         target="_blank"
         aria-label="EUROSTAT COMEXT"
+        tabindex="0"
         >EUROSTAT COMEXT</a
       >
     </div>
@@ -25,7 +27,8 @@
       <a
         target="_blank"
         :aria-label="$t('header.userguide')"
-        href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf">
+        href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf"
+        tabindex="0">
         {{ $t("header.userguide") }}
       </a>
     </div>

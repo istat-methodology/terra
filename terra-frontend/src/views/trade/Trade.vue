@@ -2,22 +2,31 @@
   <div class="row">
     <div class="col-sm-6 col-md-9">
       <CCard>
-        <CCardHeader role="heading" aria-level="1">
+        <CCardHeader>
           <span class="card-title">
             {{ $t("trade.card.title") }} {{ title }}
           </span>
-          <span class="btn-help">
-            <CButton color="link" size="sm" @click="helpOn(true)">Info</CButton>
-          </span>
-          <span class="float-right">
-            <exporter
-              v-if="this.charts && this.tradePeriod"
-              filename="terra_basket"
-              :data="getData(this.charts.data, 'trade')"
-              :filter="getSearchFilter()"
-              source="matrix"
-              :timePeriod="this.tradePeriod">
-            </exporter>
+
+          <span class="btn-group float-right">
+            <span>
+              <exporter
+                v-if="this.charts && this.tradePeriod"
+                tabindex="0"
+                filename="terra_basket"
+                :data="getData(this.charts.data, 'trade')"
+                :filter="getSearchFilter()"
+                source="matrix"
+                :timePeriod="this.tradePeriod">
+              </exporter>
+            </span>
+            <CButton
+              color="link"
+              size="sm"
+              @click="helpOn(true)"
+              tabindex="0"
+              class="float-right"
+              >Info</CButton
+            >
           </span>
         </CCardHeader>
         <CCardBody>
@@ -32,7 +41,7 @@
       </CCard>
     </div>
     <div class="col-sm-6 col-md-3">
-      <CCard class="card-filter" role="heading" aria-level="2">
+      <CCard class="card-filter">
         <CCardHeader>
           <span class="card-filter-title">{{ $t("trade.form.title") }} </span>
         </CCardHeader>

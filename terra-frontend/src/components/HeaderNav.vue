@@ -1,5 +1,5 @@
 <template>
-  <div class="c-subheader-nav mfe-2" v-if="isHome"></div>
+  <div class="c-subheader-nav mfe-2" v-if="isHome" tabindex="0"></div>
 </template>
 
 <script>

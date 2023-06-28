@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <div class="c-app">
-      <app-sidebar></app-sidebar>
+      <app-sidebar tabindex="-1" />
       <CWrapper>
-        <app-toast></app-toast>
-        <app-header />
-        <div class="c-body">
+        <app-toast tabindex="-1" />
+        <app-header tabindex="-1" />
+        <div class="c-body" tabindex="-1">
           <main class="c-main">
             <CContainer fluid>
               <transition name="fade" mode="out-in">

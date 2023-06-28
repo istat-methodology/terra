@@ -1,8 +1,8 @@
 <template>
   <div class="col-4">
     <form>
-      <div id="InputBox">
-        <label aria-labelledby="InputBox" class="col-3"
+      <div id="InputBox" tabindex="0">
+        <label aria-labelledby="InputBox" class="col-3" tabindex="0"
           >{{ label }}
           <input
             id="InputBox"
@@ -14,7 +14,8 @@
             max="1"
             class="form-control"
             v-bind:value="value"
-            v-on:input="$emit('input', $event.target.value)" />
+            v-on:input="$emit('input', $event.target.value)"
+            tabindex="0" />
           {{ value }}
         </label>
       </div>
