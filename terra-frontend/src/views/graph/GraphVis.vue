@@ -1,7 +1,7 @@
 <template>
   <div>
     <CCard class="card-graph" role="main">
-      <CCardHeader role="heading" aria-level="1" aria-label="Graph">
+      <CCardHeader aria-label="Graph">
         <span class="card-title">{{ title }}</span>
         <span class="btn-help">
           <CButton color="link" size="sm" @click="showInfo">Info</CButton>
@@ -34,7 +34,7 @@
           >
         </div>
       </CCardHeader>
-      <CCardBody class="card-no-border" tabindex="-1">
+      <CCardBody class="card-no-border">
         <circle-spin v-if="this.spinner" class="circle-spin"></circle-spin>
         <network
           id="graph"

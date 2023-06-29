@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-6 col-md-9">
       <CCard>
-        <CCardHeader role="heading" aria-level="1">
+        <CCardHeader>
           <span class="card-title">
             <span v-if="country && partner"
               >{{ $t("timeseries.card.title") }}: {{ this.country.name }} -
@@ -13,17 +13,23 @@
               {{ $t("timeseries.card.comext") }}</span
             >
           </span>
-          <span class="btn-help">
-            <CButton color="link" size="sm" @click="helpOn(true)">Info</CButton>
-          </span>
-          <span class="float-right">
-            <exporter
-              v-if="timeseriesCharts"
-              filename="terra_timeseries"
-              :data="getTabularData(timeseriesCharts.diagMain, 'timeseries')"
-              :filter="getSearchFilter()"
-              source="table">
-            </exporter>
+          <span class="btn-group float-right">
+            <span>
+              <exporter
+                v-if="timeseriesCharts"
+                filename="terra_timeseries"
+                :data="getTabularData(timeseriesCharts.diagMain, 'timeseries')"
+                :filter="getSearchFilter()"
+                source="table">
+              </exporter>
+            </span>
+            <CButton
+              color="link"
+              size="sm"
+              @click="helpOn(true)"
+              class="float-right"
+              >Info</CButton
+            >
           </span>
         </CCardHeader>
         <CCardBody v-if="isMainChart">
@@ -91,7 +97,7 @@
     </div>
     <div class="col-sm-6 col-md-3">
       <CCard class="card-filter">
-        <CCardHeader role="heading" aria-level="2">
+        <CCardHeader aria-label="search">
           <span class="card-filter-title">{{
             $t("timeseries.form.title")
           }}</span>

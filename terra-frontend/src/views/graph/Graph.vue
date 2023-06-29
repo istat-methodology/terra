@@ -1,18 +1,15 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-sm-6 col-md-9" role="heading" aria-level="1">
+      <div class="col-sm-6 col-md-9">
         <CTabs
           class="ctablist"
-          role="tablist"
-          aria-label="Tabs"
+          aria-label="tablist"
           variant="tabs"
           :active-tab="0">
           <CTab
-            role="tablist"
             :title="$t('graph.card.title')"
-            :aria-label="$t('graph.card.title')"
-            aria-busy="true">
+            :aria-label="$t('graph.card.title')">
             <cosmo-graph
               ref="cosmograph"
               :nodes="nodes"
@@ -31,27 +28,31 @@
             </cosmo-graph>
           </CTab>
           <CTab
-            role="tablist"
             :title="$t('graph.table.title')"
-            :aria-label="$t('graph.table.title')"
-            aria-busy="true">
+            :aria-label="$t('graph.table.title')">
             <CCard>
               <CCardHeader>
                 <span class="card-title">{{ title }}</span>
-                <span class="btn-help">
-                  <CButton color="link" size="sm" @click="showMainModal"
+                <span class="btn-group float-right">
+                  <span>
+                    <exporter
+                      tabindex="0"
+                      filename="terra_metrics"
+                      :data="getData(csvFields, 'table')"
+                      :options="['csv']"
+                      :filter="getSearchFilter()"
+                      source="table"
+                      :header="csvHeader">
+                    </exporter>
+                  </span>
+                  <CButton
+                    color="link"
+                    size="sm"
+                    @click="showMainModal"
+                    class="float-right"
+                    tabindex="0"
                     >Info</CButton
                   >
-                </span>
-                <span class="float-right">
-                  <exporter
-                    filename="terra_metrics"
-                    :data="getData(csvFields, 'table')"
-                    :options="['csv']"
-                    :filter="getSearchFilter()"
-                    source="table"
-                    :header="csvHeader">
-                  </exporter>
                 </span>
               </CCardHeader>
               <CCardBody class="pb-1">
@@ -66,7 +67,7 @@
       </div>
       <div class="col-sm-6 col-md-3 padding-tab">
         <CCard class="card-filter">
-          <CCardHeader role="heading" aria-level="2">
+          <CCardHeader aria-label="filter">
             <span class="card-title">{{ $t("graph.form.title") }}</span>
             <span class="btn-help">
               <CButton color="link" size="sm" @click="showInfoModal"
@@ -483,12 +484,14 @@ export default {
       return null
     },
     fixAccessibility() {
+      /*
       setTimeout(() => {
         document.getElementsByClassName("vis-network")[0].tabIndex = -1
         document
           .getElementsByClassName("nav-tabs")[0]
           .setAttribute("role", "tablist")
       }, 200)
+      */
     },
     fixSliderAccessibility() {
       setTimeout(() => {

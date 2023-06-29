@@ -41,6 +41,7 @@
               @click="openInfo(marker)"
               tabindex="0">
               <l-tooltip
+                role="tooltip"
                 :options="{ interactive: true, permanent: false }"
                 tabindex="0">
                 <span class="tooltip-span" tabindex="0"
@@ -452,11 +453,19 @@ export default {
           element.setAttribute("aria-label", "slider-map")
         })
       }, 300)
+    },
+    fixMapAccessibility() {
+      setTimeout(() => {
+        /*document.querySelectorAll("path").forEach((element) => {
+          element.setAttribute("tabindex", "100")
+        })*/
+      }, 200)
     }
   },
   created() {
     this.loadData()
     this.fixSliderAccessibility()
+    this.fixMapAccessibility()
   }
 }
 </script>

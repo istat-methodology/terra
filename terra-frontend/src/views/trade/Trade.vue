@@ -6,7 +6,6 @@
           <span class="card-title">
             {{ $t("trade.card.title") }} {{ title }}
           </span>
-
           <span class="btn-group float-right">
             <span>
               <exporter
