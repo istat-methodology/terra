@@ -1,11 +1,9 @@
 <template>
-  <div class="row">
+  <div class="row" role="heading" aria-level="1">
     <div class="col-sm-12 col-md-12">
       <div class="card card-map">
-        <CCardBody role="heading" aria-level="1" aria-label="map">
+        <CCardBody>
           <l-map
-            role="heading"
-            aria-level="2"
             ref="map"
             id="map"
             :zoom="zoom"

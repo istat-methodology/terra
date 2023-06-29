@@ -1,5 +1,5 @@
 <template>
-  <CFooter :fixed="false" tabindex="-1">
+  <CFooter :fixed="false" tabindex="-1" role="contentinfo">
     <div>
       <span class="mr-1 text-dark"
         ><a

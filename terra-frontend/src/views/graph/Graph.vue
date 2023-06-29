@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div role="heading" aria-level="1">
     <div class="row">
       <div class="col-sm-6 col-md-9">
         <CTabs
@@ -396,7 +396,6 @@ export default {
               this.$t("common.data_updated")
             )
             this.$refs.cosmograph.handleGraphFit()
-            this.fixAccessibility()
           }
           this.spinnerStart(false)
         })
@@ -482,16 +481,6 @@ export default {
         return [data, id]
       }
       return null
-    },
-    fixAccessibility() {
-      /*
-      setTimeout(() => {
-        document.getElementsByClassName("vis-network")[0].tabIndex = -1
-        document
-          .getElementsByClassName("nav-tabs")[0]
-          .setAttribute("role", "tablist")
-      }, 200)
-      */
     },
     fixSliderAccessibility() {
       setTimeout(() => {

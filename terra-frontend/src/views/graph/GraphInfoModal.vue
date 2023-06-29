@@ -1,7 +1,5 @@
 <template>
   <CModal
-    role="dialog"
-    aria-labelledby="exampleModalLabel"
     :title="
       isMainModal
         ? $t('graph.modal.main.title')

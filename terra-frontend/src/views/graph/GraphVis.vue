@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CCard class="card-graph" role="main">
+    <CCard class="card-graph">
       <CCardHeader aria-label="Graph">
         <span class="card-title">{{ title }}</span>
         <span class="btn-help">
@@ -34,8 +34,8 @@
           >
         </div>
       </CCardHeader>
-      <CCardBody class="card-no-border">
-        <circle-spin v-if="this.spinner" class="circle-spin"></circle-spin>
+      <CCardBody class="card-no-border"
+        ><circle-spin v-if="this.spinner" class="circle-spin"></circle-spin>
         <network
           id="graph"
           class="network"
