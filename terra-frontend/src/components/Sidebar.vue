@@ -7,7 +7,7 @@
     @update:show="
       (value) => $store.commit('coreui/set', ['sidebarShow', 'responsive'])
     ">
-    <CSidebarBrand>
+    <CSidebarBrand style="background: '#fffff'">
       <!--a
         href="https://www.istat.it/it/"
         target="_blank"
@@ -19,11 +19,16 @@
           :alt="$t('sidebar.logo_istat')"
           :aria-label="$t('sidebar.logo_istat')" />
       </a-->
-      <CImg
+      <!--CImg
         src="../img/LogoTerraShort.png"
         style="max-width: 100%"
         :alt="$t('sidebar.logo_istat')"
-        :aria-label="$t('sidebar.logo_istat')" />
+        :aria-label="$t('sidebar.logo_istat')" /-->
+      <CImg
+        src="../img/LogoTerraShort.png"
+        style="max-width: 100%"
+        alt="logo Terra"
+        aria-label="logo Terra" />
     </CSidebarBrand>
     <div class="c-sidebar-nav h-100" style="overflow: hidden">
       <div class="c-sidebar-nav-item" aria-busy="true">
@@ -181,5 +186,11 @@ a:hover {
   position: absolute;
   bottom: 0;
   padding: 0.8445rem 1rem;
+}
+.c-sidebar-brand {
+  background: rgb(223, 213, 213) !important;
+}
+.c-sidebar-nav-link:hover {
+  cursor: pointer;
 }
 </style>
