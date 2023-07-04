@@ -1,20 +1,22 @@
 <template>
-  <CHeader with-subheader light tabindex="0" role="banner">
+  <CHeader with-subheader light tabindex="0">
     <CToggler
       in-header
       class="ml-3 d-lg-none"
       @click="$store.dispatch('coreui/toggleSidebarMobile')"
+      @keypress="$store.dispatch('coreui/toggleSidebarMobile')"
       aria-label="toggle Sidebar Mobile"
       tabindex="0" />
     <CToggler
       in-header
       class="ml-3 d-md-down-none"
       @click="$store.dispatch('coreui/toggleSidebarDesktop')"
+      @keypress="$store.dispatch('coreui/toggleSidebarDesktop')"
       aria-label="toggle Sidebar Desktop"
       tabindex="0" />
 
-    <CHeaderNav class="mr-auto" tabindex="0">
-      <CHeaderNavItem tabindex="0">
+    <CHeaderNav class="mr-auto" tabindex="-1">
+      <CHeaderNavItem tabindex="-1">
         <CImg
           src="../img/LogoTerraFull.png"
           style="max-width: 95%"
@@ -34,8 +36,8 @@
       </CHeaderNavItem>
     </CHeaderNav>
 
-    <CHeaderNav tabindex="0">
-      <CHeaderNavItem tabindex="0">
+    <CHeaderNav tabindex="-1">
+      <CHeaderNavItem tabindex="-1">
         <!--CImg
           src="../img/LogoSTSP.png"
           style="max-width: 90%"
@@ -63,6 +65,7 @@
             size="sm"
             :class="{ active: selectedIt }"
             @click="selectLanguage('it')"
+            @keypress="selectLanguage('it')"
             aria-label="$t('common.language_it')"
             tabindex="0"
             >IT</CButton
@@ -74,6 +77,7 @@
             size="sm"
             :class="{ active: selectedEn }"
             @click="selectLanguage('en')"
+            @keypress="selectLanguage('en')"
             aria-label="$t('common.language_en')"
             tabindex="0"
             >EN</CButton

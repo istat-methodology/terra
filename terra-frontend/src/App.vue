@@ -7,7 +7,7 @@
         <app-header tabindex="-1" />
         <div class="c-body" tabindex="-1">
           <main class="c-main">
-            <CContainer fluid>
+            <CContainer fluid tabindex="-1">
               <transition name="fade" mode="out-in">
                 <router-view
                   :key="$route.fullPath"

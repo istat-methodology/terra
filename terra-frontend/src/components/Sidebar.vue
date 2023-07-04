@@ -1,12 +1,18 @@
 <template>
   <CSidebar
     role="navigation"
+    aria-label="menu"
     fixed
     :minimize="minimize"
     :show="show"
     @update:show="
       (value) => $store.commit('coreui/set', ['sidebarShow', 'responsive'])
-    ">
+    "
+    ><div>
+      <a class="sr-only sr-only-focusable" href="#list-content"
+        >Vai al contenuto principale</a
+      >
+    </div>
     <CSidebarBrand style="background: '#fffff'">
       <!--a
         href="https://www.istat.it/it/"
@@ -27,13 +33,14 @@
       <CImg
         src="../img/LogoTerraShort.png"
         style="max-width: 100%"
-        alt="logo Terra"
-        aria-label="logo Terra" />
+        alt="logo"
+        aria-label="logo" />
     </CSidebarBrand>
     <div class="c-sidebar-nav h-100" style="overflow: hidden">
-      <div class="c-sidebar-nav-item" aria-busy="true">
+      <div class="c-sidebar-nav-item" id="list-content">
         <a
           @click="handleHome"
+          @keypress="handleHome"
           class="c-sidebar-nav-link"
           :class="{ 'c-active': isHome }"
           tabindex="0">
@@ -50,6 +57,7 @@
       <div class="c-sidebar-nav-item">
         <a
           @click="handleMap"
+          @keypress="handleMap"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-primary': isMap }"
           tabindex="0">
@@ -63,6 +71,7 @@
       <div class="c-sidebar-nav-item">
         <a
           @click="handleGraphExtraUe()"
+          @keypress="handleGraphExtraUe()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraph }"
           tabindex="0">
@@ -75,6 +84,7 @@
       <div class="c-sidebar-nav-item">
         <a
           @click="handleGraphIntraUe()"
+          @keypress="handleGraphIntraUe()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraphIntra }"
           tabindex="0">
@@ -87,6 +97,7 @@
       <div class="c-sidebar-nav-item">
         <a
           @click="handleTimeSeries()"
+          @keypress="handleTimeSeries()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-warning': isPolicy }"
           tabindex="0">
@@ -100,6 +111,7 @@
       <div class="c-sidebar-nav-item">
         <a
           @click="handleTrade()"
+          @keypress="handleTrade()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-danger': isTrade }"
           tabindex="0">
@@ -108,12 +120,12 @@
         </a>
       </div>
       <div class="c-sidebar-nav-item">
-        <span
+        <div
           class="data-update"
           :aria-label="$t('common.update') + lastLoadedData">
           <CIcon name="cil-tags" title="Update" /> {{ $t("common.update") }}
-          {{ lastLoadedData }}</span
-        >
+          {{ lastLoadedData }}
+        </div>
       </div>
     </div>
   </CSidebar>
