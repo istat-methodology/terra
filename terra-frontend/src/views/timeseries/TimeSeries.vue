@@ -1,12 +1,21 @@
 <template>
   <div class="row" role="heading" aria-level="1">
     <div class="col-sm-6 col-md-9">
-      <CCard>
+      <CCard
+        :title="
+          country && partner
+            ? $t('timeseries.card.title') +
+              ': ' +
+              country.name +
+              ' - ' +
+              partner.descr
+            : $t('timeseries.card.title') + ' - ' + $t('timeseries.card.comext')
+        ">
         <CCardHeader>
           <span class="card-title">
             <span v-if="country && partner"
-              >{{ $t("timeseries.card.title") }}: {{ this.country.name }} -
-              {{ this.partner.descr }}</span
+              >{{ $t("timeseries.card.title") }}: {{ country.name }} -
+              {{ partner.descr }}</span
             >
             <span v-else
               >{{ $t("timeseries.card.title") }} -
@@ -96,8 +105,8 @@
       </CCard-->
     </div>
     <div class="col-sm-6 col-md-3">
-      <CCard class="card-filter">
-        <CCardHeader aria-label="search">
+      <CCard class="card-filter" :title="$t('timeseries.form.title')">
+        <CCardHeader>
           <span class="card-filter-title">{{
             $t("timeseries.form.title")
           }}</span>

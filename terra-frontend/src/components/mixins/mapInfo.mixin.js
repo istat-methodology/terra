@@ -8,41 +8,33 @@ export default {
         label: ""
       },
       {
-        key: "2020",
-        label: "2020"
-      },
-      {
         key: "2021",
         label: "2021"
+      },
+      {
+        key: "2022",
+        label: "2022"
       }
     ],
     importFields_it: [
-      {
-        key: "Main partner 2020",
-        label: "Partner principale 2020"
-      },
-      {
-        key: "Total import 2020",
-        label: "Importazione totale 2020"
-      },
       {
         key: "Main partner 2021",
         label: "Partner principale 2021"
       },
       {
         key: "Total import 2021",
-        label: "Importazione totale 2020"
+        label: "Importazione totale 2021"
+      },
+      {
+        key: "Main partner 2022",
+        label: "Partner principale 2022"
+      },
+      {
+        key: "Total import 2022",
+        label: "Importazione totale 2021"
       }
     ],
     importFields_en: [
-      {
-        key: "Main partner 2020",
-        label: "Main partner 2020"
-      },
-      {
-        key: "Total import 2020",
-        label: "Total import 2020"
-      },
       {
         key: "Main partner 2021",
         label: "Main partner 2021"
@@ -50,35 +42,35 @@ export default {
       {
         key: "Total import 2021",
         label: "Total import 2021"
+      },
+      {
+        key: "Main partner 2022",
+        label: "Main partner 2022"
+      },
+      {
+        key: "Total import 2022",
+        label: "Total import 2022"
       }
     ],
     exportFields_it: [
-      {
-        key: "Main partner 2020",
-        label: "Partner principale 2020"
-      },
-      {
-        key: "Total export 2020",
-        label: "Esportazione totale 2020"
-      },
       {
         key: "Main partner 2021",
         label: "Partner principale 2021"
       },
       {
         key: "Total export 2021",
-        label: "Esportazione totale 2020"
+        label: "Esportazione totale 2021"
+      },
+      {
+        key: "Main partner 2022",
+        label: "Partner principale 2022"
+      },
+      {
+        key: "Total export 2022",
+        label: "Esportazione totale 2021"
       }
     ],
     exportFields_en: [
-      {
-        key: "Main partner 2020",
-        label: "Main partner 2020"
-      },
-      {
-        key: "Total export 2020",
-        label: "Total export 2020"
-      },
       {
         key: "Main partner 2021",
         label: "Main partner 2021"
@@ -86,6 +78,14 @@ export default {
       {
         key: "Total export 2021",
         label: "Total export 2021"
+      },
+      {
+        key: "Main partner 2022",
+        label: "Main partner 2022"
+      },
+      {
+        key: "Total export 2022",
+        label: "Total export 2022"
       }
     ]
   }),

@@ -120,9 +120,13 @@
         </a>
       </div>
       <div class="c-sidebar-nav-item">
-        <div
+        <!--div
           class="data-update"
           :aria-label="$t('common.update') + lastLoadedData">
+          <CIcon name="cil-tags" title="Update" /> {{ $t("common.update") }}
+          {{ lastLoadedData }}
+        </div-->
+        <div class="data-update" :title="$t('common.update') + lastLoadedData">
           <CIcon name="cil-tags" title="Update" /> {{ $t("common.update") }}
           {{ lastLoadedData }}
         </div>

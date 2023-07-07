@@ -1,9 +1,9 @@
 <template>
   <div class="row" role="heading" aria-level="1">
     <div class="col-sm-6 col-md-4">
-      <div class="card">
+      <div class="card" :title="$t('landing.map.title')">
         <header class="card-header">
-          <CIcon name="cil-location-pin" title="Map" />{{
+          <CIcon name="cil-location-pin" :title="$t('landing.map.title')" />{{
             $t("landing.map.title")
           }}
         </header>
@@ -18,9 +18,9 @@
       </div>
     </div>
     <div class="col-sm-6 col-md-4">
-      <div class="card">
+      <div class="card" :title="$t('landing.graph.extra-ue.title')">
         <header class="card-header">
-          <CIcon name="cil-graph" title="GraphExtraUe" />
+          <CIcon name="cil-graph" :title="$t('landing.graph.extra-ue.title')" />
           {{ $t("landing.graph.extra-ue.title") }}
         </header>
         <div class="card-body">
@@ -34,9 +34,9 @@
       </div>
     </div>
     <div class="col-sm-6 col-md-4">
-      <div class="card">
+      <div class="card" :title="$t('landing.graph.intra-ue.title')">
         <header class="card-header">
-          <CIcon name="cil-graph" title="GraphIntraUe" />
+          <CIcon name="cil-graph" :title="$t('landing.graph.intra-ue.title')" />
           {{ $t("landing.graph.intra-ue.title") }}
         </header>
         <div class="card-body">
@@ -50,9 +50,11 @@
       </div>
     </div>
     <div class="col-sm-6 col-md-4">
-      <div class="card">
+      <div class="card" :title="$t('landing.timeseries.title')">
         <header class="card-header">
-          <CIcon name="cil-chart-line" title="TimeSeries" />
+          <CIcon
+            name="cil-chart-line"
+            :title="$t('landing.timeseries.title')" />
           {{ $t("landing.timeseries.title") }}
         </header>
         <div class="card-body">
@@ -66,9 +68,9 @@
       </div>
     </div>
     <div class="col-sm-6 col-md-4">
-      <div class="card">
+      <div class="card" :title="$t('landing.trade.title')">
         <header class="card-header">
-          <CIcon name="cil-layers" title="Trade" />
+          <CIcon name="cil-layers" :title="$t('landing.trade.title')" />
           {{ $t("landing.trade.title") }}
         </header>
         <div class="card-body">

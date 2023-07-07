@@ -1,7 +1,7 @@
 <template>
   <div class="row" role="heading" aria-level="1">
     <div class="col-sm-12 col-md-12">
-      <div class="card card-map">
+      <div class="card card-map" title="Map">
         <CCardBody>
           <l-map
             ref="map"
@@ -10,7 +10,6 @@
             :center="center"
             class
             style="height: 100%; width: 100%"
-            aria-label="Map"
             @ready="setShooter()"
             @click="closeInfo()"
             tabindex="0">

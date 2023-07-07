@@ -2,14 +2,8 @@
   <div role="heading" aria-level="1">
     <div class="row">
       <div class="col-sm-6 col-md-9">
-        <CTabs
-          class="ctablist"
-          aria-label="tablist"
-          variant="tabs"
-          :active-tab="0">
-          <CTab
-            :title="$t('graph.card.title')"
-            :aria-label="$t('graph.card.title')">
+        <CTabs class="ctablist" variant="tabs" :active-tab="0">
+          <CTab :title="$t('graph.card.title')">
             <cosmo-graph
               ref="cosmograph"
               :nodes="nodes"
@@ -27,9 +21,7 @@
                 @change="handleTimeChange" />
             </cosmo-graph>
           </CTab>
-          <CTab
-            :title="$t('graph.table.title')"
-            :aria-label="$t('graph.table.title')">
+          <CTab :title="$t('graph.table.title')">
             <CCard>
               <CCardHeader>
                 <span class="card-title">{{ title }}</span>
@@ -66,8 +58,8 @@
         </CTabs>
       </div>
       <div class="col-sm-6 col-md-3 padding-tab">
-        <CCard class="card-filter">
-          <CCardHeader aria-label="filter">
+        <CCard class="card-filter" :title="$t('graph.form.title')">
+          <CCardHeader>
             <span class="card-title">{{ $t("graph.form.title") }}</span>
             <span class="btn-help">
               <CButton color="link" size="sm" @click="showInfoModal"
