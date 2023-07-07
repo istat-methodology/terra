@@ -5,6 +5,7 @@
         <CTabs class="ctablist" variant="tabs" :active-tab="0">
           <CTab :title="$t('graph.card.title')">
             <cosmo-graph
+              :title="$t('graph.card.title')"
               ref="cosmograph"
               :nodes="nodes"
               :edges="edges"
@@ -22,7 +23,7 @@
             </cosmo-graph>
           </CTab>
           <CTab :title="$t('graph.table.title')">
-            <CCard>
+            <CCard :title="$t('graph.table.title')">
               <CCardHeader>
                 <span class="card-title">{{ title }}</span>
                 <span class="btn-group float-right">

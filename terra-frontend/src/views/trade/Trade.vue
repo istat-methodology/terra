@@ -1,7 +1,7 @@
 <template>
   <div class="row" role="heading" aria-level="1">
     <div class="col-sm-6 col-md-9">
-      <CCard :title="$t('trade.card.title')">
+      <CCard :title="$t('trade.card.title') + title">
         <CCardHeader>
           <span class="card-title">
             {{ $t("trade.card.title") }} {{ title }}
