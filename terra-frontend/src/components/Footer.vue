@@ -3,7 +3,7 @@
     <div>
       <span class="mr-1 text-dark">
         <a
-          href="http://epp.eurostat.ec.europa.eu/newxtweb/"
+          href="https://ec.europa.eu/eurostat/comext/newxtweb/"
           target="_blank"
           aria-label="EUROSTAT COMEXT"
           tabindex="0"
@@ -14,15 +14,10 @@
     <div class="ml-auto center">
       <p class="section-link">
         <router-link tag="a" :to="{ name: 'Privacy' }"> Privacy </router-link>
-      </p>
-    </div>
-    <div class="ml-auto center">
-      <p class="section-link">
         <router-link tag="a" :to="{ name: 'Privacy' }">
           Accessibility
         </router-link>
       </p>
-      >
     </div>
     <div class="ml-auto">
       <a
