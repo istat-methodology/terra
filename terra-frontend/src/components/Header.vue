@@ -38,22 +38,22 @@
 
     <CHeaderNav tabindex="-1">
       <CHeaderNavItem tabindex="-1">
-        <!--CImg
+        <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 90%"
           class="d-md-down-none mr-3"
           alt="$t('header.logo_statistica_sp')"
           title="$t('header.logo_statistica_sp')"
           aria-label="Statistiche sperimentali"
-          tabindex="0" /-->
-        <!--CImg
+          tabindex="0" />
+        <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 80%"
           class="d-lg-none"
           alt="$t('header.logo_statistica_sp')"
           title="$t('header.logo_statistica_sp')"
           aria-label="Statistiche sperimentali"
-          tabindex="0" /-->
+          tabindex="0" />
         <CButtonGroup
           role="group"
           class="mr-lang"

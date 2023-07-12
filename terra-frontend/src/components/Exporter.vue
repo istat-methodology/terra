@@ -1,25 +1,42 @@
 <template>
-  <CDropdown
-    :togglerText="$t('common.exporter')"
-    className="exporter mr-2"
-    direction="down">
-    <CDropdownItem
-      v-for="item in options"
-      :key="item"
-      @click="download(item)"
-      :title="getTitle(item)">
-      {{ item }}
-    </CDropdownItem>
-  </CDropdown>
+  <div>
+    <span v-if="iam == null">
+      <CDropdown
+        :togglerText="$t('common.exporter')"
+        className="exporter mr-2 block"
+        direction="down">
+        <CDropdownItem
+          v-for="item in options"
+          :key="item"
+          @click="download(item)"
+          :title="getTitle(item)">
+          {{ item }}
+        </CDropdownItem>
+      </CDropdown>
+    </span>
+    <a
+      class="control-btn exporter block"
+      role="button"
+      :title="getTitle('csv')"
+      v-if="iam == 'map'"
+      @click="download('csv')"
+      ><strong>D</strong></a
+    >
+  </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 import { saveAs } from "file-saver"
+//import { required } from "vuelidate/lib/validators"
 
 export default {
   name: "exporter",
+  computed: {
+    ...mapGetters("classification", ["getCountryName"])
+  },
   props: {
     filename: {
       Type: String,
@@ -52,6 +69,11 @@ export default {
     timePeriod: {
       Type: Array,
       default: () => null
+    },
+    iam: {
+      Type: String,
+      default: () => null,
+      required: false
     }
   },
   methods: {
@@ -109,6 +131,9 @@ export default {
       let row = ""
       if (data) {
         if (this.source == "table") {
+          const cols = Object.keys(data[0])
+          const lenCols = Object.keys(data[0]).length
+
           if (this.filter) {
             this.filter.forEach((row) => {
               let ln = ""
@@ -118,16 +143,14 @@ export default {
               }
               result += ln.slice(0, -1) //remove last column delimiter
               //add column delimiters
-              if (Object.keys(data[0]).length > 1)
-                result += Array(Object.keys(data[0]).length - 1)
+              if (lenCols > 1)
+                result += Array(lenCols - 1)
                   .fill("")
                   .join(columnDelimiter)
               result += rowDelimiter
             })
             //add empty row
-            result += Array(Object.keys(data[0]).length)
-              .fill("")
-              .join(columnDelimiter)
+            result += Array(lenCols).fill("").join(columnDelimiter)
             result += rowDelimiter
           }
           if (this.header) {
@@ -140,9 +163,36 @@ export default {
             result += rowDelimiter
           }
 
-          const cols = Object.keys(data[0]) //get keys from first element
+          //const cols = Object.keys(data[0]) //get keys from first element
           data.forEach((obj) => {
             row = ""
+            cols.forEach((col) => {
+              //if (this.fields != col) {
+              row += obj[col]
+              row += columnDelimiter
+              //}
+            })
+            result += row.slice(0, -1) //remove last column delimiter
+            result += rowDelimiter
+          })
+        } else if (this.source == "map") {
+          const cols = Object.keys(data[0]) //get keys from first element
+          //header map data
+          row = ""
+          row += "country name"
+          row += columnDelimiter
+          cols.forEach((col) => {
+            row += col
+            row += columnDelimiter
+          })
+          result += row.slice(0, -1) //remove last column delimiter
+          result += rowDelimiter
+
+          data.forEach((obj) => {
+            row = ""
+            //name
+            row += this.getCountryName(obj["country"])
+            row += columnDelimiter
             cols.forEach((col) => {
               //if (this.fields != col) {
               row += obj[col]
@@ -273,3 +323,9 @@ export default {
   }
 }
 </script>
+<style>
+.block {
+  display: block;
+  position: static;
+}
+</style>

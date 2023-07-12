@@ -2,6 +2,20 @@
   <div class="row" role="heading" aria-level="1">
     <div class="col-sm-12 col-md-12">
       <div class="card card-map" title="Map">
+        <!--CCardHeader>
+          <span class="card-title"></span>
+          <span class="btn-group float-right">
+            <CButton
+              color="link"
+              size="sm"
+              @click="helpOn(true)"
+              class="float-right"
+              tabindex="0"
+              >Info</CButton
+            >
+          </span>
+        </CCardHeader-->
+
         <CCardBody>
           <l-map
             ref="map"
@@ -120,6 +134,13 @@
                   tabindex="0"
                   >{{ btnImportExport }}</a
                 >
+                <exporter
+                  filename="terra_mapseries"
+                  iam="map"
+                  :data="[seriesData, '']"
+                  source="map"
+                  tabindex="0">
+                </exporter>
               </div>
             </l-control>
           </l-map>
@@ -174,6 +195,7 @@ import mapInfoMixin from "@/components/mixins/mapInfo.mixin"
 import sliderMixin from "@/components/mixins/slider.mixin"
 import SimpleMapScreenshoter from "leaflet-simple-map-screenshoter"
 import VueSlider from "vue-slider-component"
+import exporter from "@/components/Exporter"
 
 export default {
   name: "Map",
@@ -184,7 +206,8 @@ export default {
     LControl,
     LCircleMarker,
     LTooltip,
-    VueSlider
+    VueSlider,
+    exporter
   },
   mixins: [mapMixin, mapInfoMixin, sliderMixin],
   data: () => ({
@@ -369,6 +392,7 @@ export default {
       this.markerMin = this.getMin()
       this.setLegend(this.markerMin, this.markerMax, this.dataLegend, this.ie)
     },
+
     buildFeatures() {
       this.$store
         .dispatch("countries/getDataSeries", this.seriesName)

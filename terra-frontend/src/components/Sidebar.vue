@@ -13,28 +13,18 @@
         >Vai al contenuto principale</a
       >
     </div>
-    <CSidebarBrand style="background: '#fffff'">
-      <!--a
+    <CSidebarBrand>
+      <a
         href="https://www.istat.it/it/"
         target="_blank"
         aria-label="Istat"
-        tabindex="0">        
-        <--CImg
+        tabindex="0">
+        <CImg
           src="../img/LogoIstatCompleto.png"
           style="max-width: 100%"
           :alt="$t('sidebar.logo_istat')"
           :aria-label="$t('sidebar.logo_istat')" />
-      </a-->
-      <!--CImg
-        src="../img/LogoTerraShort.png"
-        style="max-width: 100%"
-        :alt="$t('sidebar.logo_istat')"
-        :aria-label="$t('sidebar.logo_istat')" /-->
-      <CImg
-        src="../img/LogoTerraShort.png"
-        style="max-width: 100%"
-        alt="logo"
-        aria-label="logo" />
+      </a>
     </CSidebarBrand>
     <div class="c-sidebar-nav h-100" style="overflow: hidden">
       <div class="c-sidebar-nav-item" id="list-content">
@@ -202,9 +192,6 @@ a:hover {
   position: absolute;
   bottom: 0;
   padding: 0.8445rem 1rem;
-}
-.c-sidebar-brand {
-  background: rgb(223, 213, 213) !important;
 }
 .c-sidebar-nav-link:hover {
   cursor: pointer;
