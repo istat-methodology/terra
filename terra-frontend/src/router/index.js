@@ -33,6 +33,14 @@ const routes = [
     }
   },
   {
+    path: "/pivacy",
+    name: "Privacy",
+    component: () => import("../views/privacy/Privacy"),
+    meta: {
+      authorize: []
+    }
+  },
+  {
     path: "/graphextra",
     name: "GraphExtraUe",
     props: { isIntra: false },

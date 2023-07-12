@@ -1,26 +1,27 @@
 <template>
   <CFooter :fixed="false" tabindex="-1" role="contentinfo">
     <div>
-      <span class="mr-1 text-dark"
-        ><a
-          href="https://www.terra.statlab.it"
+      <span class="mr-1 text-dark">
+        <a
+          href="http://epp.eurostat.ec.europa.eu/newxtweb/"
           target="_blank"
-          :aria-label="$t('common.acronym')"
-          tabindex="0">
-          <span class="acronym d-md-down-none">
-            {{ $t("common.acronym") }}</span
-          ></a
+          aria-label="EUROSTAT COMEXT"
+          tabindex="0"
+          >EUROSTAT COMEXT</a
         >
       </span>
     </div>
-    <div class="ml-auto">
-      <span class="mr-1 d-md-down-none">{{ $t("common.footer.source") }}</span>
-      <a
-        href="http://epp.eurostat.ec.europa.eu/newxtweb/"
-        target="_blank"
-        aria-label="EUROSTAT COMEXT"
-        tabindex="0"
-        >EUROSTAT COMEXT</a
+    <div class="ml-auto center">
+      <p class="section-link">
+        <router-link tag="a" :to="{ name: 'Privacy' }"> Privacy </router-link>
+      </p>
+    </div>
+    <div class="ml-auto center">
+      <p class="section-link">
+        <router-link tag="a" :to="{ name: 'Privacy' }">
+          Accessibility
+        </router-link>
+      </p>
       >
     </div>
     <div class="ml-auto">
