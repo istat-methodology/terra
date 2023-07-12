@@ -74,6 +74,14 @@ export default {
       Type: String,
       default: () => null,
       required: false
+    },
+    nodes: {
+      Type: Array,
+      default: () => null
+    },
+    edges: {
+      Type: Array,
+      default: () => null
     }
   },
   methods: {
@@ -202,6 +210,69 @@ export default {
             result += row.slice(0, -1) //remove last column delimiter
             result += rowDelimiter
           })
+        } else if (this.source == "graph") {
+          row = ""
+          row = "Terra - Graph"
+          row += columnDelimiter
+          result += row.slice(0, -1) //remove last column delimiter
+          result += rowDelimiter
+
+          row = ""
+          row = "edges"
+          row += columnDelimiter
+          result += row.slice(0, -1) //remove last column delimiter
+          result += rowDelimiter
+
+          row = ""
+          row += "from"
+          row += columnDelimiter
+          row += "to"
+          row += columnDelimiter
+          result += row.slice(0, -1) //remove last column delimiter
+          result += rowDelimiter
+
+          for (var edgeId in this.edges) {
+            row = ""
+            row += this.edges[edgeId].from
+            row += columnDelimiter
+            row += this.edges[edgeId].to
+
+            row += columnDelimiter
+            result += row.slice(0, -1) //remove last column delimiter
+            result += rowDelimiter
+          }
+
+          row = ""
+          row = "nodes"
+          row += columnDelimiter
+          result += row.slice(0, -1) //remove last column delimiter
+          result += rowDelimiter
+
+          row = ""
+          row += "id"
+          row += columnDelimiter
+          row += "country"
+          row += columnDelimiter
+          row += "x"
+          row += columnDelimiter
+          row += "y"
+          row += columnDelimiter
+          result += row.slice(0, -1) //remove last column delimiter
+          result += rowDelimiter
+
+          for (var nodeId in this.nodes) {
+            row = ""
+            row += this.nodes[nodeId].id
+            row += columnDelimiter
+            row += this.nodes[nodeId].label
+            row += columnDelimiter
+            row += this.nodes[nodeId].x
+            row += columnDelimiter
+            row += this.nodes[nodeId].y
+            row += columnDelimiter
+            result += row.slice(0, -1) //remove last column delimiter
+            result += rowDelimiter
+          }
         } else if (this.source == "matrix") {
           const obj = {}
           //Add filters

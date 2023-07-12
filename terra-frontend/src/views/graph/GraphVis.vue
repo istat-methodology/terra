@@ -10,7 +10,8 @@
           <exporter
             filename="terra_graph_analysis"
             :data="getData('graph', this.$refs.graph)"
-            :options="['jpeg', 'png', 'pdf', 'json']"
+            :nodes="nodes"
+            :edges="edges"
             source="graph">
           </exporter>
         </span>
