@@ -4,7 +4,7 @@
       <CCardHeader>
         <span class="card-title">{{ title }}</span>
         <span class="btn-help">
-          <CButton color="link" size="sm" @click="showInfo">Info</CButton>
+          <CButton color="link" @click="showInfo">Info</CButton>
         </span>
         <span class="float-right">
           <exporter

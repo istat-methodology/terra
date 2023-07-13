@@ -40,7 +40,6 @@
                   </span>
                   <CButton
                     color="link"
-                    size="sm"
                     @click="showMainModal"
                     class="float-right"
                     tabindex="0"
@@ -63,9 +62,7 @@
           <CCardHeader>
             <span class="card-title">{{ $t("graph.form.title") }}</span>
             <span class="btn-help">
-              <CButton color="link" size="sm" @click="showInfoModal"
-                >Info</CButton
-              >
+              <CButton color="link" @click="showInfoModal">Info</CButton>
             </span>
           </CCardHeader>
           <CCardBody>
@@ -515,7 +512,9 @@ label.radio {
   margin-right: 20px;
   margin-bottom: 10px;
 }
-
+label {
+  margin-bottom: 0px;
+}
 span {
   padding-left: 5px;
 }

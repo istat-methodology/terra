@@ -20,7 +20,6 @@
             </span>
             <CButton
               color="link"
-              size="sm"
               @click="helpOn(true)"
               tabindex="0"
               class="float-right"
@@ -53,7 +52,7 @@
               :placeholder="$t('trade.form.fields.seriesType_placeholder')"
               v-model="seriesType" />
           </label>
-          <label aria-labelledby="input__2" class="card-label mt-3 col-12"
+          <label aria-labelledby="input__2" class="card-label mt-2 col-12"
             >{{ $t("trade.form.fields.varType") }}
             <v-select
               label="descr"
@@ -61,7 +60,7 @@
               :placeholder="$t('trade.form.fields.varType_placeholder')"
               v-model="varType" />
           </label>
-          <label aria-labelledby="input__3" class="card-label mt-3 col-12"
+          <label aria-labelledby="input__3" class="card-label mt-2 col-12"
             >{{ $t("trade.form.fields.flow") }}
             <v-select
               label="descr"
@@ -69,7 +68,7 @@
               :placeholder="$t('trade.form.fields.flow_placeholder')"
               v-model="flow" />
           </label>
-          <label aria-labelledby="input__4" class="card-label mt-3 col-12"
+          <label aria-labelledby="input__4" class="card-label mt-2 col-12"
             >{{ $t("trade.form.fields.country") }}
             <v-select
               label="name"
@@ -80,7 +79,7 @@
           <label
             aria-labelledby="input__5"
             v-if="products"
-            class="card-label mt-3 col-12"
+            class="card-label mt-2 col-12"
             >{{ $t("trade.form.fields.products") }}
             <v-select
               v-if="products"
@@ -96,7 +95,7 @@
             shape="square"
             size="sm"
             @click="handleSubmit"
-            class="mt-3 ml-3"
+            class="mt-2 ml-3"
             >{{ $t("common.submit") }}
           </CButton>
         </CCardBody>
@@ -347,5 +346,8 @@ export default {
 <style scoped>
 .align-right {
   text-align: right;
+}
+.card-filter .card-body {
+  padding-left: 0.5rem;
 }
 </style>

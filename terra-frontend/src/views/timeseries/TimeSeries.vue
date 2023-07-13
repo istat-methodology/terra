@@ -32,11 +32,7 @@
                 source="table">
               </exporter>
             </span>
-            <CButton
-              color="link"
-              size="sm"
-              @click="helpOn(true)"
-              class="float-right"
+            <CButton color="link" @click="helpOn(true)" class="float-right"
               >Info</CButton
             >
           </span>
@@ -123,7 +119,7 @@
                 'is-invalid': $v.dataType.$error
               }" />
           </label>
-          <label aria-labelledby="input__2" class="card-label col-12 mt-3">
+          <label aria-labelledby="input__2" class="card-label col-12 mt-2">
             {{ $t("timeseries.form.fields.varType") }}
             <v-select
               label="descr"
@@ -134,7 +130,7 @@
                 'is-invalid': $v.varType.$error
               }" />
           </label>
-          <label aria-labelledby="input__3" class="card-label col-12 mt-3">
+          <label aria-labelledby="input__3" class="card-label col-12 mt-2">
             {{ $t("timeseries.form.fields.flow") }}
             <v-select
               label="descr"
@@ -145,7 +141,7 @@
                 'is-invalid': $v.flow.$error
               }" />
           </label>
-          <label aria-labelledby="input__4" class="card-label col-12 mt-3">
+          <label aria-labelledby="input__4" class="card-label col-12 mt-2">
             {{ $t("timeseries.form.fields.country") }}
             <v-select
               label="name"
@@ -156,7 +152,7 @@
                 'is-invalid': $v.country.$error
               }" />
           </label>
-          <label aria-labelledby="input__5" class="card-label col-12 mt-3">
+          <label aria-labelledby="input__5" class="card-label col-12 mt-2">
             {{ $t("timeseries.form.fields.partner") }}
             <v-select
               id="selectPartner"
@@ -169,7 +165,7 @@
                 'is-invalid': $v.partner.$error
               }" />
           </label>
-          <label aria-labelledby="input__6" class="card-label col-12 mt-3">
+          <label aria-labelledby="input__6" class="card-label col-12 mt-2">
             {{ $t("timeseries.form.fields.productsCPA") }}
             <v-select
               label="descr"
@@ -187,7 +183,7 @@
             shape="square"
             size="sm"
             @click="handleSubmit"
-            class="mt-3 ml-3"
+            class="mt-2 ml-3"
             >{{ $t("common.submit") }}</CButton
           >
         </CCardBody>
@@ -485,5 +481,9 @@ export default {
   margin-left: 2.5em;
   margin-top: 0.4em;
   font-size: small;
+}
+
+.card-filter .card-body {
+  padding-left: 0.5rem;
 }
 </style>

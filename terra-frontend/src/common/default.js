@@ -1,12 +1,12 @@
 // Dynamyc Time default
 export const monthDefault = {
-  id: "202301",
-  descr_en: "Jan 2023",
-  descr_it: "Gen 2023"
+  id: "202212",
+  descr_en: "Dec 2022",
+  descr_it: "Dic 2022"
 }
 export const trimesterDefault = {
-  id: "202301",
-  descr: "T1 2023"
+  id: "202212",
+  descr: "T4 2022"
 }
 
 export const frequencyDefault = "Monthly"
