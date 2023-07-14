@@ -244,5 +244,32 @@
     "download": {
       "title": "Terra - Basket of Traded Products Filter"
     }
+  },
+  "privacy": {
+    "title_1": "Privacy and protection of personal data",
+    "paragraph_1": "",
+    "title_2": "Holder of the treatment",
+    "paragraph_2a": "The data controller is the National Institute of Statistics, with headquarters in via Cesare Balbo 16, 00184 Rome (",
+    "paragraph_2b": "  switchboard ",
+    "title_3": "Responsible for data protection",
+    "paragraph_3": "The Data Protection Officer (DPO) can be reached at the following address: National Institute of Statistics – Personal Data Protection Officer, via Cesare Balbo 16, 00184 Rome, email ",
+    "title_4": "Legal basis of the processing",
+    "paragraph_4": "The personal data indicated on this page are processed by Istat for the performance of the public interest tasks entrusted to it (Article 15 of Legislative Decree No. 322/1989), as well as to ensure the functionality of the site.",
+    "title_5": "Data communicated by the user",
+    "paragraph_5a": "I sistemi informatici e le procedure software preposte al funzionamento di questo sito acquisiscono, nel corso del loro normale esercizio, alcuni dati personali la cui trasmissione è implicita nell’uso dei protocolli di comunicazione di Internet.",
+    "paragraph_5b": "In questa categoria di dati rientrano gli indirizzi IP o i nomi a dominio dei computer e dei terminali utilizzati dagli utenti, gli indirizzi in notazione URI/URL (Uniform Resource Identifier/Locator) delle risorse richieste, l’orario della richiesta, il metodo utilizzato nel sottoporre la richiesta al server, la dimensione del file ottenuto in risposta, il codice numerico indicante lo stato della risposta data dal server (buon fine, errore, ecc.) ed altri parametri relativi al sistema operativo e all’ambiente informatico dell’utente.",
+    "paragraph_5c": "Tali dati, necessari per la fruizione dei servizi web, vengono  anche trattati allo scopo di: ",
+    "paragraph_5d": "ottenere informazioni statistiche sull’uso dei servizi e i prodotti offerti (numero di accessi, numero di visitatori per fascia oraria o giornaliera, pagine più visitate, numero di click sul contenuto offerto e numero di interazioni con lo stesso, aree geografiche di provenienza degli utenti, ecc.);",
+    "paragraph_5e": "controllare il corretto funzionamento dei servizi offerti",
+    "paragraph_5f": "I dati di navigazione non persistono per più di novanta giorni.",
+    "paragraph_5g": "Cookie e altri sistemi di tracciamento",
+    "paragraph_5h": "Questo sito fa esclusivo uso di cookie tecnici, ossia di file di testo depositati sul computer degli utenti, necessari per il funzionamento e il monitoraggio del sito stesso. Non viene fatto uso di cookie per la profilazione degli utenti.",
+    "paragraph_5i": "Viene fatto uso di cookie tecnici di sessione (non persistenti), in modo strettamente limitato a quanto necessario per la navigazione sicura ed efficiente dei siti.",
+    "title_6": "Rights of interested parties",
+    "paragraph_6a": "The interested parties have the right to obtain from the National Statistics Institute, in the cases provided for, access to their personal data and the correction or cancellation of the same or the limitation of the processing that concerns them or to oppose the processing (articles 15 and following of the Regulation). The specific application to Istat can be presented in the following ways:",
+    "paragraph_6b": "by post, by sending the request to the address: National Institute of Statistics – Person in charge of the protection of personal data, via Cesare Balbo 16, 00184 Rome;",
+    "paragraph_6c": "by e-mail, writing to the address: ",
+    "title_7": "Right of complaint",
+    "paragraph_7": "Interested parties who believe that the processing of their personal data relates to this website have the right to a right against the Guarantor for the protection of personal data, as provided for by art. 77 of the Regulation, or to assume suitable judicial offices (Article 79 of the Regulation itself)."
   }
 }

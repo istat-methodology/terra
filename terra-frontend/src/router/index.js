@@ -33,7 +33,7 @@ const routes = [
     }
   },
   {
-    path: "/pivacy",
+    path: "/privacy",
     name: "Privacy",
     component: () => import("../views/privacy/Privacy"),
     meta: {
