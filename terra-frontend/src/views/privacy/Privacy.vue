@@ -97,7 +97,7 @@
               }}</span>
             </p>
 
-            <ul type="disc">
+            <!--ul type="disc">
               <li style="line-height: normal">
                 <span style="font-size: 12pt">{{
                   $t("privacy.paragraph_5d")
@@ -108,7 +108,7 @@
                   $t("privacy.paragraph_5e")
                 }}</span>
               </li>
-            </ul>
+            </ul-->
 
             <p style="line-height: normal">
               <span style="font-size: 12pt">{{
