@@ -44,7 +44,7 @@
           <span class="card-filter-title">{{ $t("trade.form.title") }} </span>
         </CCardHeader>
         <CCardBody>
-          <label aria-labelledby="input__1" class="card-label col-12"
+          <label for="input__1" class="card-label col-12"
             >{{ $t("trade.form.fields.seriesType") }}
             <v-select
               label="descr"
@@ -52,7 +52,7 @@
               :placeholder="$t('trade.form.fields.seriesType_placeholder')"
               v-model="seriesType" />
           </label>
-          <label aria-labelledby="input__2" class="card-label mt-2 col-12"
+          <label for="input__2" class="card-label mt-2 col-12"
             >{{ $t("trade.form.fields.varType") }}
             <v-select
               label="descr"
@@ -60,7 +60,7 @@
               :placeholder="$t('trade.form.fields.varType_placeholder')"
               v-model="varType" />
           </label>
-          <label aria-labelledby="input__3" class="card-label mt-2 col-12"
+          <label for="input__3" class="card-label mt-2 col-12"
             >{{ $t("trade.form.fields.flow") }}
             <v-select
               label="descr"
@@ -68,7 +68,7 @@
               :placeholder="$t('trade.form.fields.flow_placeholder')"
               v-model="flow" />
           </label>
-          <label aria-labelledby="input__4" class="card-label mt-2 col-12"
+          <label for="input__4" class="card-label mt-2 col-12"
             >{{ $t("trade.form.fields.country") }}
             <v-select
               label="name"
@@ -76,10 +76,7 @@
               :placeholder="$t('trade.form.fields.country_placeholder')"
               v-model="country" />
           </label>
-          <label
-            aria-labelledby="input__5"
-            v-if="products"
-            class="card-label mt-2 col-12"
+          <label for="input__5" v-if="products" class="card-label mt-2 col-12"
             >{{ $t("trade.form.fields.products") }}
             <v-select
               v-if="products"

@@ -6,6 +6,7 @@
 .c-header {
   min-height: 66px;
 }
+
 .c-header.c-header-fixed {
   border: 0;
   -webkit-box-shadow: 0 2px 2px 0 rgba(60, 75, 100, 0.14),
@@ -15,12 +16,14 @@
   -webkit-clip-path: inset(0 0 -1000px 0);
   clip-path: inset(0 0 -1000px 0);
 }
+
 .header-link {
   padding-left: 0.2rem;
 }
+
 .c-app:not(.c-legacy-theme):not(.c-dark-theme) .card {
   border: 0;
-  box-shadow: 0 1px 1px 0 rgba(60,75,100,.14), 0 2px 1px -1px rgba(60,75,100,.12), 0 1px 3px 0 rgba(60,75,100,.2);
+  box-shadow: 0 1px 1px 0 rgba(60, 75, 100, .14), 0 2px 1px -1px rgba(60, 75, 100, .12), 0 1px 3px 0 rgba(60, 75, 100, .2);
 }
 
 .c-app:not(.c-dark-theme) .btn:not([class*=ghost]):not([class*=link]):not([class*=outline]):not([class*=transparent]) {
@@ -32,15 +35,18 @@
   flex: 0 0 66px;
 }
 
-.c-sidebar .c-sidebar-nav-link{
+.c-sidebar .c-sidebar-nav-link {
   color: white;
 }
+
 .c-sidebar-nav-link:focus-visible {
   border: 1px solid white;
 }
+
 .c-sidebar .c-sidebar-nav-title {
   color: white;
 }
+
 .btn-export .btn:not([class*=ghost]):not([class*=link]):not([class*=outline]):not([class*=transparent]) {
   border: 0;
   box-shadow: none;
@@ -53,7 +59,7 @@
   border-bottom: none;
 }
 
-.card-header:not(.content-center) > .c-icon:first-child {
+.card-header:not(.content-center)>.c-icon:first-child {
   margin-right: 0.1rem;
   margin-top: 0.2rem;
   vertical-align: top;
@@ -62,18 +68,19 @@
   font-size: 1.2rem;
 }
 
-.c-icon:not(.c-icon-c-s):not(.c-icon-custom-size){
-  height: 1.1rem!important;
+.c-icon:not(.c-icon-c-s):not(.c-icon-custom-size) {
+  height: 1.1rem !important;
 }
 
-.icon-link{
-  color:$primary;
+.icon-link {
+  color: $primary;
 }
 
 .table thead th {
   border-top: none;
   border-bottom: none;
 }
+
 .table-hover tbody tr:hover {
   background-color: #f6f6f6;
 }
@@ -90,23 +97,25 @@
   color: $secondary;
 }
 
-.section-link-disabled > .theme--light.v-icon {
+.section-link-disabled>.theme--light.v-icon {
   color: $secondary;
 }
 
-@media (max-width: 1100px){
+@media (max-width: 1100px) {
   .data-info-none {
     display: none !important;
-  }  
+  }
 }
+
 /*
  * Acronym 
  */
- @media (max-width: 450px) {
+@media (max-width: 450px) {
   .acronym {
     display: none !important;
   }
 }
+
 .acronym {
   font-size: 0.875rem;
   font-weight: 500;
@@ -117,31 +126,37 @@
 .card-header-actions {
   margin-right: 0;
 }
-.card-header-actions .material-design-icon > .material-design-icon__svg {
+
+.card-header-actions .material-design-icon>.material-design-icon__svg {
   width: 1.2rem;
   height: 1.2rem;
   bottom: auto;
 }
-.card-map{
+
+.card-map {
   height: calc(100vh - 200px);
 }
+
 .card-graph {
   height: calc(100vh - 150px);
 }
+
 .card-label {
   color: $primary;
   font-size: 0.9em;
 }
+
 .card-no-border {
   padding: 0;
   border: none;
 }
-.card-no-shadow{
+
+.card-no-shadow {
   box-shadow: none !important;
 }
 
-.card-title{
-  line-height: 2; 
+.card-title {
+  line-height: 2;
   padding-left: 0.8rem;
 }
 
@@ -149,15 +164,16 @@
   padding-top: 0.5rem;
 }
 
-.card-filter-title{
-  line-height: 2; 
+.card-filter-title {
+  line-height: 2;
 }
 
-.btn-help{
+.btn-help {
   float: right;
 }
 
-.btn-help .btn-sm, .btn-help .btn-group-sm > .btn {
+.btn-help .btn-sm,
+.btn-help .btn-group-sm>.btn {
   font-size: 0.875rem;
   padding: 0.3rem 0.5rem 0.1rem 0.5rem;
 }
@@ -165,7 +181,7 @@
 
 /* Forms */
 .form-control {
-  color:rgba(31, 37, 47, 0.95) !important;
+  color: rgba(31, 37, 47, 0.95) !important;
 }
 
 .form-group {
@@ -199,15 +215,18 @@
 .show {
   visibility: visible;
 }
+
 /*Tabs*/
 .nav-tabs {
   border-bottom: none;
 }
+
 .nav-tabs .nav-link {
   color: rgba(31, 37, 47, 0.95);
   border-bottom: 2px solid #ebedef;
   margin-bottom: 5px;
 }
+
 .nav-tabs .nav-link:hover {
   border-color: #ebedef;
 }
@@ -227,39 +246,49 @@
 }
 
 /* V-Select*/
-.vs__search::placeholder{
+.vs__search::placeholder {
   color: #768192;
 }
-.vs__dropdown-toggle{
+
+.vs__dropdown-toggle {
   border: 1px solid #ced2d8;
 }
-.vs__selected, .vs__dropdown-option{
-  color:rgba(31, 37, 47, 0.95) !important;
+
+.vs__selected,
+.vs__dropdown-option {
+  color: rgba(31, 37, 47, 0.95) !important;
 }
-.vs__dropdown-option--highlight{
-  color: white!important;
-  background-color:	$primary;
+
+.vs__dropdown-option--highlight {
+  color: white !important;
+  background-color: $primary;
 }
+
 .vs__selected-options {
   padding: 2px 3px 2px 6px;
 }
-.vs_actions{
+
+.vs_actions {
   padding: 3px 6px 0 3px;
 }
-.vs__clear{
+
+.vs__clear {
   padding-bottom: 5px;
 }
-.is-invalid > .vs__dropdown-toggle {
+
+.is-invalid>.vs__dropdown-toggle {
   border-color: $danger;
 }
-.is-invalid > .form-control {
+
+.is-invalid>.form-control {
   border-color: $danger;
 }
 
 /* Spinner */
-.spinner > div {
+.spinner>div {
   background-color: $primary !important;
 }
+
 .circle-spin {
   position: absolute;
   top: 20%;
@@ -315,7 +344,7 @@
   list-style-type: none;
 }
 
-.tooltip-span{
+.tooltip-span {
   padding: 1rem 1rem;
 }
 
@@ -330,33 +359,37 @@ $themeColor: #321fdb;
 .vue-slider {
   margin-top: 0.5rem;
   margin-left: 0.5rem;
-  margin-right:0.5rem;
+  margin-right: 0.5rem;
   margin-bottom: 3rem;
 }
 
 .vue-slider-mark-label {
   font-size: 12px !important;
-  color:rgba(31, 37, 47, 0.95) !important;
+  color: rgba(31, 37, 47, 0.95) !important;
 }
 
 .vue-slider-ltr .vue-slider-mark-label,
-.vue-slider-rtl .vue-slider-mark-label {  
-      -webkit-transform: rotate(60deg) !important;
-      -webkit-transform-origin: top !important;      
-      transform: rotate(60deg) !important;
-      transform-origin: top !important;
-      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-      margin-top: 20px!important;
-      
- }
- 
- /* Material design icons*/
- .material-design-icon.icon-2x {
+.vue-slider-rtl .vue-slider-mark-label {
+  -webkit-transform: rotate(60deg) !important;
+  -webkit-transform-origin: top !important;
+  transform: rotate(60deg) !important;
+  transform-origin: top !important;
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  margin-top: 20px !important;
+
+}
+
+/* Material design icons*/
+.material-design-icon.icon-2x {
   height: 1.8em;
   width: 1.8em;
 }
 
-.material-design-icon.icon-2x > .material-design-icon__svg {
+.material-design-icon.icon-2x>.material-design-icon__svg {
   height: 1.8em;
   width: 1.8em;
+}
+
+label {
+  cursor: pointer;
 }

@@ -66,96 +66,109 @@
             </span>
           </CCardHeader>
           <CCardBody>
-            <label class="card-label">{{
-              $t("graph.form.fields.period")
-            }}</label>
-            <div>
+            <div class="mt-3 col-12">
+              <span class="card-label">{{
+                $t("graph.form.fields.period")
+              }}</span>
+            </div>
+
+            <div class="mt-3 col-12">
               <label class="radio">
                 <input
+                  id="montly"
                   type="radio"
                   name="radioPeriod"
                   value="Monthly"
                   v-model="frequency" />
-                <span>{{ $t("graph.form.fields.monthly") }}</span>
+                <span for="timerange">{{
+                  $t("graph.form.fields.monthly")
+                }}</span>
               </label>
               <label class="radio">
                 <input
+                  id="trimester"
                   type="radio"
                   name="radioPeriod"
                   value="Trimester"
                   v-model="frequency" />
                 <span>{{ $t("graph.form.fields.trimester") }}</span>
               </label>
+              <v-select
+                v-if="timeRange"
+                label="selectName"
+                :options="timeRange"
+                :placeholder="$t('graph.form.fields.period_placeholder')"
+                v-model="currentTime"
+                :class="{
+                  'is-invalid': $v.currentTime.$error
+                }"
+                :clearable="false" />
             </div>
-            <v-select
-              v-if="timeRange"
-              label="selectName"
-              :options="timeRange"
-              :placeholder="$t('graph.form.fields.period_placeholder')"
-              v-model="currentTime"
-              :class="{
-                'is-invalid': $v.currentTime.$error
-              }"
-              :clearable="false" />
-            <label class="card-label mt-3">{{
-              $t("graph.form.fields.flow")
-            }}</label>
-            <v-select
-              label="descr"
-              :options="flows"
-              :placeholder="$t('graph.form.fields.flow_placeholder')"
-              v-model="flow"
-              :class="{
-                'is-invalid': $v.flow.$error
-              }"
-              :clearable="false" />
-            <label class="card-label mt-3">{{
-              $t("graph.form.fields.percentage")
-            }}</label>
-            <CInput
-              :placeholder="$t('graph.form.fields.percentage_placeholder')"
-              v-model="percentage"
-              :class="{
-                'is-invalid': $v.percentage.$error
-              }" />
-            <label class="card-label mt-3" v-if="displayTransport">{{
-              $t("graph.form.fields.transport")
-            }}</label>
-            <v-select
-              class="style-chooser"
+
+            <label class="card-label mt-3 col-12" for="input__2"
+              >{{ $t("graph.form.fields.flow") }}
+              <v-select
+                label="descr"
+                :options="flows"
+                :placeholder="$t('graph.form.fields.flow_placeholder')"
+                v-model="flow"
+                :class="{
+                  'is-invalid': $v.flow.$error
+                }"
+                :clearable="false" />
+            </label>
+            <label class="card-label mt-3 col-12"
+              >{{ $t("graph.form.fields.percentage") }}
+              <CInput
+                :placeholder="$t('graph.form.fields.percentage_placeholder')"
+                v-model="percentage"
+                :class="{
+                  'is-invalid': $v.percentage.$error
+                }" />
+            </label>
+            <label
+              class="card-label mt-3 col-12"
+              for="input__3"
               v-if="displayTransport"
-              label="descr"
-              multiple
-              :options="transports"
-              :placeholder="$t('graph.form.fields.transport_placeholder')"
-              v-model="transport"
-              :class="{
-                'is-invalid': $v.transport.$error
-              }"
-              :clearable="false" />
-            <label class="card-label mt-3" v-if="displayTransport">{{
-              $t("graph.form.fields.product_nstr")
-            }}</label>
-            <label class="card-label mt-3" v-else>{{
-              $t("graph.form.fields.product_cpa3")
-            }}</label>
-            <v-select
-              label="descr"
-              :options="products"
-              :placeholder="$t('graph.form.fields.product_placeholder')"
-              v-model="product"
-              :class="{
-                'is-invalid': $v.product.$error
-              }"
-              :clearable="false" />
-            <CButton
-              color="primary"
-              shape="square"
-              size="sm"
-              @click="handleSubmit"
-              class="mt-3"
-              >{{ $t("common.submit") }}</CButton
-            >
+              >{{ $t("graph.form.fields.transport") }}
+              <v-select
+                class="style-chooser"
+                v-if="displayTransport"
+                label="descr"
+                multiple
+                :options="transports"
+                :placeholder="$t('graph.form.fields.transport_placeholder')"
+                v-model="transport"
+                :class="{
+                  'is-invalid': $v.transport.$error
+                }"
+                :clearable="false" />
+            </label>
+            <label class="card-label mt-3 col-12" for="input__4"
+              ><span v-if="displayTransport">{{
+                $t("graph.form.fields.product_nstr")
+              }}</span>
+              <span v-else>{{ $t("graph.form.fields.product_cpa3") }}</span>
+              <v-select
+                label="descr"
+                :options="products"
+                :placeholder="$t('graph.form.fields.product_placeholder')"
+                v-model="product"
+                :class="{
+                  'is-invalid': $v.product.$error
+                }"
+                :clearable="false" />
+            </label>
+            <div class="col-12">
+              <CButton
+                color="primary"
+                shape="square"
+                size="sm"
+                @click="handleSubmit"
+                class="mt-3"
+                >{{ $t("common.submit") }}</CButton
+              >
+            </div>
           </CCardBody>
         </CCard>
       </div>
@@ -492,6 +505,17 @@ export default {
           element.setAttribute("aria-busy", "true")
         })
       }, 300)
+    },
+    fixLabelForSelectAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vs__search").forEach((element, index) => {
+          const i = index + 1
+          element.setAttribute("id", "input__" + i)
+        })
+      }, 300)
+    },
+    setFocusOn() {
+      document.getElementById("vs1__combobox").focus()
     }
   },
   created() {
@@ -499,6 +523,7 @@ export default {
     this.fixSliderAccessibility()
     this.fixTabsAccessibility()
     this.fixTabListAccessibility()
+    this.fixLabelForSelectAccessibility()
   }
 }
 </script>

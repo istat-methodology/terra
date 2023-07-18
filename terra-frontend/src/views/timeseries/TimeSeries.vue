@@ -108,7 +108,7 @@
           }}</span>
         </CCardHeader>
         <CCardBody>
-          <label aria-labelledby="input__1" class="card-label col-12"
+          <label for="input__1" class="card-label col-12"
             >{{ $t("timeseries.form.fields.dataType") }}
             <v-select
               label="descr"
@@ -130,7 +130,7 @@
                 'is-invalid': $v.varType.$error
               }" />
           </label>
-          <label aria-labelledby="input__3" class="card-label col-12 mt-2">
+          <label for="input__3" class="card-label col-12 mt-2">
             {{ $t("timeseries.form.fields.flow") }}
             <v-select
               label="descr"
@@ -141,7 +141,7 @@
                 'is-invalid': $v.flow.$error
               }" />
           </label>
-          <label aria-labelledby="input__4" class="card-label col-12 mt-2">
+          <label for="input__4" class="card-label col-12 mt-2">
             {{ $t("timeseries.form.fields.country") }}
             <v-select
               label="name"
@@ -152,7 +152,7 @@
                 'is-invalid': $v.country.$error
               }" />
           </label>
-          <label aria-labelledby="input__5" class="card-label col-12 mt-2">
+          <label for="input__5" class="card-label col-12 mt-2">
             {{ $t("timeseries.form.fields.partner") }}
             <v-select
               id="selectPartner"
@@ -165,7 +165,7 @@
                 'is-invalid': $v.partner.$error
               }" />
           </label>
-          <label aria-labelledby="input__6" class="card-label col-12 mt-2">
+          <label for="input__6" class="card-label col-12 mt-2">
             {{ $t("timeseries.form.fields.productsCPA") }}
             <v-select
               label="descr"
