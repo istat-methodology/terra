@@ -39,7 +39,8 @@
           <CIcon
             name="cil-home"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.home')" />{{ $t("sidebar.home") }}
+            :alt="$t('sidebar.home')"
+            :title="$t('sidebar.home')" />{{ $t("sidebar.home") }}
         </a>
       </div>
       <div class="c-sidebar-nav-title pb-2">
@@ -56,7 +57,8 @@
           <CIcon
             name="cil-location-pin"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.map')" />
+            :alt="$t('sidebar.map')"
+            :title="$t('sidebar.map')" />
           {{ $t("sidebar.map") }}
         </a>
       </div>
@@ -71,7 +73,8 @@
           <CIcon
             name="cil-graph"
             class="c-sidebar-nav-icon"
-            alt='$t("sidebar.graphExtra")' />{{ $t("sidebar.graphExtra") }}
+            :alt="$t('sidebar.graphExtra')"
+            :title="$t('sidebar.graphExtra')" />{{ $t("sidebar.graphExtra") }}
         </a>
       </div>
       <div class="c-sidebar-nav-item">
@@ -85,7 +88,8 @@
           <CIcon
             name="cil-graph"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.graphWorld')" />{{ $t("sidebar.graphWorld") }}
+            :alt="$t('sidebar.graphWorld')"
+            :title="$t('sidebar.graphWorld')" />{{ $t("sidebar.graphWorld") }}
         </a>
       </div>
       <div class="c-sidebar-nav-item">
@@ -99,7 +103,8 @@
           <CIcon
             name="cil-chart-line"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.timeseries')" />
+            :alt="$t('sidebar.timeseries')"
+            :title="$t('sidebar.timeseries')" />
           {{ $t("sidebar.timeseries") }}
         </a>
       </div>
@@ -114,7 +119,8 @@
           <CIcon
             name="cil-layers"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.trade')" />
+            :alt="$t('sidebar.trade')"
+            :title="$t('sidebar.trade')" />
           {{ $t("sidebar.trade") }}
         </a>
       </div>
@@ -126,7 +132,11 @@
           {{ lastLoadedData }}
         </div-->
         <div class="data-update" :title="$t('common.update') + lastLoadedData">
-          <CIcon name="cil-tags" title="Update" /> {{ $t("common.update") }}
+          <CIcon
+            name="cil-tags"
+            :alt="$t('common.update')"
+            :title="$t('common.update')" />
+          {{ $t("common.update") }}
           {{ lastLoadedData }}
         </div>
       </div>

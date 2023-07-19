@@ -26,7 +26,8 @@
             style="height: 100%; width: 100%"
             @ready="setShooter()"
             @click="closeInfo()"
-            tabindex="0">
+            tabindex="-1"
+            aria-hidden="true">
             <l-tile-layer :url="url" :attribution="attribution" />
             <l-geo-json
               v-if="geoJson"
