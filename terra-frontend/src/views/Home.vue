@@ -10,9 +10,13 @@
         <div class="card-body">
           <p v-html="$t('landing.map.body')"></p>
           <p class="section-link">
-            <router-link tag="a" :to="{ name: 'Map' }">
+            <a
+              @click="handleMap"
+              @keypress="handleMap"
+              tabindex="0"
+              :title="$t('landing.map.link')">
               {{ $t("landing.map.link") }}
-            </router-link>
+            </a>
           </p>
         </div>
       </div>
@@ -26,9 +30,13 @@
         <div class="card-body">
           <p v-html="$t('landing.graph.extra-ue.body')"></p>
           <p class="section-link">
-            <router-link tag="a" :to="{ name: 'GraphExtraUe' }">
-              {{ $t("landing.graph.extra-ue.link") }}
-            </router-link>
+            <a
+              @click="handleGraphExtraUe()"
+              @keypress="handleGraphExtraUe()"
+              tabindex="0"
+              :title="$t('landing.graph.extra-ue.link')"
+              >{{ $t("landing.graph.extra-ue.link") }}
+            </a>
           </p>
         </div>
       </div>
@@ -42,9 +50,12 @@
         <div class="card-body">
           <p v-html="$t('landing.graph.intra-ue.body')"></p>
           <p class="section-link">
-            <router-link tag="a" :to="{ name: 'GraphIntraUe' }">
+            <a
+              @click="handleGraphIntraUe()"
+              @keypress="handleGraphIntraUe()"
+              tabindex="0">
               {{ $t("landing.graph.intra-ue.link") }}
-            </router-link>
+            </a>
           </p>
         </div>
       </div>
@@ -63,6 +74,13 @@
             <router-link tag="a" :to="{ name: 'TimeSeries' }">
               {{ $t("landing.timeseries.link") }}
             </router-link>
+            <a
+              @click="handleTimeSeries()"
+              @keypress="handleTimeSeries()"
+              tabindex="0"
+              :title="$t('landing.timeseries.link')">
+              {{ $t("landing.timeseries.link") }}
+            </a>
           </p>
         </div>
       </div>
@@ -76,9 +94,13 @@
         <div class="card-body">
           <p v-html="$t('landing.trade.body')"></p>
           <p class="section-link">
-            <router-link tag="a" :to="{ name: 'Trade' }">
+            <a
+              @click="handleTrade()"
+              @keypress="handleTrade()"
+              tabindex="0"
+              :title="$t('landing.trade.link')">
               {{ $t("landing.trade.link") }}
-            </router-link>
+            </a>
           </p>
         </div>
       </div>
@@ -90,6 +112,31 @@
 import { Context } from "@/common"
 export default {
   name: "Home",
+  data() {
+    return {
+      title: process.env.VUE_APP_TITLE
+    }
+  },
+  methods: {
+    handleHome() {
+      this.$router.push({ name: "Home" })
+    },
+    handleMap() {
+      this.$router.push({ name: "Map" })
+    },
+    handleGraphExtraUe() {
+      this.$router.push({ name: "GraphExtraUe" })
+    },
+    handleGraphIntraUe() {
+      this.$router.push({ name: "GraphIntraUe" })
+    },
+    handleTimeSeries() {
+      this.$router.push({ name: "TimeSeries" })
+    },
+    handleTrade() {
+      this.$router.push({ name: "Trade" })
+    }
+  },
   created() {
     this.$store.dispatch("coreui/setContext", Context.Home)
   }
