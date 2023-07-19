@@ -26,8 +26,7 @@
             style="height: 100%; width: 100%"
             @ready="setShooter()"
             @click="closeInfo()"
-            tabindex="-1"
-            >
+            tabindex="-1">
             <l-tile-layer :url="url" :attribution="attribution" />
             <l-geo-json
               v-if="geoJson"
