@@ -6,6 +6,7 @@
       @click="$store.dispatch('coreui/toggleSidebarMobile')"
       @keypress="$store.dispatch('coreui/toggleSidebarMobile')"
       aria-label="toggle Sidebar Mobile"
+      title="toggle Sidebar Mobile"
       tabindex="0" />
     <CToggler
       in-header
@@ -13,6 +14,7 @@
       @click="$store.dispatch('coreui/toggleSidebarDesktop')"
       @keypress="$store.dispatch('coreui/toggleSidebarDesktop')"
       aria-label="toggle Sidebar Desktop"
+      title="toggle Sidebar Desktop"
       tabindex="0" />
 
     <CHeaderNav class="mr-auto" tabindex="-1">
@@ -21,17 +23,17 @@
           src="../img/LogoTerraFull.png"
           style="max-width: 95%"
           class="d-md-down-none"
-          alt="$t('header.logo_terra')"
-          title="$t('header.logo_terra')"
-          aria-label="Logo Terra"
+          :alt="$t('header.logo_terra')"
+          :title="$t('header.logo_terra')"
+          :aria-label="$t('header.logo_terra')"
           tabindex="0" />
         <CImg
           src="../img/LogoTerraShort.png"
           style="max-width: 80%"
           class="d-lg-none"
-          alt="$t('header.logo_terra')"
-          title="$t('header.logo_terra')"
-          aria-label="Logo Terra"
+          :alt="$t('header.logo_terra')"
+          :title="$t('header.logo_terra')"
+          :aria-label="$t('header.logo_terra')"
           tabindex="0" />
       </CHeaderNavItem>
     </CHeaderNav>
@@ -42,17 +44,17 @@
           src="../img/LogoSTSP.png"
           style="max-width: 90%"
           class="d-md-down-none mr-3"
-          alt="$t('header.logo_statistica_sp')"
-          title="$t('header.logo_statistica_sp')"
-          aria-label="Statistiche sperimentali"
+          :alt="$t('header.logo_statistica_sp')"
+          :title="$t('header.logo_statistica_sp')"
+          :aria-label="$t('header.logo_statistica_sp')"
           tabindex="0" />
         <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 80%"
           class="d-lg-none"
-          alt="$t('header.logo_statistica_sp')"
-          title="$t('header.logo_statistica_sp')"
-          aria-label="Statistiche sperimentali"
+          :alt="$t('header.logo_statistica_sp')"
+          :title="$t('header.logo_statistica_sp')"
+          :aria-label="$t('header.logo_statistica_sp')"
           tabindex="0" />
         <CButtonGroup
           role="group"
@@ -66,7 +68,8 @@
             :class="{ active: selectedIt }"
             @click="selectLanguage('it')"
             @keypress="selectLanguage('it')"
-            aria-label="$t('common.language_it')"
+            :aria-label="$t('common.language_it')"
+            :title="$t('common.language_it')"
             tabindex="0"
             >IT</CButton
           >
@@ -78,7 +81,8 @@
             :class="{ active: selectedEn }"
             @click="selectLanguage('en')"
             @keypress="selectLanguage('en')"
-            aria-label="$t('common.language_en')"
+            :aria-label="$t('common.language_en')"
+            :title="$t('common.language_en')"
             tabindex="0"
             >EN</CButton
           >

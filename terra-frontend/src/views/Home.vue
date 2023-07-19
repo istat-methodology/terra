@@ -53,7 +53,8 @@
             <a
               @click="handleGraphIntraUe()"
               @keypress="handleGraphIntraUe()"
-              tabindex="0">
+              tabindex="0"
+              :title="$t('landing.graph.intra-ue.link')">
               {{ $t("landing.graph.intra-ue.link") }}
             </a>
           </p>
