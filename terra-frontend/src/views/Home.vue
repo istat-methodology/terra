@@ -71,9 +71,6 @@
         <div class="card-body">
           <p v-html="$t('landing.timeseries.body')"></p>
           <p class="section-link">
-            <router-link tag="a" :to="{ name: 'TimeSeries' }">
-              {{ $t("landing.timeseries.link") }}
-            </router-link>
             <a
               @click="handleTimeSeries()"
               @keypress="handleTimeSeries()"
