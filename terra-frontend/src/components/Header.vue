@@ -5,16 +5,20 @@
       class="ml-3 d-lg-none"
       @click="$store.dispatch('coreui/toggleSidebarMobile')"
       @keypress="$store.dispatch('coreui/toggleSidebarMobile')"
-      aria-label="toggle Sidebar Mobile"
-      title="toggle Sidebar Mobile"
+      :aria-label="$t('header.toggler')"
+      :title="
+        sidebarShow === false ? $t('header.no_toggler') : $t('header.toggler')
+      "
       tabindex="0" />
     <CToggler
       in-header
       class="ml-3 d-md-down-none"
       @click="$store.dispatch('coreui/toggleSidebarDesktop')"
       @keypress="$store.dispatch('coreui/toggleSidebarDesktop')"
-      aria-label="toggle Sidebar Desktop"
-      title="toggle Sidebar Desktop"
+      :aria-label="$t('header.no_toggler')"
+      :title="
+        sidebarShow === false ? $t('header.no_toggler') : $t('header.toggler')
+      "
       tabindex="0" />
 
     <CHeaderNav class="mr-auto" tabindex="-1">
@@ -98,6 +102,7 @@ import { mapGetters } from "vuex"
 export default {
   data() {
     return {
+      currentState: false,
       langs: ["it", "en"],
       selectedIt: false,
       selectedEn: false
@@ -105,7 +110,7 @@ export default {
   },
   computed: {
     ...mapGetters("metadata", ["lastLoadedData"]),
-    ...mapGetters("coreui", ["isItalian"])
+    ...mapGetters("coreui", ["isItalian", "sidebarShow"])
   },
   methods: {
     selectLanguage(lan) {
@@ -122,6 +127,7 @@ export default {
   created() {
     this.selectedIt = this.isItalian
     this.selectedEn = !this.isItalian
+    this.currentState = !this.currentState
   }
 }
 </script>

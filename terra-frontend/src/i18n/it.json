@@ -31,7 +31,9 @@
     "userguide": "Manuale utente",
     "methodology": "Nota metodologica",
     "logo_terra": "Logo Terra",
-    "logo_statistica_sp": "Logo Statistica Sperimentale"
+    "logo_statistica_sp": "Logo Statistica Sperimentale",
+    "toggler":"abilita visualizzazione sidebar",
+    "no_toggler":"disabilita visualizzazione sidebar"
   },
   "sidebar": {
     "home": "Home",
@@ -41,7 +43,8 @@
     "graphWorld": "Grafi UE - Mondo",
     "timeseries": "Serie storiche",
     "trade": "Paniere dei prodotti",
-    "logo_istat": "Logo Istat"
+    "logo_istat": "Logo Istat",
+    "goto_istat": "vai a www.istat.it"
   },
   "landing": {
     "disclaimer": "*Le classificazioni Eurostat CPA 2.1 e NSTR possono differire dalle corrispondenti versioni nazionali",

@@ -5,7 +5,6 @@
         class="d-inline"
         href="https://ec.europa.eu/eurostat/comext/newxtweb/"
         target="_blank"
-        aria-label="EUROSTAT COMEXT"
         tabindex="0"
         title="EUROSTAT COMEXT"
         >EUROSTAT COMEXT</a
@@ -17,7 +16,6 @@
         @click="handlePrivacy()"
         @keypress="handlePrivacy()"
         tabindex="0"
-        aria-label="Privacy"
         title="Privacy"
         >Privacy</a
       ><span class="ml-2 mr-2"><strong>/</strong></span>
@@ -26,7 +24,6 @@
         @click="handlePrivacy()"
         @keypress="handlePrivacy()"
         tabindex="0"
-        aria-label="Accessibility"
         title="Accessibility"
         >Accessibility</a
       >
@@ -35,7 +32,6 @@
       <a
         class="d-inline"
         target="_blank"
-        :aria-label="$t('header.userguide')"
         href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf'"
         tabindex="0"
         :title="$t('header.userguide')">

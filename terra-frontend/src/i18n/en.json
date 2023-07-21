@@ -31,7 +31,9 @@
     "userguide": "User guide",
     "methodology": "Methodological note",
     "logo_terra": "Terra Logo",
-    "logo_statistica_sp": "Experimental Statistic Logo"
+    "logo_statistica_sp": "Experimental Statistic Logo",
+    "toggler":"enable sidebar display",
+    "no_toggler":"disable sidebar display"
   },
   "sidebar": {
     "home": "Home",
@@ -42,7 +44,8 @@
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
     "trade": "Basket of traded products",
-    "logo_istat": "Istat Logo"
+    "logo_istat": "Istat Logo",
+    "goto_istat": "go to www.istat.it"
   },
   "landing": {
     "disclaimer": "*Eurostat and National CPA 2.1 and NSTR classifications may differ",

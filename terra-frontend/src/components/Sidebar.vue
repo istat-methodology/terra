@@ -17,14 +17,12 @@
       <a
         href="https://www.istat.it/it/"
         target="_blank"
-        aria-label="Istat"
-        tabindex="0">
+        tabindex="0"
+        :title="$t('sidebar.goto_istat')">
         <CImg
           src="../img/LogoIstatCompleto.png"
           style="max-width: 100%"
-          :alt="$t('sidebar.logo_istat')"
-          :title="$t('sidebar.logo_istat')"
-          :aria-label="$t('sidebar.logo_istat')" />
+          :alt="$t('sidebar.goto_istat')" />
       </a>
     </CSidebarBrand>
     <div class="c-sidebar-nav h-100" style="overflow: hidden">
@@ -39,7 +37,7 @@
           <CIcon
             name="cil-home"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.home')"
+            alt=""
             :title="$t('sidebar.home')" />{{ $t("sidebar.home") }}
         </a>
       </div>
@@ -57,7 +55,7 @@
           <CIcon
             name="cil-location-pin"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.map')"
+            alt=""
             :title="$t('sidebar.map')" />
           {{ $t("sidebar.map") }}
         </a>
@@ -68,12 +66,12 @@
           @keypress="handleGraphExtraUe()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraph }"
-          tabindex="0"
-          :title="$t('sidebar.graphExtra')">
+          :title="$t('sidebar.graphExtra')"
+          tabindex="0">
           <CIcon
             name="cil-graph"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.graphExtra')"
+            alt=""
             :title="$t('sidebar.graphExtra')" />{{ $t("sidebar.graphExtra") }}
         </a>
       </div>
@@ -83,12 +81,12 @@
           @keypress="handleGraphIntraUe()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraphIntra }"
-          tabindex="0"
-          :title="$t('sidebar.graphWorld')">
+          :title="$t('sidebar.graphWorld')"
+          tabindex="0">
           <CIcon
             name="cil-graph"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.graphWorld')"
+            alt=""
             :title="$t('sidebar.graphWorld')" />{{ $t("sidebar.graphWorld") }}
         </a>
       </div>
@@ -98,12 +96,12 @@
           @keypress="handleTimeSeries()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-warning': isPolicy }"
-          tabindex="0"
-          :title="$t('sidebar.timeseries')">
+          :title="$t('sidebar.timeseries')"
+          tabindex="0">
           <CIcon
             name="cil-chart-line"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.timeseries')"
+            alt=""
             :title="$t('sidebar.timeseries')" />
           {{ $t("sidebar.timeseries") }}
         </a>
@@ -114,13 +112,13 @@
           @keypress="handleTrade()"
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-danger': isTrade }"
-          tabindex="0"
-          :title="$t('sidebar.trade')">
+          :title="$t('sidebar.trade')"
+          tabindex="0">
           <CIcon
             name="cil-layers"
             class="c-sidebar-nav-icon"
-            :alt="$t('sidebar.trade')"
-            :title="$t('sidebar.trade')" />
+            alt=""
+            title="$t('sidebar.trade')" />
           {{ $t("sidebar.trade") }}
         </a>
       </div>
@@ -132,10 +130,7 @@
           {{ lastLoadedData }}
         </div-->
         <div class="data-update" :title="$t('common.update') + lastLoadedData">
-          <CIcon
-            name="cil-tags"
-            :alt="$t('common.update')"
-            :title="$t('common.update')" />
+          <CIcon name="cil-tags" alt="" :title="$t('common.update')" />
           {{ $t("common.update") }}
           {{ lastLoadedData }}
         </div>

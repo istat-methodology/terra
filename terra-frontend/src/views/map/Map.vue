@@ -1,7 +1,7 @@
 <template>
   <div class="row" role="heading" aria-level="1">
     <div class="col-sm-12 col-md-12">
-      <div class="card card-map" title="Map">
+      <div class="card card-map" :title="$t('sidebar.map')">
         <!--CCardHeader>
           <span class="card-title"></span>
           <span class="btn-group float-right">
@@ -16,7 +16,7 @@
           </span>
         </CCardHeader-->
 
-        <CCardBody>
+        <CCardBody tabindex="-1">
           <l-map
             ref="map"
             id="map"
