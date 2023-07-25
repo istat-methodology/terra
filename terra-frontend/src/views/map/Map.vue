@@ -29,6 +29,7 @@
             tabindex="-1">
             <l-tile-layer :url="url" :attribution="attribution" />
             <l-geo-json
+              aria-hidden="true"
               v-if="geoJson"
               :visible="!isFeature"
               :geojson="geoJson"
@@ -38,6 +39,7 @@
               tabindex="0"></l-geo-json>
 
             <l-circle-marker
+              aria-hidden="true"
               v-for="(marker, i) in markerPeriodSeries"
               v-bind:key="i"
               :lat-lng="[
@@ -55,14 +57,14 @@
                 role="tooltip"
                 :options="{ interactive: true, permanent: false }"
                 tabindex="0">
-                <span class="tooltip-span" tabindex="0"
+                <span class="tooltip-span" tabindex="-1"
                   >{{ marker.name }} {{ ie }}
                   {{ marker.series + "%" }}
                 </span>
               </l-tooltip>
             </l-circle-marker>
 
-            <l-control position="topright" tabindex="0">
+            <l-control position="topright" tabindex="-1">
               <div id="Legend" class="legend"></div>
               <div class="legend-title">
                 {{
@@ -102,14 +104,14 @@
             </l-control>
             <l-control position="topleft">
               <div class="leaflet-bar">
-                <a
+                <!--a
                   class="control-btn"
                   :title="$t('map.toolbar.information')"
                   role="button"
                   @click="helpOn(true)"
                   tabindex="0"
                   >i</a
-                >
+                -->
                 <a
                   class="control-btn"
                   :title="

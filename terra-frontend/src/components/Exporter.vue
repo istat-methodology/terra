@@ -1,18 +1,30 @@
 <template>
   <div>
     <span v-if="iam == null">
-      <CDropdown
-        :togglerText="$t('common.exporter')"
-        className="exporter mr-2 block"
-        direction="down">
-        <CDropdownItem
-          v-for="item in options"
-          :key="item"
-          @click="download(item)"
-          :title="getTitle(item)">
-          {{ item }}
-        </CDropdownItem>
-      </CDropdown>
+      <div class="dropdown" :title="$t('common.exporter')">
+        <button
+          class="btn btn-outline dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-expanded="false"
+          @click="dropdown">
+          {{ $t("common.exporter") }}
+        </button>
+        <div
+          :class="toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show'"
+          aria-labelledby="dropdownMenuButton">
+          <a
+            v-for="item in options"
+            :key="item"
+            :title="getTitle(item)"
+            class="dropdown-item"
+            @click="download(item)"
+            tabindex="0"
+            >{{ item }}</a
+          >
+        </div>
+      </div>
     </span>
     <a
       class="control-btn exporter block"
@@ -36,6 +48,11 @@ export default {
   name: "exporter",
   computed: {
     ...mapGetters("classification", ["getCountryName"])
+  },
+  data() {
+    return {
+      toggle: true
+    }
   },
   props: {
     filename: {
@@ -86,8 +103,9 @@ export default {
   },
   methods: {
     getTitle(typeformat) {
-      return "export as " + typeformat + " format"
+      return "Download " + typeformat
     },
+
     download(type) {
       switch (type) {
         case "json":
@@ -390,6 +408,10 @@ export default {
       return this.source == "graph"
         ? document.getElementById(id).querySelector("canvas")
         : document.getElementById(id)
+    },
+    dropdown() {
+      this.toggle = !this.toggle
+      return this.toggle
     }
   }
 }
@@ -398,5 +420,56 @@ export default {
 .block {
   display: block;
   position: static;
+}
+.dropdown-toggle {
+  cursor: pointer !important;
+  color: #321fdb !important;
+}
+.dropdown-toggle:hover {
+  text-decoration: underline !important;
+  color: #231698;
+}
+
+.dropdown-menu-show {
+  position: absolute;
+  top: 100%;
+  z-index: 1000;
+  float: left;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+  text-align: left;
+  list-style: none;
+  background-clip: padding-box;
+  border: 1px solid;
+  border-radius: 0.25rem;
+  color: #3c4b64;
+  background-color: #fff;
+  border-color: #d8dbe0;
+}
+.dropdown-menu-show:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.25);
+}
+.dropdown-menu-hide {
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+  text-align: left;
+  list-style: none;
+  background-clip: padding-box;
+  border: 1px solid;
+  border-radius: 0.25rem;
+  color: #3c4b64;
+  background-color: #fff;
+  border-color: #d8dbe0;
+}
+.dropdown-item.active,
+.dropdown-item:active {
+  text-decoration: none !important;
+  color: #321fdb !important;
+  background-color: #d8dbe0 !important;
 }
 </style>

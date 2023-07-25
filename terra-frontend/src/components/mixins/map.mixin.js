@@ -83,8 +83,8 @@ export default {
         range = scale.range(),
         isAxis = opts.axis || false,
         scaleAxis = null,
-        axis = null,
-        scalePointer = null
+        axis = null
+      //,scalePointer = null
 
       colors = range
       // check the width and height and adjust if necessary to fit in the element use the range
@@ -103,8 +103,10 @@ export default {
         .scaleLinear()
         .domain(domain)
         .range([0, boxWidth * colors.length])),
-        (axis = d3.axisBottom(scaleAxis)),
-        (scalePointer = d3.scaleLinear().domain([0, 350]).range([min, max]))
+        (axis = d3.axisBottom(scaleAxis))
+
+      //,(scalePointer = d3.scaleLinear().domain([0, 350]).range([min, max]))
+
       // set up the legend graphics context
       var legend = d3
         .select(target)
@@ -122,15 +124,16 @@ export default {
         .data(colors)
         .enter()
         .append("g")
-        .on("click", function (e, rgbColor) {
-          var pos = d3.pointer(e)
-          var xPos = pos[0]
-          var value = xPos
-          alert(
-            "Value: " + Math.round(scalePointer(value)) + ", color: " + rgbColor
-          )
-        })
-
+      /*  
+      .on("hover", function (e, rgbColor) {
+              var pos = d3.pointer(e)
+              var xPos = pos[0]
+              var value = xPos
+              alert(
+                "Value: " + Math.round(scalePointer(value)) + ", color: " + rgbColor
+              )
+      })
+      */
       legendBoxes
         .append("text")
         .attr("stroke", "#fff")

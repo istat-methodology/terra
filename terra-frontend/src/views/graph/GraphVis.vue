@@ -3,10 +3,7 @@
     <CCard class="card-graph" :title="title">
       <CCardHeader>
         <span class="card-title">{{ title }}</span>
-        <span class="btn-help">
-          <CButton color="link" @click="showInfo">Info</CButton>
-        </span>
-        <span class="float-right">
+        <span class="btn-group float-right">
           <exporter
             filename="terra_graph_analysis"
             :data="getData('graph', this.$refs.graph)"
@@ -14,6 +11,9 @@
             :edges="edges"
             source="graph">
           </exporter>
+          <!--CButton color="link" @click="showInfo" title="Info" tabindex="0"
+            >Info</CButton
+          -->
         </span>
         <div class="graph-info">
           <span v-if="graphDensity > 0">

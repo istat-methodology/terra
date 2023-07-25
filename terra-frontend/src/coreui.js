@@ -15,6 +15,7 @@ import {
   CDropdown,
   CDropdownDivider,
   CDropdownHeader,
+  CDropdownMenu,
   CDropdownItem,
   CToggler,
   CSidebar,
@@ -56,6 +57,7 @@ Vue.component("CDropdown", CDropdown)
 Vue.component("CDropdownDivider", CDropdownDivider)
 Vue.component("CDropdownHeader", CDropdownHeader)
 Vue.component("CDropdownItem", CDropdownItem)
+Vue.component("CDropdownMenu", CDropdownMenu)
 Vue.component("CToggler", CToggler)
 Vue.component("CSidebar", CSidebar)
 Vue.component("CSidebarBrand", CSidebarBrand)

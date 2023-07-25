@@ -1,5 +1,10 @@
 <template>
   <CModal
+    :aria-label="
+      isMainModal
+        ? $t('graph.modal.main.title')
+        : $t('graph.modal.filter.title')
+    "
     :title="
       isMainModal
         ? $t('graph.modal.main.title')
@@ -7,7 +12,8 @@
     "
     :show="isHelpModal"
     @update:show="closeModal"
-    size="lg">
+    size="lg"
+    tabindex="0">
     <p
       v-html="
         isMainModal
@@ -24,7 +30,9 @@
         shape="square"
         size="sm"
         @click="closeModal"
-        aria-label="Close"
+        :title="$t('common.close')"
+        :aria-label="$t('common.close')"
+        tabindex="0"
         >{{ $t("common.close") }}</CButton
       >
     </template>

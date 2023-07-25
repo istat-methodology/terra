@@ -272,5 +272,10 @@
     "paragraph_6c": "a mezzo posta elettronica, scrivendo all’indirizzo: ",
     "title_7": "Diritto di reclamo",
     "paragraph_7": "Gli interessati che ritengono che il trattamento dei dati personali a loro riferiti effettuato attraverso questo sito web avvenga in violazione di quanto previsto dal Regolamento hanno il diritto di proporre reclamo al Garante per la protezione dei dati personali, come previsto dall’art. 77 del Regolamento, o di adire le opportune sedi giudiziarie (art. 79 del Regolamento stesso)."
+  },
+  "server_error":{
+    "paragraph_1": "[Errore] Attenzione, si è verificato un errore ",
+    "paragraph_2":"[Error] messaggio d'errore " ,
+    "paragraph_3":"Attenzione, si è verificato un errore  " 
   }
 }

@@ -27,24 +27,22 @@
               <CCardHeader>
                 <span class="card-title">{{ title }}</span>
                 <span class="btn-group float-right">
-                  <span>
-                    <exporter
-                      tabindex="0"
-                      filename="terra_metrics"
-                      :data="getData(csvFields, 'table')"
-                      :options="['csv']"
-                      :filter="getSearchFilter()"
-                      source="table"
-                      :header="csvHeader">
-                    </exporter>
-                  </span>
-                  <CButton
+                  <exporter
+                    filename="terra_metrics"
+                    :data="getData(csvFields, 'table')"
+                    :options="['csv']"
+                    :filter="getSearchFilter()"
+                    source="table"
+                    :header="csvHeader">
+                  </exporter>
+                  <!--CButton
                     color="link"
                     @click="showMainModal"
                     class="float-right"
+                    title="Info"
                     tabindex="0"
                     >Info</CButton
-                  >
+                  -->
                 </span>
               </CCardHeader>
               <CCardBody class="pb-1">
@@ -61,9 +59,15 @@
         <CCard class="card-filter" :title="$t('graph.form.title')">
           <CCardHeader>
             <span class="card-title">{{ $t("graph.form.title") }}</span>
-            <span class="btn-help">
-              <CButton color="link" @click="showInfoModal">Info</CButton>
-            </span>
+            <!--span class="btn-help">
+              <CButton
+                color="link"
+                @click="showInfoModal"
+                title="Info"
+                tabindex="0"
+                >Info</CButton
+              >
+            </span-->
           </CCardHeader>
           <CCardBody>
             <div class="mt-3 col-12">
@@ -71,9 +75,8 @@
                 $t("graph.form.fields.period")
               }}</span>
             </div>
-
             <div class="mt-3 col-12">
-              <label class="radio">
+              <label class="radio" :title="$t('graph.form.fields.monthly')">
                 <input
                   id="montly"
                   type="radio"
@@ -84,7 +87,7 @@
                   $t("graph.form.fields.monthly")
                 }}</span>
               </label>
-              <label class="radio">
+              <label class="radio" :title="$t('graph.form.fields.trimester')">
                 <input
                   id="trimester"
                   type="radio"
@@ -93,6 +96,12 @@
                   v-model="frequency" />
                 <span>{{ $t("graph.form.fields.trimester") }}</span>
               </label>
+            </div>
+            <label
+              class="card-label mt-3 col-12"
+              for="input__1"
+              :title="$t('graph.form.fields.period')">
+              {{ $t("graph.form.fields.period") }}
               <v-select
                 v-if="timeRange"
                 label="selectName"
@@ -103,9 +112,11 @@
                   'is-invalid': $v.currentTime.$error
                 }"
                 :clearable="false" />
-            </div>
-
-            <label class="card-label mt-3 col-12" for="input__2"
+            </label>
+            <label
+              class="card-label mt-3 col-12"
+              for="input__2"
+              :title="$t('graph.form.fields.flow')"
               >{{ $t("graph.form.fields.flow") }}
               <v-select
                 label="descr"
@@ -117,7 +128,9 @@
                 }"
                 :clearable="false" />
             </label>
-            <label class="card-label mt-3 col-12"
+            <label
+              class="card-label mt-3 col-12"
+              :title="$t('graph.form.fields.percentage')"
               >{{ $t("graph.form.fields.percentage") }}
               <CInput
                 :placeholder="$t('graph.form.fields.percentage_placeholder')"
@@ -129,6 +142,29 @@
             <label
               class="card-label mt-3 col-12"
               for="input__3"
+              :title="
+                displayTransport
+                  ? $t('graph.form.fields.product_nstr')
+                  : $t('graph.form.fields.product_cpa3')
+              "
+              ><span v-if="displayTransport">{{
+                $t("graph.form.fields.product_nstr")
+              }}</span>
+              <span v-else>{{ $t("graph.form.fields.product_cpa3") }}</span>
+              <v-select
+                label="descr"
+                :options="products"
+                :placeholder="$t('graph.form.fields.product_placeholder')"
+                v-model="product"
+                :class="{
+                  'is-invalid': $v.product.$error
+                }"
+                :clearable="false" />
+            </label>
+            <label
+              class="card-label mt-3 col-12"
+              for="input__4"
+              :title="$t('graph.form.fields.transport')"
               v-if="displayTransport"
               >{{ $t("graph.form.fields.transport") }}
               <v-select
@@ -144,21 +180,7 @@
                 }"
                 :clearable="false" />
             </label>
-            <label class="card-label mt-3 col-12" for="input__4"
-              ><span v-if="displayTransport">{{
-                $t("graph.form.fields.product_nstr")
-              }}</span>
-              <span v-else>{{ $t("graph.form.fields.product_cpa3") }}</span>
-              <v-select
-                label="descr"
-                :options="products"
-                :placeholder="$t('graph.form.fields.product_placeholder')"
-                v-model="product"
-                :class="{
-                  'is-invalid': $v.product.$error
-                }"
-                :clearable="false" />
-            </label>
+
             <div class="col-12">
               <CButton
                 color="primary"
@@ -173,12 +195,13 @@
         </CCard>
       </div>
     </div>
-    <cosmo-info-modal
+    <!--cosmo-info-modal
+      tabindex="0"
       :isHelp="isHelpModal"
       :isMain="isMainModal"
       @showInfo="showInfoModal"
       @showMain="showMainModal"
-      @closeModal="closeModal" />
+      @closeModal="closeModal" /-->
   </div>
 </template>
 
@@ -201,7 +224,7 @@ import {
 import Slider from "@/components/Slider"
 import GraphVis from "@/views/graph/GraphVis"
 import GraphTable from "@/views/graph/GraphTable"
-import GraphInfoModal from "@/views/graph/GraphInfoModal"
+//import GraphInfoModal from "@/views/graph/GraphInfoModal"
 import exporter from "@/components/Exporter"
 
 export default {
@@ -210,7 +233,7 @@ export default {
     "cosmo-slider": Slider,
     "cosmo-graph": GraphVis,
     "cosmo-table": GraphTable,
-    "cosmo-info-modal": GraphInfoModal,
+    //"cosmo-info-modal": GraphInfoModal,
     exporter
   },
   props: {

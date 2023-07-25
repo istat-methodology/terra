@@ -23,18 +23,20 @@
             >
           </span>
           <span class="btn-group float-right">
-            <span>
-              <exporter
-                v-if="timeseriesCharts"
-                filename="terra_timeseries"
-                :data="getTabularData(timeseriesCharts.diagMain, 'timeseries')"
-                :filter="getSearchFilter()"
-                source="table">
-              </exporter>
-            </span>
-            <CButton color="link" @click="helpOn(true)" class="float-right"
+            <exporter
+              v-if="timeseriesCharts"
+              filename="terra_timeseries"
+              :data="getTabularData(timeseriesCharts.diagMain, 'timeseries')"
+              :filter="getSearchFilter()"
+              source="table">
+            </exporter>
+            <!--CButton
+              color="link"
+              @click="helpOn(true)"
+              class="float-right"
+              title="Info"
               >Info</CButton
-            >
+            -->
           </span>
         </CCardHeader>
         <CCardBody v-if="isMainChart">
@@ -108,7 +110,10 @@
           }}</span>
         </CCardHeader>
         <CCardBody>
-          <label for="input__1" class="card-label col-12"
+          <label
+            for="input__1"
+            class="card-label col-12"
+            :title="$t('timeseries.form.fields.dataType')"
             >{{ $t("timeseries.form.fields.dataType") }}
             <v-select
               label="descr"
@@ -119,7 +124,10 @@
                 'is-invalid': $v.dataType.$error
               }" />
           </label>
-          <label aria-labelledby="input__2" class="card-label col-12 mt-2">
+          <label
+            aria-labelledby="input__2"
+            class="card-label col-12 mt-2"
+            :title="$t('timeseries.form.fields.varType')">
             {{ $t("timeseries.form.fields.varType") }}
             <v-select
               label="descr"
@@ -130,7 +138,10 @@
                 'is-invalid': $v.varType.$error
               }" />
           </label>
-          <label for="input__3" class="card-label col-12 mt-2">
+          <label
+            for="input__3"
+            class="card-label col-12 mt-2"
+            :title="$t('timeseries.form.fields.flow')">
             {{ $t("timeseries.form.fields.flow") }}
             <v-select
               label="descr"
@@ -141,7 +152,10 @@
                 'is-invalid': $v.flow.$error
               }" />
           </label>
-          <label for="input__4" class="card-label col-12 mt-2">
+          <label
+            for="input__4"
+            class="card-label col-12 mt-2"
+            :title="$t('timeseries.form.fields.country')">
             {{ $t("timeseries.form.fields.country") }}
             <v-select
               label="name"
@@ -152,7 +166,10 @@
                 'is-invalid': $v.country.$error
               }" />
           </label>
-          <label for="input__5" class="card-label col-12 mt-2">
+          <label
+            for="input__5"
+            class="card-label col-12 mt-2"
+            :title="$t('timeseries.form.fields.partner')">
             {{ $t("timeseries.form.fields.partner") }}
             <v-select
               id="selectPartner"
@@ -165,7 +182,10 @@
                 'is-invalid': $v.partner.$error
               }" />
           </label>
-          <label for="input__6" class="card-label col-12 mt-2">
+          <label
+            for="input__6"
+            class="card-label col-12 mt-2"
+            :title="$t('timeseries.form.fields.productsCPA')">
             {{ $t("timeseries.form.fields.productsCPA") }}
             <v-select
               label="descr"
@@ -457,6 +477,7 @@ export default {
       setTimeout(() => {
         document.querySelectorAll("label > *").forEach((element, index) => {
           const i = index + 1
+          console.log(element.getElementsByClassName("vs__search"))
           element
             .getElementsByClassName("vs__search")[0]
             .setAttribute("id", "input__" + i)

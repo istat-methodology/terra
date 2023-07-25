@@ -274,5 +274,10 @@
     "paragraph_6c": "by e-mail, writing to the address: ",
     "title_7": "Right of complaint",
     "paragraph_7": "Interested parties who believe that the processing of their personal data relates to this website have the right to a right against the Guarantor for the protection of personal data, as provided for by art. 77 of the Regulation, or to assume suitable judicial offices (Article 79 of the Regulation itself)."
+  },
+  "server_error":{
+    "paragraph_1": "[Error] Ops, something went wrong in ",
+    "paragraph_2":"[Error] Error message " ,
+    "paragraph_3":"Sorry, something went wrong in " 
   }
 }

@@ -7,7 +7,7 @@
       @keypress="$store.dispatch('coreui/toggleSidebarMobile')"
       :aria-label="$t('header.toggler')"
       :title="
-        sidebarShow === false ? $t('header.no_toggler') : $t('header.toggler')
+        sidebarShow === false ? $t('header.toggler') : $t('header.no_toggler')
       "
       tabindex="0" />
     <CToggler
@@ -17,7 +17,7 @@
       @keypress="$store.dispatch('coreui/toggleSidebarDesktop')"
       :aria-label="$t('header.no_toggler')"
       :title="
-        sidebarShow === false ? $t('header.no_toggler') : $t('header.toggler')
+        sidebarShow === false ? $t('header.toggler') : $t('header.no_toggler')
       "
       tabindex="0" />
 

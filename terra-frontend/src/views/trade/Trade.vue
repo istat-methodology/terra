@@ -7,24 +7,23 @@
             {{ $t("trade.card.title") }} {{ title }}
           </span>
           <span class="btn-group float-right">
-            <span>
-              <exporter
-                v-if="this.charts && this.tradePeriod"
-                tabindex="0"
-                filename="terra_basket"
-                :data="getData(this.charts.data, 'trade')"
-                :filter="getSearchFilter()"
-                source="matrix"
-                :timePeriod="this.tradePeriod">
-              </exporter>
-            </span>
-            <CButton
+            <exporter
+              v-if="this.charts && this.tradePeriod"
+              tabindex="0"
+              filename="terra_basket"
+              :data="getData(this.charts.data, 'trade')"
+              :filter="getSearchFilter()"
+              source="matrix"
+              :timePeriod="this.tradePeriod">
+            </exporter>
+            <!--CButton
               color="link"
               @click="helpOn(true)"
               tabindex="0"
               class="float-right"
+              title="Info"
               >Info</CButton
-            >
+            -->
           </span>
         </CCardHeader>
         <CCardBody>
@@ -44,7 +43,10 @@
           <span class="card-filter-title">{{ $t("trade.form.title") }} </span>
         </CCardHeader>
         <CCardBody>
-          <label for="input__1" class="card-label col-12"
+          <label
+            for="input__1"
+            class="card-label col-12"
+            :title="$t('trade.form.fields.seriesType')"
             >{{ $t("trade.form.fields.seriesType") }}
             <v-select
               label="descr"
@@ -52,7 +54,10 @@
               :placeholder="$t('trade.form.fields.seriesType_placeholder')"
               v-model="seriesType" />
           </label>
-          <label for="input__2" class="card-label mt-2 col-12"
+          <label
+            for="input__2"
+            class="card-label mt-2 col-12"
+            :title="$t('trade.form.fields.varType')"
             >{{ $t("trade.form.fields.varType") }}
             <v-select
               label="descr"
@@ -60,7 +65,10 @@
               :placeholder="$t('trade.form.fields.varType_placeholder')"
               v-model="varType" />
           </label>
-          <label for="input__3" class="card-label mt-2 col-12"
+          <label
+            for="input__3"
+            class="card-label mt-2 col-12"
+            :title="$t('trade.form.fields.flow')"
             >{{ $t("trade.form.fields.flow") }}
             <v-select
               label="descr"
@@ -68,7 +76,10 @@
               :placeholder="$t('trade.form.fields.flow_placeholder')"
               v-model="flow" />
           </label>
-          <label for="input__4" class="card-label mt-2 col-12"
+          <label
+            for="input__4"
+            class="card-label mt-2 col-12"
+            :title="$t('trade.form.fields.country')"
             >{{ $t("trade.form.fields.country") }}
             <v-select
               label="name"
@@ -76,7 +87,11 @@
               :placeholder="$t('trade.form.fields.country_placeholder')"
               v-model="country" />
           </label>
-          <label for="input__5" v-if="products" class="card-label mt-2 col-12"
+          <label
+            for="input__5"
+            v-if="products"
+            class="card-label mt-2 col-12"
+            :title="$t('trade.form.fields.products')"
             >{{ $t("trade.form.fields.products") }}
             <v-select
               v-if="products"

@@ -2,18 +2,17 @@
   <div>
     <vue-slider
       v-if="interval"
-      tabindex="0"
+      v-model="selectedPeriod"
       :adsorb="true"
       :tooltip="'none'"
-      v-model="selectedPeriod"
+      :use-keyboard="true"
       :data="interval"
       :data-value="'id'"
       :data-label="'selectName'"
       :dot-attrs="{
         'aria-valuemin': selectedPeriod[0].id,
         'aria-valuemax': selectedPeriod[selectedPeriod.length - 1].id
-      }"
-      :title="'data-value'" />
+      }" />
   </div>
 </template>
 <script>
