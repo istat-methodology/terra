@@ -5,15 +5,12 @@
         <button
           class="btn btn-outline dropdown-toggle"
           type="button"
-          id="dropdownMenuButton"
           data-toggle="dropdown"
           aria-expanded="false"
           @click="dropdown">
           {{ $t("common.exporter") }}
         </button>
-        <div
-          :class="toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show'"
-          aria-labelledby="dropdownMenuButton">
+        <span :class="toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show'">
           <a
             v-for="item in options"
             :key="item"
@@ -23,7 +20,7 @@
             tabindex="0"
             >{{ item }}</a
           >
-        </div>
+        </span>
       </div>
     </span>
     <a
