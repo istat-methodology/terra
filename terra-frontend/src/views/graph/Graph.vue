@@ -70,33 +70,35 @@
             </span-->
           </CCardHeader>
           <CCardBody>
-            <div class="mt-3 col-12">
-              <span class="card-label">{{
-                $t("graph.form.fields.period")
-              }}</span>
-            </div>
-            <div class="mt-3 col-12">
-              <label class="radio" :title="$t('graph.form.fields.monthly')">
-                <input
-                  id="montly"
-                  type="radio"
-                  name="radioPeriod"
-                  value="Monthly"
-                  v-model="frequency" />
-                <span for="timerange">{{
-                  $t("graph.form.fields.monthly")
-                }}</span>
-              </label>
-              <label class="radio" :title="$t('graph.form.fields.trimester')">
-                <input
-                  id="trimester"
-                  type="radio"
-                  name="radioPeriod"
-                  value="Trimester"
-                  v-model="frequency" />
-                <span>{{ $t("graph.form.fields.trimester") }}</span>
-              </label>
-            </div>
+            <label
+              for="montly"
+              class="card-label mt-3 col-12"
+              :title="$t('graph.form.fields.monthly_trimester')"
+              >{{ $t("graph.form.fields.monthly_trimester") }}
+              <div class="border rounded pl-2 pt-2">
+                <label class="radio" :title="$t('graph.form.fields.monthly')">
+                  <input
+                    id="montly"
+                    type="radio"
+                    name="radioPeriod"
+                    value="Monthly"
+                    v-model="frequency" />
+                  <span for="timerange">{{
+                    $t("graph.form.fields.monthly")
+                  }}</span>
+                </label>
+                <label class="radio" :title="$t('graph.form.fields.trimester')">
+                  <input
+                    id="trimester"
+                    type="radio"
+                    name="radioPeriod"
+                    value="Trimester"
+                    v-model="frequency" />
+                  <span>{{ $t("graph.form.fields.trimester") }}</span>
+                </label>
+              </div>
+            </label>
+
             <label
               class="card-label mt-3 col-12"
               for="input__1"
@@ -537,6 +539,15 @@ export default {
         })
       }, 300)
     },
+    fixHeaderTableForAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll("th").forEach((element) => {
+          element.setAttribute("title", element.innerText)
+          element.setAttribute("aria-label", element.innerText)
+        })
+      }, 300)
+    },
+
     setFocusOn() {
       document.getElementById("vs1__combobox").focus()
     }
@@ -547,6 +558,7 @@ export default {
     this.fixTabsAccessibility()
     this.fixTabListAccessibility()
     this.fixLabelForSelectAccessibility()
+    this.fixHeaderTableForAccessibility()
   }
 }
 </script>

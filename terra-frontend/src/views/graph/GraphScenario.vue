@@ -36,17 +36,22 @@
         </td>
       </template>
     </CDataTable>
-    <div class="scenario-analysis">
-      {{ scenarioTitle }}
-      <span class="float-right">
-        <CSwitch
-          color="primary"
-          size="sm"
-          labelOn="✓"
-          labelOff="X"
-          :checked="showScenario"
-          @update:checked="toggleScenario" />
-      </span>
+    <div class="row">
+      <div class="col-12">
+        <label for="checkScenario" class="scenario-analysis">
+          {{ scenarioTitle }}
+          <span class="ml-4 ml-4"
+            ><CSwitch
+              id="checkScenario"
+              color="primary"
+              size="sm"
+              labelOn="✓"
+              labelOff="X"
+              :checked="showScenario"
+              @update:checked="toggleScenario" />
+          </span>
+        </label>
+      </div>
     </div>
     <!-- Drag'n drop -->
     <div v-if="showScenario && displayTransport">

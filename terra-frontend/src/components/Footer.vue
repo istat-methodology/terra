@@ -24,8 +24,8 @@
         @click="handlePrivacy()"
         @keypress="handlePrivacy()"
         tabindex="0"
-        title="Accessibility"
-        >Accessibility</a
+        :title="$t('footer.link_accessibility')"
+        >{{ $t("footer.link_accessibility") }}</a
       >
     </span>
     <span class="ml-auto mr-3 float-right">

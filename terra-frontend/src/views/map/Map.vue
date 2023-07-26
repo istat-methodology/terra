@@ -76,7 +76,9 @@
             </l-control>
             <l-control position="bottomleft" tabindex="0">
               <div class="info" v-if="isInfo">
-                <h5>{{ infoTitle }}</h5>
+                <div class="font-class pl-2 pt-2 pb-2" :title="infoTitle">
+                  <strong>{{ infoTitle }}</strong>
+                </div>
                 <CTabs v-if="infoData" variant="tabs" :active-tab="0">
                   <CTab :title="infoTabMain">
                     <CDataTable :items="micro" :fields="mainFields" hover />
@@ -477,18 +479,18 @@ export default {
         })
       }, 300)
     },
-    fixMapAccessibility() {
+    fixHeaderTableForAccessibility() {
       setTimeout(() => {
-        /*document.querySelectorAll("path").forEach((element) => {
-          element.setAttribute("tabindex", "100")
-        })*/
-      }, 200)
+        document.querySelectorAll("th").forEach((element) => {
+          element.setAttribute("title", element.innerText)
+          element.setAttribute("aria-label", element.innerText)
+        })
+      }, 300)
     }
   },
   created() {
     this.loadData()
     this.fixSliderAccessibility()
-    this.fixMapAccessibility()
   }
 }
 </script>
@@ -544,5 +546,8 @@ export default {
 .control-btn {
   font-weight: bold;
   text-indent: 1px;
+}
+.font-class {
+  font-size: 1.4rem;
 }
 </style>

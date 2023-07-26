@@ -5,6 +5,7 @@
         <button
           class="btn btn-outline dropdown-toggle"
           type="button"
+          :aria-label="$t('common.exporter')"
           data-toggle="dropdown"
           aria-expanded="false"
           @click="dropdown">
@@ -17,6 +18,7 @@
             :title="getTitle(item)"
             class="dropdown-item"
             @click="download(item)"
+            @keypress="download(item)"
             tabindex="0"
             >{{ item }}</a
           >
@@ -29,6 +31,7 @@
       :title="getTitle('csv')"
       v-if="iam == 'map'"
       @click="download('csv')"
+      @keypress="download(item)"
       ><strong>D</strong></a
     >
   </div>
@@ -429,10 +432,10 @@ export default {
 
 .dropdown-menu-show {
   position: absolute;
-  top: 100%;
+  top: 120%;
   z-index: 1000;
   float: left;
-  min-width: 10rem;
+  min-width: 6.6rem;
   padding: 0.5rem 0;
   font-size: 0.875rem;
   text-align: left;
@@ -443,25 +446,24 @@ export default {
   color: #3c4b64;
   background-color: #fff;
   border-color: #d8dbe0;
+  left: 0;
+  box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.25);
 }
 .dropdown-menu-show:focus {
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.25);
 }
+.dropdown-menu-show:hover {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.25);
+}
+.dropdown-menu-show:active {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.25);
+}
+
 .dropdown-menu-hide {
   display: none;
-  float: left;
-  min-width: 10rem;
-  padding: 0.5rem 0;
-  font-size: 0.875rem;
-  text-align: left;
-  list-style: none;
-  background-clip: padding-box;
-  border: 1px solid;
-  border-radius: 0.25rem;
-  color: #3c4b64;
-  background-color: #fff;
-  border-color: #d8dbe0;
 }
 .dropdown-item.active,
 .dropdown-item:active {

@@ -115,6 +115,7 @@
     "form": {
       "title": "Graph filter",
       "fields": {
+        "monthly_trimester": "Monthly - Quarterly Period",
         "monthly": "Monthly",
         "trimester": "Quarterly",
         "period": "Period",
@@ -279,5 +280,9 @@
     "paragraph_1": "[Error] Ops, something went wrong in ",
     "paragraph_2":"[Error] Error message " ,
     "paragraph_3":"Sorry, something went wrong in " 
+  },
+  "footer":{
+    "link_accessibility": "Accessibility"
+    
   }
 }

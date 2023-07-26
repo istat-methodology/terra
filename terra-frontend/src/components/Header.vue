@@ -70,8 +70,14 @@
             square
             size="sm"
             :class="{ active: selectedIt }"
-            @click="selectLanguage('it')"
-            @keypress="selectLanguage('it')"
+            @click="
+              selectLanguage('it')
+              fixHeaderTableForAccessibility()
+            "
+            @keypress="
+              selectLanguage('it')
+              fixHeaderTableForAccessibility()
+            "
             :aria-label="$t('common.language_it')"
             :title="$t('common.language_it')"
             tabindex="0"
@@ -83,8 +89,14 @@
             square
             size="sm"
             :class="{ active: selectedEn }"
-            @click="selectLanguage('en')"
-            @keypress="selectLanguage('en')"
+            @click="
+              selectLanguage('en')
+              fixHeaderTableForAccessibility()
+            "
+            @keypress="
+              selectLanguage('en')
+              fixHeaderTableForAccessibility()
+            "
             :aria-label="$t('common.language_en')"
             :title="$t('common.language_en')"
             tabindex="0"
@@ -122,12 +134,21 @@ export default {
       html.setAttribute("lang", lan)
       //store language
       this.$store.dispatch("coreui/setLanguage", lan)
+    },
+    fixHeaderTableForAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll("th").forEach((element) => {
+          element.setAttribute("title", element.innerText)
+          element.setAttribute("aria-label", element.innerText)
+        })
+      }, 300)
     }
   },
   created() {
     this.selectedIt = this.isItalian
     this.selectedEn = !this.isItalian
     this.currentState = !this.currentState
+    this.fixHeaderTableForAccessibility()
   }
 }
 </script>

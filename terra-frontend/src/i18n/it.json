@@ -114,6 +114,7 @@
     "form": {
       "title": "Filtri di ricerca",
       "fields": {
+        "monthly_trimester": "Periodo Mensile - Trimestrale",
         "monthly": "Mensile",
         "trimester": "Trimestrale",
         "period": "Periodo di riferimento",
@@ -277,5 +278,9 @@
     "paragraph_1": "[Errore] Attenzione, si è verificato un errore ",
     "paragraph_2":"[Error] messaggio d'errore " ,
     "paragraph_3":"Attenzione, si è verificato un errore  " 
+  },
+  "footer":{
+    "link_accessibility": "Accessibilità"
+    
   }
 }

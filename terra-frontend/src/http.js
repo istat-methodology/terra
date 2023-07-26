@@ -89,7 +89,7 @@ function manageServerError(error, server) {
   console.log("$t('server_error.paragraph_2')" + error)
   store.dispatch("error/serverError", {
     code: 500,
-    message: $t('server_error.paragraph_3') + server + " server!"
+    message: $t('server_error.paragraph_3')  + server + " server!"
   })
   if (router.currentRoute.path != "/error") router.push("/error")
 }

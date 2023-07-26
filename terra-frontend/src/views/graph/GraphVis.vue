@@ -17,20 +17,39 @@
         </span>
         <div class="graph-info">
           <span v-if="graphDensity > 0">
-            <span class="text-primary"> {{ $t("graph.stats.density") }} </span
+            <span
+              class="text-primary"
+              :title="$t('graph.stats.density') + ' ' + graphDensity">
+              {{ $t("graph.stats.density") }} </span
             >{{ graphDensity }}</span
           >
           <span class="pl-2" v-if="nodeMetric">
-            <span class="text-primary">{{ $t("graph.stats.country") }} </span
+            <span
+              class="text-primary"
+              :title="$t('graph.stats.country') + ' ' + nodeMetric.country"
+              >{{ $t("graph.stats.country") }} </span
             >{{ nodeMetric.country }}
-            <span class="text-primary"
+            <span
+              class="text-primary"
+              :title="
+                $t('graph.stats.exportationstrength') +
+                ' ' +
+                nodeMetric.exportationstrength
+              "
               >, {{ $t("graph.stats.exportationstrength") }} </span
             >{{ nodeMetric.exportationstrength }}
-            <span class="text-primary"
+            <span
+              class="text-primary"
+              :title="
+                $t('graph.stats.vulnerability') + '' + nodeMetric.vulnerability
+              "
               >, {{ $t("graph.stats.vulnerability") }}
             </span>
             {{ nodeMetric.vulnerability }}
-            <span class="text-primary">, {{ $t("graph.stats.hubness") }} </span
+            <span
+              class="text-primary"
+              :title="$t('graph.stats.hubness') + ' ' + nodeMetric.hubness"
+              >, {{ $t("graph.stats.hubness") }} </span
             >{{ nodeMetric.hubness }}</span
           >
         </div>
@@ -41,6 +60,7 @@
           id="graph"
           class="network"
           ref="graph"
+          keyboard="true"
           :nodes="nodes"
           :edges="edges"
           :options="options"

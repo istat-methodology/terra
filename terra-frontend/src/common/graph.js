@@ -260,10 +260,14 @@ export const options = {
     multiselect: false,
     navigationButtons: true,
     tooltipDelay: 200,
-    zoomSpeed: 1.4
+    zoomSpeed: 1.4,
+    keyboard: true,
+    selectable: true
+  },
+  keyboard: {
+    enabled: true
   }
 }
-
 export const metricsFieldsIt = [
   { key: "label", label: "Codice", _style: "width:10%" },
   { key: "name", label: "Nome", _style: "width:30%" },
@@ -283,7 +287,6 @@ export const metricsFieldsEn = [
   { key: "hubness", label: "Hubness", _style: "width:15%" },
   { key: "exportStrenght", label: "Export Strenght", _style: "width:15%" }
 ]
-
 export const scenarioFieldsIt = [
   { key: "source", label: "Origine", _style: "width:25%" },
   { key: "destination", label: "Destinazione", _style: "width:25%" },
@@ -297,9 +300,7 @@ export const scenarioFieldsIt = [
     _style: "width:1%"
   }
 ]
-
 export const getMetricFields = () => {}
-
 export const scenarioFieldsEn = [
   { key: "source", label: "Source", _style: "width:25%" },
   { key: "destination", label: "Destination", _style: "width:25%" },
@@ -313,17 +314,14 @@ export const scenarioFieldsEn = [
     _style: "width:1%"
   }
 ]
-
 export function getNode(nodes, nodeId) {
   const selectedNode = nodes.find((node) => node.id == nodeId)
   return selectedNode ? selectedNode : null
 }
-
 export function getEdge(edges, edgeId) {
   const selectedEdge = edges.find((edge) => edge.id == edgeId)
   return selectedEdge ? selectedEdge : null
 }
-
 export function getUInodes(nodes, countries) {
   var uiNodes = []
   if (nodes)
@@ -341,7 +339,6 @@ export function getUInodes(nodes, countries) {
     })
   return uiNodes
 }
-
 export function getScenarioNodes(nodes) {
   var lightNodes = []
   if (nodes)
@@ -355,7 +352,6 @@ export function getScenarioNodes(nodes) {
     })
   return lightNodes
 }
-
 export function getCentrality(nodes, nodeId, metrics) {
   var nodeMetric = null
   const selectedNode = getNode(nodes, nodeId)
@@ -371,7 +367,6 @@ export function getCentrality(nodes, nodeId, metrics) {
   }
   return nodeMetric
 }
-
 export function buildMetrics(data, countries) {
   var metrics = []
   if (data && data.nodes)
@@ -388,18 +383,15 @@ export function buildMetrics(data, countries) {
     })
   return metrics
 }
-
 export function getCountryName(countries, id) {
   var cntr = countries.find((country) => country.id == id)
   return cntr ? cntr.descr : ""
 }
-
 export function getTransportIds(transports) {
   var ids = []
   if (transports) transports.forEach((tr) => ids.push(tr.id))
   return ids
 }
-
 export function getTransportDifference(transports, scenarioTransports) {
   return getTransportIds(
     transports.filter(
@@ -407,7 +399,6 @@ export function getTransportDifference(transports, scenarioTransports) {
     )
   )
 }
-
 export function replaceAllProdId(products, isItalian) {
   var prods = []
   if (products) {
@@ -419,7 +410,6 @@ export function replaceAllProdId(products, isItalian) {
   }
   return prods
 }
-
 export function restoreAllProdId(product) {
   var id = ""
   if (product) id = product.id == "000" ? "TOT" : product.id
