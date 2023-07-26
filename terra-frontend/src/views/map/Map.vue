@@ -164,8 +164,7 @@
             :dot-attrs="{
               'aria-valuemin': mapPeriod[0].id,
               'aria-valuemax': mapPeriod[mapPeriod.length - 1].id
-            }"
-            tabindex="0" />
+            }" />
         </div>
       </div>
     </div>
