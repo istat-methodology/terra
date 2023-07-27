@@ -25,7 +25,7 @@
       <CHeaderNavItem tabindex="-1">
         <CImg
           src="../img/LogoTerraFull.png"
-          style="max-width: 95%"
+          style="max-width: 70%"
           class="d-md-down-none"
           :alt="$t('header.logo_terra')"
           :title="$t('header.logo_terra')"
@@ -46,7 +46,7 @@
       <CHeaderNavItem tabindex="-1">
         <CImg
           src="../img/LogoSTSP.png"
-          style="max-width: 90%"
+          style="max-width: 50%"
           class="d-md-down-none mr-3"
           :alt="$t('header.logo_statistica_sp')"
           :title="$t('header.logo_statistica_sp')"
@@ -54,7 +54,7 @@
           tabindex="0" />
         <CImg
           src="../img/LogoSTSP.png"
-          style="max-width: 80%"
+          style="max-width: 50%"
           class="d-lg-none"
           :alt="$t('header.logo_statistica_sp')"
           :title="$t('header.logo_statistica_sp')"
@@ -160,7 +160,7 @@ export default {
   color: #321fdb;
 }
 .c-header-nav {
-  padding-left: 0.5rem;
+  padding-left: 0.1rem;
 }
 .c-icon {
   margin-right: 0.4rem;
