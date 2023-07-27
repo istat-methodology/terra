@@ -1,119 +1,122 @@
 <template>
-  <CModal
-    :show="showModal"
-    :closeOnBackdrop="false"
-    @update:show="closeModal"
-    size="lg">
-    <template #header>
-      <span class="float-left">{{ modalTitle }}</span>
-      <span class="float-right">
-        <exporter
-          filename="terra_scenario"
-          :data="getData(csvTable, 'table')"
-          :options="['csv']"
-          source="table"
-          :header="csvHeader"
-          tabindex="0">
-        </exporter>
-      </span>
-    </template>
-    <CDataTable
-      v-if="nodesTable"
-      :items="nodesTable"
-      :fields="fields"
-      column-filter
-      :column-filter-value.sync="columnFilterValue"
-      :items-per-page="5"
-      :sorterValue="sorterValue"
-      sorter
-      hover
-      pagination>
-      <template #show_delete="{ item }">
-        <td>
-          <span class="icon-link" @click="deleteRow(item)">
-            <delete-icon />
-          </span>
-        </td>
+  <div>
+    <h1>{{ modalTitle }}</h1>
+    <CModal
+      :show="showModal"
+      :closeOnBackdrop="false"
+      @update:show="closeModal"
+      size="lg">
+      <template #header>
+        <span class="float-left">{{ modalTitle }}</span>
+        <span class="float-right">
+          <exporter
+            filename="terra_scenario"
+            :data="getData(csvTable, 'table')"
+            :options="['csv']"
+            source="table"
+            :header="csvHeader"
+            tabindex="0">
+          </exporter>
+        </span>
       </template>
-    </CDataTable>
-    <div class="row">
-      <div class="col-12">
-        <label for="checkScenario" class="scenario-analysis">
-          {{ scenarioTitle }}
-          <span class="ml-4 ml-4"
-            ><CSwitch
-              id="checkScenario"
-              color="primary"
-              size="sm"
-              labelOn="✓"
-              labelOff="X"
-              :checked="showScenario"
-              @update:checked="toggleScenario" />
-          </span>
-        </label>
+      <CDataTable
+        v-if="nodesTable"
+        :items="nodesTable"
+        :fields="fields"
+        column-filter
+        :column-filter-value.sync="columnFilterValue"
+        :items-per-page="5"
+        :sorterValue="sorterValue"
+        sorter
+        hover
+        pagination>
+        <template #show_delete="{ item }">
+          <td>
+            <span class="icon-link" @click="deleteRow(item)">
+              <delete-icon />
+            </span>
+          </td>
+        </template>
+      </CDataTable>
+      <div class="row">
+        <div class="col-12">
+          <label for="checkScenario" class="scenario-analysis">
+            {{ scenarioTitle }}
+            <span class="ml-4 ml-4"
+              ><CSwitch
+                id="checkScenario"
+                color="primary"
+                size="sm"
+                labelOn="✓"
+                labelOff="X"
+                :checked="showScenario"
+                @update:checked="toggleScenario" />
+            </span>
+          </label>
+        </div>
       </div>
-    </div>
-    <!-- Drag'n drop -->
-    <div v-if="showScenario && displayTransport">
-      <div class="row constraint-container">
-        <div class="col-left constraint-left">
-          {{ $t("graph.scenario.transports_selected") }}
-        </div>
-        <div class="col-center">
-          <!-- nothing -->
-        </div>
-        <div class="col-right constraint-right">
-          {{ $t("graph.scenario.transports_scenario") }}
-        </div>
-      </div>
-      <div class="row drag-container">
-        <div
-          class="col-left drop-zone"
-          @drop="onDropTransports($event)"
-          @dragenter.prevent
-          @dragover.prevent>
-          <div
-            v-for="transport in transports"
-            :key="transport.id"
-            class="drag-el"
-            draggable="true"
-            @dragstart="startDrag($event, transport)">
-            {{ transport.descr }}
+      <!-- Drag'n drop -->
+      <div v-if="showScenario && displayTransport">
+        <div class="row constraint-container">
+          <div class="col-left constraint-left">
+            {{ $t("graph.scenario.transports_selected") }}
+          </div>
+          <div class="col-center">
+            <!-- nothing -->
+          </div>
+          <div class="col-right constraint-right">
+            {{ $t("graph.scenario.transports_scenario") }}
           </div>
         </div>
-        <div class="col-center">
-          <!-- Nothing -->
-        </div>
-        <div
-          class="col-right drop-zone"
-          @drop="onDropScenario($event)"
-          @dragenter.prevent
-          @dragover.prevent>
+        <div class="row drag-container">
           <div
-            v-for="scenarioTransport in scenarioTransports"
-            :key="scenarioTransport.id"
-            class="drag-el"
-            draggable="true"
-            @dragstart="startDrag($event, scenarioTransport)">
-            {{ scenarioTransport.descr }}
+            class="col-left drop-zone"
+            @drop="onDropTransports($event)"
+            @dragenter.prevent
+            @dragover.prevent>
+            <div
+              v-for="transport in transports"
+              :key="transport.id"
+              class="drag-el"
+              draggable="true"
+              @dragstart="startDrag($event, transport)">
+              {{ transport.descr }}
+            </div>
+          </div>
+          <div class="col-center">
+            <!-- Nothing -->
+          </div>
+          <div
+            class="col-right drop-zone"
+            @drop="onDropScenario($event)"
+            @dragenter.prevent
+            @dragover.prevent>
+            <div
+              v-for="scenarioTransport in scenarioTransports"
+              :key="scenarioTransport.id"
+              class="drag-el"
+              draggable="true"
+              @dragstart="startDrag($event, scenarioTransport)">
+              {{ scenarioTransport.descr }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <template #footer>
-      <CButton
-        v-if="showScenario"
-        color="danger"
-        shape="square"
-        size="sm"
-        @click="applyConstraints"
-        >{{ $t("common.apply") }}</CButton
-      >
-      <CButton color="primary" shape="square" size="sm" @click="closeModal">
-        {{ $t("common.close") }}
-      </CButton>
-    </template>
-  </CModal>
+      <template #footer>
+        <CButton
+          v-if="showScenario"
+          color="danger"
+          shape="square"
+          size="sm"
+          @click="applyConstraints"
+          >{{ $t("common.apply") }}</CButton
+        >
+        <CButton color="primary" shape="square" size="sm" @click="closeModal">
+          {{ $t("common.close") }}
+        </CButton>
+      </template>
+    </CModal>
+  </div>
 </template>
 <script>
 import exporter from "@/components/Exporter"

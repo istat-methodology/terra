@@ -1,5 +1,8 @@
 <template>
-  <div class="row" role="heading" aria-level="1">
+  <div class="row">
+    <h1 class="sr-only">
+      {{ $t("common.acronym") }}
+    </h1>
     <div class="col-sm-6 col-md-4">
       <div class="card" :title="$t('landing.map.title')">
         <header class="card-header">

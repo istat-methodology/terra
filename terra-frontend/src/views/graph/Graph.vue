@@ -1,41 +1,42 @@
 <template>
-  <div role="heading" aria-level="1">
-    <div class="row">
-      <div class="col-sm-6 col-md-9">
-        <CTabs class="ctablist" variant="tabs" :active-tab="0">
-          <CTab :title="$t('graph.card.title')">
-            <cosmo-graph
-              :title="$t('graph.card.title')"
-              ref="cosmograph"
-              :nodes="nodes"
-              :edges="edges"
-              :metrics="metrics"
-              :spinner="spinner"
-              :isIntra="isIntra"
-              :displayTransport="!isIntra"
-              :transports="transport"
-              @applyConstraints="handleApplyConstraints"
-              @showinfo="showMainModal">
-              <cosmo-slider
-                :interval="timeRange"
-                :currentTime="currentTime"
-                @change="handleTimeChange" />
-            </cosmo-graph>
-          </CTab>
-          <CTab :title="$t('graph.table.title')">
-            <CCard :title="$t('graph.table.title')">
-              <CCardHeader>
-                <span class="card-title">{{ title }}</span>
-                <span class="btn-group float-right">
-                  <exporter
-                    filename="terra_metrics"
-                    :data="getData(csvFields, 'table')"
-                    :options="['csv']"
-                    :filter="getSearchFilter()"
-                    source="table"
-                    :header="csvHeader">
-                  </exporter>
-                  <!--CButton
+  <div class="row">
+    <div class="col-sm-6 col-md-9">
+      <CTabs class="ctablist" variant="tabs" :active-tab="0">
+        <CTab :title="$t('graph.card.title')">
+          <h1 class="sr-only">{{ $t("graph.card.title") }}</h1>
+          <cosmo-graph
+            :title="$t('graph.card.title')"
+            ref="cosmograph"
+            :nodes="nodes"
+            :edges="edges"
+            :metrics="metrics"
+            :spinner="spinner"
+            :isIntra="isIntra"
+            :displayTransport="!isIntra"
+            :transports="transport"
+            @applyConstraints="handleApplyConstraints"
+            @showinfo="showMainModal">
+            <cosmo-slider
+              :interval="timeRange"
+              :currentTime="currentTime"
+              @change="handleTimeChange" />
+          </cosmo-graph>
+        </CTab>
+        <CTab :title="$t('graph.table.title')">
+          <h1 class="sr-only">{{ $t("graph.table.title") }}</h1>
+          <CCard :title="$t('graph.table.title')">
+            <CCardHeader>
+              <span class="card-title">{{ title }}</span>
+              <span class="btn-group float-right">
+                <exporter
+                  filename="terra_metrics"
+                  :data="getData(csvFields, 'table')"
+                  :options="['csv']"
+                  :filter="getSearchFilter()"
+                  source="table"
+                  :header="csvHeader">
+                </exporter>
+                <!--CButton
                     color="link"
                     @click="showMainModal"
                     class="float-right"
@@ -43,23 +44,23 @@
                     tabindex="0"
                     >Info</CButton
                   -->
-                </span>
-              </CCardHeader>
-              <CCardBody class="pb-1">
-                <cosmo-table
-                  :data="metricsTable"
-                  :fields="metricsFields"
-                  :sorterValue="sorterValue" />
-              </CCardBody>
-            </CCard>
-          </CTab>
-        </CTabs>
-      </div>
-      <div class="col-sm-6 col-md-3 padding-tab">
-        <CCard class="card-filter" :title="$t('graph.form.title')">
-          <CCardHeader>
-            <span class="card-title">{{ $t("graph.form.title") }}</span>
-            <!--span class="btn-help">
+              </span>
+            </CCardHeader>
+            <CCardBody class="pb-1">
+              <cosmo-table
+                :data="metricsTable"
+                :fields="metricsFields"
+                :sorterValue="sorterValue" />
+            </CCardBody>
+          </CCard>
+        </CTab>
+      </CTabs>
+    </div>
+    <div class="col-sm-6 col-md-3 padding-tab">
+      <CCard class="card-filter" :title="$t('graph.form.title')">
+        <CCardHeader>
+          <span class="card-title">{{ $t("graph.form.title") }}</span>
+          <!--span class="btn-help">
               <CButton
                 color="link"
                 @click="showInfoModal"
@@ -68,142 +69,134 @@
                 >Info</CButton
               >
             </span-->
-          </CCardHeader>
-          <CCardBody>
-            <label
-              for="montly"
-              class="card-label mt-3 col-12"
-              :title="$t('graph.form.fields.monthly_trimester')"
-              >{{ $t("graph.form.fields.monthly_trimester") }}
-              <div class="border rounded pl-2 pt-2">
-                <label class="radio" :title="$t('graph.form.fields.monthly')">
-                  <input
-                    id="montly"
-                    type="radio"
-                    name="radioPeriod"
-                    value="Monthly"
-                    v-model="frequency" />
-                  <span for="timerange">{{
-                    $t("graph.form.fields.monthly")
-                  }}</span>
-                </label>
-                <label class="radio" :title="$t('graph.form.fields.trimester')">
-                  <input
-                    id="trimester"
-                    type="radio"
-                    name="radioPeriod"
-                    value="Trimester"
-                    v-model="frequency" />
-                  <span>{{ $t("graph.form.fields.trimester") }}</span>
-                </label>
-              </div>
-            </label>
-
-            <label
-              class="card-label mt-3 col-12"
-              for="input__1"
-              :title="$t('graph.form.fields.period')">
-              {{ $t("graph.form.fields.period") }}
-              <v-select
-                v-if="timeRange"
-                label="selectName"
-                :options="timeRange"
-                :placeholder="$t('graph.form.fields.period_placeholder')"
-                v-model="currentTime"
-                :class="{
-                  'is-invalid': $v.currentTime.$error
-                }"
-                :clearable="false" />
-            </label>
-            <label
-              class="card-label mt-3 col-12"
-              for="input__2"
-              :title="$t('graph.form.fields.flow')"
-              >{{ $t("graph.form.fields.flow") }}
-              <v-select
-                label="descr"
-                :options="flows"
-                :placeholder="$t('graph.form.fields.flow_placeholder')"
-                v-model="flow"
-                :class="{
-                  'is-invalid': $v.flow.$error
-                }"
-                :clearable="false" />
-            </label>
-            <label
-              class="card-label mt-3 col-12"
-              :title="$t('graph.form.fields.percentage')"
-              >{{ $t("graph.form.fields.percentage") }}
-              <CInput
-                :placeholder="$t('graph.form.fields.percentage_placeholder')"
-                v-model="percentage"
-                :class="{
-                  'is-invalid': $v.percentage.$error
-                }" />
-            </label>
-            <label
-              class="card-label mt-3 col-12"
-              for="input__3"
-              :title="
-                displayTransport
-                  ? $t('graph.form.fields.product_nstr')
-                  : $t('graph.form.fields.product_cpa3')
-              "
-              ><span v-if="displayTransport">{{
-                $t("graph.form.fields.product_nstr")
-              }}</span>
-              <span v-else>{{ $t("graph.form.fields.product_cpa3") }}</span>
-              <v-select
-                label="descr"
-                :options="products"
-                :placeholder="$t('graph.form.fields.product_placeholder')"
-                v-model="product"
-                :class="{
-                  'is-invalid': $v.product.$error
-                }"
-                :clearable="false" />
-            </label>
-            <label
-              class="card-label mt-3 col-12"
-              for="input__4"
-              :title="$t('graph.form.fields.transport')"
-              v-if="displayTransport"
-              >{{ $t("graph.form.fields.transport") }}
-              <v-select
-                class="style-chooser"
-                v-if="displayTransport"
-                label="descr"
-                multiple
-                :options="transports"
-                :placeholder="$t('graph.form.fields.transport_placeholder')"
-                v-model="transport"
-                :class="{
-                  'is-invalid': $v.transport.$error
-                }"
-                :clearable="false" />
-            </label>
-
-            <div class="col-12">
-              <CButton
-                color="primary"
-                shape="square"
-                size="sm"
-                @click="handleSubmit"
-                class="mt-3"
-                >{{ $t("common.submit") }}</CButton
-              >
+        </CCardHeader>
+        <CCardBody>
+          <label
+            for="montly"
+            class="card-label mt-3 col-12"
+            :title="$t('graph.form.fields.monthly_trimester')"
+            >{{ $t("graph.form.fields.monthly_trimester") }}
+            <div class="border rounded pl-2 pt-2">
+              <label class="radio" :title="$t('graph.form.fields.monthly')">
+                <input
+                  id="montly"
+                  type="radio"
+                  name="radioPeriod"
+                  value="Monthly"
+                  v-model="frequency" />
+                <span for="timerange">{{
+                  $t("graph.form.fields.monthly")
+                }}</span>
+              </label>
+              <label class="radio" :title="$t('graph.form.fields.trimester')">
+                <input
+                  id="trimester"
+                  type="radio"
+                  name="radioPeriod"
+                  value="Trimester"
+                  v-model="frequency" />
+                <span>{{ $t("graph.form.fields.trimester") }}</span>
+              </label>
             </div>
-          </CCardBody>
-        </CCard>
-      </div>
+          </label>
+
+          <label
+            class="card-label mt-3 col-12"
+            for="input__1"
+            :title="$t('graph.form.fields.period')">
+            {{ $t("graph.form.fields.period") }}
+            <v-select
+              v-if="timeRange"
+              label="selectName"
+              :options="timeRange"
+              :placeholder="$t('graph.form.fields.period_placeholder')"
+              v-model="currentTime"
+              :class="{
+                'is-invalid': $v.currentTime.$error
+              }"
+              :clearable="false" />
+          </label>
+          <label
+            class="card-label mt-3 col-12"
+            for="input__2"
+            :title="$t('graph.form.fields.flow')"
+            >{{ $t("graph.form.fields.flow") }}
+            <v-select
+              label="descr"
+              :options="flows"
+              :placeholder="$t('graph.form.fields.flow_placeholder')"
+              v-model="flow"
+              :class="{
+                'is-invalid': $v.flow.$error
+              }"
+              :clearable="false" />
+          </label>
+          <label
+            class="card-label mt-3 col-12"
+            :title="$t('graph.form.fields.percentage')"
+            >{{ $t("graph.form.fields.percentage") }}
+            <CInput
+              :placeholder="$t('graph.form.fields.percentage_placeholder')"
+              v-model="percentage"
+              :class="{
+                'is-invalid': $v.percentage.$error
+              }" />
+          </label>
+          <label
+            class="card-label mt-3 col-12"
+            for="input__3"
+            :title="
+              displayTransport
+                ? $t('graph.form.fields.product_nstr')
+                : $t('graph.form.fields.product_cpa3')
+            "
+            ><span v-if="displayTransport">{{
+              $t("graph.form.fields.product_nstr")
+            }}</span>
+            <span v-else>{{ $t("graph.form.fields.product_cpa3") }}</span>
+            <v-select
+              label="descr"
+              :options="products"
+              :placeholder="$t('graph.form.fields.product_placeholder')"
+              v-model="product"
+              :class="{
+                'is-invalid': $v.product.$error
+              }"
+              :clearable="false" />
+          </label>
+          <label
+            class="card-label mt-3 col-12"
+            for="input__4"
+            :title="$t('graph.form.fields.transport')"
+            v-if="displayTransport"
+            >{{ $t("graph.form.fields.transport") }}
+            <v-select
+              class="style-chooser"
+              v-if="displayTransport"
+              label="descr"
+              multiple
+              :options="transports"
+              :placeholder="$t('graph.form.fields.transport_placeholder')"
+              v-model="transport"
+              :class="{
+                'is-invalid': $v.transport.$error
+              }"
+              :clearable="false" />
+          </label>
+
+          <div class="col-12">
+            <CButton
+              color="primary"
+              shape="square"
+              size="sm"
+              @click="handleSubmit"
+              class="mt-3"
+              >{{ $t("common.submit") }}</CButton
+            >
+          </div>
+        </CCardBody>
+      </CCard>
     </div>
-    <!--cosmo-info-modal
-      tabindex="0"
-      :isHelp="isHelpModal"
-      :isMain="isMainModal"
-      @showInfo="showInfoModal"
-      @showMain="showMainModal"
-      @closeModal="closeModal" /-->
   </div>
 </template>
 

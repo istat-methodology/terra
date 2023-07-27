@@ -1,5 +1,8 @@
 <template>
-  <div class="row" role="heading" aria-level="1">
+  <div class="row">
+    <h1 class="sr-only">
+      {{ $t("landing.map.title") }}
+    </h1>
     <div class="col-sm-12 col-md-12">
       <div class="card card-map" :title="$t('sidebar.map')">
         <!--CCardHeader>
