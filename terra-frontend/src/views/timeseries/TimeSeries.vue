@@ -507,6 +507,7 @@ export default {
   created() {
     this.loadData()
     this.fixLabelAccessibility()
+    this.fixLanguageAccessibility()
   }
 }
 </script>
