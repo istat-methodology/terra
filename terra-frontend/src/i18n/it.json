@@ -25,7 +25,8 @@
     },
     "select_language": "Seleziona la lingua",
     "language_it": "Italiano",
-    "language_en": "Inglese"
+    "language_en": "Inglese",
+    "clear_selected": "Deseleziona"
   },
   "header": {
     "userguide": "Manuale utente",

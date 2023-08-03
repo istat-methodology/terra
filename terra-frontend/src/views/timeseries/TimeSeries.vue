@@ -115,7 +115,7 @@
         </CCardHeader>
         <CCardBody>
           <label
-            for="input__1"
+            aria-labelledby="input__1"
             class="card-label col-12"
             :title="$t('timeseries.form.fields.dataType')"
             >{{ $t("timeseries.form.fields.dataType") }}
@@ -143,7 +143,7 @@
               }" />
           </label>
           <label
-            for="input__3"
+            aria-labelledby="input__3"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.flow')">
             {{ $t("timeseries.form.fields.flow") }}
@@ -157,7 +157,7 @@
               }" />
           </label>
           <label
-            for="input__4"
+            aria-labelledby="input__4"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.country')">
             {{ $t("timeseries.form.fields.country") }}
@@ -171,7 +171,7 @@
               }" />
           </label>
           <label
-            for="input__5"
+            aria-labelledby="input__5"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.partner')">
             {{ $t("timeseries.form.fields.partner") }}
@@ -187,7 +187,7 @@
               }" />
           </label>
           <label
-            for="input__6"
+            aria-labelledby="input__6"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.productsCPA')">
             {{ $t("timeseries.form.fields.productsCPA") }}
@@ -276,6 +276,7 @@ export default {
       this.$store.dispatch("message/success", this.$t("common.update_cls"))
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.loadData()
+        this.fixLanguageAccessibility()
       })
     }
   },
@@ -485,6 +486,14 @@ export default {
           element
             .getElementsByClassName("vs__search")[0]
             .setAttribute("id", "input__" + i)
+        })
+      }, 300)
+    },
+    fixLanguageAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vs__clear ").forEach((element) => {
+          element.setAttribute("title", this.$t("common.clear_selected"))
+          element.setAttribute("aria-label", this.$t("common.clear_selected"))
         })
       }, 300)
     },
