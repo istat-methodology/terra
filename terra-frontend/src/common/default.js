@@ -5,7 +5,7 @@ export const monthDefault = {
   descr_it: "Dic 2022"
 }
 export const trimesterDefault = {
-  id: "202212",
+  id: "202204",
   descr: "T4 2022"
 }
 

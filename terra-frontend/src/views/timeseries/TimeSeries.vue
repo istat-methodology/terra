@@ -129,7 +129,6 @@
               }" />
           </label>
           <label
-            aria-labelledby="input__2"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.varType')">
             {{ $t("timeseries.form.fields.varType") }}
@@ -208,6 +207,7 @@
             size="sm"
             @click="handleSubmit"
             class="mt-2 ml-3"
+            :title="$t('common.submit')"
             >{{ $t("common.submit") }}</CButton
           >
         </CCardBody>

@@ -111,6 +111,7 @@
             size="sm"
             @click="handleSubmit"
             class="mt-2 ml-3"
+            :title="$t('common.submit')"
             >{{ $t("common.submit") }}
           </CButton>
         </CCardBody>

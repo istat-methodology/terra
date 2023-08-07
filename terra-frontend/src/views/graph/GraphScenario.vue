@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ modalTitle }}</h1>
+    <h1 class="sr-only">{{ modalTitle }}</h1>
     <CModal
       :show="showModal"
       :closeOnBackdrop="false"

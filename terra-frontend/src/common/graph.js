@@ -263,9 +263,6 @@ export const options = {
     zoomSpeed: 1.4,
     keyboard: true,
     selectable: true
-  },
-  keyboard: {
-    enabled: true
   }
 }
 export const metricsFieldsIt = [

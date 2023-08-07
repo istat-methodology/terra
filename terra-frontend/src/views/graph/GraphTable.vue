@@ -1,5 +1,6 @@
 <template>
   <CDataTable
+    id="metricsTable"
     v-if="data"
     :items="data"
     :fields="fields"

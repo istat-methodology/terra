@@ -197,6 +197,7 @@
               size="sm"
               @click="handleSubmit"
               class="mt-3"
+              :title="$t('common.submit')"
               >{{ $t("common.submit") }}</CButton
             >
           </div>
@@ -282,6 +283,7 @@ export default {
       this.currentTime = this.isTrimester
         ? { id: trimesterDefault.id, selectName: trimesterDefault.descr }
         : { id: monthDefault.id, selectName: monthDefault.descr_it }
+      console.log(this.currentTime)
     }
   },
   computed: {
