@@ -72,12 +72,15 @@
         </CCardHeader>
         <CCardBody>
           <label
-            for="montly"
+            aria-labelledby="montly"
             class="card-label mt-3 col-12"
             :title="$t('graph.form.fields.monthly_trimester')"
             >{{ $t("graph.form.fields.monthly_trimester") }}
             <div class="border rounded pl-2 pt-2">
-              <label class="radio" :title="$t('graph.form.fields.monthly')">
+              <label
+                class="radio"
+                :title="$t('graph.form.fields.monthly')"
+                aria-labelledby="montly">
                 <input
                   id="montly"
                   type="radio"
@@ -88,7 +91,10 @@
                   $t("graph.form.fields.monthly")
                 }}</span>
               </label>
-              <label class="radio" :title="$t('graph.form.fields.trimester')">
+              <label
+                class="radio"
+                :title="$t('graph.form.fields.trimester')"
+                aria-labelledby="trimester">
                 <input
                   id="trimester"
                   type="radio"
@@ -102,7 +108,7 @@
 
           <label
             class="card-label mt-3 col-12"
-            for="input__1"
+            aria-labelledby="input__1"
             :title="$t('graph.form.fields.period')">
             {{ $t("graph.form.fields.period") }}
             <v-select
@@ -118,7 +124,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            for="input__2"
+            aria-labelledby="input__2"
             :title="$t('graph.form.fields.flow')"
             >{{ $t("graph.form.fields.flow") }}
             <v-select
@@ -144,7 +150,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            for="input__3"
+            aria-labelledby="input__3"
             :title="
               displayTransport
                 ? $t('graph.form.fields.product_nstr')
@@ -166,7 +172,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            for="input__4"
+            aria-labelledby="input__4"
             :title="$t('graph.form.fields.transport')"
             v-if="displayTransport"
             >{{ $t("graph.form.fields.transport") }}
@@ -269,6 +275,7 @@ export default {
       this.$store.dispatch("message/success", this.$t("common.update_cls"))
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.loadData()
+        this.fixLanguageAccessibility()
       })
     },
     frequency() {
@@ -540,7 +547,14 @@ export default {
         })
       }, 300)
     },
-
+    fixLanguageAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vs__deselect").forEach((element) => {
+          element.setAttribute("title", this.$t("common.clear_selected"))
+          element.setAttribute("aria-label", this.$t("common.clear_selected"))
+        })
+      }, 300)
+    },
     setFocusOn() {
       document.getElementById("vs1__combobox").focus()
     }
@@ -552,6 +566,7 @@ export default {
     this.fixTabListAccessibility()
     this.fixLabelForSelectAccessibility()
     this.fixHeaderTableForAccessibility()
+    this.fixLanguageAccessibility()
   }
 }
 </script>
