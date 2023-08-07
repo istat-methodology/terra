@@ -210,4 +210,8 @@ a:hover {
 .c-sidebar-nav-link:hover {
   cursor: pointer;
 }
+.c-sidebar .c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon,
+.c-sidebar .c-sidebar-nav-link .c-sidebar-nav-icon {
+  color: white;
+}
 </style>

@@ -283,7 +283,6 @@ export default {
       this.currentTime = this.isTrimester
         ? { id: trimesterDefault.id, selectName: trimesterDefault.descr }
         : { id: monthDefault.id, selectName: monthDefault.descr_it }
-      console.log(this.currentTime)
     }
   },
   computed: {
@@ -543,7 +542,12 @@ export default {
     },
     fixHeaderTableForAccessibility() {
       setTimeout(() => {
-        document.querySelectorAll("th").forEach((element) => {
+        var thead = document
+          .getElementById("metricsTable")
+          .querySelector("thead > tr")
+
+        thead.querySelectorAll("th").forEach((element, index) => {
+          element.setAttribute("id", "head_" + index)
           element.setAttribute("title", element.innerText)
           element.setAttribute("aria-label", element.innerText)
         })
