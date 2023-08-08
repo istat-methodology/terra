@@ -472,7 +472,6 @@ export default {
               field: year + "-" + month,
               value: values[index]
             })
-            //console.log(year + "-" + month + "," + values[index]);
           })
         return [table, id]
       }
@@ -482,7 +481,6 @@ export default {
       setTimeout(() => {
         document.querySelectorAll("label > *").forEach((element, index) => {
           const i = index + 1
-          console.log(element.getElementsByClassName("vs__search"))
           element
             .getElementsByClassName("vs__search")[0]
             .setAttribute("id", "input__" + i)

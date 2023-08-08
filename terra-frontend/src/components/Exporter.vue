@@ -1,17 +1,17 @@
 <template>
   <div>
     <span v-if="iam == null">
-      <div class="dropdown" :title="$t('common.exporter')">
+      <div id="dropdown-btn" class="dropdown" :title="$t('common.exporter')">
         <button
           class="btn btn-outline dropdown-toggle"
           type="button"
           :aria-label="$t('common.exporter')"
           data-toggle="dropdown"
           aria-expanded="false"
-          @click="dropdown">
+          @click="dropdownToggle">
           {{ $t("common.exporter") }}
         </button>
-        <span :class="toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show'">
+        <span id="dropdown-list" class="dropdown-menu-hide">
           <a
             v-for="item in options"
             :key="item"
@@ -48,11 +48,6 @@ export default {
   name: "exporter",
   computed: {
     ...mapGetters("classification", ["getCountryName"])
-  },
-  data() {
-    return {
-      toggle: true
-    }
   },
   props: {
     filename: {
@@ -105,7 +100,6 @@ export default {
     getTitle(typeformat) {
       return "Download " + typeformat
     },
-
     download(type) {
       switch (type) {
         case "json":
@@ -409,10 +403,31 @@ export default {
         ? document.getElementById(id).querySelector("canvas")
         : document.getElementById(id)
     },
-    dropdown() {
-      this.toggle = !this.toggle
-      return this.toggle
+    dropdownToggle() {
+      const list = document.getElementById("dropdown-list")
+      if (list.className == "dropdown-menu-show") {
+        list.classList.remove("dropdown-menu-show")
+        list.classList.add("dropdown-menu-hide")
+      } else {
+        list.classList.remove("dropdown-menu-hide")
+        list.classList.add("dropdown-menu-show")
+      }
     }
+  },
+  mounted() {
+    document.addEventListener("click", function handleClickOutsideBox(event) {
+      const box = document.getElementById("dropdown-btn")
+      const list = document.getElementById("dropdown-list")
+      if (
+        box &&
+        !box.contains(event.target) &&
+        list.className == "dropdown-menu-show"
+      ) {
+        console.log("Buh!")
+        list.classList.remove("dropdown-menu-show")
+        list.classList.add("dropdown-menu-hide")
+      }
+    })
   }
 }
 </script>
@@ -447,17 +462,8 @@ export default {
   background-color: #fff;
   border-color: #d8dbe0;
   left: 0;
-  box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.25);
 }
 .dropdown-menu-show:focus {
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.25);
-}
-.dropdown-menu-show:hover {
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.25);
-}
-.dropdown-menu-show:active {
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.25);
 }
@@ -470,5 +476,8 @@ export default {
   text-decoration: none !important;
   color: #321fdb !important;
   background-color: #d8dbe0 !important;
+}
+.dropdown-item:hover {
+  cursor: pointer;
 }
 </style>
