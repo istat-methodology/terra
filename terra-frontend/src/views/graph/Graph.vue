@@ -26,7 +26,7 @@
           <h1 class="sr-only">{{ $t("graph.table.title") }}</h1>
           <CCard :title="$t('graph.table.title')">
             <CCardHeader>
-              <span class="card-title">{{ title }}</span>
+              <span class="card-title" :title="title">{{ title }}</span>
               <span class="btn-group float-right">
                 <exporter
                   filename="terra_metrics"

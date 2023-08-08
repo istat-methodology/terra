@@ -1,17 +1,18 @@
 <template>
   <div>
     <span v-if="iam == null">
-      <div id="dropdown-btn" class="dropdown" :title="$t('common.exporter')">
+      <div class="dropdown" :title="$t('common.exporter')">
         <button
           class="btn btn-outline dropdown-toggle"
           type="button"
           :aria-label="$t('common.exporter')"
           data-toggle="dropdown"
           aria-expanded="false"
+          v-click-outside="dropdownClose"
           @click="dropdownToggle">
           {{ $t("common.exporter") }}
         </button>
-        <span id="dropdown-list" class="dropdown-menu-hide">
+        <span :class="toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show'">
           <a
             v-for="item in options"
             :key="item"
@@ -42,7 +43,21 @@ import { mapGetters } from "vuex"
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 import { saveAs } from "file-saver"
-//import { required } from "vuelidate/lib/validators"
+
+import Vue from "vue"
+Vue.directive("click-outside", {
+  bind(el, binding, vnode) {
+    el.clickOutsideEvent = (event) => {
+      if (!(el === event.target || el.contains(event.target))) {
+        vnode.context[binding.expression](event)
+      }
+    }
+    document.body.addEventListener("click", el.clickOutsideEvent)
+  },
+  unbind(el) {
+    document.body.removeEventListener("click", el.clickOutsideEvent)
+  }
+})
 
 export default {
   name: "exporter",
@@ -96,6 +111,9 @@ export default {
       default: () => null
     }
   },
+  data: () => ({
+    toggle: true
+  }),
   methods: {
     getTitle(typeformat) {
       return "Download " + typeformat
@@ -404,30 +422,11 @@ export default {
         : document.getElementById(id)
     },
     dropdownToggle() {
-      const list = document.getElementById("dropdown-list")
-      if (list.className == "dropdown-menu-show") {
-        list.classList.remove("dropdown-menu-show")
-        list.classList.add("dropdown-menu-hide")
-      } else {
-        list.classList.remove("dropdown-menu-hide")
-        list.classList.add("dropdown-menu-show")
-      }
+      this.toggle = !this.toggle
+    },
+    dropdownClose() {
+      this.toggle = true
     }
-  },
-  mounted() {
-    document.addEventListener("click", function handleClickOutsideBox(event) {
-      const box = document.getElementById("dropdown-btn")
-      const list = document.getElementById("dropdown-list")
-      if (
-        box &&
-        !box.contains(event.target) &&
-        list.className == "dropdown-menu-show"
-      ) {
-        console.log("Buh!")
-        list.classList.remove("dropdown-menu-show")
-        list.classList.add("dropdown-menu-hide")
-      }
-    })
   }
 }
 </script>

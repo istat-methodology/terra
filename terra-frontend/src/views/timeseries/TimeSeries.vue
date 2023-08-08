@@ -126,7 +126,8 @@
               v-model="dataType"
               :class="{
                 'is-invalid': $v.dataType.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <label
             class="card-label col-12 mt-2"
@@ -139,7 +140,8 @@
               v-model="varType"
               :class="{
                 'is-invalid': $v.varType.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <label
             aria-labelledby="input__3"
@@ -153,7 +155,8 @@
               v-model="flow"
               :class="{
                 'is-invalid': $v.flow.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <label
             aria-labelledby="input__4"
@@ -167,7 +170,8 @@
               v-model="country"
               :class="{
                 'is-invalid': $v.country.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <label
             aria-labelledby="input__5"
@@ -183,7 +187,8 @@
               v-model="partner"
               :class="{
                 'is-invalid': $v.partner.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <label
             aria-labelledby="input__6"
@@ -199,7 +204,8 @@
               v-model="productCPA"
               :class="{
                 'is-invalid': $v.productCPA.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <CButton
             color="primary"

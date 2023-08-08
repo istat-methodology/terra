@@ -53,7 +53,8 @@
               label="descr"
               :options="seriesTypes"
               :placeholder="$t('trade.form.fields.seriesType_placeholder')"
-              v-model="seriesType" />
+              v-model="seriesType"
+              :clearable="false" />
           </label>
           <label
             aria-labelledby="input__2"
@@ -64,7 +65,8 @@
               label="descr"
               :options="varTypes"
               :placeholder="$t('trade.form.fields.varType_placeholder')"
-              v-model="varType" />
+              v-model="varType"
+              :clearable="false" />
           </label>
           <label
             aria-labelledby="input__3"
@@ -75,7 +77,8 @@
               label="descr"
               :options="flows"
               :placeholder="$t('trade.form.fields.flow_placeholder')"
-              v-model="flow" />
+              v-model="flow"
+              :clearable="false" />
           </label>
           <label
             aria-labelledby="input__4"
@@ -86,7 +89,8 @@
               label="name"
               :options="countries"
               :placeholder="$t('trade.form.fields.country_placeholder')"
-              v-model="country" />
+              v-model="country"
+              :clearable="false" />
           </label>
           <label
             aria-labelledby="input__5"
@@ -102,7 +106,8 @@
               :placeholder="$t('trade.form.fields.products_placeholder')"
               multiple
               v-model="product"
-              ref="prod" />
+              ref="prod"
+              :clearable="false" />
           </label>
 
           <CButton
