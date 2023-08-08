@@ -32,6 +32,7 @@
               filename="terra_timeseries"
               :data="getTabularData(timeseriesCharts.diagMain, 'timeseries')"
               :filter="getSearchFilter()"
+              :options="['jpeg', 'png', 'pdf', 'csv']"
               source="table">
             </exporter>
             <!--CButton

@@ -15,7 +15,8 @@
               :data="getData(this.charts.data, 'trade')"
               :filter="getSearchFilter()"
               source="matrix"
-              :timePeriod="this.tradePeriod">
+              :timePeriod="this.tradePeriod"
+              :options="['jpeg', 'png', 'pdf', 'csv']">
             </exporter>
             <!--CButton
               color="link"
