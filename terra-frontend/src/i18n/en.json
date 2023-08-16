@@ -33,8 +33,8 @@
     "methodology": "Methodological note",
     "logo_terra": "Terra Logo",
     "logo_statistica_sp": "Experimental Statistic Logo",
-    "toggler":"enable sidebar display",
-    "no_toggler":"disable sidebar display"
+    "toggler": "enable sidebar display",
+    "no_toggler": "disable sidebar display"
   },
   "sidebar": {
     "home": "Home",
@@ -59,12 +59,12 @@
       "extra-ue": {
         "title": "Graph analysis UE - Extra UE",
         "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT transport data (NSTR classification)</strong>, along with relevant global and local measures detailing the structure of relations between UE and Extra UE countries. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
-        "link": "Go to Graph analisys section UE - Extra UE"
+        "link": "Go to Graph analisys UE - Extra UE section"
       },
       "intra-ue": {
         "title": "Graph analysis UE - World",
         "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT data, with 3 digits CPA 2.1 product classification</strong>, along with relevant global and local measures detailing the structure of relations between UE countries and their economic partners. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
-        "link": "Go to Graph analisys section UE - World"
+        "link": "Go to Graph analisys UE - World section"
       }
     },
     "timeseries": {
@@ -121,7 +121,7 @@
         "trimester": "Quarterly",
         "period": "Period",
         "period_placeholder": "Select a period",
-        "percentage": "Percentile",
+        "percentage": "Bottom percentile filter",
         "percentage_placeholder": "Set a percentile",
         "transport": "Transport",
         "transport_placeholder": "Select transport",
@@ -277,13 +277,12 @@
     "title_7": "Right of complaint",
     "paragraph_7": "Interested parties who believe that the processing of their personal data relates to this website have the right to a right against the Guarantor for the protection of personal data, as provided for by art. 77 of the Regulation, or to assume suitable judicial offices (Article 79 of the Regulation itself)."
   },
-  "server_error":{
+  "server_error": {
     "paragraph_1": "[Error] Ops, something went wrong in ",
-    "paragraph_2":"[Error] Error message " ,
-    "paragraph_3":"Sorry, something went wrong in " 
+    "paragraph_2": "[Error] Error message ",
+    "paragraph_3": "Sorry, something went wrong in "
   },
-  "footer":{
+  "footer": {
     "link_accessibility": "Accessibility"
-    
   }
 }

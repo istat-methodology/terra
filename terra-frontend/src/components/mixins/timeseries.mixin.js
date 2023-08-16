@@ -4,14 +4,25 @@ export default {
     diagNormMag: ""
   }),
   methods: {
-    buildTimeseriesCharts(data, dataType, statusMain, statusNorm, statusACF) {
+    buildTimeseriesCharts(
+      data,
+      dataType,
+      statusMain,
+      statusNorm,
+      statusACF,
+      locale
+    ) {
       if (statusMain != "00") {
-        this.mean = this.getTimeseriesMean(data["diagMain"])
-        this.std = this.getTimeseriesSTD(data["diagMain"])
+        const meanVal = this.getTimeseriesMean(data["diagMain"])
+        const stdVal = this.getTimeseriesSTD(data["diagMain"])
+        //Format numbers
+        this.mean = Math.floor(meanVal).toLocaleString(locale)
+        this.std = Math.floor(stdVal).toLocaleString(locale)
+        //Build chart
         this.chartDataDiagMain = this.getTimeseriesChart(
           data["diagMain"],
           dataType,
-          this.mean
+          meanVal
         )
       } else {
         this.chartDataDiagMain = null

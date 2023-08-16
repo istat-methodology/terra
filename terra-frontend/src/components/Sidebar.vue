@@ -25,7 +25,7 @@
           :alt="$t('sidebar.goto_istat')" />
       </a>
     </CSidebarBrand>
-    <div class="c-sidebar-nav h-100" style="overflow: hidden">
+    <div class="c-sidebar-nav h-100" style="overflow: auto">
       <div class="c-sidebar-nav-item" id="list-content">
         <a
           @click="handleHome"

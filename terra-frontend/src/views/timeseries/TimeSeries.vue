@@ -54,10 +54,10 @@
             <span>
               <span class="text-primary" v-if="mean">
                 {{ $t("common.mean") }}: </span
-              >{{ this.mean }},
+              >{{ mean }}
               <span class="text-primary" v-if="std"
                 >{{ $t("common.std") }}: </span
-              >{{ this.std }}
+              >{{ std }}
             </span>
           </div>
         </CCardBody>
@@ -367,7 +367,8 @@ export default {
               this.dataType.descr,
               this.statusMain,
               this.statusNorm,
-              this.statusACF
+              this.statusACF,
+              this.$i18n.locale
             )
             this.optionsNorm.scales.yAxes[0].scaleLabel.labelString = this.$t(
               "timeseries.plot.qqnormy"
