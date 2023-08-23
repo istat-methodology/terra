@@ -198,7 +198,7 @@ def makeGraph(tab4graph,pos_ini,weight_flag,flow,AnalisiFlag):
         in_deg = nx.in_degree_centrality(Grafo)
         Metrics ={}
         vulner={}
-        #Wsum=tab4graph[weight].sum()
+        Wsum=tab4graph[weight].sum()
         for k, v in in_deg.items():
             if v!=0:      
                 vulner[k]=1-v
