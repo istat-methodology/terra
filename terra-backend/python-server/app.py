@@ -209,8 +209,8 @@ def makeGraph(tab4graph,pos_ini,weight_flag,flow,AnalisiFlag):
             "density":nx.density(Grafo), #diffusione del prodotto
             "vulnerability":vulner,
             #"degree_centrality":nx.out_degree_centrality(Grafo),
-            "exportation strenght":nx.out_degree_centrality(Grafo),
-            #"exportation strenght":{a:b /Wsum for a,b in G.out_degree(weight="weight")}
+            #"exportation strenght":nx.out_degree_centrality(Grafo),
+            "exportation strenght":{a:b /Wsum for a,b in G.out_degree(weight="weight")},
             "hubness":nx.closeness_centrality(Grafo.to_undirected())
             #"hubness":nx.betweenness_centrality(Grafo) #, weight="weight")
             }
