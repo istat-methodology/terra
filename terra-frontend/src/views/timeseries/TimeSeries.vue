@@ -32,6 +32,7 @@
               filename="terra_timeseries"
               :data="getTabularData(timeseriesCharts.diagMain, 'timeseries')"
               :filter="getSearchFilter()"
+              :options="['jpeg', 'png', 'pdf', 'csv']"
               source="table">
             </exporter>
             <!--CButton
@@ -53,10 +54,10 @@
             <span>
               <span class="text-primary" v-if="mean">
                 {{ $t("common.mean") }}: </span
-              >{{ this.mean }},
+              >{{ mean }}
               <span class="text-primary" v-if="std"
                 >{{ $t("common.std") }}: </span
-              >{{ this.std }}
+              >{{ std }}
             </span>
           </div>
         </CCardBody>
@@ -115,7 +116,7 @@
         </CCardHeader>
         <CCardBody>
           <label
-            for="input__1"
+            aria-labelledby="input__1"
             class="card-label col-12"
             :title="$t('timeseries.form.fields.dataType')"
             >{{ $t("timeseries.form.fields.dataType") }}
@@ -126,10 +127,10 @@
               v-model="dataType"
               :class="{
                 'is-invalid': $v.dataType.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <label
-            aria-labelledby="input__2"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.varType')">
             {{ $t("timeseries.form.fields.varType") }}
@@ -140,10 +141,11 @@
               v-model="varType"
               :class="{
                 'is-invalid': $v.varType.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <label
-            for="input__3"
+            aria-labelledby="input__3"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.flow')">
             {{ $t("timeseries.form.fields.flow") }}
@@ -154,10 +156,11 @@
               v-model="flow"
               :class="{
                 'is-invalid': $v.flow.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <label
-            for="input__4"
+            aria-labelledby="input__4"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.country')">
             {{ $t("timeseries.form.fields.country") }}
@@ -168,10 +171,11 @@
               v-model="country"
               :class="{
                 'is-invalid': $v.country.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <label
-            for="input__5"
+            aria-labelledby="input__5"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.partner')">
             {{ $t("timeseries.form.fields.partner") }}
@@ -184,10 +188,11 @@
               v-model="partner"
               :class="{
                 'is-invalid': $v.partner.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <label
-            for="input__6"
+            aria-labelledby="input__6"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.productsCPA')">
             {{ $t("timeseries.form.fields.productsCPA") }}
@@ -200,7 +205,8 @@
               v-model="productCPA"
               :class="{
                 'is-invalid': $v.productCPA.$error
-              }" />
+              }"
+              :clearable="false" />
           </label>
           <CButton
             color="primary"
@@ -208,6 +214,7 @@
             size="sm"
             @click="handleSubmit"
             class="mt-2 ml-3"
+            :title="$t('common.submit')"
             >{{ $t("common.submit") }}</CButton
           >
         </CCardBody>
@@ -276,6 +283,7 @@ export default {
       this.$store.dispatch("message/success", this.$t("common.update_cls"))
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.loadData()
+        this.fixLanguageAccessibility()
       })
     }
   },
@@ -359,7 +367,8 @@ export default {
               this.dataType.descr,
               this.statusMain,
               this.statusNorm,
-              this.statusACF
+              this.statusACF,
+              this.$i18n.locale
             )
             this.optionsNorm.scales.yAxes[0].scaleLabel.labelString = this.$t(
               "timeseries.plot.qqnormy"
@@ -471,7 +480,6 @@ export default {
               field: year + "-" + month,
               value: values[index]
             })
-            //console.log(year + "-" + month + "," + values[index]);
           })
         return [table, id]
       }
@@ -481,10 +489,17 @@ export default {
       setTimeout(() => {
         document.querySelectorAll("label > *").forEach((element, index) => {
           const i = index + 1
-          console.log(element.getElementsByClassName("vs__search"))
           element
             .getElementsByClassName("vs__search")[0]
             .setAttribute("id", "input__" + i)
+        })
+      }, 300)
+    },
+    fixLanguageAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vs__clear ").forEach((element) => {
+          element.setAttribute("title", this.$t("common.clear_selected"))
+          element.setAttribute("aria-label", this.$t("common.clear_selected"))
         })
       }, 300)
     },
@@ -498,6 +513,7 @@ export default {
   created() {
     this.loadData()
     this.fixLabelAccessibility()
+    this.fixLanguageAccessibility()
   }
 }
 </script>

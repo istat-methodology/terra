@@ -25,15 +25,16 @@
     },
     "select_language": "Seleziona la lingua",
     "language_it": "Italiano",
-    "language_en": "Inglese"
+    "language_en": "Inglese",
+    "clear_selected": "Deseleziona"
   },
   "header": {
     "userguide": "Manuale utente",
     "methodology": "Nota metodologica",
     "logo_terra": "Logo Terra",
     "logo_statistica_sp": "Logo Statistica Sperimentale",
-    "toggler":"abilita visualizzazione sidebar",
-    "no_toggler":"disabilita visualizzazione sidebar"
+    "toggler": "abilita visualizzazione sidebar",
+    "no_toggler": "disabilita visualizzazione sidebar"
   },
   "sidebar": {
     "home": "Home",
@@ -119,7 +120,7 @@
         "trimester": "Trimestrale",
         "period": "Periodo di riferimento",
         "period_placeholder": "Seleziona un periodo",
-        "percentage": "Percentile",
+        "percentage": "Filtro Percentile Inferiore",
         "percentage_placeholder": "Seleziona un percentile",
         "transport": "Mezzi di trasporto",
         "transport_placeholder": "Seleziona mezzi di trasporto",
@@ -274,13 +275,12 @@
     "title_7": "Diritto di reclamo",
     "paragraph_7": "Gli interessati che ritengono che il trattamento dei dati personali a loro riferiti effettuato attraverso questo sito web avvenga in violazione di quanto previsto dal Regolamento hanno il diritto di proporre reclamo al Garante per la protezione dei dati personali, come previsto dall’art. 77 del Regolamento, o di adire le opportune sedi giudiziarie (art. 79 del Regolamento stesso)."
   },
-  "server_error":{
+  "server_error": {
     "paragraph_1": "[Errore] Attenzione, si è verificato un errore ",
-    "paragraph_2":"[Error] messaggio d'errore " ,
-    "paragraph_3":"Attenzione, si è verificato un errore  " 
+    "paragraph_2": "[Error] messaggio d'errore ",
+    "paragraph_3": "Attenzione, si è verificato un errore  "
   },
-  "footer":{
+  "footer": {
     "link_accessibility": "Accessibilità"
-    
   }
 }

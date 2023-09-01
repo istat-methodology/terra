@@ -25,7 +25,7 @@
           :alt="$t('sidebar.goto_istat')" />
       </a>
     </CSidebarBrand>
-    <div class="c-sidebar-nav h-100" style="overflow: hidden">
+    <div class="c-sidebar-nav h-100" style="overflow: auto">
       <div class="c-sidebar-nav-item" id="list-content">
         <a
           @click="handleHome"
@@ -210,6 +210,11 @@ a:hover {
 .c-sidebar-nav-link:hover {
   cursor: pointer;
 }
+.c-sidebar .c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon,
+.c-sidebar .c-sidebar-nav-link .c-sidebar-nav-icon {
+  color: white;
+}
+
 a.sr-only.sr-only-focusable {
   color: white;
 }

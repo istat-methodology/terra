@@ -15,7 +15,8 @@
               :data="getData(this.charts.data, 'trade')"
               :filter="getSearchFilter()"
               source="matrix"
-              :timePeriod="this.tradePeriod">
+              :timePeriod="this.tradePeriod"
+              :options="['jpeg', 'png', 'pdf', 'csv']">
             </exporter>
             <!--CButton
               color="link"
@@ -45,7 +46,7 @@
         </CCardHeader>
         <CCardBody>
           <label
-            for="input__1"
+            aria-labelledby="input__1"
             class="card-label col-12"
             :title="$t('trade.form.fields.seriesType')"
             >{{ $t("trade.form.fields.seriesType") }}
@@ -53,10 +54,11 @@
               label="descr"
               :options="seriesTypes"
               :placeholder="$t('trade.form.fields.seriesType_placeholder')"
-              v-model="seriesType" />
+              v-model="seriesType"
+              :clearable="false" />
           </label>
           <label
-            for="input__2"
+            aria-labelledby="input__2"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.varType')"
             >{{ $t("trade.form.fields.varType") }}
@@ -64,10 +66,11 @@
               label="descr"
               :options="varTypes"
               :placeholder="$t('trade.form.fields.varType_placeholder')"
-              v-model="varType" />
+              v-model="varType"
+              :clearable="false" />
           </label>
           <label
-            for="input__3"
+            aria-labelledby="input__3"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.flow')"
             >{{ $t("trade.form.fields.flow") }}
@@ -75,10 +78,11 @@
               label="descr"
               :options="flows"
               :placeholder="$t('trade.form.fields.flow_placeholder')"
-              v-model="flow" />
+              v-model="flow"
+              :clearable="false" />
           </label>
           <label
-            for="input__4"
+            aria-labelledby="input__4"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.country')"
             >{{ $t("trade.form.fields.country") }}
@@ -86,29 +90,34 @@
               label="name"
               :options="countries"
               :placeholder="$t('trade.form.fields.country_placeholder')"
-              v-model="country" />
+              v-model="country"
+              :clearable="false" />
           </label>
           <label
-            for="input__5"
+            aria-labelledby="input__5"
             v-if="products"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.products')"
             >{{ $t("trade.form.fields.products") }}
             <v-select
               v-if="products"
+              id="input__5"
               label="displayName"
               :options="products"
               :placeholder="$t('trade.form.fields.products_placeholder')"
               multiple
               v-model="product"
-              ref="prod" />
+              ref="prod"
+              :clearable="false" />
           </label>
+
           <CButton
             color="primary"
             shape="square"
             size="sm"
             @click="handleSubmit"
             class="mt-2 ml-3"
+            :title="$t('common.submit')"
             >{{ $t("common.submit") }}
           </CButton>
         </CCardBody>
@@ -163,6 +172,7 @@ export default {
       this.$store.dispatch("message/success", this.$t("common.update_cls"))
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.loadData()
+        this.fixLanguageAccessibility()
       })
     }
   },
@@ -348,11 +358,24 @@ export default {
             .setAttribute("id", "input__" + i)
         })
       }, 300)
+    },
+    fixLanguageAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vs__clear ").forEach((element) => {
+          element.setAttribute("title", this.$t("common.clear_selected"))
+          element.setAttribute("aria-label", this.$t("common.clear_selected"))
+        })
+        document.querySelectorAll(".vs__deselect").forEach((element) => {
+          element.setAttribute("title", this.$t("common.clear_selected"))
+          element.setAttribute("aria-label", this.$t("common.clear_selected"))
+        })
+      }, 300)
     }
   },
   created() {
     this.loadData()
     this.fixLabelAccessibility()
+    this.fixLanguageAccessibility()
   }
 }
 </script>
