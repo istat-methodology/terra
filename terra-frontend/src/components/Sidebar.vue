@@ -118,7 +118,7 @@
             name="cil-layers"
             class="c-sidebar-nav-icon"
             alt=""
-            title="$t('sidebar.trade')" />
+            :title="$t('sidebar.trade')" />
           {{ $t("sidebar.trade") }}
         </a>
       </div>
@@ -130,7 +130,10 @@
           {{ lastLoadedData }}
         </div-->
         <div class="data-update" :title="$t('common.update') + lastLoadedData">
-          <CIcon name="cil-tags" alt="" :title="$t('common.update')" />
+          <CIcon
+            name="cil-tags"
+            alt=""
+            :title="$t('common.update') + lastLoadedData" />
           {{ $t("common.update") }}
           {{ lastLoadedData }}
         </div>
