@@ -22,7 +22,7 @@
         <CImg
           src="../img/LogoIstatCompleto.png"
           style="max-width: 100%"
-          :alt="$t('sidebar.goto_istat')" />
+          alt="" />
       </a>
     </CSidebarBrand>
     <div class="c-sidebar-nav h-100" style="overflow: auto">
