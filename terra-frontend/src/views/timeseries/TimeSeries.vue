@@ -116,7 +116,7 @@
         </CCardHeader>
         <CCardBody>
           <label
-            aria-labelledby="input__1"
+            for="input__1"
             class="card-label col-12"
             :title="$t('timeseries.form.fields.dataType')"
             >{{ $t("timeseries.form.fields.dataType") }}
@@ -145,7 +145,7 @@
               :clearable="false" />
           </label>
           <label
-            aria-labelledby="input__3"
+            for="input__3"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.flow')">
             {{ $t("timeseries.form.fields.flow") }}
@@ -160,7 +160,7 @@
               :clearable="false" />
           </label>
           <label
-            aria-labelledby="input__4"
+            for="input__4"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.country')">
             {{ $t("timeseries.form.fields.country") }}
@@ -175,7 +175,7 @@
               :clearable="false" />
           </label>
           <label
-            aria-labelledby="input__5"
+            for="input__5"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.partner')">
             {{ $t("timeseries.form.fields.partner") }}
@@ -192,7 +192,7 @@
               :clearable="false" />
           </label>
           <label
-            aria-labelledby="input__6"
+            for="input__6"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.productsCPA')">
             {{ $t("timeseries.form.fields.productsCPA") }}

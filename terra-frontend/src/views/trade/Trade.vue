@@ -46,7 +46,7 @@
         </CCardHeader>
         <CCardBody>
           <label
-            aria-labelledby="input__1"
+            for="input__1"
             class="card-label col-12"
             :title="$t('trade.form.fields.seriesType')"
             >{{ $t("trade.form.fields.seriesType") }}
@@ -58,7 +58,7 @@
               :clearable="false" />
           </label>
           <label
-            aria-labelledby="input__2"
+            for="input__2"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.varType')"
             >{{ $t("trade.form.fields.varType") }}
@@ -70,7 +70,7 @@
               :clearable="false" />
           </label>
           <label
-            aria-labelledby="input__3"
+            for="input__3"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.flow')"
             >{{ $t("trade.form.fields.flow") }}
@@ -82,7 +82,7 @@
               :clearable="false" />
           </label>
           <label
-            aria-labelledby="input__4"
+            for="input__4"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.country')"
             >{{ $t("trade.form.fields.country") }}
@@ -94,7 +94,7 @@
               :clearable="false" />
           </label>
           <label
-            aria-labelledby="input__5"
+            for="input__5"
             v-if="products"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.products')"

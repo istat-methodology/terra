@@ -72,7 +72,7 @@
         </CCardHeader>
         <CCardBody>
           <label
-            aria-labelledby="montly"
+            for="montly"
             class="card-label mt-3 col-12"
             :title="$t('graph.form.fields.monthly_trimester')"
             >{{ $t("graph.form.fields.monthly_trimester") }}
@@ -80,7 +80,7 @@
               <label
                 class="radio"
                 :title="$t('graph.form.fields.monthly')"
-                aria-labelledby="montly">
+                for="montly">
                 <input
                   id="montly"
                   type="radio"
@@ -94,7 +94,7 @@
               <label
                 class="radio"
                 :title="$t('graph.form.fields.trimester')"
-                aria-labelledby="trimester">
+                for="trimester">
                 <input
                   id="trimester"
                   type="radio"
@@ -108,7 +108,7 @@
 
           <label
             class="card-label mt-3 col-12"
-            aria-labelledby="input__1"
+            for="input__1"
             :title="$t('graph.form.fields.period')">
             {{ $t("graph.form.fields.period") }}
             <v-select
@@ -124,7 +124,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            aria-labelledby="input__2"
+            for="input__2"
             :title="$t('graph.form.fields.flow')"
             >{{ $t("graph.form.fields.flow") }}
             <v-select
@@ -150,7 +150,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            aria-labelledby="input__3"
+            for="input__3"
             :title="
               displayTransport
                 ? $t('graph.form.fields.product_nstr')
@@ -172,7 +172,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            aria-labelledby="input__4"
+            for="input__4"
             :title="$t('graph.form.fields.transport')"
             v-if="displayTransport"
             >{{ $t("graph.form.fields.transport") }}
