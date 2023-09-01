@@ -210,4 +210,7 @@ a:hover {
 .c-sidebar-nav-link:hover {
   cursor: pointer;
 }
+a.sr-only.sr-only-focusable {
+  color: white;
+}
 </style>
