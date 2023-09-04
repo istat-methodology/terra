@@ -87,9 +87,7 @@
                   name="radioPeriod"
                   value="Monthly"
                   v-model="frequency" />
-                <span for="timerange">{{
-                  $t("graph.form.fields.monthly")
-                }}</span>
+                <span>{{ $t("graph.form.fields.monthly") }}</span>
               </label>
               <label
                 class="radio"
