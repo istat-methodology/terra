@@ -1,5 +1,5 @@
 <template>
-  <label aria-labelledby="radioButton" class="radio" tabindex="-1">
+  <label for="radioButton" class="radio" tabindex="-1">
     <input
       id="radioButton"
       type="radio"

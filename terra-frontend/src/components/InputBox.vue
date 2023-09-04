@@ -2,7 +2,7 @@
   <div class="col-4">
     <form>
       <div id="InputBox" tabindex="0">
-        <label aria-labelledby="InputBox" class="col-3" tabindex="0"
+        <label for="InputBox" class="col-3" tabindex="0"
           >{{ label }}
           <input
             id="InputBox"
