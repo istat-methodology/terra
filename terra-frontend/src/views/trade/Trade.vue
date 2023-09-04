@@ -46,7 +46,7 @@
         </CCardHeader>
         <CCardBody>
           <label
-            for="input__1"
+            id="input__1"
             class="card-label col-12"
             :title="$t('trade.form.fields.seriesType')"
             >{{ $t("trade.form.fields.seriesType") }}
@@ -58,7 +58,7 @@
               :clearable="false" />
           </label>
           <label
-            for="input__2"
+            id="input__2"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.varType')"
             >{{ $t("trade.form.fields.varType") }}
@@ -70,7 +70,7 @@
               :clearable="false" />
           </label>
           <label
-            for="input__3"
+            id="input__3"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.flow')"
             >{{ $t("trade.form.fields.flow") }}
@@ -82,7 +82,7 @@
               :clearable="false" />
           </label>
           <label
-            for="input__4"
+            id="input__4"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.country')"
             >{{ $t("trade.form.fields.country") }}
@@ -94,7 +94,7 @@
               :clearable="false" />
           </label>
           <label
-            for="input__5"
+            id="input__5"
             v-if="products"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.products')"
@@ -355,7 +355,7 @@ export default {
           const i = index + 1
           element
             .getElementsByClassName("vs__search")[0]
-            .setAttribute("id", "input__" + i)
+            .setAttribute("aria-labelledby", "input__" + i)
         })
       }, 300)
     },

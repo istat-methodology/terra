@@ -116,7 +116,7 @@
         </CCardHeader>
         <CCardBody>
           <label
-            for="input__1"
+            id="input__1"
             class="card-label col-12"
             :title="$t('timeseries.form.fields.dataType')"
             >{{ $t("timeseries.form.fields.dataType") }}
@@ -145,7 +145,7 @@
               :clearable="false" />
           </label>
           <label
-            for="input__3"
+            id="input__3"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.flow')">
             {{ $t("timeseries.form.fields.flow") }}
@@ -160,7 +160,7 @@
               :clearable="false" />
           </label>
           <label
-            for="input__4"
+            id="input__4"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.country')">
             {{ $t("timeseries.form.fields.country") }}
@@ -175,7 +175,7 @@
               :clearable="false" />
           </label>
           <label
-            for="input__5"
+            id="input__5"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.partner')">
             {{ $t("timeseries.form.fields.partner") }}
@@ -192,7 +192,7 @@
               :clearable="false" />
           </label>
           <label
-            for="input__6"
+            id="input__6"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.productsCPA')">
             {{ $t("timeseries.form.fields.productsCPA") }}
@@ -491,7 +491,7 @@ export default {
           const i = index + 1
           element
             .getElementsByClassName("vs__search")[0]
-            .setAttribute("id", "input__" + i)
+            .setAttribute("aria-labelledby", "input__" + i)
         })
       }, 300)
     },

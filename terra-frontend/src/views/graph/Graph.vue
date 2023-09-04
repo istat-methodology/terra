@@ -108,7 +108,7 @@
 
           <label
             class="card-label mt-3 col-12"
-            for="input__1"
+            id="input__1"
             :title="$t('graph.form.fields.period')">
             {{ $t("graph.form.fields.period") }}
             <v-select
@@ -124,7 +124,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            for="input__2"
+            id="input__2"
             :title="$t('graph.form.fields.flow')"
             >{{ $t("graph.form.fields.flow") }}
             <v-select
@@ -150,7 +150,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            for="input__3"
+            id="input__3"
             :title="
               displayTransport
                 ? $t('graph.form.fields.product_nstr')
@@ -172,7 +172,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            for="input__4"
+            id="input__4"
             :title="$t('graph.form.fields.transport')"
             v-if="displayTransport"
             >{{ $t("graph.form.fields.transport") }}
@@ -536,7 +536,7 @@ export default {
       setTimeout(() => {
         document.querySelectorAll(".vs__search").forEach((element, index) => {
           const i = index + 1
-          element.setAttribute("id", "input__" + i)
+          element.setAttribute("aria-labelledby", "input__" + i)
         })
       }, 300)
     },
