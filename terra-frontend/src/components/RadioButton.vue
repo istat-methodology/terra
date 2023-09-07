@@ -36,7 +36,7 @@ span {
   padding-left: 5px;
 }
 label.radio {
-  margin-right: 20px;
+  margin-right: 20px; 
 }
 .result {
   margin-top: 15px;

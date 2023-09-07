@@ -30,10 +30,40 @@
         sorter
         hover
         pagination>
+        <!--
+            source: field.source,
+            destination: field.destination,
+            percentage: field.percentage,
+            flow: field.flow
+        -->
+        <template #source="{ item }">
+          <td headers="head_0">
+            {{ item.source }}
+          </td>
+        </template>
+        <template #destination="{ item }">
+          <td headers="head_1">
+            {{ item.destination }}
+          </td>
+        </template>
+        <template #percentage="{ item }">
+          <td headers="head_2">
+            {{ item.percentage }}
+          </td>
+        </template>
+        <template #flow="{ item }">
+          <td headers="head_3">
+            {{ item.flow }}
+          </td>
+        </template>
+
         <template #show_delete="{ item }">
           <td>
-            <span class="icon-link" @click="deleteRow(item)">
-              <delete-icon />
+            <span
+              class="icon-link"
+              @click="deleteRow(item)"
+              :title="$t('common.delete')">
+              <delete-icon alt="" />
             </span>
           </td>
         </template>
@@ -109,9 +139,15 @@
           shape="square"
           size="sm"
           @click="applyConstraints"
+          :title="$t('common.apply')"
           >{{ $t("common.apply") }}</CButton
         >
-        <CButton color="primary" shape="square" size="sm" @click="closeModal">
+        <CButton
+          color="primary"
+          shape="square"
+          size="sm"
+          @click="closeModal"
+          :title="$t('common.close')">
           {{ $t("common.close") }}
         </CButton>
       </template>

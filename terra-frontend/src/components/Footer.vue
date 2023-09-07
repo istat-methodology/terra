@@ -55,6 +55,7 @@ export default {
 <style scoped>
 .d-inline {
   display: inline !important;
+  text-decoration: underline !important;
   color: #321fdb !important;
   background-color: transparent !important;
 }

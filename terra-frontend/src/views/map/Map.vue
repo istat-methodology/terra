@@ -27,7 +27,7 @@
             :center="center"
             class
             style="height: 100%; width: 100%"
-            @ready="setShooter()"
+            @ready="setMapScreenShooter()"
             @click="closeInfo()"
             tabindex="-1">
             <l-tile-layer :url="url" :attribution="attribution" />
@@ -57,6 +57,7 @@
               @click="openInfo(marker)"
               tabindex="0">
               <l-tooltip
+                aria-hidden="true"
                 role="tooltip"
                 :options="{ interactive: true, permanent: false }"
                 tabindex="0">
@@ -78,7 +79,7 @@
               </div>
             </l-control>
             <l-control position="bottomleft" tabindex="0">
-              <div class="info" v-if="isInfo">
+              <div class="info" v-if="isInfo" aria-hidden="true">
                 <div class="font-class pl-2 pt-2 pb-2" :title="infoTitle">
                   <strong>{{ infoTitle }}</strong>
                 </div>
@@ -98,25 +99,11 @@
                       :fields="exportFields"
                       hover />
                   </CTab>
-                  <!--CTab title="Import goods">
-                    <CDataTable :items="importGoods" hover />
-                  </CTab-->
-                  <!--CTab title="Export goods">
-                    <CDataTable :items="exportGoods" hover />
-                  </CTab-->
                 </CTabs>
               </div>
             </l-control>
             <l-control position="topleft">
               <div class="leaflet-bar">
-                <!--a
-                  class="control-btn"
-                  :title="$t('map.toolbar.information')"
-                  role="button"
-                  @click="helpOn(true)"
-                  tabindex="0"
-                  >i</a
-                -->
                 <a
                   class="control-btn"
                   :title="
@@ -141,6 +128,16 @@
                   tabindex="0"
                   >{{ btnImportExport }}</a
                 >
+                <a
+                  :title="$t('map.toolbar.shot')"
+                  class="control-btn"
+                  role="button"
+                  @click="shot('terra_mapseries')"
+                  @keydown="shot('terra_mapseries')"
+                  tabindex="0"
+                  >S</a
+                >
+
                 <exporter
                   filename="terra_mapseries"
                   iam="map"
@@ -202,6 +199,7 @@ import sliderMixin from "@/components/mixins/slider.mixin"
 import SimpleMapScreenshoter from "leaflet-simple-map-screenshoter"
 import VueSlider from "vue-slider-component"
 import exporter from "@/components/Exporter"
+import { saveAs } from "file-saver"
 
 export default {
   name: "Map",
@@ -256,7 +254,8 @@ export default {
 
     ie: "Export",
 
-    isModalHelp: false
+    isModalHelp: false,
+    simpleMapScreenshoter: {}
   }),
   watch: {
     language() {
@@ -409,13 +408,6 @@ export default {
           })
         })
     },
-    setShooter() {
-      let pluginOptions = {
-        hideElementsWithSelectors: []
-      }
-
-      new SimpleMapScreenshoter(pluginOptions).addTo(this.$refs.map.mapObject)
-    },
     getDataLegend(seriesData, seriesPeriod) {
       var data = []
       seriesData.forEach((obj) => {
@@ -483,11 +475,27 @@ export default {
     },
     fixHeaderTableForAccessibility() {
       setTimeout(() => {
-        document.querySelectorAll("th").forEach((element) => {
+        document.querySelectorAll("li.a.nav-link").forEach((element) => {
           element.setAttribute("title", element.innerText)
           element.setAttribute("aria-label", element.innerText)
         })
       }, 300)
+    },
+    setMapScreenShooter() {
+      this.simpleMapScreenshoter = new SimpleMapScreenshoter({
+        hideElementsWithSelectors: [],
+        hidden: true // hide screen btn on map
+      }).addTo(this.$refs.map.mapObject)
+    },
+    shot(filename) {
+      this.simpleMapScreenshoter
+        .takeScreen("blob")
+        .then((blob) => {
+          saveAs(blob, filename + ".png")
+        })
+        .catch((e) => {
+          console.log(e.toString())
+        })
     }
   },
   created() {

@@ -16,7 +16,9 @@
     "std": "Deviazione standard",
     "footer": {
       "source": "Fonte dati: "
+      
     },
+    "delete": "Elimina",
     "error": {
       "main": "Houston, abbiamo un problema!",
       "txt": "Qualcosa non sta funzionando correttamente...",
@@ -89,7 +91,8 @@
       "marker": "imposta visualizzazione marker",
       "feature": "imposta visualizzazione feature",
       "import": "visualizza dati import",
-      "export": "visualizza dati export"
+      "export": "visualizza dati export",
+      "shot": "screen shot della mappa"
     },
     "modal": {
       "main": {

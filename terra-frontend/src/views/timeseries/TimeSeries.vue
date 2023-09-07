@@ -47,6 +47,7 @@
         <CCardBody v-if="isMainChart">
           <circle-spin v-if="spinner" class="circle-spin"></circle-spin>
           <line-chart
+            aria-hidden="true"
             :chartData="chartDataDiagMain"
             :options="options"
             id="timeseries" />
@@ -131,6 +132,7 @@
               :clearable="false" />
           </label>
           <label
+            id="input__2"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.varType')">
             {{ $t("timeseries.form.fields.varType") }}

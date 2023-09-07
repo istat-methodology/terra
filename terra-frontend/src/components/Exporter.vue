@@ -438,6 +438,7 @@ export default {
 .dropdown-toggle {
   cursor: pointer !important;
   color: #321fdb !important;
+  text-decoration: underline !important;
 }
 .dropdown-toggle:hover {
   text-decoration: underline !important;

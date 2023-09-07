@@ -101,7 +101,6 @@
             >{{ $t("trade.form.fields.products") }}
             <v-select
               v-if="products"
-              id="input__5"
               label="displayName"
               :options="products"
               :placeholder="$t('trade.form.fields.products_placeholder')"
@@ -110,7 +109,6 @@
               ref="prod"
               :clearable="false" />
           </label>
-
           <CButton
             color="primary"
             shape="square"

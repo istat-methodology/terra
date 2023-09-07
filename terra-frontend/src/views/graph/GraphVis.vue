@@ -57,6 +57,7 @@
       <CCardBody class="card-no-border"
         ><circle-spin v-if="this.spinner" class="circle-spin"></circle-spin>
         <network
+          aria-hidden="true"
           id="graph"
           class="network"
           ref="graph"

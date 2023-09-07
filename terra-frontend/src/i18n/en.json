@@ -17,6 +17,7 @@
     "footer": {
       "source": "Data source: "
     },
+    "delete": "Delete",
     "error": {
       "main": "Houston, we have a problem!",
       "txt": "Something is not working as expected...",
@@ -90,7 +91,8 @@
       "marker": "set to marker view",
       "feature": "set to feature view",
       "import": "view import data",
-      "export": "view export data"
+      "export": "view export data",
+      "shot": "screen shot map"
     },
     "modal": {
       "main": {
@@ -197,7 +199,6 @@
       "qqnorm": "Plot: QQ-Norm",
       "qqnormx": "Theoretical quantiles",
       "qqnormy": "Sample quantiles",
-
       "corr": "Plot: Autocorrelation"
     },
     "card": {
