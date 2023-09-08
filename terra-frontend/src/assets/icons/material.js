@@ -30,6 +30,8 @@ import EarthIcon from "icons/Earth.vue"
 import GraphqlIcon from "icons/Graphql.vue"
 import FlowerTulipIcon from "icons/FlowerTulip.vue"
 import InfoIcon from "icons/InformationOutline.vue"
+import cameraIcon from "icons/Camera.vue"
+import downloadIcon from "icons/Download.vue"
 
 Vue.component("chevron-right-icon", ChevronRightBoxIcon)
 Vue.component("home-icon", HomeIcon)
@@ -51,3 +53,5 @@ Vue.component("earth-icon", EarthIcon)
 Vue.component("graphql-icon", GraphqlIcon)
 Vue.component("flower-tulip-icon", FlowerTulipIcon)
 Vue.component("info-icon", InfoIcon)
+Vue.component("camera-icon", cameraIcon)
+Vue.component("download-icon", downloadIcon)

@@ -5,20 +5,6 @@
     </h1>
     <div class="col-sm-12 col-md-12">
       <div class="card card-map" :title="$t('sidebar.map')">
-        <!--CCardHeader>
-          <span class="card-title"></span>
-          <span class="btn-group float-right">
-            <CButton
-              color="link"
-              size="sm"
-              @click="helpOn(true)"
-              class="float-right"
-              tabindex="0"
-              >Info</CButton
-            >
-          </span>
-        </CCardHeader-->
-
         <CCardBody tabindex="-1">
           <l-map
             ref="map"
@@ -132,12 +118,11 @@
                   :title="$t('map.toolbar.shot')"
                   class="control-btn"
                   role="button"
-                  @click="shot('terra_mapseries')"
-                  @keydown="shot('terra_mapseries')"
+                  @click="shot(true, $event.code, 'terra_mapseries')"
+                  @keydown="shot(false, $event.code, 'terra_mapseries')"
                   tabindex="0"
-                  >S</a
-                >
-
+                  ><camera-icon alt="" class="icon-size"
+                /></a>
                 <exporter
                   filename="terra_mapseries"
                   iam="map"
@@ -487,15 +472,17 @@ export default {
         hidden: true // hide screen btn on map
       }).addTo(this.$refs.map.mapObject)
     },
-    shot(filename) {
-      this.simpleMapScreenshoter
-        .takeScreen("blob")
-        .then((blob) => {
-          saveAs(blob, filename + ".png")
-        })
-        .catch((e) => {
-          console.log(e.toString())
-        })
+    shot(mouse, e, filename) {
+      if (mouse == true || e == "Enter") {
+        this.simpleMapScreenshoter
+          .takeScreen("blob")
+          .then((blob) => {
+            saveAs(blob, filename + ".png")
+          })
+          .catch((e) => {
+            console.log(e.toString())
+          })
+      }
     }
   },
   created() {
@@ -559,5 +546,8 @@ export default {
 }
 .font-class {
   font-size: 1.4rem;
+}
+.icon-size {
+  font-size: 1.5em;
 }
 </style>

@@ -33,8 +33,8 @@
       v-if="iam == 'map'"
       @click="download('csv')"
       @keypress="download(item)"
-      ><strong>D</strong></a
-    >
+      ><download-icon alt="" class="icon-size"
+    /></a>
   </div>
 </template>
 
@@ -479,5 +479,8 @@ export default {
 }
 .dropdown-item:hover {
   cursor: pointer;
+}
+.icon-size {
+  font-size: 1.5em;
 }
 </style>
