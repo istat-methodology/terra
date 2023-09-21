@@ -7,29 +7,23 @@
           type="button"
           :aria-label="$t('common.exporter')"
           data-toggle="dropdown"
-          :aria-expanded="toggle ? 'true' : 'false'"
-          aria-haspopup="listbox"
+          :aria-expanded="toggle ? 'false' : 'true'"
           v-click-outside="dropdownClose"
-          @click="dropdownToggle"
-          tabindex="0">
+          @click="dropdownToggle">
           {{ $t("common.exporter") }}
         </button>
-        <ul
-          role="listbox"
-          :class="toggle ? 'dropdown-menu-show' : 'dropdown-menu-hide'">
-          <li>
-            <a
-              v-for="item in options"
-              :key="item"
-              :title="getTitle(item)"
-              class="dropdown-item"
-              @click="download(item)"
-              @keypress="download(item)"
-              tabindex="0">
-              {{ item }}
-            </a>
-          </li>
-        </ul>
+        <span :class="toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show'">
+          <a
+            v-for="item in options"
+            :key="item"
+            :title="getTitle(item)"
+            class="dropdown-item"
+            @click="download(item)"
+            @keypress="download(item)"
+            tabindex="0"
+            >{{ item }}</a
+          >
+        </span>
       </div>
     </span>
     <a
@@ -39,8 +33,8 @@
       v-if="iam == 'map'"
       @click="download('csv')"
       @keypress="download(item)"
-      ><download-icon alt="" class="icon-size"
-    /></a>
+      ><strong>D</strong></a
+    >
   </div>
 </template>
 
@@ -118,7 +112,7 @@ export default {
     }
   },
   data: () => ({
-    toggle: false
+    toggle: true
   }),
   methods: {
     getTitle(typeformat) {

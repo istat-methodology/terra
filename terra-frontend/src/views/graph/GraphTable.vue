@@ -1,5 +1,5 @@
 <template>
-  <CDataTable
+  <!--CDataTable
     id="metricsTable"
     v-if="data"
     :items="data"
@@ -8,6 +8,14 @@
     column-filter
     :items-per-page="10"
     sorter
+    hover
+    pagination-->
+  <CDataTable
+    id="metricsTable"
+    v-if="data"
+    :items="data"
+    :fields="fields"
+    :items-per-page="10"
     hover
     pagination>
     <template #label="{ item }">

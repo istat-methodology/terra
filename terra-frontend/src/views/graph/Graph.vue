@@ -32,7 +32,13 @@
           aria-controls="metricstable">
           <CCard :title="$t('graph.table.title')" id="metricstable">
             <CCardHeader>
-              <span class="card-title" :title="title">{{ title }}</span>
+              <span
+                class="card-title"
+                :title="title"
+                role="heading"
+                aria-level="2"
+                >{{ title }}</span
+              >
               <span class="btn-group float-right">
                 <exporter
                   filename="terra_metrics"
@@ -40,16 +46,9 @@
                   :options="['csv']"
                   :filter="getSearchFilter()"
                   source="table"
-                  :header="csvHeader">
+                  :header="csvHeader"
+                  :pToggle="true">
                 </exporter>
-                <!--CButton
-                    color="link"
-                    @click="showMainModal"
-                    class="float-right"
-                    title="Info"
-                    tabindex="0"
-                    >Info</CButton
-                  -->
               </span>
             </CCardHeader>
             <CCardBody class="pb-1">
@@ -66,15 +65,6 @@
       <CCard class="card-filter" :title="$t('graph.form.title')">
         <CCardHeader role="heading" aria-level="2">
           <span class="card-title">{{ $t("graph.form.title") }}</span>
-          <!--span class="btn-help">
-              <CButton
-                color="link"
-                @click="showInfoModal"
-                title="Info"
-                tabindex="0"
-                >Info</CButton
-              >
-            </span-->
         </CCardHeader>
         <CCardBody>
           <label
@@ -109,7 +99,6 @@
               </label>
             </div>
           </label>
-
           <label
             class="card-label mt-3 col-12"
             id="input__1"
@@ -193,7 +182,6 @@
               }"
               :clearable="false" />
           </label>
-
           <div class="col-12">
             <CButton
               color="primary"
@@ -574,6 +562,7 @@ export default {
     this.fixHeaderTableForAccessibility()
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
+    //this.toggle = false
   }
 }
 </script>

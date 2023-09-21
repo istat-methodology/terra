@@ -14,8 +14,7 @@
             :data="getData(csvTable, 'table')"
             :options="['csv']"
             source="table"
-            :header="csvHeader"
-            tabindex="0">
+            :header="csvHeader">
           </exporter>
         </span>
       </template>
