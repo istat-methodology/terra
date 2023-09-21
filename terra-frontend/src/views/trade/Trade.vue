@@ -31,6 +31,7 @@
         <CCardBody>
           <circle-spin v-if="!this.chartData" class="circle-spin"></circle-spin>
           <line-chart
+            aria-hidden="true"
             :chartData="chartData"
             :options="options"
             :height="600"

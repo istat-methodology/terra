@@ -5,10 +5,10 @@
         <div class="card-body p-4">
           <div class="p-4">
             <p style="line-height: normal">
-              <b
+              <strong
                 ><span role="heading" aria-level="1" class="font_style_24">{{
                   $t("privacy.title_1")
-                }}</span></b
+                }}</span></strong
               >
             </p>
 
@@ -19,10 +19,10 @@
             </p>
 
             <p style="line-height: normal">
-              <b
+              <strong
                 ><span role="heading" aria-level="2" class="font_style_18">{{
                   $t("privacy.title_2")
-                }}</span></b
+                }}</span></strong
               >
             </p>
 
@@ -38,10 +38,10 @@
             </p>
 
             <p style="line-height: normal">
-              <b
+              <strong
                 ><span role="heading" aria-level="2" class="font_style_18">{{
                   $t("privacy.title_3")
-                }}</span></b
+                }}</span></strong
               >
             </p>
 
@@ -55,10 +55,10 @@
             </p>
 
             <p style="line-height: normal">
-              <b
+              <strong
                 ><span role="heading" aria-level="2" class="font_style_18">{{
                   $t("privacy.title_4")
-                }}</span></b
+                }}</span></strong
               >
             </p>
 
@@ -67,10 +67,10 @@
             </p>
 
             <p style="line-height: normal">
-              <b
+              <strong
                 ><span role="heading" aria-level="2" class="font_style_18">{{
                   $t("privacy.title_5")
-                }}</span></b
+                }}</span></strong
               >
             </p>
 
@@ -112,10 +112,10 @@
             </p>
 
             <p style="line-height: normal">
-              <b
+              <strong
                 ><span role="heading" aria-level="3" class="font_style_12">{{
                   $t("privacy.paragraph_5g")
-                }}</span></b
+                }}</span></strong
               ><span class="font_style_12"
                 ><br />
                 {{ $t("privacy.paragraph_5h") }}
@@ -129,10 +129,10 @@
             </p>
 
             <p style="line-height: normal">
-              <b
+              <strong
                 ><span role="heading" aria-level="2" class="font_style_18">{{
                   $t("privacy.title_6")
-                }}</span></b
+                }}</span></strong
               >
             </p>
 
@@ -161,10 +161,10 @@
             </ul>
 
             <p style="line-height: normal">
-              <b
+              <strong
                 ><span role="heading" aria-level="2" class="font_style_18">{{
                   $t("privacy.title_7")
-                }}</span></b
+                }}</span></strong
               >
             </p>
 

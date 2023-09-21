@@ -1,5 +1,5 @@
 <template>
-  <CFooter :fixed="false" tabindex="-1" role="contentinfo">
+  <CFooter :fixed="false" tabindex="-1">
     <span class="ml-3 float-left">
       <a
         class="d-inline"
@@ -7,7 +7,8 @@
         target="_blank"
         tabindex="0"
         title="EUROSTAT COMEXT"
-        >EUROSTAT COMEXT</a
+        :aria_label="$t('footer.opens_goto_eurostat')">
+        EUROSTAT COMEXT</a
       >
     </span>
     <span class="ml-auto float-center">
@@ -25,7 +26,8 @@
         @keypress="handlePrivacy()"
         tabindex="0"
         :title="$t('footer.link_accessibility')"
-        >{{ $t("footer.link_accessibility") }}</a
+        :aria_label="$t('footer.opens_goto_accessibility')">
+        {{ $t("footer.link_accessibility") }}</a
       >
     </span>
     <span class="ml-auto mr-3 float-right">

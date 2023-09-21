@@ -16,7 +16,10 @@
             @ready="setMapScreenShooter()"
             @click="closeInfo()"
             tabindex="-1">
-            <l-tile-layer :url="url" :attribution="attribution" />
+            <l-tile-layer
+              :url="url"
+              :attribution="attribution"
+              aria-hidden="true" />
             <l-geo-json
               aria-hidden="true"
               v-if="geoJson"
@@ -54,7 +57,7 @@
               </l-tooltip>
             </l-circle-marker>
 
-            <l-control position="topright" tabindex="-1">
+            <l-control position="topright" tabindex="-1" aria-hidden="true">
               <div id="Legend" class="legend"></div>
               <div class="legend-title">
                 {{
@@ -339,7 +342,7 @@ export default {
               "%" +
               "</span>" +
               " </div>",
-            { permanent: false, sticky: true }
+            { permanent: false, sticky: false }
           )
           layer.on({
             mouseover: this.mouseover,
@@ -458,6 +461,15 @@ export default {
         })
       }, 300)
     },
+    fixMapAccessibility() {
+      setTimeout(() => {
+        document
+          .querySelectorAll(".leaflet-pane.leaflet-map-pane")
+          .forEach((element) => {
+            element.setAttribute("aria-hidden", "true")
+          })
+      }, 300)
+    },
     fixHeaderTableForAccessibility() {
       setTimeout(() => {
         document.querySelectorAll("li.a.nav-link").forEach((element) => {
@@ -488,6 +500,7 @@ export default {
   created() {
     this.loadData()
     this.fixSliderAccessibility()
+    this.fixMapAccessibility()
   }
 }
 </script>
@@ -549,5 +562,8 @@ export default {
 }
 .icon-size {
   font-size: 1.5em;
+}
+.vue-slider-mark-label .vue-slider-mark-label-active {
+  color: #000 !important;
 }
 </style>

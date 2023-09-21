@@ -16,7 +16,6 @@
     "std": "Deviazione standard",
     "footer": {
       "source": "Fonte dati: "
-      
     },
     "delete": "Elimina",
     "error": {
@@ -25,10 +24,11 @@
       "error": "Messaggio di errore",
       "goHome": "Torna alla pagina Home"
     },
-    "select_language": "Seleziona la lingua",
+    "select_language": "Seleziona lingua: ",
     "language_it": "Italiano",
     "language_en": "Inglese",
-    "clear_selected": "Deseleziona"
+    "clear_selected": "Deseleziona",
+    "select_filter": "Seleziona "
   },
   "header": {
     "userguide": "Manuale utente",
@@ -47,7 +47,13 @@
     "timeseries": "Serie storiche",
     "trade": "Paniere dei prodotti",
     "logo_istat": "Logo Istat",
-    "goto_istat": "vai a www.istat.it"
+    "goto_istat": "Vai a www.istat.it",
+    "opens_goto_istat": "Si apre in un'altra finestra: ISTAT"
+  },
+  "footer": {
+    "link_accessibility": "Accessibilità",
+    "opens_goto_eurostat": "Si apre in un'altra finestra: EUROSTAT COMEXT",
+    "opens_goto_accessibility": "Si apre in un'altra finestra:  Accessibilità"
   },
   "landing": {
     "disclaimer": "*Le classificazioni Eurostat CPA 2.1 e NSTR possono differire dalle corrispondenti versioni nazionali",
@@ -282,8 +288,5 @@
     "paragraph_1": "[Errore] Attenzione, si è verificato un errore ",
     "paragraph_2": "[Error] messaggio d'errore ",
     "paragraph_3": "Attenzione, si è verificato un errore  "
-  },
-  "footer": {
-    "link_accessibility": "Accessibilità"
   }
 }

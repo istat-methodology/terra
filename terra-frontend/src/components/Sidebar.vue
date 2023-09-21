@@ -18,7 +18,9 @@
         href="https://www.istat.it/it/"
         target="_blank"
         tabindex="0"
-        :title="$t('sidebar.goto_istat')">
+        :title="$t('sidebar.goto_istat')"
+        :aria-current="$t('sidebar.goto_istat')"
+        :aria_label="$t('sidebar.opens_goto_istat')">
         <CImg
           src="../img/LogoIstatCompleto.png"
           style="max-width: 100%"
@@ -33,7 +35,8 @@
           class="c-sidebar-nav-link"
           :class="{ 'c-active': isHome }"
           tabindex="0"
-          :title="$t('sidebar.home')">
+          :title="$t('sidebar.home')"
+          :aria-current="$t('sidebar.home')">
           <CIcon
             name="cil-home"
             class="c-sidebar-nav-icon"
@@ -51,7 +54,8 @@
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-primary': isMap }"
           tabindex="0"
-          :title="$t('sidebar.map')">
+          :title="$t('sidebar.map')"
+          :aria-current="$t('sidebar.map')">
           <CIcon
             name="cil-location-pin"
             class="c-sidebar-nav-icon"
@@ -67,6 +71,7 @@
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraph }"
           :title="$t('sidebar.graphExtra')"
+          :aria-current="$t('sidebar.graphExtra')"
           tabindex="0">
           <CIcon
             name="cil-graph"
@@ -82,6 +87,7 @@
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraphIntra }"
           :title="$t('sidebar.graphWorld')"
+          :aria-current="$t('sidebar.graphWorld')"
           tabindex="0">
           <CIcon
             name="cil-graph"
@@ -97,6 +103,7 @@
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-warning': isPolicy }"
           :title="$t('sidebar.timeseries')"
+          :aria-current="$t('sidebar.timeseries')"
           tabindex="0">
           <CIcon
             name="cil-chart-line"
@@ -113,6 +120,7 @@
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-danger': isTrade }"
           :title="$t('sidebar.trade')"
+          :aria-current="$t('sidebar.trade')"
           tabindex="0">
           <CIcon
             name="cil-layers"
@@ -217,7 +225,6 @@ a:hover {
 .c-sidebar .c-sidebar-nav-link .c-sidebar-nav-icon {
   color: white;
 }
-
 a.sr-only.sr-only-focusable {
   color: white;
 }

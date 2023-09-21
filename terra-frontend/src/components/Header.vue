@@ -1,11 +1,13 @@
 <template>
-  <CHeader with-subheader light tabindex="0">
+  <CHeader with-subheader light>
     <CToggler
       in-header
       class="ml-3 d-lg-none"
-      @click="$store.dispatch('coreui/toggleSidebarMobile')"
-      @keypress="$store.dispatch('coreui/toggleSidebarMobile')"
-      :aria-label="$t('header.toggler')"
+      @click="handleSidebarMobile"
+      @keypress="handleSidebarMobile"
+      :aria-label="
+        sidebarShow === false ? $t('header.toggler') : $t('header.no_toggler')
+      "
       :title="
         sidebarShow === false ? $t('header.toggler') : $t('header.no_toggler')
       "
@@ -13,9 +15,11 @@
     <CToggler
       in-header
       class="ml-3 d-md-down-none"
-      @click="$store.dispatch('coreui/toggleSidebarDesktop')"
-      @keypress="$store.dispatch('coreui/toggleSidebarDesktop')"
-      :aria-label="$t('header.no_toggler')"
+      @click="handleSidebarDesktop"
+      @keypress="handleSidebarDesktop"
+      :aria-label="
+        sidebarShow === false ? $t('header.toggler') : $t('header.no_toggler')
+      "
       :title="
         sidebarShow === false ? $t('header.toggler') : $t('header.no_toggler')
       "
@@ -60,10 +64,7 @@
           :title="$t('header.logo_statistica_sp')"
           :aria-label="$t('header.logo_statistica_sp')"
           tabindex="0" />
-        <CButtonGroup
-          role="group"
-          class="mr-lang"
-          aria-label="$t('common.select_language')">
+        <CButtonGroup role="group" class="mr-lang">
           <CButton
             color="primary"
             variant="ghost"
@@ -78,8 +79,10 @@
               selectLanguage('it')
               fixHeaderTableForAccessibility()
             "
-            :aria-label="$t('common.language_it')"
-            :title="$t('common.language_it')"
+            :aria-label="
+              $t('common.select_language') + $t('common.language_it')
+            "
+            :title="$t('common.select_language') + $t('common.language_it')"
             tabindex="0"
             >IT</CButton
           >
@@ -97,8 +100,10 @@
               selectLanguage('en')
               fixHeaderTableForAccessibility()
             "
-            :aria-label="$t('common.language_en')"
-            :title="$t('common.language_en')"
+            :aria-label="
+              $t('common.select_language') + $t('common.language_en')
+            "
+            :title="$t('common.select_language') + $t('common.language_en')"
             tabindex="0"
             >EN</CButton
           >
@@ -142,6 +147,12 @@ export default {
           element.setAttribute("aria-label", element.innerText)
         })
       }, 300)
+    },
+    handleSidebarDesktop() {
+      this.$store.dispatch("coreui/toggleSidebarDesktop")
+    },
+    handleSidebarMobile() {
+      this.$store.dispatch("coreui/toggleSidebarMobile")
     }
   },
   created() {
@@ -218,5 +229,22 @@ export default {
   color: #321fdb;
   text-decoration: underline;
   text-decoration-color: #321fdb;
+}
+.c-header .c-header-toggler {
+  margin-top: 15px;
+  margin-right: 5px;
+  padding: 5px;
+  max-height: 40px;
+  max-width: 40px;
+  border-radius: 0.2rem;
+}
+.c-header .c-header-toggler:focus {
+  box-shadow: 0 0 0 0.2rem rgba(81, 65, 224, 0.5);
+  margin-top: 15px;
+  margin-right: 5px;
+  padding: 5px;
+  max-height: 40px;
+  max-width: 40px;
+  border-radius: 0.2rem;
 }
 </style>

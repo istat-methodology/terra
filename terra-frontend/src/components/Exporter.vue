@@ -7,23 +7,28 @@
           type="button"
           :aria-label="$t('common.exporter')"
           data-toggle="dropdown"
-          aria-expanded="false"
+          :aria-expanded="!toggle"
+          aria-haspopup="listbox"
           v-click-outside="dropdownClose"
           @click="dropdownToggle">
           {{ $t("common.exporter") }}
         </button>
-        <span :class="toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show'">
-          <a
-            v-for="item in options"
-            :key="item"
-            :title="getTitle(item)"
-            class="dropdown-item"
-            @click="download(item)"
-            @keypress="download(item)"
-            tabindex="0"
-            >{{ item }}</a
-          >
-        </span>
+        <ul
+          role="listbox"
+          :class="toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show'">
+          <li>
+            <a
+              v-for="item in options"
+              :key="item"
+              :title="getTitle(item)"
+              class="dropdown-item"
+              @click="download(item)"
+              @keypress="download(item)"
+              tabindex="0">
+              {{ item }}
+            </a>
+          </li>
+        </ul>
       </div>
     </span>
     <a

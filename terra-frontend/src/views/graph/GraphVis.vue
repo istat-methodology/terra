@@ -2,7 +2,9 @@
   <div>
     <CCard class="card-graph" :title="title">
       <CCardHeader>
-        <span class="card-title">{{ title }}</span>
+        <span class="card-title" role="heading" aria-level="2">{{
+          title
+        }}</span>
         <span class="btn-group float-right">
           <exporter
             filename="terra_graph_analysis"

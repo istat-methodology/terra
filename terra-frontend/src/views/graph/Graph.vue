@@ -1,11 +1,15 @@
 <template>
   <div class="row">
     <div class="col-sm-6 col-md-9">
-      <CTabs class="ctablist" variant="tabs" :active-tab="0">
-        <CTab :title="$t('graph.card.title')">
+      <CTabs class="ctablist" variant="tabs" :active-tab="0" role="tablist">
+        <CTab
+          :title="$t('graph.card.title')"
+          role="tab"
+          aria-controls="cosmograph">
           <h1 class="sr-only">{{ $t("graph.card.title") }}</h1>
           <cosmo-graph
             :title="$t('graph.card.title')"
+            id="cosmograph"
             ref="cosmograph"
             :nodes="nodes"
             :edges="edges"
@@ -22,9 +26,12 @@
               @change="handleTimeChange" />
           </cosmo-graph>
         </CTab>
-        <CTab :title="$t('graph.table.title')">
+        <CTab
+          :title="$t('graph.table.title')"
+          role="tab"
+          aria-controls="metricstable">
           <h1 class="sr-only">{{ $t("graph.table.title") }}</h1>
-          <CCard :title="$t('graph.table.title')">
+          <CCard :title="$t('graph.table.title')" id="metricstable">
             <CCardHeader>
               <span class="card-title" :title="title">{{ title }}</span>
               <span class="btn-group float-right">
@@ -58,7 +65,7 @@
     </div>
     <div class="col-sm-6 col-md-3 padding-tab">
       <CCard class="card-filter" :title="$t('graph.form.title')">
-        <CCardHeader>
+        <CCardHeader role="heading" aria-level="2">
           <span class="card-title">{{ $t("graph.form.title") }}</span>
           <!--span class="btn-help">
               <CButton
@@ -516,20 +523,6 @@ export default {
         })
       }, 300)
     },
-    fixTabsAccessibility() {
-      setTimeout(() => {
-        document.querySelectorAll(".nav-tabs").forEach((element) => {
-          element.setAttribute("aria-busy", "true")
-        })
-      }, 300)
-    },
-    fixTabListAccessibility() {
-      setTimeout(() => {
-        document.querySelectorAll(".ctablist").forEach((element) => {
-          element.setAttribute("aria-busy", "true")
-        })
-      }, 300)
-    },
     fixLabelForSelectAccessibility() {
       setTimeout(() => {
         document.querySelectorAll(".vs__search").forEach((element, index) => {
@@ -561,16 +554,22 @@ export default {
     },
     setFocusOn() {
       document.getElementById("vs1__combobox").focus()
+    },
+    fixSelectAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vs__dropdown-toggle").forEach((element) => {
+          element.setAttribute("aria-label", this.$t("common.select_filter"))
+        })
+      }, 300)
     }
   },
   created() {
     this.loadData()
     this.fixSliderAccessibility()
-    this.fixTabsAccessibility()
-    this.fixTabListAccessibility()
     this.fixLabelForSelectAccessibility()
     this.fixHeaderTableForAccessibility()
     this.fixLanguageAccessibility()
+    this.fixSelectAccessibility()
   }
 }
 </script>
@@ -579,7 +578,6 @@ export default {
 .padding-tab {
   padding-top: 45px;
 }
-
 label.radio {
   margin-right: 20px;
   margin-bottom: 10px;
@@ -589,5 +587,8 @@ label {
 }
 span {
   padding-left: 5px;
+}
+.vue-slider-mark-label .vue-slider-mark-label-active {
+  color: #000 !important;
 }
 </style>
