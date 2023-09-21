@@ -144,7 +144,7 @@
       }
     },
     "scenario": {
-      "main": "Trade relazions for {country}",
+      "main": "Trade relations for {country}",
       "mainEdge": "Trade relations",
       "title_extra_edge": "Do you want to modify the transports for this flow?",
       "title_extra_node": "Do you want to modify the transports in the flows of the selected country?",
@@ -259,6 +259,7 @@
     }
   },
   "privacy": {
+    "title":"Privacy",
     "title_1": "Privacy and protection of personal data",
     "paragraph_1": "The information contained in this page is provided in accordance with the art. 13 of Regulation (EU) 2016/679 (hereinafter Regulation) and have the purpose of describing the methods of processing the personal data of users who consult the sites belonging to the domain “terra.istat.it”. The following information does not concern other sites, pages or online services accessible through hypertext links published on the site but referring to resources outside the ‘terra.istat.it’ domain.",
     "title_2": "Holder of the treatment",

@@ -7,7 +7,7 @@
           type="button"
           :aria-label="$t('common.exporter')"
           data-toggle="dropdown"
-          :aria-expanded="!toggle"
+          :aria-expanded="toggle ? 'true' : 'false'"
           aria-haspopup="listbox"
           v-click-outside="dropdownClose"
           @click="dropdownToggle"
@@ -16,7 +16,7 @@
         </button>
         <ul
           role="listbox"
-          :class="toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show'">
+          :class="toggle ? 'dropdown-menu-show' : 'dropdown-menu-hide'">
           <li>
             <a
               v-for="item in options"
@@ -118,7 +118,7 @@ export default {
     }
   },
   data: () => ({
-    toggle: true
+    toggle: false
   }),
   methods: {
     getTitle(typeformat) {

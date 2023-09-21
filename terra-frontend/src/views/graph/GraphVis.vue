@@ -139,6 +139,7 @@ export default {
       return this.metrics ? this.metrics.density.toPrecision(4) : 0
     }
   },
+
   props: {
     isIntra: {
       type: Boolean,

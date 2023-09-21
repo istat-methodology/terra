@@ -60,29 +60,29 @@
     "map": {
       "title": "Mappa Interattiva",
       "body": "Questa sezione fornisce una mappa che mostra per ogni paese la <strong>popolazione totale</strong>, alcuni <strong>indicatori macroeconomici</strong>, i principali <strong>prodotti importati ed esportati </strong>e i principali <strong>paesi partner commerciali</strong>.<br><br>Inoltre, viene fornita una funzionalità <strong>time-lapse</strong> per rappresentare le variazioni mensili tendenziali del commercio internazionale per gli ultimi tre anni.",
-      "link": "Vai alla sezione Mappa interattiva"
+      "link": "Vai alla Mappa interattiva"
     },
     "graph": {
       "extra-ue": {
         "title": "Grafi UE - Extra UE",
         "body": "Questa sezione visualizza grafi che rappresentano il <strong>commercio internazionale per prodotto (classificazione NSTR) e modalità di trasporto da fonte COMEXT</strong>, insieme alle <strong>misure globali e locali pertinenti</strong> che descrivono in dettaglio la struttura delle relazioni commerciali tra i paesi UE quelli dell’area Extra-UE. Il pannello è interattivo e offre la possibilità di applicare diversi filtri e di vedere come la struttura del grafico e le misure cambiano di conseguenza.<br>Inoltre viene fornita un'animazione che mostra l'<strong>evoluzione del grafico del commercio internazionale nel tempo</strong>.",
-        "link": "Vai alla sezione Grafi UE - Extra UE"
+        "link": "Vai ai Grafi UE - Extra UE"
       },
       "intra-ue": {
         "title": "Grafi UE - Mondo",
         "body": "Questa sezione visualizza grafi che rappresentano il <strong>commercio internazionale per prodotto (classificazione CPA 2.1 a 3 cifre) da fonte COMEXT</strong>, insieme alle <strong>misure globali e locali pertinenti</strong> che descrivono in dettaglio la struttura delle relazioni commerciali dai paesi UE verso/da ogni paese partner commerciale. Il pannello è interattivo e offre la possibilità di applicare diversi filtri e di vedere come la struttura del grafico e le misure cambiano di conseguenza.<br>Inoltre viene fornita un'animazione che mostra l'<strong>evoluzione del grafico del commercio internazionale nel tempo</strong>.",
-        "link": "Vai alla sezione Grafi UE - Mondo"
+        "link": "Vai ai Grafi UE - Mondo"
       }
     },
     "timeseries": {
       "title": "Serie storiche",
       "body": "<strong>Strumento di visualizzazione</strong> delle serie <strong>mensili</strong> di dati sul commercio estero <strong>COMEXT</strong>. Questa sezione consente una lettura facile e comprensibile nonostante la mole di dati sottostanti. Utile come strumento di divulgazione. Le serie sono fornite in valore ed il <strong>download è disponibile</strong> in vari formati.",
-      "link": "Vai alla sezione Serie storiche"
+      "link": "Vai alle Serie storiche"
     },
     "trade": {
       "title": "Paniere dei prodotti",
       "body": "Questa sezione fornisce, per ciascuno Stato membro, le <strong>serie storiche mensili delle quote di composizione del paniere delle merci esportate e importate</strong>, classificate secondo le CPA 2.1 a 2 cifre, insieme alle relative variazioni tendenziali.",
-      "link": "Vai alla sezione Paniere dei prodotti"
+      "link": "Vai al Paniere dei prodotti"
     }
   },
   "map": {
@@ -258,6 +258,7 @@
     }
   },
   "privacy": {
+    "title":"Privacy",
     "title_1": "Privacy e trattamento dei dati personali",
     "paragraph_1": "Le informazioni contenute nella presente pagina sono rese ai sensi dell’art. 13 del Regolamento (UE) 2016/679 (di seguito Regolamento) e hanno l’obiettivo di descrivere le modalità di trattamento dei dati personali degli utenti che consultano il sito ‘terra.istat.it’. Le informazioni che seguono non riguardano altri siti, pagine o servizi online raggiungibili tramite link ipertestuali pubblicati in questo sito, ma riferiti a risorse esterne al sito in questione.",
     "title_2": "Titolare del trattamento",

@@ -34,7 +34,7 @@
           :alt="$t('header.logo_terra')"
           :title="$t('header.logo_terra')"
           :aria-label="$t('header.logo_terra')"
-          tabindex="0" />
+          tabindex="-1" />
         <CImg
           src="../img/LogoTerraShort.png"
           style="max-width: 80%"
@@ -42,7 +42,7 @@
           :alt="$t('header.logo_terra')"
           :title="$t('header.logo_terra')"
           :aria-label="$t('header.logo_terra')"
-          tabindex="0" />
+          tabindex="-1" />
       </CHeaderNavItem>
     </CHeaderNav>
 
@@ -55,7 +55,7 @@
           :alt="$t('header.logo_statistica_sp')"
           :title="$t('header.logo_statistica_sp')"
           :aria-label="$t('header.logo_statistica_sp')"
-          tabindex="0" />
+          tabindex="-1" />
         <CImg
           src="../img/LogoSTSP.png"
           style="max-width: 50%"

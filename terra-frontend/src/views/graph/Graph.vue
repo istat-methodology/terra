@@ -1,12 +1,12 @@
 <template>
   <div class="row">
+    <h1 class="sr-only">{{ pageTitle }}</h1>
     <div class="col-sm-6 col-md-9">
       <CTabs class="ctablist" variant="tabs" :active-tab="0" role="tablist">
         <CTab
           :title="$t('graph.card.title')"
           role="tab"
           aria-controls="cosmograph">
-          <h1 class="sr-only">{{ $t("graph.card.title") }}</h1>
           <cosmo-graph
             :title="$t('graph.card.title')"
             id="cosmograph"
@@ -30,7 +30,6 @@
           :title="$t('graph.table.title')"
           role="tab"
           aria-controls="metricstable">
-          <h1 class="sr-only">{{ $t("graph.table.title") }}</h1>
           <CCard :title="$t('graph.table.title')" id="metricstable">
             <CCardHeader>
               <span class="card-title" :title="title">{{ title }}</span>
@@ -330,6 +329,11 @@ export default {
     },
     csvHeader() {
       return this.metricsFields.map((field) => field.label)
+    },
+    pageTitle() {
+      return this.isIntra
+        ? this.$t("landing.graph.intra-ue.title")
+        : this.$t("landing.graph.extra-ue.title")
     }
   },
   validations: {

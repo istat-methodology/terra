@@ -1,5 +1,6 @@
 <template>
   <div class="row">
+    <h1 class="sr-only">{{ $t("privacy.title") }}</h1>
     <div class="col-sm-12 col-md-12" title="Privacy">
       <div class="card p-4">
         <div class="card-body p-4">

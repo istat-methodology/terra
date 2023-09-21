@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <h1 class="sr-only">{{ $t("trade.card.title") + title }}</h1>
+    <h1 class="sr-only">{{ $t("landing.trade.title") }}</h1>
     <div class="col-sm-6 col-md-9">
       <CCard :title="$t('trade.card.title') + title">
         <CCardHeader>
