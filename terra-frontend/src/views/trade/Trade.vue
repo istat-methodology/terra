@@ -369,12 +369,20 @@ export default {
           element.setAttribute("aria-label", this.$t("common.clear_selected"))
         })
       }, 300)
+    },
+    fixSelectAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vs__dropdown-toggle").forEach((element) => {
+          element.setAttribute("aria-label", this.$t("common.select_filter"))
+        })
+      }, 300)
     }
   },
   created() {
     this.loadData()
     this.fixLabelAccessibility()
     this.fixLanguageAccessibility()
+    this.fixSelectAccessibility()
   }
 }
 </script>

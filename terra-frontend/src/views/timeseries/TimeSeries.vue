@@ -505,6 +505,13 @@ export default {
         })
       }, 300)
     },
+    fixSelectAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vs__dropdown-toggle").forEach((element) => {
+          element.setAttribute("aria-label", this.$t("common.select_filter"))
+        })
+      }, 300)
+    },
     spinnerStart(bool) {
       this.spinner = bool
     },
@@ -516,6 +523,7 @@ export default {
     this.loadData()
     this.fixLabelAccessibility()
     this.fixLanguageAccessibility()
+    this.fixSelectAccessibility()
   }
 }
 </script>
