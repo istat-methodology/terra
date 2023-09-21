@@ -10,7 +10,8 @@
           :aria-expanded="!toggle"
           aria-haspopup="listbox"
           v-click-outside="dropdownClose"
-          @click="dropdownToggle">
+          @click="dropdownToggle"
+          tabindex="0">
           {{ $t("common.exporter") }}
         </button>
         <ul

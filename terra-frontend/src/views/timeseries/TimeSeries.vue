@@ -16,7 +16,7 @@
             : $t('timeseries.card.title') + ' - ' + $t('timeseries.card.comext')
         ">
         <CCardHeader>
-          <span class="card-title">
+          <span class="card-title" role="heading" aria-level="2">
             <span v-if="country && partner"
               >{{ $t("timeseries.card.title") }}: {{ country.name }} -
               {{ partner.descr }}</span
@@ -35,13 +35,6 @@
               :options="['jpeg', 'png', 'pdf', 'csv']"
               source="table">
             </exporter>
-            <!--CButton
-              color="link"
-              @click="helpOn(true)"
-              class="float-right"
-              title="Info"
-              >Info</CButton
-            -->
           </span>
         </CCardHeader>
         <CCardBody v-if="isMainChart">
@@ -111,7 +104,7 @@
     <div class="col-sm-6 col-md-3">
       <CCard class="card-filter" :title="$t('timeseries.form.title')">
         <CCardHeader>
-          <span class="card-filter-title">{{
+          <span class="card-filter-title" role="heading" aria-level="2">{{
             $t("timeseries.form.title")
           }}</span>
         </CCardHeader>

@@ -4,13 +4,12 @@
     <div class="col-sm-6 col-md-9">
       <CCard :title="$t('trade.card.title') + title">
         <CCardHeader>
-          <span class="card-title">
+          <span class="card-title" role="heading" aria-level="2">
             {{ $t("trade.card.title") }} {{ title }}
           </span>
           <span class="btn-group float-right">
             <exporter
               v-if="this.charts && this.tradePeriod"
-              tabindex="0"
               filename="terra_basket"
               :data="getData(this.charts.data, 'trade')"
               :filter="getSearchFilter()"
@@ -43,7 +42,9 @@
     <div class="col-sm-6 col-md-3">
       <CCard class="card-filter" :title="$t('trade.form.title')">
         <CCardHeader>
-          <span class="card-filter-title">{{ $t("trade.form.title") }} </span>
+          <span class="card-filter-title" role="heading" aria-level="2"
+            >{{ $t("trade.form.title") }}
+          </span>
         </CCardHeader>
         <CCardBody>
           <label
