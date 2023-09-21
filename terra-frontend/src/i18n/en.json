@@ -61,29 +61,29 @@
     "map": {
       "title": "Interactive map",
       "body": "This section provides a map displaying for each country the <strong>total population</strong>, <strong>some macro-economic indicators</strong>, main <strong>imported and exported goods</strong> ,and main <strong>trade partner countries</strong>. <br><br>Moreover, a <strong>time-lapse</strong> functionality to represent the international trade year-on-year monthly variations for the last three years is provided.",
-      "link": "Go to Interactive map section"
+      "link": "Go to Interactive map"
     },
     "graph": {
       "extra-ue": {
-        "title": "Graph analysis UE - Extra UE",
+        "title": "Graph UE - Extra UE",
         "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT transport data (NSTR classification)</strong>, along with relevant global and local measures detailing the structure of relations between UE and Extra UE countries. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
-        "link": "Go to Graph analisys UE - Extra UE section"
+        "link": "Go to Graph UE - Extra UE"
       },
       "intra-ue": {
-        "title": "Graph analysis UE - World",
+        "title": "Graph UE - World",
         "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT data, with 3 digits CPA 2.1 product classification</strong>, along with relevant global and local measures detailing the structure of relations between UE countries and their economic partners. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
-        "link": "Go to Graph analisys UE - World section"
+        "link": "Go to Graph UE - World"
       }
     },
     "timeseries": {
       "title": "Time series",
       "body": "<strong>Visualization tool</strong> for <strong>monthly COMEXT</strong> foreign trade data. Despite the large amount of underlying data, it allows an easily understandable series reading. Time series are provided in euros and <strong>dowload is available</strong> in various formats.",
-      "link": "Go to Time series section"
+      "link": "Go to Time series"
     },
     "trade": {
       "title": "Basket of traded products",
       "body": "This section provides, for each Member State, the <strong>monthly time series of basket composition for exported and imported goods</strong>, classified according to 2 digits CPA 2.1, together with year-over-year changes.",
-      "link": "Go to Basket of traded products section"
+      "link": "Go to Basket of traded products"
     }
   },
   "map": {
@@ -160,10 +160,10 @@
       "graph_empty": "Warning: Graph empty \n Increase the treshold or change means of transport"
     },
     "table": {
-      "title": "Graph metrics"
+      "title": "Metrics"
     },
     "card": {
-      "title": "Graph analysis"
+      "title": "Graphs"
     },
     "modal": {
       "main": {

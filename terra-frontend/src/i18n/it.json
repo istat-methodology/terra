@@ -109,8 +109,8 @@
     }
   },
   "graph": {
-    "titleExtra": "Grafo: UE - Extra UE",
-    "titleIntra": "Grafo: UE - Mondo",
+    "titleExtra": "Grafi: UE - Extra UE",
+    "titleIntra": "Grafi: UE - Mondo",
     "metricExtra": "Metriche: UE - Extra UE",
     "metricIntra": "Metriche: UE - Mondo",
     "stats": {
@@ -162,7 +162,7 @@
       "title": "Metriche"
     },
     "card": {
-      "title": "Grafo"
+      "title": "Grafi"
     },
     "modal": {
       "main": {
