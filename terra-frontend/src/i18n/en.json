@@ -22,11 +22,13 @@
       "main": "Houston, we have a problem!",
       "txt": "Something is not working as expected...",
       "error": "Error message",
-      "goHome": "Go to home page"
+      "goHome": "Go to home page",
+      "error_field_required": "Error field is required",
+      "error_field_numeric": "Error field is numeric"
     },
-    "select_language": "Select language: ",
-    "language_it": "Italian",
-    "language_en": "English",
+    "select_language": "Seleziona la lingua: ",
+    "language_it": "Italiano",
+    "language_en": "Inglese",
     "clear_selected": "Clear Selected",
     "select_filter": "Search for Option "
   },

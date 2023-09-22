@@ -34,7 +34,7 @@
       <a
         class="d-inline"
         target="_blank"
-        href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf'"
+        href="https://istatcosmostorage.blob.core.windows.net/public/Terra_Manuale.pdf"
         tabindex="0"
         :title="$t('header.userguide')">
         {{ $t("header.userguide") }}

@@ -140,6 +140,18 @@
               :class="{
                 'is-invalid': $v.percentage.$error
               }" />
+            <div
+              :aria-errormessage="$t('common.error.error_field_required')"
+              class="error"
+              v-if="!$v.percentage.required">
+              {{ $t("common.error.error_field_required") }}
+            </div>
+            <div
+              :aria-errormessage="$t('common.error.error_field_numeric')"
+              class="error"
+              v-if="!$v.percentage.numeric">
+              {{ $t("common.error.error_field_numeric") }}
+            </div>
           </label>
           <label
             class="card-label mt-3 col-12"
