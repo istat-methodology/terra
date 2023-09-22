@@ -22,13 +22,20 @@
         v-if="nodesTable"
         :items="nodesTable"
         :fields="fields"
+        :items-per-page="5"
+        hover
+        pagination>
+        <!--CDataTable
+        v-if="nodesTable"
+        :items="nodesTable"
+        :fields="fields"
         column-filter
         :column-filter-value.sync="columnFilterValue"
         :items-per-page="5"
         :sorterValue="sorterValue"
         sorter
         hover
-        pagination>
+        pagination-->
         <!--
             source: field.source,
             destination: field.destination,
