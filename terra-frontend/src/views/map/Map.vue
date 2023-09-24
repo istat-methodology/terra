@@ -514,7 +514,8 @@ export default {
   created() {
     this.loadData()
     this.fixSliderAccessibility()
-    this.fixMapAccessibility(), this.fixASidebarMenu()
+    this.fixMapAccessibility()
+    this.fixASidebarMenu()
   }
 }
 </script>
