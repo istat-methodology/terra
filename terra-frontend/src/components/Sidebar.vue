@@ -19,7 +19,6 @@
         target="_blank"
         tabindex="0"
         :title="$t('sidebar.goto_istat')"
-        :aria-current="$t('sidebar.goto_istat')"
         :aria_label="$t('sidebar.opens_goto_istat')">
         <CImg
           src="../img/LogoIstatCompleto.png"
@@ -36,7 +35,7 @@
           :class="{ 'c-active': isHome }"
           tabindex="0"
           :title="$t('sidebar.home')"
-          :aria-current="$t('sidebar.home')">
+          :aria-current="'false'">
           <CIcon
             name="cil-home"
             class="c-sidebar-nav-icon"
@@ -55,7 +54,7 @@
           :class="{ 'c-active c-active-primary': isMap }"
           tabindex="0"
           :title="$t('sidebar.map')"
-          :aria-current="$t('sidebar.map')">
+          :aria-current="'false'">
           <CIcon
             name="cil-location-pin"
             class="c-sidebar-nav-icon"
@@ -71,7 +70,7 @@
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraph }"
           :title="$t('sidebar.graphExtra')"
-          :aria-current="$t('sidebar.graphExtra')"
+          :aria-current="'false'"
           tabindex="0">
           <CIcon
             name="cil-graph"
@@ -87,7 +86,7 @@
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-success': isGraphIntra }"
           :title="$t('sidebar.graphWorld')"
-          :aria-current="$t('sidebar.graphWorld')"
+          :aria-current="'false'"
           tabindex="0">
           <CIcon
             name="cil-graph"
@@ -120,7 +119,7 @@
           class="c-sidebar-nav-link"
           :class="{ 'c-active c-active-danger': isTrade }"
           :title="$t('sidebar.trade')"
-          :aria-current="$t('sidebar.trade')"
+          :aria-current="'false'"
           tabindex="0">
           <CIcon
             name="cil-layers"
@@ -131,12 +130,6 @@
         </a>
       </div>
       <div class="c-sidebar-nav-item">
-        <!--div
-          class="data-update"
-          :aria-label="$t('common.update') + lastLoadedData">
-          <CIcon name="cil-tags" title="Update" /> {{ $t("common.update") }}
-          {{ lastLoadedData }}
-        </div-->
         <div class="data-update" :title="$t('common.update') + lastLoadedData">
           <CIcon
             name="cil-tags"

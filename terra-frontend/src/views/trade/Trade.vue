@@ -377,6 +377,20 @@ export default {
           element.setAttribute("aria-label", this.$t("common.select_filter"))
         })
       }, 300)
+    },
+    fixASidebarMenu() {
+      setTimeout(() => {
+        document.querySelectorAll(".c-sidebar-nav-link").forEach((element) => {
+          element.setAttribute("aria-current", "false")
+        })
+      }, 300)
+      setTimeout(() => {
+        document
+          .querySelectorAll(".c-sidebar-nav-link.c-active")
+          .forEach((element) => {
+            element.setAttribute("aria-current", "page")
+          })
+      }, 300)
     }
   },
   created() {
@@ -384,6 +398,7 @@ export default {
     this.fixLabelAccessibility()
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
+    this.fixASidebarMenu()
   }
 }
 </script>

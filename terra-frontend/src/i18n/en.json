@@ -54,9 +54,9 @@
     "opens_goto_istat": "Opens in a new window: ISTAT"
   },
   "footer": {
-    "link_accessibility": "Accessibility",
+    "link_accessibility": "Accessibility statement",
     "opens_goto_eurostat": "Opens in a new window: EUROSTAT COMEXT",
-    "opens_goto_accessibility": "Opens in a new window: Accesibility"
+    "opens_goto_accessibility": "Opens in a new window: Accessibility statement"
   },
   "landing": {
     "disclaimer": "*Eurostat and National CPA 2.1 and NSTR classifications may differ",

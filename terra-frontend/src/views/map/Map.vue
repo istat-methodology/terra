@@ -495,12 +495,26 @@ export default {
             console.log(e.toString())
           })
       }
+    },
+    fixASidebarMenu() {
+      setTimeout(() => {
+        document.querySelectorAll(".c-sidebar-nav-link").forEach((element) => {
+          element.setAttribute("aria-current", "false")
+        })
+      }, 300)
+      setTimeout(() => {
+        document
+          .querySelectorAll(".c-sidebar-nav-link.c-active")
+          .forEach((element) => {
+            element.setAttribute("aria-current", "page")
+          })
+      }, 300)
     }
   },
   created() {
     this.loadData()
     this.fixSliderAccessibility()
-    this.fixMapAccessibility()
+    this.fixMapAccessibility(), this.fixASidebarMenu()
   }
 }
 </script>

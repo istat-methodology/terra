@@ -51,11 +51,12 @@
     "logo_istat": "Logo Istat",
     "goto_istat": "Vai a www.istat.it",
     "opens_goto_istat": "Si apre in un'altra finestra: ISTAT"
+    
   },
   "footer": {
-    "link_accessibility": "Accessibilità",
+    "link_accessibility": "Dichiarazione di accessibilità",
     "opens_goto_eurostat": "Si apre in un'altra finestra: EUROSTAT COMEXT",
-    "opens_goto_accessibility": "Si apre in un'altra finestra:  Accessibilità"
+    "opens_goto_accessibility": "Si apre in un'altra finestra:  Dichiarazione di accessibilità"
   },
   "landing": {
     "disclaimer": "*Le classificazioni Eurostat CPA 2.1 e NSTR possono differire dalle corrispondenti versioni nazionali",

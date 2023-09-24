@@ -22,13 +22,13 @@
       ><span class="ml-2 mr-2"><strong>/</strong></span>
       <a
         class="d-inline"
-        @click="handlePrivacy()"
-        @keypress="handlePrivacy()"
+        target="_blank"
+        href="https://form.agid.gov.it/view/848a565e-df60-43d3-93b4-325c4d995ec3"
         tabindex="0"
         :title="$t('footer.link_accessibility')"
         :aria_label="$t('footer.opens_goto_accessibility')">
-        {{ $t("footer.link_accessibility") }}</a
-      >
+        {{ $t("footer.link_accessibility") }}
+      </a>
     </span>
     <span class="ml-auto mr-3 float-right">
       <a

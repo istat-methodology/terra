@@ -556,15 +556,29 @@ export default {
         })
       }, 300)
     },
-    setFocusOn() {
-      document.getElementById("vs1__combobox").focus()
-    },
     fixSelectAccessibility() {
       setTimeout(() => {
         document.querySelectorAll(".vs__dropdown-toggle").forEach((element) => {
           element.setAttribute("aria-label", this.$t("common.select_filter"))
         })
       }, 300)
+    },
+    fixASidebarMenu() {
+      setTimeout(() => {
+        document.querySelectorAll(".c-sidebar-nav-link").forEach((element) => {
+          element.setAttribute("aria-current", "false")
+        })
+      }, 300)
+      setTimeout(() => {
+        document
+          .querySelectorAll(".c-sidebar-nav-link.c-active")
+          .forEach((element) => {
+            element.setAttribute("aria-current", "page")
+          })
+      }, 300)
+    },
+    setFocusOn() {
+      document.getElementById("vs1__combobox").focus()
     }
   },
   created() {
@@ -574,7 +588,7 @@ export default {
     this.fixHeaderTableForAccessibility()
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
-    //this.toggle = false
+    this.fixASidebarMenu()
   }
 }
 </script>
