@@ -4,7 +4,7 @@
       {{ $t("landing.map.title") }}
     </h1>
     <div class="col-sm-12 col-md-12">
-      <div class="card card-map" :title="$t('sidebar.map')">
+      <div class="card card-map" :title="'TERRA - ' + $t('sidebar.map')">
         <CCardBody tabindex="-1">
           <l-map
             ref="map"

@@ -2,7 +2,7 @@
   <div class="row">
     <h1 class="sr-only">{{ $t("landing.trade.title") }}</h1>
     <div class="col-sm-6 col-md-9">
-      <CCard :title="$t('trade.card.title') + title">
+      <CCard :title="'TERRA - ' + $t('trade.card.title') + title">
         <CCardHeader>
           <span class="card-title" role="heading" aria-level="2">
             {{ $t("trade.card.title") }} {{ title }}

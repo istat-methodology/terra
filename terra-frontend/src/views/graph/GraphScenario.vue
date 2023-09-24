@@ -1,13 +1,15 @@
 <template>
   <div>
-    <h1 class="sr-only">{{ modalTitle }}</h1>
+    <!--h1 class="sr-only">{{ modalTitle }}</h1-->
     <CModal
       :show="showModal"
       :closeOnBackdrop="false"
       @update:show="closeModal"
       size="lg">
       <template #header>
-        <span class="float-left">{{ modalTitle }}</span>
+        <span role="heading" aria-level="2" class="float-left">{{
+          modalTitle
+        }}</span>
         <span class="float-right">
           <exporter
             filename="terra_scenario"

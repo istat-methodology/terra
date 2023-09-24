@@ -30,7 +30,7 @@
           :title="$t('graph.table.title')"
           role="tab"
           aria-controls="metricstable">
-          <CCard :title="$t('graph.table.title')" id="metricstable">
+          <CCard :title="'TERRA - ' + title" id="metricstable">
             <CCardHeader>
               <span
                 class="card-title"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CCard class="card-graph" :title="title">
+    <CCard class="card-graph" :title="'TERRA - ' + title">
       <CCardHeader>
         <span class="card-title" role="heading" aria-level="2">{{
           title

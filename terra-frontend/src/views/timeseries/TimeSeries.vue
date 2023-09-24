@@ -8,12 +8,16 @@
       <CCard
         :title="
           country && partner
-            ? $t('timeseries.card.title') +
+            ? 'TERRA - ' +
+              $t('timeseries.card.title') +
               ': ' +
               country.name +
               ' - ' +
               partner.descr
-            : $t('timeseries.card.title') + ' - ' + $t('timeseries.card.comext')
+            : 'TERRA - ' +
+              $t('timeseries.card.title') +
+              ' - ' +
+              $t('timeseries.card.comext')
         ">
         <CCardHeader>
           <span class="card-title" role="heading" aria-level="2">

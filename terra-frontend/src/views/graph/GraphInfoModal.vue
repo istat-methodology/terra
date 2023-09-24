@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="sr-only">{{ $t("graph.modal.main.title") }}</h1>
+    <!--h1 class="sr-only">{{ $t("graph.modal.main.title") }}</h1-->
     <CModal
       :aria-label="
         isMainModal
