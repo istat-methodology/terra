@@ -9,9 +9,9 @@
       (value) => $store.commit('coreui/set', ['sidebarShow', 'responsive'])
     "
     ><div>
-      <a class="sr-only sr-only-focusable" href="#list-content"
-        >Vai al contenuto principale</a
-      >
+      <a class="sr-only sr-only-focusable" href="#list-content">{{
+        $t("common.goto_context")
+      }}</a>
     </div>
     <CSidebarBrand>
       <a
