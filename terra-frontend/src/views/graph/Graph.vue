@@ -281,6 +281,7 @@ export default {
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.loadData()
         this.fixLanguageAccessibility()
+        this.fixMetaTitle()
       })
     },
     frequency() {
@@ -577,6 +578,13 @@ export default {
           })
       }, 300)
     },
+    fixMetaTitle() {
+      setTimeout(() => {
+        document.querySelectorAll("title").forEach((element) => {
+          element.textContent = "Terra - " + this.pageTitle
+        })
+      }, 300)
+    },
     setFocusOn() {
       document.getElementById("vs1__combobox").focus()
     }
@@ -589,6 +597,7 @@ export default {
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
+    this.fixMetaTitle()
   }
 }
 </script>

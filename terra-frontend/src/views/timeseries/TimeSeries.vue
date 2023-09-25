@@ -283,6 +283,7 @@ export default {
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.loadData()
         this.fixLanguageAccessibility()
+        this.fixMetaTitle()
       })
     }
   },
@@ -528,10 +529,18 @@ export default {
             element.setAttribute("aria-current", "page")
           })
       }, 300)
+    },
+    fixMetaTitle() {
+      setTimeout(() => {
+        document.querySelectorAll("title").forEach((element) => {
+          element.textContent = "Terra - " + this.$t("landing.timeseries.title")
+        })
+      }, 300)
     }
   },
   created() {
     this.loadData()
+    this.fixMetaTitle()
     this.fixLabelAccessibility()
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()

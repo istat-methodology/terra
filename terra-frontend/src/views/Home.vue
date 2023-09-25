@@ -158,10 +158,18 @@ export default {
             element.setAttribute("aria-current", "page")
           })
       }, 300)
+    },
+    fixMetaTitle() {
+      setTimeout(() => {
+        document.querySelectorAll("title").forEach((element) => {
+          element.textContent = "Terra - Home"
+        })
+      }, 300)
     }
   },
   created() {
     this.$store.dispatch("coreui/setContext", Context.Home)
+    this.fixMetaTitle()
     this.fixASidebarMenu()
   }
 }

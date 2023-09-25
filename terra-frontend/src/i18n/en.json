@@ -30,7 +30,8 @@
     "language_it": "Italiano",
     "language_en": "Inglese",
     "clear_selected": "Clear Selected",
-    "select_filter": "Search for Option "
+    "select_filter": "Search for Option ",
+    "goto_context":"Go to main context"
   },
   "header": {
     "userguide": "User guide",

@@ -4,7 +4,7 @@
       {{ $t("landing.map.title") }}
     </h1>
     <div class="col-sm-12 col-md-12">
-      <div class="card card-map" :title="'TERRA - ' + $t('sidebar.map')">
+      <div class="card card-map" :title="'TERRA - ' + $t('landing.map.title')">
         <CCardBody tabindex="-1">
           <l-map
             ref="map"
@@ -250,6 +250,7 @@ export default {
       this.$store.dispatch("message/success", this.$t("common.update_cls"))
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.loadData()
+        this.fixMetaTitle()
       })
     }
   },
@@ -509,10 +510,18 @@ export default {
             element.setAttribute("aria-current", "page")
           })
       }, 300)
+    },
+    fixMetaTitle() {
+      setTimeout(() => {
+        document.querySelectorAll("title").forEach((element) => {
+          element.textContent = "Terra - " + this.$t("landing.map.title")
+        })
+      }, 300)
     }
   },
   created() {
     this.loadData()
+    this.fixMetaTitle()
     this.fixSliderAccessibility()
     this.fixMapAccessibility()
     this.fixASidebarMenu()

@@ -173,6 +173,7 @@ export default {
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.loadData()
         this.fixLanguageAccessibility()
+        this.fixMetaTitle()
       })
     }
   },
@@ -391,6 +392,13 @@ export default {
             element.setAttribute("aria-current", "page")
           })
       }, 300)
+    },
+    fixMetaTitle() {
+      setTimeout(() => {
+        document.querySelectorAll("title").forEach((element) => {
+          element.textContent = "Terra - " + this.$t("landing.trade.title")
+        })
+      }, 300)
     }
   },
   created() {
@@ -399,6 +407,7 @@ export default {
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
+    this.fixMetaTitle()
   }
 }
 </script>

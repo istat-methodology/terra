@@ -30,7 +30,8 @@
     "language_it": "Italian",
     "language_en": "English",
     "clear_selected": "Deseleziona",
-    "select_filter": "Cercare l'opzione"
+    "select_filter": "Cercare l'opzione",
+    "goto_context":"Vai al contenuto principale"
   },
   "header": {
     "userguide": "Manuale utente",
