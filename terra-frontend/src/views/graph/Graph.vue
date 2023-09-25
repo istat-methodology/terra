@@ -135,22 +135,22 @@
             :title="$t('graph.form.fields.percentage')"
             >{{ $t("graph.form.fields.percentage") }}
             <CInput
+              :aria-invalid="$v.percentage.$error == true ? true : false"
+              aria-errormessage="error-message-percentage"
               :placeholder="$t('graph.form.fields.percentage_placeholder')"
               v-model="percentage"
               :class="{
                 'is-invalid': $v.percentage.$error
               }" />
-            <div
-              :aria-errormessage="$t('common.error.error_field_required')"
-              class="error"
-              v-if="!$v.percentage.required">
-              {{ $t("common.error.error_field_required") }}
-            </div>
-            <div
-              :aria-errormessage="$t('common.error.error_field_numeric')"
-              class="error"
-              v-if="!$v.percentage.numeric">
-              {{ $t("common.error.error_field_numeric") }}
+            <div id="error-message-percentage" class="error">
+              <strong>
+                <span v-if="!$v.percentage.required">{{
+                  $t("common.error.error_field_required")
+                }}</span>
+                <span class="error" v-if="!$v.percentage.numeric">{{
+                  $t("common.error.error_field_numeric")
+                }}</span>
+              </strong>
             </div>
           </label>
           <label
@@ -618,5 +618,8 @@ span {
 }
 .vue-slider-mark-label .vue-slider-mark-label-active {
   color: #000 !important;
+}
+.error {
+  color: red;
 }
 </style>
