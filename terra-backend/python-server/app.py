@@ -172,13 +172,14 @@ def estrai_tabella_per_grafo(tg_period,tg_perc,listaMezzi,flow,product,criterio,
 
             exclude=str(edge["exclude"])
             # gestione grafi senza mezzi di transporto
-            ##print (exclude)
+            print (exclude)
             if "-99" in exclude:
                 ##print("###########################  no means of transport it'll exclude entire edges")
                 #listQuery.append("((DECLARANT_ISO == '"+From+"' & PARTNER_ISO == '"+To+"' )|(DECLARANT_ISO == '"+To+"' & PARTNER_ISO == '"+From+"' ))")
                 listQuery.append("(DECLARANT_ISO == '"+DECLARANT_ISO+"' & PARTNER_ISO == '"+  PARTNER_ISO  +"' )")
             else:
-                listQuery.append("((DECLARANT_ISO == '"+From+"' & PARTNER_ISO == '"+To+"' & TRANSPORT_MODE in "+exclude+")|(DECLARANT_ISO == '"+To+"' & PARTNER_ISO == '"+From+"' & TRANSPORT_MODE in "+exclude+"))")
+                #listQuery.append("((DECLARANT_ISO == '"+From+"' & PARTNER_ISO == '"+To+"' & TRANSPORT_MODE in "+exclude+")|(DECLARANT_ISO == '"+To+"' & PARTNER_ISO == '"+From+"' & TRANSPORT_MODE in "+exclude+"))")
+                listQuery.append("((DECLARANT_ISO == '"+DECLARANT_ISO+"' & PARTNER_ISO == '"+PARTNER_ISO+"' & TRANSPORT_MODE in "+exclude+"))")
         return "not ("+("|".join(listQuery))+")"
     ##print("selezioneMezziEdges",selezioneMezziEdges)
     if (selezioneMezziEdges is not None):
@@ -243,7 +244,7 @@ def makeGraph(tab4graph,pos_ini,weight_flag,flow,AnalisiFlag):
             "vulnerability":vulner,
             #"degree_centrality":nx.out_degree_centrality(Grafo),
             #"exportation strenght":nx.out_degree_centrality(Grafo),
-            "exportation strenght":{a:b  for a,b in Grafo.out_degree()},#weight="weight")},
+            "exportation strenght":{a:b  for a,b in Grafo.out_degree(weight="weight")},
             "hubness":nx.closeness_centrality(Grafo.to_undirected())
             #"hubness":nx.betweenness_centrality(Grafo) #, weight="weight")
             }
@@ -356,11 +357,13 @@ except:
 
 #prod_NTSR_dict=build_NTSR_dict()
 
+##############################
 from flask import Flask,request,Response
 from flask_cors import CORS
 from opencensus.ext.azure.trace_exporter import AzureExporter
 from opencensus.ext.flask.flask_middleware import FlaskMiddleware
 from opencensus.trace.samplers import ProbabilitySampler
+##############################
 
 app = Flask(__name__)
 CORS(app, resources=r'/*')
