@@ -200,10 +200,11 @@
               shape="square"
               size="sm"
               @click="handleSubmit"
+              @keypress="handleSubmit"
               class="mt-3"
-              :title="$t('common.submit')"
-              >{{ $t("common.submit") }}</CButton
-            >
+              :title="$t('common.submit')">
+              {{ $t("common.submit") }}
+            </CButton>
           </div>
         </CCardBody>
       </CCard>
@@ -259,6 +260,8 @@ export default {
     transport: null,
     product: null,
     flow: null,
+
+    submitStatus: "OK",
 
     //Graph
     graphForm: null,
@@ -378,7 +381,6 @@ export default {
     handleSubmit() {
       //Save selected transports for scenario analysis
       //this.transport = form.transports
-
       this.$v.$touch() //validate form data
       if (
         !this.$v.currentTime.$invalid &&
@@ -387,6 +389,7 @@ export default {
         !this.$v.product.$invalid &&
         !this.$v.flow.$invalid
       ) {
+        this.submitStatus = "OK"
         //Manage "all" transports in the select (if select is displayed)
         var cleanTransports = []
         var cleanTransportIds = []
@@ -405,6 +408,8 @@ export default {
           selezioneMezziEdges: "None"
         }
         this.requestToServer()
+      } else {
+        this.submitStatus = "PENDING"
       }
     },
     requestToServer() {

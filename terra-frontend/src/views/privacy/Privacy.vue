@@ -185,6 +185,11 @@ export default {
   name: "Privacy",
   created() {
     this.$store.dispatch("coreui/setContext", Context.Privacy)
+    setTimeout(() => {
+      document.querySelectorAll("title").forEach((element) => {
+        element.textContent = "Terra - Privacy"
+      })
+    }, 300)
   }
 }
 </script>
