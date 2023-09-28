@@ -285,10 +285,11 @@ export const metricsFieldsEn = [
   { key: "exportStrenght", label: "Export Strenght", _style: "width:15%" }
 ]
 export const scenarioFieldsIt = [
-  { key: "source", label: "Origine", _style: "width:25%" },
-  { key: "destination", label: "Destinazione", _style: "width:25%" },
-  { key: "percentage", label: "Percentuale", _style: "width:25%" },
-  { key: "flow", label: "Flussi", _style: "width:24%" },
+  { key: "source", label: "Origine", _style: "width:20%" },
+  { key: "destination", label: "Destinazione", _style: "width:20%" },
+  { key: "euro", label: "Valore in Euro", _style: "width:20%" },
+  { key: "percentage", label: "Percentuale", _style: "width:20%" },
+  { key: "flow", label: "Flusso", _style: "width:19%" },
   {
     key: "show_delete",
     label: "",
@@ -299,10 +300,11 @@ export const scenarioFieldsIt = [
 ]
 export const getMetricFields = () => {}
 export const scenarioFieldsEn = [
-  { key: "source", label: "Source", _style: "width:25%" },
-  { key: "destination", label: "Destination", _style: "width:25%" },
-  { key: "percentage", label: "Percentage", _style: "width:25%" },
-  { key: "flow", label: "Flow", _style: "width:25%" },
+  { key: "source", label: "Source", _style: "width:20%" },
+  { key: "destination", label: "Destination", _style: "width:20%" },
+  { key: "euro", label: "Value in Euro", _style: "width:20%" },
+  { key: "percentage", label: "Percentage", _style: "width:20%" },
+  { key: "flow", label: "Flow", _style: "width:19%" },
   {
     key: "show_delete",
     label: "",

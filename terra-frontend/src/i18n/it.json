@@ -31,7 +31,7 @@
     "language_en": "English",
     "clear_selected": "Deseleziona",
     "select_filter": "Cercare l'opzione",
-    "goto_context":"Vai al contenuto principale"
+    "goto_context": "Vai al contenuto principale"
   },
   "header": {
     "userguide": "Manuale utente",
@@ -52,7 +52,6 @@
     "logo_istat": "Logo Istat",
     "goto_istat": "Vai a www.istat.it",
     "opens_goto_istat": "Si apre in un'altra finestra: ISTAT"
-    
   },
   "footer": {
     "link_accessibility": "Dichiarazione di accessibilità",
@@ -152,7 +151,7 @@
       "title_extra_edge": "Vuoi modificare i mezzi di trasporto in questo scambio?",
       "title_extra_node": "Vuoi modificare i mezzi di trasporto negli scambi di questo paese?",
       "title_world_edge": "Vuoi eliminare questo scambio?",
-      "title_world_node": "Vuoi eliminare tutti gli scambi di questo paese?",
+      "title_world_node": "Vuoi effettuare una analisi di scenario?",
       "transports_selected": "Grafo corrente",
       "transports_scenario": "Nuovo scenario",
       "success": "Il grafo è stato modificato coerentemente con i vincoli"
@@ -262,7 +261,7 @@
     }
   },
   "privacy": {
-    "title":"Privacy",
+    "title": "Privacy",
     "title_1": "Privacy e trattamento dei dati personali",
     "paragraph_1": "Le informazioni contenute nella presente pagina sono rese ai sensi dell’art. 13 del Regolamento (UE) 2016/679 (di seguito Regolamento) e hanno l’obiettivo di descrivere le modalità di trattamento dei dati personali degli utenti che consultano il sito ‘terra.istat.it’. Le informazioni che seguono non riguardano altri siti, pagine o servizi online raggiungibili tramite link ipertestuali pubblicati in questo sito, ma riferiti a risorse esterne al sito in questione.",
     "title_2": "Titolare del trattamento",

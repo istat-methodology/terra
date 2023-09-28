@@ -7,7 +7,7 @@
       @update:show="closeModal"
       size="lg">
       <template #header>
-        <span role="heading" aria-level="2" class="float-left">{{
+        <span class="scenario-title float-left" role="heading" aria-level="2">{{
           modalTitle
         }}</span>
         <span class="float-right">
@@ -68,10 +68,11 @@
         <template #show_delete="{ item }">
           <td>
             <span
+              v-if="selectedNode.id > 0 && !displayTransport && showScenario"
               class="icon-link"
               @click="deleteRow(item)"
               :title="$t('common.delete')">
-              <delete-icon alt="" />
+              <close-icon alt="" />
             </span>
           </td>
         </template>
@@ -223,6 +224,7 @@ export default {
           return {
             source: field.source,
             destination: field.destination,
+            euro: field.euro,
             percentage: field.percentage,
             flow: field.flow
           }
@@ -300,6 +302,7 @@ export default {
     closeModal() {
       this.$emit("closeModal")
       this.columnFilterValue = {}
+      this.showScenario = false
     },
     applyConstraints() {
       this.showScenario = false
@@ -315,6 +318,12 @@ export default {
 }
 </script>
 <style scoped>
+.scenario-title {
+  padding-top: 0.5rem;
+  padding-left: 0.5rem;
+  font-size: 16px;
+  font-weight: 600;
+}
 .scenario-analysis {
   font-weight: 500;
   font-size: 16px;

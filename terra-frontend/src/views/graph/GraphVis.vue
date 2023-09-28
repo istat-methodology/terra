@@ -234,9 +234,12 @@ export default {
           from: selectedEdge.from,
           destination: destinationNode.name,
           to: selectedEdge.to,
-          total: weightFormatted.toLocaleString("en-US"),
-          percentage: Math.round((percentage + Number.EPSILON) * 100) / 100,
-          flow: this.selectedNode.id == sourceNode.id ? "Export" : "Import"
+          total: weightFormatted.toLocaleString(this.$i18n.locale),
+          percentage:
+            Math.round((percentage + Number.EPSILON) * 100) / 100 + "%",
+          flow: this.selectedNode.id == sourceNode.id ? "Export" : "Import",
+          euro:
+            selectedEdge.VALUE_IN_EUROS.toLocaleString(this.$i18n.locale) + "€"
         })
       })
       //Local copy of selected transports
@@ -270,8 +273,11 @@ export default {
           destination: destinationNode.name,
           to: selectedEdge.to,
           total: weightFormatted.toLocaleString("en-US"),
-          percentage: Math.round((percentage + Number.EPSILON) * 100) / 100,
-          flow: ""
+          percentage:
+            Math.round((percentage + Number.EPSILON) * 100) / 100 + "%",
+          flow: "-",
+          euro:
+            selectedEdge.VALUE_IN_EUROS.toLocaleString(this.$i18n.locale) + "€"
         })
       })
       //Local copy of selected transports
@@ -290,7 +296,7 @@ export default {
 
       //New business logic here (only for nodes)!!!!
       var nodesDiff = []
-      if (this.nodeSelected) {
+      if (this.nodeSelected && !this.displayTransport) {
         console.log("Node scenario, applying new business logic!")
         nodesDiff = this.selectedEdges.filter(
           (edge) => !containsEdge(edge, this.selectedNodesTable)
