@@ -64,7 +64,7 @@ def load_NSTR_trim():
    
     logger.info("### load_NSTR_trim START..") 
     df=pd.read_csv(NSTR_TRIM_FILE,low_memory=False,converters={'TRIMESTRE': funcTrim},dtype={"PRODUCT_NSTR": object,"FLOW":np.int8} )
-    #print("************",df.columns)
+    ##print("************",df.columns)
     
     df=df[["DECLARANT_ISO","PARTNER_ISO","FLOW","PRODUCT_NSTR","TRANSPORT_MODE","TRIMESTRE","VALUE_IN_EUROS"]]
     df.columns=["DECLARANT_ISO","PARTNER_ISO","FLOW","PRODUCT","TRANSPORT_MODE","PERIOD","VALUE_IN_EUROS"]
@@ -81,9 +81,9 @@ def load_files_available():
     
     #df['PERIOD']=pd.to_datetime(df['PERIOD'], format="%Y%m")
     
-    ##print(list(df["PERIOD"].unique()))
-    ##print (df.shape)
-    ##print(df.info())
+    ###print(list(df["PERIOD"].unique()))
+    ###print (df.shape)
+    ###print(df.info())
     logger.info("### load_files_available EXTRA_FILE END") 
     return df
 
@@ -127,42 +127,42 @@ def load_file_intraEU():
     
 
 
-    ##print(list(df_transportIntra["PERIOD"].unique()))
-    ##print (df_transportIntra.shape)
-    ##print(df_transportIntra.info())
+    ###print(list(df_transportIntra["PERIOD"].unique()))
+    ###print (df_transportIntra.shape)
+    ###print(df_transportIntra.info())
     logger.info("###  load_file_intraEU END")
     return df_transportIntra
 
 def estrai_tabella_per_grafo(tg_period,tg_perc,listaMezzi,flow,product,criterio,selezioneMezziEdges,df_transport_estrazione):
-    #print(df_transport_estrazione.info())
+    ##print(df_transport_estrazione.info())
     #estraggo dalla tabella solo le informazioni richieste nei filtri richiesti al runtime
     logger.info("### estrai_tabella_per_grafo...") 
     logger.info("ESTRAGGO TABELLA COMEX") 
     
     #df_transport_estrazione=df_transport
     df_transport_estrazione=df_transport_estrazione[df_transport_estrazione["FLOW"]==flow]
-    #print("###",df_transport_estrazione.shape)
-    #print(df_transport_estrazione.head(5))
+    ##print("###",df_transport_estrazione.shape)
+    ##print(df_transport_estrazione.head(5))
     if tg_period is not None:
         #tg_period=datetime.datetime.strptime(str(tg_period), '%Y%m')
         tg_period=np.int32(tg_period)
         df_transport_estrazione = df_transport_estrazione[df_transport_estrazione["PERIOD"]==tg_period]
-    #print("###",df_transport_estrazione.shape)
+    ##print("###",df_transport_estrazione.shape)
     #seleziona i mezzi nel grafo
     if listaMezzi is not None:    
         df_transport_estrazione=df_transport_estrazione[df_transport_estrazione["TRANSPORT_MODE"].isin(listaMezzi)]
-    #print("###",df_transport_estrazione.shape)
+    ##print("###",df_transport_estrazione.shape)
     
     if product is not None:
-        ##print("product:",product,type(product))
+        ###print("product:",product,type(product))
         df_transport_estrazione=df_transport_estrazione[df_transport_estrazione["PRODUCT"]==product]
-    #print("###",df_transport_estrazione.shape)
+    ##print("###",df_transport_estrazione.shape)
 
     #costruisce una query per eliminare i mezzi in un arco nel grafo
     def build_query_mezzi(selezioneMezziEdges):
         listQuery=[]
         for edge in selezioneMezziEdges:#['edgesSelected']:
-            #print("flow#########################",flow)
+            ##print("flow#########################",flow)
             if flow == 1:
                 PARTNER_ISO=edge["from"]
                 DECLARANT_ISO=edge["to"]
@@ -172,25 +172,25 @@ def estrai_tabella_per_grafo(tg_period,tg_perc,listaMezzi,flow,product,criterio,
 
             exclude=str(edge["exclude"])
             # gestione grafi senza mezzi di transporto
-            print (exclude)
+            #print ("exclude:---------- ",exclude)
             if "-99" in exclude:
-                ##print("###########################  no means of transport it'll exclude entire edges")
+                #print("###########################  no means of transport it'll exclude entire edges")
                 #listQuery.append("((DECLARANT_ISO == '"+From+"' & PARTNER_ISO == '"+To+"' )|(DECLARANT_ISO == '"+To+"' & PARTNER_ISO == '"+From+"' ))")
                 listQuery.append("(DECLARANT_ISO == '"+DECLARANT_ISO+"' & PARTNER_ISO == '"+  PARTNER_ISO  +"' )")
             else:
                 #listQuery.append("((DECLARANT_ISO == '"+From+"' & PARTNER_ISO == '"+To+"' & TRANSPORT_MODE in "+exclude+")|(DECLARANT_ISO == '"+To+"' & PARTNER_ISO == '"+From+"' & TRANSPORT_MODE in "+exclude+"))")
                 listQuery.append("((DECLARANT_ISO == '"+DECLARANT_ISO+"' & PARTNER_ISO == '"+PARTNER_ISO+"' & TRANSPORT_MODE in "+exclude+"))")
         return "not ("+("|".join(listQuery))+")"
-    ##print("selezioneMezziEdges",selezioneMezziEdges)
+    ###print("selezioneMezziEdges",selezioneMezziEdges)
     if (selezioneMezziEdges is not None):
         
         def fun_transport_estrazione(selezioneMezziEdges_i,df_transport_estrazione):
             #global df_transport_estrazione
-            ###print(selezioneMezziEdges_i)
-            ##print("")
+            ####print(selezioneMezziEdges_i)
+            ###print("")
             Query=build_query_mezzi(selezioneMezziEdges_i)
             logger.info("QUERY selezione MezziEdge:")
-            #print("- - - - - - -  Query:",Query)
+            ##print("- - - - - - -  Query:",Query)
             df_transport_estrazione=df_transport_estrazione.query(Query)
             return df_transport_estrazione
 
@@ -229,9 +229,9 @@ def makeGraph(tab4graph,pos_ini,weight_flag,flow,AnalisiFlag):
         #Wsum=tab4graph[weight].sum()
         #Wsum=1 #sum(dict(Grafo.out_degree(weight="weight")).values()) #normalizazion to 1 on graph
 
-        #print("-------------  outdegree ----------------")
-        #print(Grafo.out_degree(weight="weight"))
-        #print("LEN EDGES GRAFO",len(Grafo.edges()))
+        ##print("-------------  outdegree ----------------")
+        ##print(Grafo.out_degree(weight="weight"))
+        ##print("LEN EDGES GRAFO",len(Grafo.edges()))
 
         for k, v in in_deg.items():
             if v!=0:      
@@ -279,7 +279,16 @@ def makeGraph(tab4graph,pos_ini,weight_flag,flow,AnalisiFlag):
     if weight_flag==False:
         edges=[ (i,j,1) for i,j in tab4graph.loc[:,[country_from,country_to]].values]
     G.add_weighted_edges_from(edges)
+    #nx.set_edge_attributes(G, {(1, 2): {"weight": 2.0}})
+    #print("------------------")
 
+    attribute={}
+    for i,j,w in edges:
+        attribute[(i,j)]={criterio : int(w*Wsum)}
+
+    #print(edges)
+    #print(attribute)
+    nx.set_edge_attributes(G,attribute)
     #Calcolo le metriche
     MetricG=calc_metrics(G,weight_flag)	
     
@@ -294,7 +303,7 @@ def makeGraph(tab4graph,pos_ini,weight_flag,flow,AnalisiFlag):
     if True:
         k_layout=5
         pos_ini={}
-        random.seed(8)
+        random.seed(88)
         for node in Nodes:
             x= random.uniform(0, 1)
             y= random.uniform(0, 1)
@@ -307,8 +316,9 @@ def makeGraph(tab4graph,pos_ini,weight_flag,flow,AnalisiFlag):
         
         #logger.info(str(pos_ini))
         
-        coord = nx.spring_layout(G,k=k_layout/math.sqrt(G.order()),pos=pos_ini)
-        coord = nx.spring_layout(G,k=k_layout/math.sqrt(G.order()),pos=coord) # stable solution
+        coord = nx.spring_layout(G,k=k_layout/math.sqrt(G.order()),pos=pos_ini,
+        iterations=200)
+        coord = nx.spring_layout(G,k=k_layout/math.sqrt(G.order()),pos=coord,iterations=50) # stable solution
         #coord = nx.spring_layout(G,k=5/math.sqrt(G.order()),pos=coord) # stable solution
     except:
         return None,None,None
@@ -324,16 +334,17 @@ def makeGraph(tab4graph,pos_ini,weight_flag,flow,AnalisiFlag):
     out = pd.merge(df, df_coord, left_on='label', right_index=True)
     dict_nodes = out.T.to_dict().values()
     
-    dfe = pd.DataFrame(GG["links"])[["source" , "target","weight"]]
+    dfe = pd.DataFrame(GG["links"])[["source" , "target","weight",criterio]]
     res = dfe.set_index('source').join(out[['label','id']].set_index('label'), on='source', how='left')
-    res.columns=['target', 'source_id',"weight"]
+    res.columns=['target', 'source_id',"weight",criterio]
     res2 = res.set_index('target').join(out[['label','id']].set_index('label'), on='target', how='left')
-    res2.columns=["weight",'from','to']
+    res2.columns=["weight",criterio,'from','to']
     res2.reset_index(drop=True, inplace=True)
     dict_edges= res2.T.to_dict().values()
 
     new_dict = { "nodes": list(dict_nodes), "edges": list(dict_edges),"metriche":MetricG}
-
+    #print("#####################"*20)
+    #print(list(dict_edges))
     JSON=json.dumps(new_dict) 
     logger.info("### makeGraph exit")     
     return coord,JSON,G
@@ -352,7 +363,7 @@ try:
     df_trimcpa = load_cpa_trim()
     df_trimNSTR = load_NSTR_trim()
 except:
-    ##print("#############   FILE NON TROVATI")
+    ###print("#############   FILE NON TROVATI")
     logger.info("### Files non trovati ")     
 
 #prod_NTSR_dict=build_NTSR_dict()
@@ -370,7 +381,6 @@ CORS(app, resources=r'/*')
 
 azure_exporter = AzureExporter()
 azure_exporter.add_telemetry_processor(ai_callback_function)
-
 if is_application_insight_configured():
     middleware = FlaskMiddleware(
         app,
@@ -672,7 +682,7 @@ def refreshdata():
         return str(' data refreshed')
     except BaseException as e:
         repo="ERROR load file  " + str(e)
-        ##print("#############   FILE NON TROVATI")
+        ###print("#############   FILE NON TROVATI")
         #logger.info(repo)  
         return str(repo)
 
