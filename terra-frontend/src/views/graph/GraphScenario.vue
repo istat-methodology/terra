@@ -80,8 +80,8 @@
         <div class="col-12">
           <label for="checkScenario" class="scenario-analysis">
             {{ scenarioTitle }}
-            <span class="ml-4 ml-4"
-              ><CSwitch
+            <span class="ml-4 ml-4">
+              <CSwitch
                 id="checkScenario"
                 color="primary"
                 size="sm"
@@ -294,7 +294,7 @@ export default {
     },
     deleteRow(row) {
       var updatedTable = this.nodesTable.filter((rw) => rw != row)
-      console.log(updatedTable.length)
+      //console.log(updatedTable.length)
       this.$emit("updateNodesTable", updatedTable)
     },
     closeModal() {
@@ -322,38 +322,46 @@ export default {
   color: #321fdb;
   border-top: 1px solid #d8dbe0;
 }
+
 .constraint-left {
   padding: 0.8rem 0rem 0.4rem 0.2rem;
   font-weight: 500;
   margin-top: 0.6rem;
 }
+
 .constraint-right {
   padding: 0.8rem 0rem 0.4rem 1.4rem;
   font-weight: 500;
   margin-top: 0.6rem;
 }
+
 .col-left {
   flex: 0 0 47%;
   max-width: 47%;
 }
+
 .col-right {
   flex: 0 0 47%;
   max-width: 47%;
 }
+
 .col-center {
   flex: 0 0 6%;
   max-width: 6%;
 }
+
 .drag-container {
   margin-right: 0;
   margin-left: 0;
 }
+
 .drop-zone {
   border: 1px solid #ebedef;
   border-radius: 0.2rem;
   padding: 10px;
   min-height: 120px;
 }
+
 .drag-el {
   border-radius: 0.2rem;
   background-color: #ebedef;
@@ -365,11 +373,13 @@ export default {
   cursor: -moz-grab;
   cursor: -webkit-grab;
 }
+
 .drag-el:active {
   cursor: grabbing;
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
 }
+
 .drag-el:nth-last-of-type(1) {
   margin-bottom: 0;
 }
