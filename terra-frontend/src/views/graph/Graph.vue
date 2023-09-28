@@ -192,7 +192,17 @@
               :class="{
                 'is-invalid': $v.transport.$error
               }"
+              :aria-invalid="$v.transport.$error === true ? true : false"
+              error-messages="error-message-transport"
+              required
               :clearable="false" />
+            <div id="error-message-transport" class="error">
+              <strong>
+                <span v-if="$v.transport.$error">{{
+                  $t("common.error.error_field_required")
+                }}</span>
+              </strong>
+            </div>
           </label>
           <div class="col-12">
             <CButton
@@ -338,6 +348,11 @@ export default {
       return this.isIntra
         ? this.$t("landing.graph.intra-ue.title")
         : this.$t("landing.graph.extra-ue.title")
+    },
+    categoryerrors() {
+      if (!this.$v.transport.$error) {
+        return "this field is required"
+      } else return []
     }
   },
   validations: {
@@ -350,7 +365,7 @@ export default {
     },
     transport: {
       validationRule(tr) {
-        return this.displayTransport ? tr !== null : true
+        return this.displayTransport ? tr.length > 0 : true
       }
     },
     product: {
