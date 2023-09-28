@@ -16,6 +16,7 @@
     :items="data"
     :fields="fields"
     :items-per-page="10"
+    sorter
     hover
     pagination>
     <template #label="{ item }">
