@@ -204,14 +204,8 @@ export default {
   border-color: #321fdb;
 }
 .mr-lang {
-  margin-right: 2.5rem;
-  text-align: right;
-}
-@media (max-width: 450px) {
-  .mr-lang {
-    margin-right: 0.9rem;
-    text-align: right;
-  }
+  margin-right: 0rem;
+  margin-left: 0.6rem;
 }
 .mr-title {
   margin-right: 2.5rem;

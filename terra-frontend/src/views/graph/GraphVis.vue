@@ -98,6 +98,7 @@ import {
   getEdge,
   getCentrality,
   getTransportDifference,
+  containsEdge,
   scenarioFieldsIt,
   scenarioFieldsEn
 } from "@/common"
@@ -115,6 +116,7 @@ export default {
     selectedNode: {},
     selectedEdges: [],
     selectedNodesTable: [],
+    nodeSelected: false,
     //Make a local copy of transports for cosmo-scenario
     localTransports: [],
     scenarioTransports: [],
@@ -136,7 +138,7 @@ export default {
       return this.isItalian ? this.scenarioFieldsIt : this.scenarioFieldsEn
     },
     graphDensity() {
-      return this.metrics ? this.metrics.density.toPrecision(4) : 0
+      return this.metrics ? this.metrics.density.toFixed(2) : 0
     }
   },
 
@@ -183,9 +185,11 @@ export default {
     handleGraphSelect(selectedGraph) {
       if (selectedGraph.nodes.length > 0) {
         //user clicked a node
+        this.nodeSelected = true
         this.handleNodeSelect(selectedGraph)
       } else {
         //user clicked an edge
+        this.nodeSelected = false
         this.handleEdgeSelect(selectedGraph)
       }
     },
@@ -283,7 +287,23 @@ export default {
     },
     applyConstraints() {
       const constraints = []
-      this.selectedNodesTable.forEach((edge) => {
+
+      //New business logic here (only for nodes)!!!!
+      var nodesDiff = []
+      if (this.nodeSelected) {
+        console.log("Node scenario, applying new business logic!")
+        nodesDiff = this.selectedEdges.filter(
+          (edge) => !containsEdge(edge, this.selectedNodesTable)
+        )
+      } else {
+        console.log("Edge scenario, doing nothing :)")
+        nodesDiff = this.selectedEdges
+      }
+      //console.log("Node edges " + this.selectedEdges.length)
+      //console.log("Selected edges " + this.selectedNodesTable.length)
+      //console.log("Diff  " + nodesDiff.length)
+
+      nodesDiff.forEach((edge) => {
         constraints.push({
           from: getNode(this.nodes, edge.from).label,
           to: getNode(this.nodes, edge.to).label,
@@ -332,6 +352,7 @@ export default {
   height: 100%;
   margin: 0 0;
 }
+
 .graph-info {
   margin-top: 0.6em;
   font-size: small;

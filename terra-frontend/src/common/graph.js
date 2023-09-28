@@ -355,11 +355,11 @@ export function getCentrality(nodes, nodeId, metrics) {
   if (selectedNode) {
     nodeMetric = {
       country: selectedNode.label,
-      centrality: metrics.degree_centrality[selectedNode.label].toPrecision(4),
-      vulnerability: metrics.vulnerability[selectedNode.label].toPrecision(4),
-      hubness: metrics.hubness[selectedNode.label].toPrecision(4),
+      centrality: metrics.degree_centrality[selectedNode.label].toFixed(2),
+      vulnerability: metrics.vulnerability[selectedNode.label].toFixed(2),
+      hubness: metrics.hubness[selectedNode.label].toFixed(2),
       exportationstrength:
-        metrics["exportation strenght"][selectedNode.label].toPrecision(4)
+        metrics["exportation strenght"][selectedNode.label].toFixed(2)
     }
   }
   return nodeMetric
@@ -371,11 +371,11 @@ export function buildMetrics(data, countries) {
       metrics.push({
         label: node.label,
         name: getCountryName(countries, node.label),
-        centrality: data.metriche.degree_centrality[node.label].toPrecision(2),
-        vulnerability: data.metriche.vulnerability[node.label].toPrecision(2),
-        hubness: data.metriche.hubness[node.label].toPrecision(2),
+        centrality: data.metriche.degree_centrality[node.label].toFixed(2),
+        vulnerability: data.metriche.vulnerability[node.label].toFixed(2),
+        hubness: data.metriche.hubness[node.label].toFixed(2),
         exportStrenght:
-          data.metriche["exportation strenght"][node.label].toPrecision(2)
+          data.metriche["exportation strenght"][node.label].toFixed(2)
       })
     })
   return metrics
@@ -411,4 +411,11 @@ export function restoreAllProdId(product) {
   var id = ""
   if (product) id = product.id == "000" ? "TOT" : product.id
   return id
+}
+export function containsEdge(edge, edges) {
+  var matchEdges = []
+  if (edges) {
+    matchEdges = edges.filter((ed) => ed.from == edge.from && ed.to == edge.to)
+  }
+  return matchEdges.length > 0
 }
