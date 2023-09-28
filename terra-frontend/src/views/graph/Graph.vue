@@ -348,11 +348,6 @@ export default {
       return this.isIntra
         ? this.$t("landing.graph.intra-ue.title")
         : this.$t("landing.graph.extra-ue.title")
-    },
-    categoryerrors() {
-      if (!this.$v.transport.$error) {
-        return "this field is required"
-      } else return []
     }
   },
   validations: {
