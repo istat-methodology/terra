@@ -98,6 +98,7 @@ import {
   getEdge,
   getCentrality,
   getTransportDifference,
+  containsAllTransports,
   containsEdge,
   scenarioFieldsIt,
   scenarioFieldsEn
@@ -129,6 +130,7 @@ export default {
   }),
   computed: {
     ...mapGetters("coreui", ["isItalian"]),
+    ...mapGetters("classification", { transportCls: "transports" }),
     title() {
       return this.isIntra
         ? this.$t("graph.titleIntra")
@@ -243,7 +245,12 @@ export default {
         })
       })
       //Local copy of selected transports
-      this.localTransports = this.displayTransport ? [...this.transports] : []
+      this.localTransports = []
+      if (this.displayTransport) {
+        this.localTransports = containsAllTransports(this.transports)
+          ? [...this.transportCls.slice(1)]
+          : [...this.transports]
+      }
       this.scenarioModal = true
     },
     handleEdgeSelect(selectedGraph) {
@@ -281,7 +288,12 @@ export default {
         })
       })
       //Local copy of selected transports
-      this.localTransports = this.displayTransport ? [...this.transports] : []
+      this.localTransports = []
+      if (this.displayTransport) {
+        this.localTransports = containsAllTransports(this.transports)
+          ? [...this.transportCls.slice(1)]
+          : [...this.transports]
+      }
       this.scenarioModal = true
     },
     handleOverNode(event) {

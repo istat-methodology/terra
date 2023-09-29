@@ -421,3 +421,11 @@ export function containsEdge(edge, edges) {
   }
   return matchEdges.length > 0
 }
+
+export function containsAllTransports(transports) {
+  var allTransports = []
+  if (transports) {
+    allTransports = transports.filter((tr) => tr.id == 99)
+  }
+  return allTransports.length > 0
+}
