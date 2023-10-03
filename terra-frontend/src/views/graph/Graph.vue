@@ -101,7 +101,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            id="input__1"
+            id="label__1"
             :title="$t('graph.form.fields.period')">
             {{ $t("graph.form.fields.period") }}
             <v-select
@@ -117,7 +117,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            id="input__2"
+            id="label__2"
             :title="$t('graph.form.fields.flow')"
             >{{ $t("graph.form.fields.flow") }}
             <v-select
@@ -155,7 +155,7 @@
           </label>
           <label
             class="card-label mt-3 col-12"
-            id="input__3"
+            id="label__3"
             :title="
               displayTransport
                 ? $t('graph.form.fields.product_nstr')
@@ -176,34 +176,36 @@
               :clearable="false" />
           </label>
           <label
+            @click="fixLabel__4__ForSelectAccessibility"
             class="card-label mt-3 col-12"
-            id="input__4"
+            id="label__4"
+            for="vs__input__4"
             :title="$t('graph.form.fields.transport')"
             v-if="displayTransport"
-            >{{ $t("graph.form.fields.transport") }}
-            <v-select
-              class="style-chooser"
-              v-if="displayTransport"
-              label="descr"
-              multiple
-              :options="transports"
-              :placeholder="$t('graph.form.fields.transport_placeholder')"
-              v-model="transport"
-              :class="{
-                'is-invalid': $v.transport.$error
-              }"
-              :aria-invalid="$v.transport.$error === true ? true : false"
-              error-messages="error-message-transport"
-              required
-              :clearable="false" />
-            <div id="error-message-transport" class="error">
-              <strong>
-                <span v-if="$v.transport.$error">{{
-                  $t("common.error.error_field_required")
-                }}</span>
-              </strong>
-            </div>
-          </label>
+            >{{ $t("graph.form.fields.transport") }}</label
+          >
+          <v-select
+            class="style-chooser col-12"
+            v-if="displayTransport"
+            label="descr"
+            multiple
+            :options="transports"
+            :placeholder="$t('graph.form.fields.transport_placeholder')"
+            v-model="transport"
+            :class="{
+              'is-invalid': $v.transport.$error
+            }"
+            :aria-invalid="$v.transport.$error === true ? true : false"
+            error-messages="error-message-transport"
+            required
+            :clearable="false" />
+          <div id="error-message-transport" class="error col-12">
+            <strong>
+              <span v-if="$v.transport.$error">{{
+                $t("common.error.error_field_required")
+              }}</span>
+            </strong>
+          </div>
           <div class="col-12">
             <CButton
               color="primary"
@@ -286,7 +288,8 @@ export default {
 
     //Modal
     isHelpModal: false,
-    isMainModal: false
+    isMainModal: false,
+    vstransport: null
   }),
   watch: {
     language() {
@@ -547,8 +550,17 @@ export default {
       setTimeout(() => {
         document.querySelectorAll(".vs__search").forEach((element, index) => {
           const i = index + 1
-          element.setAttribute("aria-labelledby", "input__" + i)
+          element.setAttribute("aria-labelledby", "label__" + i)
         })
+      }, 300)
+    },
+    fixLabel__4__ForSelectAccessibility() {
+      setTimeout(() => {
+        document
+          .querySelectorAll("#vs4__combobox .vs__search")
+          .forEach((element) => {
+            element.setAttribute("id", "vs__input__4")
+          })
       }, 300)
     },
     fixHeaderTableForAccessibility() {
@@ -605,9 +617,11 @@ export default {
     }
   },
   created() {
+    this.vstransport = this.$refs.vstransport
     this.loadData()
     this.fixSliderAccessibility()
     this.fixLabelForSelectAccessibility()
+    this.fixLabel__4__ForSelectAccessibility()
     this.fixHeaderTableForAccessibility()
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
