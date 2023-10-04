@@ -1,7 +1,9 @@
 const fs = require("fs");
 
+//Updates information (for application configuration)
+const news = JSON.parse(fs.readFileSync("./data/general/news.json"));
 
-//Global metadata (for application configuratio)
+//Global metadata (for application configuration)
 const metadata = JSON.parse(fs.readFileSync("./data/general/metadata.json"));
 const defaults = JSON.parse(fs.readFileSync("./data/general/defaults.json"));
 
@@ -51,6 +53,7 @@ const importQuantity = JSON.parse(fs.readFileSync("./data/trade/importQuantity.j
 
 module.exports = () => ({
   metadata,
+  news,
   defaults,
   transports,
   partners,
