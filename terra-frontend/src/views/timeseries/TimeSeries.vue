@@ -114,7 +114,7 @@
         </CCardHeader>
         <CCardBody>
           <label
-            id="input__1"
+            id="label__1"
             class="card-label col-12"
             :title="$t('timeseries.form.fields.dataType')"
             >{{ $t("timeseries.form.fields.dataType") }}
@@ -129,7 +129,7 @@
               :clearable="false" />
           </label>
           <label
-            id="input__2"
+            id="label__2"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.varType')">
             {{ $t("timeseries.form.fields.varType") }}
@@ -144,7 +144,7 @@
               :clearable="false" />
           </label>
           <label
-            id="input__3"
+            id="label__3"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.flow')">
             {{ $t("timeseries.form.fields.flow") }}
@@ -159,7 +159,7 @@
               :clearable="false" />
           </label>
           <label
-            id="input__4"
+            id="label__4"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.country')">
             {{ $t("timeseries.form.fields.country") }}
@@ -174,7 +174,7 @@
               :clearable="false" />
           </label>
           <label
-            id="input__5"
+            id="label__5"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.partner')">
             {{ $t("timeseries.form.fields.partner") }}
@@ -191,7 +191,7 @@
               :clearable="false" />
           </label>
           <label
-            id="input__6"
+            id="label__6"
             class="card-label col-12 mt-2"
             :title="$t('timeseries.form.fields.productsCPA')">
             {{ $t("timeseries.form.fields.productsCPA") }}
@@ -491,7 +491,7 @@ export default {
           const i = index + 1
           element
             .getElementsByClassName("vs__search")[0]
-            .setAttribute("aria-labelledby", "input__" + i)
+            .setAttribute("aria-labelledby", "label__" + i)
         })
       }, 300)
     },

@@ -48,7 +48,7 @@
         </CCardHeader>
         <CCardBody>
           <label
-            id="input__1"
+            id="label__1"
             class="card-label col-12"
             :title="$t('trade.form.fields.seriesType')"
             >{{ $t("trade.form.fields.seriesType") }}
@@ -57,10 +57,13 @@
               :options="seriesTypes"
               :placeholder="$t('trade.form.fields.seriesType_placeholder')"
               v-model="seriesType"
-              :clearable="false" />
+              :clearable="false"
+              :class="{
+                'is-invalid': $v.seriesType.$error
+              }" />
           </label>
           <label
-            id="input__2"
+            id="label__2"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.varType')"
             >{{ $t("trade.form.fields.varType") }}
@@ -69,10 +72,13 @@
               :options="varTypes"
               :placeholder="$t('trade.form.fields.varType_placeholder')"
               v-model="varType"
-              :clearable="false" />
+              :clearable="false"
+              :class="{
+                'is-invalid': $v.varType.$error
+              }" />
           </label>
           <label
-            id="input__3"
+            id="label__3"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.flow')"
             >{{ $t("trade.form.fields.flow") }}
@@ -81,10 +87,13 @@
               :options="flows"
               :placeholder="$t('trade.form.fields.flow_placeholder')"
               v-model="flow"
-              :clearable="false" />
+              :clearable="false"
+              :class="{
+                'is-invalid': $v.flow.$error
+              }" />
           </label>
           <label
-            id="input__4"
+            id="label__4"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.country')"
             >{{ $t("trade.form.fields.country") }}
@@ -93,24 +102,43 @@
               :options="countries"
               :placeholder="$t('trade.form.fields.country_placeholder')"
               v-model="country"
-              :clearable="false" />
+              :clearable="false"
+              :class="{
+                'is-invalid': $v.country.$error
+              }" />
           </label>
           <label
-            id="input__5"
+            @click="fixLabelForSelectAccessibility"
+            id="label__5"
+            for="vs__input__5"
             v-if="products"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.products')"
             >{{ $t("trade.form.fields.products") }}
-            <v-select
-              v-if="products"
-              label="displayName"
-              :options="products"
-              :placeholder="$t('trade.form.fields.products_placeholder')"
-              multiple
-              v-model="product"
-              ref="prod"
-              :clearable="false" />
           </label>
+          <v-select
+            v-if="products"
+            class="style-chooser col-12"
+            label="displayName"
+            :options="products"
+            :placeholder="$t('trade.form.fields.products_placeholder')"
+            multiple
+            required
+            v-model="product"
+            ref="prod"
+            :class="{
+              'is-invalid': $v.product.$error
+            }"
+            :aria-invalid="$v.product.$error === true ? true : false"
+            error-messages="error-message-product"
+            :clearable="false" />
+          <div id="error-message-product" class="error col-12">
+            <strong>
+              <span v-if="$v.product.$error">{{
+                $t("common.error.error_field_required")
+              }}</span>
+            </strong>
+          </div>
           <CButton
             color="primary"
             shape="square"
@@ -140,24 +168,25 @@
 import { mapGetters } from "vuex"
 import { Context, optionsTrade } from "@/common"
 import { metadataService } from "@/services"
+import { required } from "vuelidate/lib/validators"
 import paletteMixin from "@/components/mixins/palette.mixin"
 import LineChart from "@/components/charts/LineChart"
 import spinnerMixin from "@/components/mixins/spinner.mixin"
 import exporter from "@/components/Exporter"
-
 export default {
   name: "Trade",
   components: { LineChart, exporter },
   mixins: [paletteMixin, spinnerMixin],
   data: () => ({
     //Form (default values)
+
     idAllProducts: "",
     product: null,
     seriesType: null,
     varType: null,
     country: null,
     flow: null,
-
+    submitStatus: "OK",
     //Chart
     chartData: null,
     labelPeriod: [],
@@ -193,12 +222,27 @@ export default {
         : ""
     }
   },
+  validations: {
+    flow: { required },
+    product: { required },
+    seriesType: { required },
+    varType: { required },
+    country: { required }
+  },
   methods: {
     helpOn(showModal) {
       this.isModalHelp = showModal
     },
     handleSubmit() {
-      if (this.varType && this.country && this.flow) {
+      this.$v.$touch() //validate form data
+      if (
+        !this.$v.seriesType.$invalid &&
+        !this.$v.varType.$invalid &&
+        !this.$v.country.$invalid &&
+        !this.$v.product.$invalid &&
+        !this.$v.flow.$invalid
+      ) {
+        this.submitStatus = "OK"
         this.spinnerStart(true)
         this.$store
           .dispatch("trade/findByName", {
@@ -226,6 +270,8 @@ export default {
           })
         this.clearColor()
         this.spinnerStart(true)
+      } else {
+        this.submitStatus = "PENDING"
       }
     },
     buildChartObject(description, value) {
@@ -274,7 +320,6 @@ export default {
         }
       }
       this.$store.dispatch("coreui/setContext", Context.Trade)
-
       //Set form default values
       metadataService
         .getTradeDefault()
@@ -286,7 +331,6 @@ export default {
             this.flow = flow
             this.country = country
             this.product = product
-
             this.$store
               .dispatch("trade/findByName", {
                 type: this.varType.id,
@@ -302,7 +346,6 @@ export default {
                   this.buildChartObject(element.dataname, element.value)
                 })
               })
-
             this.spinnerStart(false)
           }
         )
@@ -350,16 +393,6 @@ export default {
     spinnerStart(bool) {
       this.spinner = bool
     },
-    fixLabelAccessibility() {
-      setTimeout(() => {
-        document.querySelectorAll("label > *").forEach((element, index) => {
-          const i = index + 1
-          element
-            .getElementsByClassName("vs__search")[0]
-            .setAttribute("aria-labelledby", "input__" + i)
-        })
-      }, 300)
-    },
     fixLanguageAccessibility() {
       setTimeout(() => {
         document.querySelectorAll(".vs__clear ").forEach((element) => {
@@ -399,15 +432,35 @@ export default {
           element.textContent = "Terra - " + this.$t("landing.trade.title")
         })
       }, 300)
+    },
+    fixLabelSelectAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vs__search").forEach((element, index) => {
+          const i = index + 1
+          element.setAttribute("aria-labelledby", "label__" + i)
+        })
+      }, 300)
+    },
+    fixLabelForSelectAccessibility() {
+      setTimeout(() => {
+        document.querySelectorAll(".vs__search").forEach((element, index) => {
+          const i = index + 1
+          if (i === 5) {
+            element.setAttribute("id", "vs__input__" + i)
+          }
+        })
+      }, 300)
     }
   },
   created() {
     this.loadData()
-    this.fixLabelAccessibility()
+    this.fixLabelSelectAccessibility()
+    this.fixLabelForSelectAccessibility()
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
     this.fixMetaTitle()
+    this.$v.$touch()
   }
 }
 </script>
@@ -417,5 +470,8 @@ export default {
 }
 .card-filter .card-body {
   padding-left: 0.5rem;
+}
+.error {
+  color: red;
 }
 </style>
