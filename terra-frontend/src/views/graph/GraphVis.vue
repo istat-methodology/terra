@@ -309,24 +309,32 @@ export default {
       //New business logic here (only for nodes)!!!!
       var nodesDiff = []
       if (this.nodeSelected && !this.displayTransport) {
-        console.log("Node scenario, applying new business logic!")
+        //console.log("Node scenario, applying new business logic!")
         nodesDiff = this.selectedEdges.filter(
           (edge) => !containsEdge(edge, this.selectedNodesTable)
         )
       } else {
-        console.log("Edge scenario, doing nothing :)")
+        //console.log("Edge scenario, doing nothing :)")
         nodesDiff = this.selectedEdges
       }
-      //console.log("Node edges " + this.selectedEdges.length)
-      //console.log("Selected edges " + this.selectedNodesTable.length)
-      //console.log("Diff  " + nodesDiff.length)
+
+      //Local copy of selected transports
+      this.localTransports = []
+      if (this.displayTransport) {
+        this.localTransports = containsAllTransports(this.transports)
+          ? [...this.transportCls.slice(1)]
+          : [...this.transports]
+      }
 
       nodesDiff.forEach((edge) => {
         constraints.push({
           from: getNode(this.nodes, edge.from).label,
           to: getNode(this.nodes, edge.to).label,
           exclude: this.displayTransport
-            ? getTransportDifference(this.transports, this.scenarioTransports)
+            ? getTransportDifference(
+                this.localTransports,
+                this.scenarioTransports
+              )
             : "-99"
         })
       })
