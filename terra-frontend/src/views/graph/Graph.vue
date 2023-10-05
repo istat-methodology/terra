@@ -176,7 +176,7 @@
               :clearable="false" />
           </label>
           <label
-            @click="fixLabel__4__ForSelectAccessibility"
+            @click="fixLabelForSelectAccessibility"
             class="card-label mt-3 col-12"
             id="label__4"
             for="vs__input__4"
@@ -266,7 +266,6 @@ export default {
     displayTransport: true,
     currentTime: null,
     frequency: "",
-
     //Form fields
     percentage: 0,
     transport: null,
@@ -277,19 +276,15 @@ export default {
 
     //Graph
     graphForm: null,
-
     //Metrics table
     metricsFieldsIt: [...metricsFieldsIt],
     metricsFieldsEn: [...metricsFieldsEn],
     sorterValue: { column: "vulnerability", asc: false },
-
     //Spinner
     spinner: false,
-
     //Modal
     isHelpModal: false,
-    isMainModal: false,
-    vstransport: null
+    isMainModal: false
   }),
   watch: {
     language() {
@@ -546,7 +541,7 @@ export default {
         })
       }, 300)
     },
-    fixLabelForSelectAccessibility() {
+    fixLabelSelectAccessibility() {
       setTimeout(() => {
         document.querySelectorAll(".vs__search").forEach((element, index) => {
           const i = index + 1
@@ -554,13 +549,14 @@ export default {
         })
       }, 300)
     },
-    fixLabel__4__ForSelectAccessibility() {
+    fixLabelForSelectAccessibility() {
       setTimeout(() => {
-        document
-          .querySelectorAll("#vs4__combobox .vs__search")
-          .forEach((element) => {
-            element.setAttribute("id", "vs__input__4")
-          })
+        document.querySelectorAll(".vs__search").forEach((element, index) => {
+          const i = index + 1
+          if (i === 4) {
+            element.setAttribute("id", "vs__input__" + i)
+          }
+        })
       }, 300)
     },
     fixHeaderTableForAccessibility() {
@@ -614,19 +610,28 @@ export default {
     },
     setFocusOn() {
       document.getElementById("vs1__combobox").focus()
+    },
+    fixSortingTable() {
+      setTimeout(() => {
+        document
+          .querySelectorAll("table thead tr th svg .c-icon")
+          .forEach((element) => {
+            element.setAttribute("aria-label", "ordinamento per")
+          })
+      }, 300)
     }
   },
   created() {
-    this.vstransport = this.$refs.vstransport
     this.loadData()
     this.fixSliderAccessibility()
+    this.fixLabelSelectAccessibility()
     this.fixLabelForSelectAccessibility()
-    this.fixLabel__4__ForSelectAccessibility()
     this.fixHeaderTableForAccessibility()
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
     this.fixMetaTitle()
+    this.fixSortingTable()
   }
 }
 </script>
