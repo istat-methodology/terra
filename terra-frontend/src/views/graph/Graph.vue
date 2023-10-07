@@ -612,13 +612,38 @@ export default {
       document.getElementById("vs1__combobox").focus()
     },
     fixSortingTable() {
+      //class="c-icon c-icon-custom-size icon-transition position-absolute arrow-position transparent"
+
       setTimeout(() => {
-        document
-          .querySelectorAll("table thead tr th svg .c-icon")
-          .forEach((element) => {
-            element.setAttribute("aria-label", "ordinamento per")
-          })
+        var thead = document.querySelector("thead tr")
+        thead.querySelectorAll("th").forEach((th) => {
+          var svg = th.getElementsByTagName("svg")
+          console.log(svg)
+          //svg.setAttribute("aria-label", "prova_" + index)
+          //element.setAttribute("title", element.innerText)
+          //element.setAttribute("aria-label", element.innerText)
+        })
       }, 300)
+
+      /*
+        document
+          .querySelectorAll("table > thead > tr > th svg")
+          .forEach((element) => {
+            if (element.hasAttribute("class") == true) {
+              if (
+                element.getAttribute("class") ==
+                "c-icon c-icon-custom-size icon-transition position-absolute arrow-position rotate-icon"
+              ) {
+                console.log("ok = " + element.getAttribute("class"))
+
+                //element.setAttribute("aria-label", "ordinamento per")
+                //getElementsByTagNameNS
+              } else {
+                console.log("ko = " + element.getAttribute("class"))
+              }
+            }
+          })
+        */
     }
   },
   created() {
