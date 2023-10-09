@@ -31,7 +31,9 @@
     "language_en": "Inglese",
     "clear_selected": "Clear Selected",
     "select_filter": "Search for Option ",
-    "goto_context": "Go to main context"
+    "goto_context": "Go to main context",
+    "order_field": "Sorting by ",
+    "pagination":"pagination"
   },
   "header": {
     "userguide": "User guide",

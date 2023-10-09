@@ -31,7 +31,9 @@
     "language_en": "English",
     "clear_selected": "Deseleziona",
     "select_filter": "Cercare l'opzione",
-    "goto_context": "Vai al contenuto principale"
+    "goto_context": "Vai al contenuto principale",
+    "order_field": "Ordinamento per ",
+    "pagination":"paginazione"
   },
   "header": {
     "userguide": "Manuale utente",

@@ -74,10 +74,12 @@
             @click="
               selectLanguage('it')
               fixHeaderTableForAccessibility()
+              fixSortingTable()
             "
             @keypress="
               selectLanguage('it')
               fixHeaderTableForAccessibility()
+              fixSortingTable()
             "
             :aria-label="
               $t('common.select_language') + $t('common.language_it')
@@ -95,10 +97,12 @@
             @click="
               selectLanguage('en')
               fixHeaderTableForAccessibility()
+              fixSortingTable()
             "
             @keypress="
               selectLanguage('en')
               fixHeaderTableForAccessibility()
+              fixSortingTable()
             "
             :aria-label="
               $t('common.select_language') + $t('common.language_en')
@@ -153,6 +157,20 @@ export default {
     },
     handleSidebarMobile() {
       this.$store.dispatch("coreui/toggleSidebarMobile")
+    },
+    fixSortingTable() {
+      setTimeout(() => {
+        for (let i = 0; i < i < 5; i++) {
+          var tagId = "head_" + i
+          this.setAriaLabel(tagId)
+        }
+      }, 2000)
+    },
+    setAriaLabel(tagId) {
+      var element = document.getElementById(tagId)
+      var svg = element.querySelector("svg")
+      console.log(svg)
+      svg.ariaLabel = this.$t("common.order_field") + element.innerText
     }
   },
   created() {

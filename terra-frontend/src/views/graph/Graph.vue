@@ -612,38 +612,19 @@ export default {
       document.getElementById("vs1__combobox").focus()
     },
     fixSortingTable() {
-      //class="c-icon c-icon-custom-size icon-transition position-absolute arrow-position transparent"
-
       setTimeout(() => {
-        var thead = document.querySelector("thead tr")
-        thead.querySelectorAll("th").forEach((th) => {
-          var svg = th.getElementsByTagName("svg")
-          console.log(svg)
-          //svg.setAttribute("aria-label", "prova_" + index)
-          //element.setAttribute("title", element.innerText)
-          //element.setAttribute("aria-label", element.innerText)
-        })
-      }, 300)
-
-      /*
-        document
-          .querySelectorAll("table > thead > tr > th svg")
-          .forEach((element) => {
-            if (element.hasAttribute("class") == true) {
-              if (
-                element.getAttribute("class") ==
-                "c-icon c-icon-custom-size icon-transition position-absolute arrow-position rotate-icon"
-              ) {
-                console.log("ok = " + element.getAttribute("class"))
-
-                //element.setAttribute("aria-label", "ordinamento per")
-                //getElementsByTagNameNS
-              } else {
-                console.log("ko = " + element.getAttribute("class"))
-              }
-            }
-          })
-        */
+        for (var i = 0; i < i < 5; i++) {
+          var tagId = "head_" + i
+          this.setAriaLabel(tagId)
+        }
+      }, 2000)
+    },
+    setAriaLabel(tagId) {
+      var element = document.getElementById(tagId)
+      console.log("element:" + tagId)
+      var svg = element.querySelector("svg")
+      console.log("svg: " + svg)
+      svg.ariaLabel = this.$t("common.order_field") + element.innerText
     }
   },
   created() {
