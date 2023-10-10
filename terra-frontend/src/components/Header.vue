@@ -71,16 +71,8 @@
             square
             size="sm"
             :class="{ active: selectedIt }"
-            @click="
-              selectLanguage('it')
-              fixHeaderTableForAccessibility()
-              fixSortingTable()
-            "
-            @keypress="
-              selectLanguage('it')
-              fixHeaderTableForAccessibility()
-              fixSortingTable()
-            "
+            @click="selectLanguage('it')"
+            @keypress="selectLanguage('it')"
             :aria-label="
               $t('common.select_language') + $t('common.language_it')
             "
@@ -94,16 +86,8 @@
             square
             size="sm"
             :class="{ active: selectedEn }"
-            @click="
-              selectLanguage('en')
-              fixHeaderTableForAccessibility()
-              fixSortingTable()
-            "
-            @keypress="
-              selectLanguage('en')
-              fixHeaderTableForAccessibility()
-              fixSortingTable()
-            "
+            @click="selectLanguage('en')"
+            @keypress="selectLanguage('en')"
             :aria-label="
               $t('common.select_language') + $t('common.language_en')
             "
@@ -157,27 +141,13 @@ export default {
     },
     handleSidebarMobile() {
       this.$store.dispatch("coreui/toggleSidebarMobile")
-    },
-    fixSortingTable() {
-      setTimeout(() => {
-        for (let i = 0; i < i < 5; i++) {
-          var tagId = "head_" + i
-          this.setAriaLabel(tagId)
-        }
-      }, 2000)
-    },
-    setAriaLabel(tagId) {
-      var element = document.getElementById(tagId)
-      var svg = element.querySelector("svg")
-      console.log(svg)
-      svg.ariaLabel = this.$t("common.order_field") + element.innerText
     }
   },
   created() {
     this.selectedIt = this.isItalian
     this.selectedEn = !this.isItalian
     this.currentState = !this.currentState
-    this.fixHeaderTableForAccessibility()
+    //this.fixHeaderTableForAccessibility()
   }
 }
 </script>

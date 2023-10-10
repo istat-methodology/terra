@@ -291,8 +291,6 @@ export default {
       this.$store.dispatch("message/success", this.$t("common.update_cls"))
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.loadData()
-        this.fixLanguageAccessibility()
-        this.fixMetaTitle()
       })
     },
     frequency() {
@@ -613,11 +611,15 @@ export default {
     },
     fixSortingTable() {
       setTimeout(() => {
-        for (var i = 0; i < i < 5; i++) {
-          var tagId = "head_" + i
-          this.setAriaLabel(tagId)
-        }
-      }, 2000)
+        //for (var i = 0; i <= 4; i++) {
+        //var tagId = "head_" + i
+        //this.setAriaLabel(tagId)
+        //}
+        this.setAriaLabel("head_1")
+        this.setAriaLabel("head_2")
+        this.setAriaLabel("head_3")
+        this.setAriaLabel("head_4")
+      }, 3000)
     },
     setAriaLabel(tagId) {
       var element = document.getElementById(tagId)
@@ -629,6 +631,9 @@ export default {
   },
   created() {
     this.loadData()
+  },
+  mounted() {
+    /*
     this.fixSliderAccessibility()
     this.fixLabelSelectAccessibility()
     this.fixLabelForSelectAccessibility()
@@ -638,6 +643,26 @@ export default {
     this.fixASidebarMenu()
     this.fixMetaTitle()
     this.fixSortingTable()
+    */
+  },
+  updated() {
+    this.fixSliderAccessibility()
+    this.fixLabelSelectAccessibility()
+    this.fixLabelForSelectAccessibility()
+    this.fixHeaderTableForAccessibility()
+    this.fixLanguageAccessibility()
+    this.fixSelectAccessibility()
+    this.fixASidebarMenu()
+    this.fixMetaTitle()
+    this.fixSortingTable()
+  },
+  beforeDestroy: function () {
+    console.log("beforeDestroy")
+    this.$destroy()
+  },
+
+  destroyed: function () {
+    console.log("afterDestroy")
   }
 }
 </script>

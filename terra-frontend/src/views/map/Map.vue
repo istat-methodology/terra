@@ -250,7 +250,6 @@ export default {
       this.$store.dispatch("message/success", this.$t("common.update_cls"))
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.loadData()
-        this.fixMetaTitle()
       })
     }
   },
@@ -521,6 +520,14 @@ export default {
   },
   created() {
     this.loadData()
+  },
+  mounted() {
+    this.fixMetaTitle()
+    this.fixSliderAccessibility()
+    this.fixMapAccessibility()
+    this.fixASidebarMenu()
+  },
+  updated() {
     this.fixMetaTitle()
     this.fixSliderAccessibility()
     this.fixMapAccessibility()
