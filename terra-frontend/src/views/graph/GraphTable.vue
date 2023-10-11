@@ -12,6 +12,7 @@
     pagination-->
   <CDataTable
     id="metricsTable"
+    ref="metricsTable"
     v-if="data"
     :items="data"
     :fields="fields"

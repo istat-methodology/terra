@@ -623,6 +623,8 @@ export default {
     },
     setAriaLabel(tagId) {
       var element = document.getElementById(tagId)
+      var el = this
+      console.log("el: " + el)
       console.log("element:" + tagId)
       var svg = element.querySelector("svg")
       console.log("svg: " + svg)
@@ -633,7 +635,6 @@ export default {
     this.loadData()
   },
   mounted() {
-    /*
     this.fixSliderAccessibility()
     this.fixLabelSelectAccessibility()
     this.fixLabelForSelectAccessibility()
@@ -643,7 +644,6 @@ export default {
     this.fixASidebarMenu()
     this.fixMetaTitle()
     this.fixSortingTable()
-    */
   },
   updated() {
     this.fixSliderAccessibility()
