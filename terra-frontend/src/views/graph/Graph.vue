@@ -565,6 +565,7 @@ export default {
 
         thead.querySelectorAll("th").forEach((element, index) => {
           element.setAttribute("id", "head_" + index)
+          element.setAttribute("ref", "head_" + index)
           element.setAttribute("title", element.innerText)
           element.setAttribute("aria-label", element.innerText)
         })
@@ -623,7 +624,7 @@ export default {
     },
     setAriaLabel(tagId) {
       var element = document.getElementById(tagId)
-      var el = this
+      var el = this.$refs["metricsTable"]
       console.log("el: " + el)
       console.log("element:" + tagId)
       var svg = element.querySelector("svg")
@@ -643,7 +644,7 @@ export default {
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
     this.fixMetaTitle()
-    this.fixSortingTable()
+    //this.fixSortingTable()
   },
   updated() {
     this.fixSliderAccessibility()
@@ -654,7 +655,7 @@ export default {
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
     this.fixMetaTitle()
-    this.fixSortingTable()
+    //this.fixSortingTable()
   },
   beforeDestroy: function () {
     console.log("beforeDestroy")

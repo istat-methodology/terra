@@ -63,6 +63,31 @@ export default {
       type: Object,
       default: () => ({ column: null, asc: true })
     }
+  },
+  methods: {
+    fixSortingTable() {
+      setTimeout(() => {
+        this.setAriaLabel("head_0", 1)
+        this.setAriaLabel("head_1", 2)
+        this.setAriaLabel("head_2", 3)
+        this.setAriaLabel("head_3", 4)
+        this.setAriaLabel("head_4", 5)
+      }, 3000)
+    },
+    setAriaLabel(tagId, i) {
+      var element = document.getElementById(tagId)
+      console.log("element:" + tagId)
+      var svg = this.$el.__vue__.$children[i].$el
+      console.log("svg: " + svg)
+      svg.ariaLabel = this.$t("common.order_field") + element.innerText
+      console.log("svg aria label : " + svg.ariaLabel)
+    }
+  },
+  mounted() {
+    this.fixSortingTable()
+  },
+  updated() {
+    this.fixSortingTable()
   }
 }
 </script>
