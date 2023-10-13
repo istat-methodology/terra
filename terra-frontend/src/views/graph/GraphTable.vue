@@ -66,21 +66,23 @@ export default {
   },
   methods: {
     fixSortingTable() {
-      setTimeout(() => {
-        this.setAriaLabel("head_0", 1)
-        this.setAriaLabel("head_1", 2)
-        this.setAriaLabel("head_2", 3)
-        this.setAriaLabel("head_3", 4)
-        this.setAriaLabel("head_4", 5)
-      }, 3000)
+      var table = this.$refs.metricsTable
+      console.log(table)
+      var columns = table.columnNames
+      console.log(columns)
+      columns.forEach((colum, index) => {
+        var i = index + 1
+        this.setAriaLabel(table, colum, i)
+      })
     },
-    setAriaLabel(tagId, i) {
-      var element = document.getElementById(tagId)
-      console.log("element:" + tagId)
-      var svg = this.$el.__vue__.$children[i].$el
-      console.log("svg: " + svg)
-      svg.ariaLabel = this.$t("common.order_field") + element.innerText
-      console.log("svg aria label : " + svg.ariaLabel)
+    setAriaLabel(table, colum, i) {
+      var svg = table.$el.__vue__.$children[i].$el
+      console.log("table:" + table)
+      console.log("column:" + colum)
+      console.log("i:" + i)
+      console.log("svg aria label init => " + svg.ariaLabel)
+      svg.ariaLabel = this.$t("common.order_field") + colum
+      console.log("svg aria label end => " + svg.ariaLabel)
     }
   },
   mounted() {

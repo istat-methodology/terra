@@ -558,14 +558,14 @@ export default {
       }, 300)
     },
     fixHeaderTableForAccessibility() {
+      var table = this.$refs
+      console.log(table)
       setTimeout(() => {
         var thead = document
           .getElementById("metricsTable")
           .querySelector("thead > tr")
-
         thead.querySelectorAll("th").forEach((element, index) => {
           element.setAttribute("id", "head_" + index)
-          element.setAttribute("ref", "head_" + index)
           element.setAttribute("title", element.innerText)
           element.setAttribute("aria-label", element.innerText)
         })
@@ -609,27 +609,6 @@ export default {
     },
     setFocusOn() {
       document.getElementById("vs1__combobox").focus()
-    },
-    fixSortingTable() {
-      setTimeout(() => {
-        //for (var i = 0; i <= 4; i++) {
-        //var tagId = "head_" + i
-        //this.setAriaLabel(tagId)
-        //}
-        this.setAriaLabel("head_1")
-        this.setAriaLabel("head_2")
-        this.setAriaLabel("head_3")
-        this.setAriaLabel("head_4")
-      }, 3000)
-    },
-    setAriaLabel(tagId) {
-      var element = document.getElementById(tagId)
-      var el = this.$refs["metricsTable"]
-      console.log("el: " + el)
-      console.log("element:" + tagId)
-      var svg = element.querySelector("svg")
-      console.log("svg: " + svg)
-      svg.ariaLabel = this.$t("common.order_field") + element.innerText
     }
   },
   created() {
@@ -644,18 +623,16 @@ export default {
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
     this.fixMetaTitle()
-    //this.fixSortingTable()
   },
   updated() {
     this.fixSliderAccessibility()
     this.fixLabelSelectAccessibility()
-    this.fixLabelForSelectAccessibility()
-    this.fixHeaderTableForAccessibility()
+    this.fixLabelForSelectAccessibility() /
+      this.fixHeaderTableForAccessibility()
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
     this.fixMetaTitle()
-    //this.fixSortingTable()
   },
   beforeDestroy: function () {
     console.log("beforeDestroy")
