@@ -33,6 +33,7 @@ import {
   CButtonGroup,
   CAlert,
   CDataTable,
+  CPagination,
   CTab,
   CTabs,
   CInputCheckbox,
@@ -74,6 +75,8 @@ Vue.component("CButton", CButton)
 Vue.component("CButtonGroup", CButtonGroup)
 Vue.component("CAlert", CAlert)
 Vue.component("CDataTable", CDataTable)
+Vue.component("CPagination", CPagination)
+
 Vue.component("CTab", CTab)
 Vue.component("CTabs", CTabs)
 Vue.component("CInputCheckbox", CInputCheckbox)

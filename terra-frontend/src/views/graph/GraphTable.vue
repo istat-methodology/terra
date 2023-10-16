@@ -9,7 +9,14 @@
     :items-per-page="10"
     sorter
     hover
-    pagination-->
+    pagination
+  
+    scopedSlots={{ label: ({ label }) => {  return <th>{nome}</th>; } }}
+    columnHeaderSlot={{ label: <i>Custom label Header</i> }}
+
+  
+  -->
+
   <CDataTable
     id="metricsTable"
     ref="metricsTable"
@@ -76,13 +83,15 @@ export default {
       })
     },
     setAriaLabel(table, colum, i) {
-      var svg = table.$el.__vue__.$children[i].$el
-      console.log("table:" + table)
-      console.log("column:" + colum)
-      console.log("i:" + i)
-      console.log("svg aria label init => " + svg.ariaLabel)
-      svg.ariaLabel = this.$t("common.order_field") + colum
-      console.log("svg aria label end => " + svg.ariaLabel)
+      setTimeout(() => {
+        var svg = this.$el.__vue__.$children[i].$el
+        console.log("table:" + table)
+        console.log("column:" + colum)
+        console.log("i:" + i)
+        console.log("svg aria label init => " + svg.ariaLabel)
+        svg.ariaLabel = this.$t("common.order_field") + colum
+        console.log("svg aria label end => " + svg.ariaLabel)
+      }, 300)
     }
   },
   mounted() {
