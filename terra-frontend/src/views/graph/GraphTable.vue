@@ -91,7 +91,7 @@ export default {
     }
   },
   mounted() {
-    //this.fixSortingTable()
+    this.fixSortingTable()
   },
   updated() {
     this.fixSortingTable()
