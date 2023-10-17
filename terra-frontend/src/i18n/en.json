@@ -31,9 +31,7 @@
     "language_en": "Inglese",
     "clear_selected": "Clear Selected",
     "select_filter": "Search for Option ",
-    "goto_context": "Go to main context",
-    "order_field": "Sorting by ",
-    "pagination":"pagination"
+    "goto_context": "Go to main context"
   },
   "header": {
     "userguide": "User guide",
@@ -165,7 +163,12 @@
       "graph_empty": "Warning: Graph empty \n Increase the treshold or change means of transport"
     },
     "table": {
-      "title": "Metrics"
+      "title": "Metrics",
+      "no_filtering_results_available": "no filtering results available",
+      "no_items_available": "no items available",
+      "order_field": "Sorting by ",
+      "search_field": "Search for ",
+      "pagination": "pagination"  
     },
     "card": {
       "title": "Graphs"

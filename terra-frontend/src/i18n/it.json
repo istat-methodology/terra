@@ -31,9 +31,8 @@
     "language_en": "English",
     "clear_selected": "Deseleziona",
     "select_filter": "Cercare l'opzione",
-    "goto_context": "Vai al contenuto principale",
-    "order_field": "Ordinamento per ",
-    "pagination":"paginazione"
+    "goto_context": "Vai al contenuto principale"
+  
   },
   "header": {
     "userguide": "Manuale utente",
@@ -164,7 +163,12 @@
       "graph_empty": "Attenzione: Grafo vuoto \n Ridurre la soglia o cambiare i mezzi di trasporto"
     },
     "table": {
-      "title": "Metriche"
+      "title": "Metriche",
+      "no_filtering_results_available": "nessun risultato del filtro disponibile",
+      "no_items_available": "nessun risultato disponibile",
+      "search_field": "Ricerca per ",
+      "order_field": "Ordinamento per ",
+      "pagination": "paginazione"
     },
     "card": {
       "title": "Grafi"

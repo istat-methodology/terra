@@ -558,8 +558,8 @@ export default {
       }, 300)
     },
     fixHeaderTableForAccessibility() {
-      var table = this.$refs
-      console.log(table)
+      //var table = this.$refs
+      //console.log(table)
       setTimeout(() => {
         var thead = document
           .getElementById("metricsTable")
@@ -627,8 +627,8 @@ export default {
   updated() {
     this.fixSliderAccessibility()
     this.fixLabelSelectAccessibility()
-    this.fixLabelForSelectAccessibility() /
-      this.fixHeaderTableForAccessibility()
+    this.fixLabelForSelectAccessibility()
+    this.fixHeaderTableForAccessibility()
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
     this.fixASidebarMenu()

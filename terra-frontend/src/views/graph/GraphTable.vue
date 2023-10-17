@@ -13,25 +13,23 @@
   
     scopedSlots={{ label: ({ label }) => {  return <th>{nome}</th>; } }}
     columnHeaderSlot={{ label: <i>Custom label Header</i> }}
-
-  
   -->
-
   <CDataTable
     id="metricsTable"
     ref="metricsTable"
     v-if="data"
     :items="data"
     :fields="fields"
+    :sorterValue="sorterValue"
+    column-filter
     :items-per-page="10"
     sorter
     hover
-    pagination>
-    <template #label="{ item }">
-      <td headers="head_0">
-        {{ item.label }}
-      </td>
-    </template>
+    pagination
+    :noItemsView="{
+      noResults: this.$t('graph.table.no_filtering_results_available'),
+      noItems: this.$t('graph.table.no_items_available')
+    }">
     <template #name="{ item }">
       <td headers="head_1">
         {{ item.name }}
@@ -73,29 +71,27 @@ export default {
   },
   methods: {
     fixSortingTable() {
-      var table = this.$refs.metricsTable
-      console.log(table)
-      var columns = table.columnNames
-      console.log(columns)
-      columns.forEach((colum, index) => {
-        var i = index + 1
-        this.setAriaLabel(table, colum, i)
-      })
-    },
-    setAriaLabel(table, colum, i) {
-      setTimeout(() => {
-        var svg = this.$el.__vue__.$children[i].$el
-        console.log("table:" + table)
-        console.log("column:" + colum)
-        console.log("i:" + i)
-        console.log("svg aria label init => " + svg.ariaLabel)
-        svg.ariaLabel = this.$t("common.order_field") + colum
-        console.log("svg aria label end => " + svg.ariaLabel)
-      }, 300)
+      const table = this.$refs.metricsTable
+      if (table.$el.children[0].children[0].children[0].children) {
+        const thead = table.$el.children[0].children[0].children[0].children
+        const tr_0 = thead[0].children
+        const tr_1 = thead[1].children
+        if (tr_0) {
+          for (let i = 0; i <= 4; i++) {
+            tr_0[i].children[1].ariaLabel =
+              this.$t("graph.table.order_field") + tr_0[i].ariaLabel
+
+            tr_1[i].children[0].ariaLabel =
+              this.$t("graph.table.search_field") + tr_0[i].ariaLabel
+            tr_1[i].children[0].title =
+              this.$t("graph.table.search_field") + tr_0[i].ariaLabel
+          }
+        }
+      }
     }
   },
   mounted() {
-    this.fixSortingTable()
+    //this.fixSortingTable()
   },
   updated() {
     this.fixSortingTable()
