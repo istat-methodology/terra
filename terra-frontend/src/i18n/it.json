@@ -32,7 +32,6 @@
     "clear_selected": "Deseleziona",
     "select_filter": "Cercare l'opzione",
     "goto_context": "Vai al contenuto principale"
-  
   },
   "header": {
     "userguide": "Manuale utente",
@@ -168,7 +167,13 @@
       "no_items_available": "nessun risultato disponibile",
       "search_field": "Ricerca per ",
       "order_field": "Ordinamento per ",
-      "pagination": "paginazione"
+      "pagination": "paginazione",
+      "go_to_first_page": "Vai alla prima pagina",
+      "go_to_previous_page": "Vai alla pagina precedente",
+      "current_page": "Pagina corrente ",
+      "go_to_page ": "Vai alla pagina ",
+      "go to_next_page": "Vai alla pagina succesiva",
+      "go_to_last_page": "Vai all'ultima pagina"
     },
     "card": {
       "title": "Grafi"

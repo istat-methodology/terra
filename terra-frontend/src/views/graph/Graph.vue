@@ -558,8 +558,6 @@ export default {
       }, 300)
     },
     fixHeaderTableForAccessibility() {
-      //var table = this.$refs
-      //console.log(table)
       setTimeout(() => {
         var thead = document
           .getElementById("metricsTable")

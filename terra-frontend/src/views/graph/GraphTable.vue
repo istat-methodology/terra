@@ -1,60 +1,50 @@
 <template>
-  <!--CDataTable
-    id="metricsTable"
-    v-if="data"
-    :items="data"
-    :fields="fields"
-    :sorterValue="sorterValue"
-    column-filter
-    :items-per-page="10"
-    sorter
-    hover
-    pagination
-  
-    scopedSlots={{ label: ({ label }) => {  return <th>{nome}</th>; } }}
-    columnHeaderSlot={{ label: <i>Custom label Header</i> }}
-  -->
-  <CDataTable
-    id="metricsTable"
-    ref="metricsTable"
-    v-if="data"
-    :items="data"
-    :fields="fields"
-    :sorterValue="sorterValue"
-    column-filter
-    :items-per-page="10"
-    sorter
-    hover
-    pagination
-    :noItemsView="{
-      noResults: this.$t('graph.table.no_filtering_results_available'),
-      noItems: this.$t('graph.table.no_items_available')
-    }">
-    <template #name="{ item }">
-      <td headers="head_1">
-        {{ item.name }}
-      </td>
-    </template>
-    <template #vulnerability="{ item }">
-      <td headers="head_2">
-        {{ item.vulnerability }}
-      </td>
-    </template>
-    <template #hubness="{ item }">
-      <td headers="head_3">
-        {{ item.hubness }}
-      </td>
-    </template>
-    <template #exportStrenght="{ item }">
-      <td headers="head_4">
-        {{ item.exportStrenght }}
-      </td>
-    </template>
-  </CDataTable>
+  <div>
+    <CDataTable
+      id="metricsTable"
+      ref="metricsTable"
+      v-if="data"
+      :items="data"
+      :fields="fields"
+      :sorterValue="sorterValue"
+      column-filter
+      :items-per-page="10"
+      sorter
+      hover
+      pagination
+      @page-change="setPage()"
+      :noItemsView="{
+        noResults: this.$t('graph.table.no_filtering_results_available'),
+        noItems: this.$t('graph.table.no_items_available')
+      }">
+      <template #name="{ item }">
+        <td headers="head_1">
+          {{ item.name }}
+        </td>
+      </template>
+      <template #vulnerability="{ item }">
+        <td headers="head_2">
+          {{ item.vulnerability }}
+        </td>
+      </template>
+      <template #hubness="{ item }">
+        <td headers="head_3">
+          {{ item.hubness }}
+        </td>
+      </template>
+      <template #exportStrenght="{ item }">
+        <td headers="head_4">
+          {{ item.exportStrenght }}
+        </td>
+      </template>
+    </CDataTable>
+    <span class="no-visible">{{ page_number }}</span>
+  </div>
 </template>
 <script>
 export default {
   name: "GraphTable",
+  data: () => ({ page_number: 0 }),
   props: {
     data: {
       type: Array,
@@ -88,13 +78,75 @@ export default {
           }
         }
       }
+    },
+    fixNavTable() {
+      const table = this.$refs.metricsTable
+      if (table.$el.children[1]) {
+        const nav = table.$el.children[1]
+        nav.ariaLabel = this.$t("graph.table.pagination")
+        let nav_buttons = nav.children[0].children
+        nav_buttons[0].children[0].ariaLabel = this.$t(
+          "graph.table.go_to_first_page"
+        )
+        nav_buttons[0].children[0].title = this.$t(
+          "graph.table.go_to_first_page"
+        )
+        nav_buttons[1].children[0].ariaLabel = this.$t(
+          "graph.table.go_to_previous_page"
+        )
+        nav_buttons[1].children[0].title = this.$t(
+          "graph.table.go_to_previous_page"
+        )
+        nav_buttons[7].children[0].ariaLabel = this.$t(
+          "graph.table.go to_next_page"
+        )
+        nav_buttons[7].children[0].title = this.$t(
+          "graph.table.go to_next_page"
+        )
+        //
+        nav_buttons[8].children[0].ariaLabel = this.$t(
+          "graph.table.go_to_last_page"
+        )
+        nav_buttons[8].children[0].title = this.$t(
+          "graph.table.go_to_last_page"
+        )
+        for (let i = 2; i <= 6; i++) {
+          if (nav_buttons[i].className == "active page-item") {
+            nav_buttons[i].children[0].ariaLabel =
+              this.$t("graph.table.current_page") +
+              nav_buttons[i].children[0].innerText
+            nav_buttons[i].children[0].title =
+              this.$t("graph.table.current_page") +
+              nav_buttons[i].children[0].innerText
+          } else {
+            nav_buttons[i].children[0].ariaLabel =
+              this.$t("graph.table.go_to_page ") +
+              nav_buttons[i].children[0].innerText
+            nav_buttons[i].children[0].title =
+              this.$t("graph.table.go_to_page ") +
+              nav_buttons[i].children[0].innerText
+            //
+          }
+        }
+      }
+    },
+    setPage() {
+      if (this.page_number > 10) this.page_number = 0
+      this.page_number = this.page_number + 1
     }
   },
   mounted() {
     this.fixSortingTable()
+    this.fixNavTable()
   },
   updated() {
     this.fixSortingTable()
+    this.fixNavTable()
   }
 }
 </script>
+<style>
+.no-visible {
+  display: none;
+}
+</style>

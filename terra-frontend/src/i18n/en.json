@@ -168,7 +168,13 @@
       "no_items_available": "no items available",
       "order_field": "Sorting by ",
       "search_field": "Search for ",
-      "pagination": "pagination"  
+      "pagination": "pagination",  
+      "go_to_first_page":"Go to first page",
+      "go_to_previous_page":"Go to previous page",
+      "current_page":"Current page ",
+      "go_to_page " : "Go to page ",
+      "go to_next_page":"Go to next page",
+      "go_to_last_page":"Go to last page"
     },
     "card": {
       "title": "Graphs"
