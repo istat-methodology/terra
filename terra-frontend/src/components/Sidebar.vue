@@ -1,7 +1,5 @@
 <template>
   <CSidebar
-    role="navigation"
-    aria-label="menu"
     fixed
     :minimize="minimize"
     :show="show"
@@ -26,7 +24,11 @@
           alt="" />
       </a>
     </CSidebarBrand>
-    <div class="c-sidebar-nav h-100" style="overflow: auto">
+    <div
+      class="c-sidebar-nav h-100"
+      style="overflow: auto"
+      role="navigation"
+      aria-label="menu">
       <div class="c-sidebar-nav-item" id="list-content">
         <a
           @click="handleHome"
