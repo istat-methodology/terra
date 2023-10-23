@@ -51,7 +51,8 @@
     "trade": "Paniere dei prodotti",
     "logo_istat": "Logo Istat",
     "goto_istat": "Vai a www.istat.it",
-    "opens_goto_istat": "Si apre in un'altra finestra: ISTAT"
+    "opens_goto_istat": "Si apre in un'altra finestra: ISTAT",
+    "main_menu_aria_label": "Menu principale"
   },
   "footer": {
     "link_accessibility": "Dichiarazione di accessibilità",
@@ -171,8 +172,8 @@
       "go_to_first_page": "Vai alla prima pagina",
       "go_to_previous_page": "Vai alla pagina precedente",
       "current_page": "Pagina corrente ",
-      "go_to_page ": "Vai alla pagina ",
-      "go to_next_page": "Vai alla pagina succesiva",
+      "go_to_page": "Vai alla pagina ",
+      "go_to_next_page": "Vai alla pagina succesiva",
       "go_to_last_page": "Vai all'ultima pagina"
     },
     "card": {

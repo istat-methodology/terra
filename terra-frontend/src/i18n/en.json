@@ -52,7 +52,8 @@
     "trade": "Basket of traded products",
     "logo_istat": "Istat Logo",
     "goto_istat": "Go to www.istat.it",
-    "opens_goto_istat": "Opens in a new window: ISTAT"
+    "opens_goto_istat": "Opens in a new window: ISTAT",
+    "main_menu_aria_label": "Main menu"
   },
   "footer": {
     "link_accessibility": "Accessibility statement",
@@ -168,13 +169,13 @@
       "no_items_available": "no items available",
       "order_field": "Sorting by ",
       "search_field": "Search for ",
-      "pagination": "pagination",  
-      "go_to_first_page":"Go to first page",
-      "go_to_previous_page":"Go to previous page",
-      "current_page":"Current page ",
-      "go_to_page " : "Go to page ",
-      "go to_next_page":"Go to next page",
-      "go_to_last_page":"Go to last page"
+      "pagination": "pagination",
+      "go_to_first_page": "Go to first page",
+      "go_to_previous_page": "Go to previous page",
+      "current_page": "Current page ",
+      "go_to_page": "Go to page ",
+      "go_to_next_page": "Go to next page",
+      "go_to_last_page": "Go to last page"
     },
     "card": {
       "title": "Graphs"

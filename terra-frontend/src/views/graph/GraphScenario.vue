@@ -22,11 +22,15 @@
       </template>
       <CDataTable
         v-if="nodesTable"
+        id="scenarioTable"
+        ref="scenarioTable"
         :items="nodesTable"
         :fields="fields"
         :items-per-page="5"
+        sorter
         hover
-        pagination>
+        pagination
+        @page-change="setPage()">
         <!--CDataTable
         v-if="nodesTable"
         :items="nodesTable"
@@ -161,6 +165,7 @@
         </CButton>
       </template>
     </CModal>
+    <span class="no-visible">{{ page_number }}</span>
   </div>
 </template>
 <script>
@@ -172,7 +177,8 @@ export default {
   },
   data: () => ({
     showScenario: false,
-    columnFilterValue: {}
+    columnFilterValue: {},
+    page_number: 0
   }),
   props: {
     showModal: {
@@ -313,7 +319,112 @@ export default {
         return [data, id]
       }
       return null
+    },
+    fixHeaderTableForAccessibility() {
+      setTimeout(() => {
+        var thead = document
+          .getElementById("scenarioTable")
+          .querySelector("thead > tr")
+        thead.querySelectorAll("th").forEach((element, index) => {
+          element.setAttribute("id", "head_" + index)
+          element.setAttribute("title", element.innerText)
+          element.setAttribute("aria-label", element.innerText)
+        })
+      }, 300)
+    },
+    fixSortingTable() {
+      const table = this.$refs.scenarioTable
+      if (table.$el.children[0].children[0].children[0].children) {
+        const thead = table.$el.children[0].children[0].children[0].children
+        const tr_0 = thead[0].children
+
+        if (tr_0) {
+          for (let i = 0; i <= 4; i++) {
+            tr_0[i].children[1].ariaLabel =
+              this.$t("graph.table.order_field") + tr_0[i].ariaLabel
+
+            tr_0[i].children[1].role = "button"
+          }
+        }
+      }
+    },
+    fixNavTable() {
+      const table = this.$refs.scenarioTable
+      if (table.$el.children[1]) {
+        const nav = table.$el.children[1]
+        nav.ariaLabel = this.$t("graph.table.pagination")
+        let nav_buttons = nav.children[0].children
+        const next_button = nav_buttons.length - 2
+        const last_button = nav_buttons.length - 1
+
+        nav_buttons[0].children[0].ariaLabel = this.$t(
+          "graph.table.go_to_first_page"
+        )
+        nav_buttons[0].children[0].title = this.$t(
+          "graph.table.go_to_first_page"
+        )
+        nav_buttons[1].children[0].ariaLabel = this.$t(
+          "graph.table.go_to_previous_page"
+        )
+        nav_buttons[1].children[0].title = this.$t(
+          "graph.table.go_to_previous_page"
+        )
+
+        nav_buttons[next_button].children[0].ariaLabel = this.$t(
+          "graph.table.go_to_next_page"
+        )
+        nav_buttons[next_button].children[0].title = this.$t(
+          "graph.table.go_to_next_page"
+        )
+
+        nav_buttons[last_button].children[0].ariaLabel = this.$t(
+          "graph.table.go_to_last_page"
+        )
+        nav_buttons[last_button].children[0].title = this.$t(
+          "graph.table.go_to_last_page"
+        )
+        for (let i = 2; i <= nav_buttons.length - 3; i++) {
+          if (nav_buttons[i].className == "active page-item") {
+            nav_buttons[i].children[0].ariaLabel =
+              this.$t("graph.table.current_page") +
+              nav_buttons[i].children[0].innerText
+            nav_buttons[i].children[0].title =
+              this.$t("graph.table.current_page") +
+              nav_buttons[i].children[0].innerText
+          } else {
+            nav_buttons[i].children[0].ariaLabel =
+              this.$t("graph.table.go_to_page") +
+              nav_buttons[i].children[0].innerText
+            nav_buttons[i].children[0].title =
+              this.$t("graph.table.go_to_page") +
+              nav_buttons[i].children[0].innerText
+            //
+          }
+        }
+      }
+    },
+    setPage() {
+      if (this.page_number > 10) this.page_number = 0
+      this.page_number = this.page_number + 1
+    },
+    fixBodyTable() {
+      const table = this.$refs.metricsTable
+      const tBody = table.$el.children[0].children[0].children[1]
+      tBody.ariaLive = "polite"
+      console.log(tBody)
     }
+  },
+  mounted() {
+    this.fixHeaderTableForAccessibility()
+    this.fixSortingTable()
+    this.fixNavTable()
+    this.fixBodyTable()
+  },
+  updated() {
+    this.fixHeaderTableForAccessibility()
+    this.fixSortingTable()
+    this.fixNavTable()
+    this.fixBodyTable()
   }
 }
 </script>
@@ -391,5 +502,8 @@ export default {
 
 .drag-el:nth-last-of-type(1) {
   margin-bottom: 0;
+}
+.no-visible {
+  display: none;
 }
 </style>

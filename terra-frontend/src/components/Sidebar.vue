@@ -28,7 +28,7 @@
       class="c-sidebar-nav h-100"
       style="overflow: auto"
       role="navigation"
-      aria-label="menu">
+      :aria-label="$t('sidebar.main_menu_aria_label')">
       <div class="c-sidebar-nav-item" id="list-content">
         <a
           @click="handleHome"

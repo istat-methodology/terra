@@ -71,6 +71,8 @@ export default {
             tr_0[i].children[1].ariaLabel =
               this.$t("graph.table.order_field") + tr_0[i].ariaLabel
 
+            tr_0[i].children[1].role = "button"
+
             tr_1[i].children[0].ariaLabel =
               this.$t("graph.table.search_field") + tr_0[i].ariaLabel
             tr_1[i].children[0].title =
@@ -79,12 +81,21 @@ export default {
         }
       }
     },
+    fixBodyTable() {
+      const table = this.$refs.metricsTable
+      const tBody = table.$el.children[0].children[0].children[1]
+      tBody.ariaLive = "polite"
+      console.log(tBody)
+    },
     fixNavTable() {
       const table = this.$refs.metricsTable
       if (table.$el.children[1]) {
         const nav = table.$el.children[1]
         nav.ariaLabel = this.$t("graph.table.pagination")
         let nav_buttons = nav.children[0].children
+        const next_button = nav_buttons.length - 2
+        const last_button = nav_buttons.length - 1
+
         nav_buttons[0].children[0].ariaLabel = this.$t(
           "graph.table.go_to_first_page"
         )
@@ -97,20 +108,22 @@ export default {
         nav_buttons[1].children[0].title = this.$t(
           "graph.table.go_to_previous_page"
         )
-        nav_buttons[7].children[0].ariaLabel = this.$t(
-          "graph.table.go to_next_page"
+
+        nav_buttons[next_button].children[0].ariaLabel = this.$t(
+          "graph.table.go_to_next_page"
         )
-        nav_buttons[7].children[0].title = this.$t(
-          "graph.table.go to_next_page"
+        nav_buttons[next_button].children[0].title = this.$t(
+          "graph.table.go_to_next_page"
         )
-        //
-        nav_buttons[8].children[0].ariaLabel = this.$t(
+
+        nav_buttons[last_button].children[0].ariaLabel = this.$t(
           "graph.table.go_to_last_page"
         )
-        nav_buttons[8].children[0].title = this.$t(
+        nav_buttons[last_button].children[0].title = this.$t(
           "graph.table.go_to_last_page"
         )
-        for (let i = 2; i <= 6; i++) {
+
+        for (let i = 2; i <= nav_buttons.length - 3; i++) {
           if (nav_buttons[i].className == "active page-item") {
             nav_buttons[i].children[0].ariaLabel =
               this.$t("graph.table.current_page") +
@@ -120,10 +133,10 @@ export default {
               nav_buttons[i].children[0].innerText
           } else {
             nav_buttons[i].children[0].ariaLabel =
-              this.$t("graph.table.go_to_page ") +
+              this.$t("graph.table.go_to_page") +
               nav_buttons[i].children[0].innerText
             nav_buttons[i].children[0].title =
-              this.$t("graph.table.go_to_page ") +
+              this.$t("graph.table.go_to_page") +
               nav_buttons[i].children[0].innerText
             //
           }
@@ -138,10 +151,12 @@ export default {
   mounted() {
     this.fixSortingTable()
     this.fixNavTable()
+    this.fixBodyTable()
   },
   updated() {
     this.fixSortingTable()
     this.fixNavTable()
+    this.fixBodyTable()
   }
 }
 </script>
