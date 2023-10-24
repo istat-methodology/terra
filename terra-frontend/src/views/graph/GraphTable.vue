@@ -12,6 +12,7 @@
       sorter
       hover
       pagination
+      @filtered-items-change="bho()"
       @page-change="setPage()"
       :noItemsView="{
         noResults: this.$t('graph.table.no_filtering_results_available'),
@@ -85,7 +86,15 @@ export default {
       const table = this.$refs.metricsTable
       const tBody = table.$el.children[0].children[0].children[1]
       tBody.ariaLive = "polite"
-      console.log(tBody)
+      tBody.children[0].children[0].children[0].role = ""
+      if (
+        tBody.children[0].children[0].children[0].className ==
+        "text-center my-5"
+      ) {
+        tBody.children[0].children[0].children[0].role = "alert"
+        tBody.children[0].children[0].children[0].role
+      }
+      console.log(tBody.children[0].children[0].children[0].role)
     },
     fixNavTable() {
       const table = this.$refs.metricsTable
@@ -146,6 +155,9 @@ export default {
     setPage() {
       if (this.page_number > 10) this.page_number = 0
       this.page_number = this.page_number + 1
+    },
+    bho() {
+      this.setPage()
     }
   },
   mounted() {
