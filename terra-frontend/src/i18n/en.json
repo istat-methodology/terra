@@ -26,6 +26,19 @@
       "error_field_required": "Error field is required",
       "error_field_numeric": "Error field is numeric"
     },
+    "table": {
+      "no_filtering_results_available": "no filtering results available",
+      "no_items_available": "no items available",
+      "order_field": "Sorting by ",
+      "search_field": "Search for ",
+      "pagination": "pagination",
+      "go_to_first_page": "Go to first page",
+      "go_to_previous_page": "Go to previous page",
+      "current_page": "Current page ",
+      "go_to_page": "Go to page ",
+      "go_to_next_page": "Go to next page",
+      "go_to_last_page": "Go to last page"
+    },
     "select_language": "Seleziona la lingua: ",
     "language_it": "Italiano",
     "language_en": "Inglese",
@@ -147,6 +160,23 @@
         "weight_placeholder": "Select weights"
       }
     },
+    "card": {
+      "title": "Graphs"
+    },
+    "table": {
+      "title": "Metrics"
+    },
+    "metrics": {
+      "table": {
+        "fields": {
+          "code": "Code",
+          "name": "Name",
+          "vulnerability": "Vulnerability",
+          "hubness": "Hubness",
+          "export_strenght": "Export Strenght"
+        }
+      }
+    },
     "scenario": {
       "main": "Trade relations for {country}",
       "mainEdge": "Trade relations",
@@ -156,29 +186,22 @@
       "title_world_node": "Do you want to perform scenario analysis?",
       "transports_selected": "Current graph",
       "transports_scenario": "New scenario",
-      "success": "The graph has been modified according to the new constraints"
+      "success": "The graph has been modified according to the new constraints",
+      "table":{
+        "fields":{
+            "source": "Source",
+            "destination": "Destination",
+            "euro": "Value in Euro",
+            "percentage": "Percentage",
+            "flow": "Flow",
+            "show_delete":""
+        }
+      }
     },
     "message": {
       "scenario": "Scenario analysis successfully performed!",
       "graph_wide": "Warning: Graph is too wide  \n Decrease the treshold or change means of transport",
       "graph_empty": "Warning: Graph empty \n Increase the treshold or change means of transport"
-    },
-    "table": {
-      "title": "Metrics",
-      "no_filtering_results_available": "no filtering results available",
-      "no_items_available": "no items available",
-      "order_field": "Sorting by ",
-      "search_field": "Search for ",
-      "pagination": "pagination",
-      "go_to_first_page": "Go to first page",
-      "go_to_previous_page": "Go to previous page",
-      "current_page": "Current page ",
-      "go_to_page": "Go to page ",
-      "go_to_next_page": "Go to next page",
-      "go_to_last_page": "Go to last page"
-    },
-    "card": {
-      "title": "Graphs"
     },
     "modal": {
       "main": {

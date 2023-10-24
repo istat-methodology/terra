@@ -99,9 +99,7 @@ import {
   getCentrality,
   getTransportDifference,
   containsAllTransports,
-  containsEdge,
-  scenarioFieldsIt,
-  scenarioFieldsEn
+  containsEdge
 } from "@/common"
 import spinnerMixin from "@/components/mixins/spinner.mixin"
 import exporter from "@/components/Exporter"
@@ -121,9 +119,6 @@ export default {
     //Make a local copy of transports for cosmo-scenario
     localTransports: [],
     scenarioTransports: [],
-    //Scenario modal
-    scenarioFieldsIt: [...scenarioFieldsIt],
-    scenarioFieldsEn: [...scenarioFieldsEn],
     scenarioModal: false,
     //Metrics table
     sorterValue: { column: "percentage", asc: false }
@@ -137,7 +132,40 @@ export default {
         : this.$t("graph.titleExtra")
     },
     scenarioFields() {
-      return this.isItalian ? this.scenarioFieldsIt : this.scenarioFieldsEn
+      return [
+        {
+          key: "source",
+          label: this.$t("graph.scenario.table.fields.source"),
+          _style: "width:20%"
+        },
+        {
+          key: "destination",
+          label: this.$t("graph.scenario.table.fields.destination"),
+          _style: "width:20%"
+        },
+        {
+          key: "euro",
+          label: this.$t("graph.scenario.table.fields.euro"),
+          _style: "width:20%"
+        },
+        {
+          key: "percentage",
+          label: this.$t("graph.scenario.table.fields.percentage"),
+          _style: "width:20%"
+        },
+        {
+          key: "flow",
+          label: this.$t("graph.scenario.table.fields.flow"),
+          _style: "width:19%"
+        },
+        {
+          key: "show_delete",
+          label: "",
+          sorter: false,
+          filter: false,
+          _style: "width:1%"
+        }
+      ]
     },
     graphDensity() {
       return this.metrics ? this.metrics.density.toFixed(2) : 0

@@ -232,8 +232,6 @@ import {
   Context,
   Status,
   getScenarioNodes,
-  metricsFieldsIt,
-  metricsFieldsEn,
   monthDefault,
   trimesterDefault,
   getCleanTransports,
@@ -271,14 +269,9 @@ export default {
     transport: null,
     product: null,
     flow: null,
-
     submitStatus: "OK",
-
     //Graph
     graphForm: null,
-    //Metrics table
-    metricsFieldsIt: [...metricsFieldsIt],
-    metricsFieldsEn: [...metricsFieldsEn],
     sorterValue: { column: "vulnerability", asc: false },
     //Spinner
     spinner: false,
@@ -324,7 +317,33 @@ export default {
       return this.isIntra ? this.productsIntra : this.productsExtra
     },
     metricsFields() {
-      return this.isItalian ? this.metricsFieldsIt : this.metricsFieldsEn
+      return [
+        {
+          key: "label",
+          label: this.$t("graph.metrics.table.fields.code"),
+          _style: "width:15%"
+        },
+        {
+          key: "name",
+          label: this.$t("graph.metrics.table.fields.name"),
+          _style: "width:25%"
+        },
+        {
+          key: "vulnerability",
+          label: this.$t("graph.metrics.table.fields.vulnerability"),
+          _style: "width:15%"
+        },
+        {
+          key: "hubness",
+          label: this.$t("graph.metrics.table.fields.hubness"),
+          _style: "width:15%"
+        },
+        {
+          key: "exportStrenght",
+          label: this.$t("graph.metrics.table.fields.export_strenght"),
+          _style: "width:15%"
+        }
+      ]
     },
     csvFields() {
       return this.metricsTable.map((field) => {

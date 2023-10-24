@@ -49,34 +49,38 @@
             flow: field.flow
         -->
         <template #source="{ item }">
-          <td headers="head_0">
+          <td headers="head_scenario_0">
             {{ item.source }}
           </td>
         </template>
         <template #destination="{ item }">
-          <td headers="head_1">
+          <td headers="head_scenario_1">
             {{ item.destination }}
           </td>
         </template>
+        <template #euro="{ item }">
+          <td headers="head_scenario_2">
+            {{ item.euro }}
+          </td>
+        </template>
         <template #percentage="{ item }">
-          <td headers="head_2">
+          <td headers="head_scenario_3">
             {{ item.percentage }}
           </td>
         </template>
         <template #flow="{ item }">
-          <td headers="head_3">
+          <td headers="head_scenario_4">
             {{ item.flow }}
           </td>
         </template>
-
         <template #show_delete="{ item }">
           <td>
             <span
               v-if="selectedNode.id > 0 && !displayTransport && showScenario"
               class="icon-link"
               @click="deleteRow(item)"
-              :title="$t('common.delete')">
-              <close-icon alt="" />
+              :title="$t('common.delete')"
+              ><close-icon alt="" />
             </span>
           </td>
         </template>
@@ -223,7 +227,6 @@ export default {
         this.$emit("updateNodesTable", value)
       }
     },
-
     csvTable: {
       get() {
         return this.selectedNodesTable.map((field) => {
@@ -326,7 +329,7 @@ export default {
           .getElementById("scenarioTable")
           .querySelector("thead > tr")
         thead.querySelectorAll("th").forEach((element, index) => {
-          element.setAttribute("id", "head_" + index)
+          element.setAttribute("id", "head_scenario" + index)
           element.setAttribute("title", element.innerText)
           element.setAttribute("aria-label", element.innerText)
         })
@@ -336,14 +339,18 @@ export default {
       const table = this.$refs.scenarioTable
       if (table.$el.children[0].children[0].children[0].children) {
         const thead = table.$el.children[0].children[0].children[0].children
-        const tr_0 = thead[0].children
+        if (thead[0].children) {
+          const tr_0 = thead[0].children
 
-        if (tr_0) {
-          for (let i = 0; i <= 4; i++) {
-            tr_0[i].children[1].ariaLabel =
-              this.$t("graph.table.order_field") + tr_0[i].ariaLabel
+          if (tr_0) {
+            for (let i = 0; i <= 4; i++) {
+              if (tr_0[i].children[1]) {
+                tr_0[i].children[1].ariaLabel =
+                  this.$t("common.table.order_field") + tr_0[i].ariaLabel
 
-            tr_0[i].children[1].role = "button"
+                tr_0[i].children[1].role = "button"
+              }
+            }
           }
         }
       }
@@ -352,51 +359,51 @@ export default {
       const table = this.$refs.scenarioTable
       if (table.$el.children[1]) {
         const nav = table.$el.children[1]
-        nav.ariaLabel = this.$t("graph.table.pagination")
+        nav.ariaLabel = this.$t("common.table.pagination")
         let nav_buttons = nav.children[0].children
         const next_button = nav_buttons.length - 2
         const last_button = nav_buttons.length - 1
 
         nav_buttons[0].children[0].ariaLabel = this.$t(
-          "graph.table.go_to_first_page"
+          "common.table.go_to_first_page"
         )
         nav_buttons[0].children[0].title = this.$t(
-          "graph.table.go_to_first_page"
+          "common.table.go_to_first_page"
         )
         nav_buttons[1].children[0].ariaLabel = this.$t(
-          "graph.table.go_to_previous_page"
+          "common.table.go_to_previous_page"
         )
         nav_buttons[1].children[0].title = this.$t(
-          "graph.table.go_to_previous_page"
+          "common.table.go_to_previous_page"
         )
 
         nav_buttons[next_button].children[0].ariaLabel = this.$t(
-          "graph.table.go_to_next_page"
+          "common.table.go_to_next_page"
         )
         nav_buttons[next_button].children[0].title = this.$t(
-          "graph.table.go_to_next_page"
+          "common.table.go_to_next_page"
         )
 
         nav_buttons[last_button].children[0].ariaLabel = this.$t(
-          "graph.table.go_to_last_page"
+          "common.table.go_to_last_page"
         )
         nav_buttons[last_button].children[0].title = this.$t(
-          "graph.table.go_to_last_page"
+          "common.table.go_to_last_page"
         )
         for (let i = 2; i <= nav_buttons.length - 3; i++) {
           if (nav_buttons[i].className == "active page-item") {
             nav_buttons[i].children[0].ariaLabel =
-              this.$t("graph.table.current_page") +
+              this.$t("common.table.current_page") +
               nav_buttons[i].children[0].innerText
             nav_buttons[i].children[0].title =
-              this.$t("graph.table.current_page") +
+              this.$t("common.table.current_page") +
               nav_buttons[i].children[0].innerText
           } else {
             nav_buttons[i].children[0].ariaLabel =
-              this.$t("graph.table.go_to_page") +
+              this.$t("common.table.go_to_page") +
               nav_buttons[i].children[0].innerText
             nav_buttons[i].children[0].title =
-              this.$t("graph.table.go_to_page") +
+              this.$t("common.table.go_to_page") +
               nav_buttons[i].children[0].innerText
             //
           }
@@ -409,9 +416,15 @@ export default {
     },
     fixBodyTable() {
       const table = this.$refs.metricsTable
-      const tBody = table.$el.children[0].children[0].children[1]
-      tBody.ariaLive = "polite"
-      console.log(tBody)
+      if (table) {
+        if (table.$el) {
+          if (table.$el.children[0].children[0].children[1]) {
+            const tBody = table.$el.children[0].children[0].children[1]
+            tBody.ariaLive = "polite"
+            console.log(tBody)
+          }
+        }
+      }
     }
   },
   mounted() {

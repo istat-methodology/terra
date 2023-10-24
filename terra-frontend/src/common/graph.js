@@ -265,54 +265,6 @@ export const options = {
     selectable: true
   }
 }
-export const metricsFieldsIt = [
-  { key: "label", label: "Codice", _style: "width:10%" },
-  { key: "name", label: "Nome", _style: "width:30%" },
-  { key: "vulnerability", label: "Vulnerabilità", _style: "width:15%" },
-  { key: "hubness", label: "Hubness", _style: "width:15%" },
-  {
-    key: "exportStrenght",
-    label: "Forza di esportazione",
-    _style: "width:15%"
-  }
-]
-
-export const metricsFieldsEn = [
-  { key: "label", label: "Code", _style: "width:15%" },
-  { key: "name", label: "Name", _style: "width:25%" },
-  { key: "vulnerability", label: "Vulnerability", _style: "width:15%" },
-  { key: "hubness", label: "Hubness", _style: "width:15%" },
-  { key: "exportStrenght", label: "Export Strenght", _style: "width:15%" }
-]
-export const scenarioFieldsIt = [
-  { key: "source", label: "Origine", _style: "width:20%" },
-  { key: "destination", label: "Destinazione", _style: "width:20%" },
-  { key: "euro", label: "Valore in Euro", _style: "width:20%" },
-  { key: "percentage", label: "Percentuale", _style: "width:20%" },
-  { key: "flow", label: "Flusso", _style: "width:19%" },
-  {
-    key: "show_delete",
-    label: "",
-    sorter: false,
-    filter: false,
-    _style: "width:1%"
-  }
-]
-export const getMetricFields = () => {}
-export const scenarioFieldsEn = [
-  { key: "source", label: "Source", _style: "width:20%" },
-  { key: "destination", label: "Destination", _style: "width:20%" },
-  { key: "euro", label: "Value in Euro", _style: "width:20%" },
-  { key: "percentage", label: "Percentage", _style: "width:20%" },
-  { key: "flow", label: "Flow", _style: "width:19%" },
-  {
-    key: "show_delete",
-    label: "",
-    sorter: false,
-    filter: false,
-    _style: "width:1%"
-  }
-]
 export function getNode(nodes, nodeId) {
   const selectedNode = nodes.find((node) => node.id == nodeId)
   return selectedNode ? selectedNode : null

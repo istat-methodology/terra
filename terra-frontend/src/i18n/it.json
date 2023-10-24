@@ -31,7 +31,20 @@
     "language_en": "English",
     "clear_selected": "Deseleziona",
     "select_filter": "Cercare l'opzione",
-    "goto_context": "Vai al contenuto principale"
+    "goto_context": "Vai al contenuto principale",
+    "table": {
+      "no_filtering_results_available": "nessun risultato del filtro disponibile",
+      "no_items_available": "nessun risultato disponibile",
+      "search_field": "Ricerca per ",
+      "order_field": "Ordinamento per ",
+      "pagination": "paginazione",
+      "go_to_first_page": "Vai alla prima pagina",
+      "go_to_previous_page": "Vai alla pagina precedente",
+      "current_page": "Pagina corrente ",
+      "go_to_page": "Vai alla pagina ",
+      "go_to_next_page": "Vai alla pagina succesiva",
+      "go_to_last_page": "Vai all'ultima pagina"
+    }
   },
   "header": {
     "userguide": "Manuale utente",
@@ -155,29 +168,39 @@
       "title_world_node": "Vuoi effettuare una analisi di scenario?",
       "transports_selected": "Grafo corrente",
       "transports_scenario": "Nuovo scenario",
-      "success": "Il grafo è stato modificato coerentemente con i vincoli"
+      "success": "Il grafo è stato modificato coerentemente con i vincoli",      
+      "table":{
+        "fields":{
+            "source": "Origine",
+            "destination": "Destinazione",
+            "euro": "Valore in Euro",
+            "percentage": "Percentuale",
+            "flow": "Flusso",
+            "show_delete":""
+        }
+      }
     },
     "message": {
       "scenario": "Analisi di scenario effettuata con successo!",
       "graph_wide": "Attenzione: Grafo troppo ampio  \n Ridurre la soglia o cambiare i mezzi di trasporto",
       "graph_empty": "Attenzione: Grafo vuoto \n Ridurre la soglia o cambiare i mezzi di trasporto"
     },
-    "table": {
-      "title": "Metriche",
-      "no_filtering_results_available": "nessun risultato del filtro disponibile",
-      "no_items_available": "nessun risultato disponibile",
-      "search_field": "Ricerca per ",
-      "order_field": "Ordinamento per ",
-      "pagination": "paginazione",
-      "go_to_first_page": "Vai alla prima pagina",
-      "go_to_previous_page": "Vai alla pagina precedente",
-      "current_page": "Pagina corrente ",
-      "go_to_page": "Vai alla pagina ",
-      "go_to_next_page": "Vai alla pagina succesiva",
-      "go_to_last_page": "Vai all'ultima pagina"
-    },
     "card": {
       "title": "Grafi"
+    },
+    "table": {
+      "title": "Metriche"
+    },
+    "metrics": {
+      "table": {
+        "fields": {
+          "code": "Codice",
+          "name": "Nome",
+          "vulnerability": "Vulnerabilità",
+          "hubness": "Hubness",
+          "export_strenght": "Forza di esportazione"
+        }
+      }
     },
     "modal": {
       "main": {
