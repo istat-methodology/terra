@@ -2,29 +2,35 @@
   <div class="row">
     <h1 class="sr-only">{{ pageTitle }}</h1>
     <div class="col-sm-6 col-md-9">
-      <CTabs class="ctablist" variant="tabs" :active-tab="0" role="tablist">
+      <CTabs
+        class="ctablist"
+        variant="tabs"
+        :active-tab="0"
+        id="tablist"
+        ref="tablist">
         <CTab
           :title="$t('graph.card.title')"
           role="tab"
           aria-controls="cosmograph">
-          <cosmo-graph
-            :title="$t('graph.card.title')"
-            id="cosmograph"
-            ref="cosmograph"
-            :nodes="nodes"
-            :edges="edges"
-            :metrics="metrics"
-            :spinner="spinner"
-            :isIntra="isIntra"
-            :displayTransport="!isIntra"
-            :transports="transport"
-            @applyConstraints="handleApplyConstraints"
-            @showinfo="showMainModal">
-            <cosmo-slider
-              :interval="timeRange"
-              :currentTime="currentTime"
-              @change="handleTimeChange" />
-          </cosmo-graph>
+          <div id="cosmograph">
+            <cosmo-graph
+              :title="$t('graph.card.title')"
+              ref="cosmograph"
+              :nodes="nodes"
+              :edges="edges"
+              :metrics="metrics"
+              :spinner="spinner"
+              :isIntra="isIntra"
+              :displayTransport="!isIntra"
+              :transports="transport"
+              @applyConstraints="handleApplyConstraints"
+              @showinfo="showMainModal">
+              <cosmo-slider
+                :interval="timeRange"
+                :currentTime="currentTime"
+                @change="handleTimeChange" />
+            </cosmo-graph>
+          </div>
         </CTab>
         <CTab
           :title="$t('graph.table.title')"
@@ -626,6 +632,12 @@ export default {
     },
     setFocusOn() {
       document.getElementById("vs1__combobox").focus()
+    },
+    fixTab() {
+      console.log(this.$refs.tablist)
+      this.$refs.tablist.$children[0].$el.role = "tablist"
+      this.$refs.tablist.$children[1].$children[0].$el.role = "tabpanel"
+      this.$refs.tablist.$children[1].$children[1].$el.role = "tabpanel"
     }
   },
   created() {
@@ -640,6 +652,7 @@ export default {
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
     this.fixMetaTitle()
+    this.fixTab()
   },
   updated() {
     this.fixSliderAccessibility()
@@ -650,6 +663,7 @@ export default {
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
     this.fixMetaTitle()
+    this.fixTab()
   },
   beforeDestroy: function () {
     console.log("beforeDestroy")
