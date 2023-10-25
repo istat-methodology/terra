@@ -25,9 +25,11 @@
       "goHome": "Go to home page",
       "error_field_required": "Error field is required",
       "error_field_numeric": "Error field is numeric",
-      "error_json": "Sorry, something went wrong in JSON server",
-      "error_r": "Sorry, something went wrong in R server",
-      "error_pyton": "Sorry, something went wrong in PYTON server"
+      "error_server": [
+        "Sorry, something went wrong in JSON server",
+        "Sorry, something went wrong in R server",
+        "Sorry, something went wrong in PYTON server"
+      ]
     },
     "table": {
       "no_filtering_results_available": "no filtering results available",

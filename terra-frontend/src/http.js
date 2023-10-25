@@ -41,7 +41,7 @@ axiosHack.interceptors.response.use(
   },
   (error) => {
     store.dispatch("coreui/loading", false)
-    manageServerError(error, this.$t("common.error_json"))
+    manageServerError(error, "0")
     return Promise.reject(error)
   }
 )
@@ -54,7 +54,7 @@ axiosR.interceptors.response.use(
   },
   (error) => {
     store.dispatch("coreui/loading", false)
-    manageServerError(error, this.$t("common.error_r"))
+    manageServerError(error, "1")
     return Promise.reject(error)
   }
 )
@@ -67,19 +67,19 @@ axiosPython.interceptors.response.use(
   },
   (error) => {
     store.dispatch("coreui/loading", false)
-    manageServerError(error, this.$t("common.error_python"))
+    manageServerError(error, "2")
     return Promise.reject(error)
   }
 )
 
 export { axiosAuth, axiosHack, axiosR, axiosPython }
 
-function manageServerError(error, server) {
-  console.log("[Error] Ops, something went wrong in " + server)
+function manageServerError(error, server_type) {
+  console.log("[Error] Ops, something went wrong in " + server_type)
   console.log("[Error] Error message " + error)
   store.dispatch("error/serverError", {
     code: 500,
-    message: server
+    message: server_type
   })
   if (router.currentRoute.path != "/error") router.push("/error")
 }

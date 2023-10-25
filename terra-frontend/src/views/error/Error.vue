@@ -10,7 +10,9 @@
       </div>
       <div class="clearfix mb-3">
         <h4 class="pt-3">{{ $t("common.error.error") }}</h4>
-        <p class="text-muted">{{ msg }}</p>
+        <p class="text-muted">
+          {{ error_message_server }}
+        </p>
       </div>
       <div class="clearfix mb-3">
         <router-link tag="a" to="/">
@@ -21,14 +23,28 @@
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex"
-
 export default {
   name: "Error",
+  data: () => ({
+    error_message_server: ""
+  }),
   computed: {
     ...mapGetters("error", ["msg"])
+  },
+  methods: {
+    errorMessageServer() {
+      this.error_message_server = this.$t(
+        "common.error.error_server[" + this.msg + "]"
+      )
+    }
+  },
+  mounted() {
+    this.errorMessageServer()
+  },
+  updated() {
+    this.errorMessageServer()
   }
 }
 </script>
