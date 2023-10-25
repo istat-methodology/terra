@@ -24,7 +24,10 @@
       "error": "Error message",
       "goHome": "Go to home page",
       "error_field_required": "Error field is required",
-      "error_field_numeric": "Error field is numeric"
+      "error_field_numeric": "Error field is numeric",
+      "error_json": "Sorry, something went wrong in JSON server",
+      "error_r": "Sorry, something went wrong in R server",
+      "error_pyton": "Sorry, something went wrong in PYTON server"
     },
     "table": {
       "no_filtering_results_available": "no filtering results available",
@@ -187,14 +190,14 @@
       "transports_selected": "Current graph",
       "transports_scenario": "New scenario",
       "success": "The graph has been modified according to the new constraints",
-      "table":{
-        "fields":{
-            "source": "Source",
-            "destination": "Destination",
-            "euro": "Value in Euro",
-            "percentage": "Percentage",
-            "flow": "Flow",
-            "show_delete":""
+      "table": {
+        "fields": {
+          "source": "Source",
+          "destination": "Destination",
+          "euro": "Value in Euro",
+          "percentage": "Percentage",
+          "flow": "Flow",
+          "show_delete": ""
         }
       }
     },

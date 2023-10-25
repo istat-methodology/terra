@@ -24,7 +24,10 @@
       "error": "Messaggio di errore",
       "goHome": "Torna alla pagina Home",
       "error_field_required": "Errore campo obbligatorio",
-      "error_field_numeric": "Errore campo numerico"
+      "error_field_numeric": "Errore campo numerico",
+      "error_json": "Ci dispiace, si è verificato un errore nel server JSON",
+      "error_r": "Ci dispiace, si è verificato un errore nel server R",
+      "error_pytonr": "Ci dispiace, si è verificato un errore nel server PYTON"
     },
     "select_language": "Select language: ",
     "language_it": "Italian",
@@ -168,15 +171,15 @@
       "title_world_node": "Vuoi effettuare una analisi di scenario?",
       "transports_selected": "Grafo corrente",
       "transports_scenario": "Nuovo scenario",
-      "success": "Il grafo è stato modificato coerentemente con i vincoli",      
-      "table":{
-        "fields":{
-            "source": "Origine",
-            "destination": "Destinazione",
-            "euro": "Valore in Euro",
-            "percentage": "Percentuale",
-            "flow": "Flusso",
-            "show_delete":""
+      "success": "Il grafo è stato modificato coerentemente con i vincoli",
+      "table": {
+        "fields": {
+          "source": "Origine",
+          "destination": "Destinazione",
+          "euro": "Valore in Euro",
+          "percentage": "Percentuale",
+          "flow": "Flusso",
+          "show_delete": ""
         }
       }
     },

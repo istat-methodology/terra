@@ -41,7 +41,7 @@ axiosHack.interceptors.response.use(
   },
   (error) => {
     store.dispatch("coreui/loading", false)
-    manageServerError(error, "json")
+    manageServerError(error, this.$t("common.error_json"))
     return Promise.reject(error)
   }
 )
@@ -54,7 +54,7 @@ axiosR.interceptors.response.use(
   },
   (error) => {
     store.dispatch("coreui/loading", false)
-    manageServerError(error, "R")
+    manageServerError(error, this.$t("common.error_r"))
     return Promise.reject(error)
   }
 )
@@ -67,7 +67,7 @@ axiosPython.interceptors.response.use(
   },
   (error) => {
     store.dispatch("coreui/loading", false)
-    manageServerError(error, "python")
+    manageServerError(error, this.$t("common.error_python"))
     return Promise.reject(error)
   }
 )
@@ -79,7 +79,7 @@ function manageServerError(error, server) {
   console.log("[Error] Error message " + error)
   store.dispatch("error/serverError", {
     code: 500,
-    message: "Sorry, something went wrong in " + server + " server!"
+    message: server
   })
   if (router.currentRoute.path != "/error") router.push("/error")
 }
