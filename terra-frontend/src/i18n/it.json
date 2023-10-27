@@ -15,7 +15,8 @@
     "mean": "Media",
     "std": "Deviazione standard",
     "footer": {
-      "source": "Fonte dati: "
+      "source": "Fonte dati: ",
+      "user_manual": "https://istatcosmostorage.blob.core.windows.net/public/TERRA_manuale.pdf"
     },
     "delete": "Elimina",
     "error": {

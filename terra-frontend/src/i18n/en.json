@@ -15,7 +15,8 @@
     "mean": "Mean",
     "std": "Standard deviation",
     "footer": {
-      "source": "Data source: "
+      "source": "Data source: ",
+      "user_manual": "https://istatcosmostorage.blob.core.windows.net/public/TERRA_user_guide.pdf"
     },
     "delete": "Delete",
     "error": {
@@ -63,8 +64,8 @@
     "home": "Home",
     "analysis": "COMEXT data analysis",
     "map": "Interactive map",
-    "graphExtra": "Graph UE - Extra UE",
-    "graphWorld": "Graph UE - World",
+    "graphExtra": "Graph EU - Extra EU",
+    "graphWorld": "Graph EU - World",
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
     "trade": "Basket of traded products",
@@ -87,14 +88,14 @@
     },
     "graph": {
       "extra-ue": {
-        "title": "Graph UE - Extra UE",
-        "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT transport data (NSTR classification)</strong>, along with relevant global and local measures detailing the structure of relations between UE and Extra UE countries. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
-        "link": "Go to Graph UE - Extra UE"
+        "title": "Graph EU - Extra EU",
+        "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT transport data (NSTR classification)</strong>, along with relevant global and local measures detailing the structure of relations between EU and Extra EU countries. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
+        "link": "Go to Graph EU - Extra EU"
       },
       "intra-ue": {
-        "title": "Graph UE - World",
-        "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT data, with 3 digits CPA 2.1 product classification</strong>, along with relevant global and local measures detailing the structure of relations between UE countries and their economic partners. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
-        "link": "Go to Graph UE - World"
+        "title": "Graph EU - World",
+        "body": "<p>This section shows the graph plot of international trade based on <strong>COMEXT data, with 3 digits CPA 2.1 product classification</strong>, along with relevant global and local measures detailing the structure of relations between EU countries and their economic partners. The panel is interactive, providing the possibility to apply several filters and to see how the graph structure and measures change accordingly.</p><p class='mt-2'> Furthermore an animation is provided showing the <strong>evolution of the international trade graph over time</strong>, spanning the entire time window of trading data.</p>",
+        "link": "Go to Graph EU - World"
       }
     },
     "timeseries": {
@@ -132,10 +133,10 @@
     }
   },
   "graph": {
-    "titleExtra": "Graph UE - Extra UE",
-    "titleIntra": "Graph UE - World",
-    "metricExtra": "Metrics: UE - Extra UE",
-    "metricIntra": "Metrics: UE - World",
+    "titleExtra": "Graph EU - Extra EU",
+    "titleIntra": "Graph EU - World",
+    "metricExtra": "Metrics: EU - Extra EU",
+    "metricIntra": "Metrics: EU - World",
     "stats": {
       "country": "Country:",
       "density": "Product spread:",
