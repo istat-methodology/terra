@@ -345,7 +345,6 @@ export default {
         //console.log("Edge scenario, doing nothing :)")
         nodesDiff = this.selectedEdges
       }
-
       //Local copy of selected transports
       this.localTransports = []
       if (this.displayTransport) {
@@ -353,7 +352,6 @@ export default {
           ? [...this.transportCls.slice(1)]
           : [...this.transports]
       }
-
       nodesDiff.forEach((edge) => {
         constraints.push({
           from: getNode(this.nodes, edge.from).label,

@@ -1,6 +1,7 @@
 import axios from "axios"
 import store from "@/store"
 import router from "@/router"
+import { ServerError } from "@/common/error"
 
 const axiosAuth = axios.create({
   baseURL: process.env.VUE_APP_CLS_SERVER + "/security"
@@ -41,7 +42,7 @@ axiosHack.interceptors.response.use(
   },
   (error) => {
     store.dispatch("coreui/loading", false)
-    manageServerError(error, "0")
+    manageServerError(error, ServerError.Json)
     return Promise.reject(error)
   }
 )
@@ -54,7 +55,7 @@ axiosR.interceptors.response.use(
   },
   (error) => {
     store.dispatch("coreui/loading", false)
-    manageServerError(error, "1")
+    manageServerError(error, ServerError.R)
     return Promise.reject(error)
   }
 )
@@ -67,7 +68,7 @@ axiosPython.interceptors.response.use(
   },
   (error) => {
     store.dispatch("coreui/loading", false)
-    manageServerError(error, "2")
+    manageServerError(error, ServerError.Python)
     return Promise.reject(error)
   }
 )
