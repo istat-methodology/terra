@@ -664,14 +664,6 @@ export default {
     this.fixASidebarMenu()
     this.fixMetaTitle()
     this.fixTab()
-  },
-  beforeDestroy: function () {
-    console.log("beforeDestroy")
-    this.$destroy()
-  },
-
-  destroyed: function () {
-    console.log("afterDestroy")
   }
 }
 </script>
