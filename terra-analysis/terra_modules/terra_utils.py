@@ -1,11 +1,10 @@
 import requests
 import time
 import pandas as pd
-import matplotlib.pyplot as plt 
 from datetime import datetime, timedelta
 
 ## Function that generates a list of dates in a given range
-def generate_year_month_list(start_date, end_date, frequency):
+def generate_time_interval(start_date, end_date, frequency):
     # Convert start and end dates from strings to datetime objects
     start = datetime.strptime(start_date, "%Y-%m")
     end = datetime.strptime(end_date, "%Y-%m")
@@ -47,6 +46,7 @@ def generate_year_month_list(start_date, end_date, frequency):
 
 ## Function that converts the metrics JSON in a dataframe
 def convert_to_dataframe(json_data, period):
+    
     # Convert each key in the JSON data to a DataFrame
     df_degree_centrality = pd.DataFrame(list(json_data["degree_centrality"].items()), columns=['country', 'degree_centrality'])
     df_vulnerability = pd.DataFrame(list(json_data["vulnerability"].items()), columns=['country', 'vulnerability'])
@@ -59,13 +59,20 @@ def convert_to_dataframe(json_data, period):
     # print("\nExportation Strength:\n", df_exportation_strength.head())
     # print("\nHubness:\n", df_hubness.head())
 
-    # Merging the dataframes on 'Country'
+    # Merging the dataframes on 'country'
     metrics = pd.merge(df_degree_centrality, df_vulnerability, on='country', how='outer')
     metrics = pd.merge(metrics, df_exportation_strength, on='country', how='outer')
     metrics = pd.merge(metrics, df_hubness, on='country', how='outer')
     
+    # Round decimals
+    metrics['degree_centrality'] = metrics['degree_centrality'].round(2)
+    metrics['vulnerability'] = metrics['vulnerability'].round(2)
+    metrics['exportation_strength'] = metrics['exportation_strength'].round(2)
+    metrics['hubness'] = metrics['hubness'].round(2)
+
     metrics['period'] = period  # Add the period to the DataFrame
     
+    # print(metrics)
     return metrics
 
 
@@ -74,9 +81,10 @@ def get_graph_metrics(dataset, base_payload, start_date, end_date, frequency):
 
     print(f"Retrieving {dataset} data")
 
-    # Build endpoint url
+    # Endpoint base url
     base_url = "https://api.terra.istat.it/graph/graph"
 
+    # Build endpoint url
     endpoint = base_url + dataset
 
     if frequency == "month":
@@ -87,10 +95,12 @@ def get_graph_metrics(dataset, base_payload, start_date, end_date, frequency):
     print(f"Endpoint: {endpoint}")
 
     # Initialize an empty DataFrame to store the responses
-    df_responses = pd.DataFrame()
+    df_metrics = {}
+    # Initialize an empty list to store DataFrames
+    metrics_list = []
 
     # List of periods for which you want to perform requests
-    periods = generate_year_month_list(start_date, end_date, frequency)
+    periods = generate_time_interval(start_date, end_date, frequency)
 
     print(f"Starting data retrieval...")
     
@@ -105,50 +115,77 @@ def get_graph_metrics(dataset, base_payload, start_date, end_date, frequency):
 
         # Check if the request was successful
         if response.status_code == 200:
-            # Access the specific key in the response
-            # Replace 'data' with the actual key you need to access
+            # Access 'metriche' in the response
             data = response.json().get('metriche', {})  # using .get() to avoid KeyError if 'data' does not exist
 
             if len(data) == 0:
                 print("Empty payload in period: ", period )
             else:
                 # Add the data to the DataFrame
-                df_response = convert_to_dataframe(data, period)
-                df_responses = df_responses._append(df_response, ignore_index=True)
+                df = convert_to_dataframe(data, period)
+                metrics_list.append(df)
 
-            # Add a delay of one second before the next request
+            # Add a delay before next request (to avoid server overload)
             time.sleep(0.5)
         else:
             print(f"Failed with status code: {response.status_code}")
     
+    # Concatenate all DataFrames into a single DataFrame
+    df_metrics = pd.concat(metrics_list)
+
+    # print(df_metrics)
     print(f"... done!")
     
-    return df_responses
+    return df_metrics
 
 ## Get metrics for a given enpoint in a specified time range
-def get_time_series(params):
+def get_time_series(params, countries):
 
     endpoint = "https://api.terra.istat.it/time-series/itsa"
 
+    print(f"Endpoint: {endpoint}")
+
+    # Initialize an empty object to store output
     df_time_series = {}
+    # Initialize an empty list to store DataFrames
+    time_series_list = []
 
-    # Make a GET request
-    response = requests.get(endpoint, params=params)
+    print(f"Starting data retrieval...")
 
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Process the response here
-        data = response.json().get('diagMain', {}) # using .get() to avoid KeyError if 'data' does not exist
-        
-        if len(data) == 0:
-            print("Empty payload!")
+    # Loop through each country and make a request
+    for country in countries:
+        # Define the request parameters for each country
+        params["country"] = country
+
+        print(f"   Retrieving data for {country}")
+
+        # Make a GET request
+        response = requests.get(endpoint, params=params)
+
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Process the response
+            data = response.json().get('diagMain', {}) # using .get() to avoid KeyError if 'data' does not exist
+            
+            if len(data) == 0:
+                print(f"Empty payload for {country}")
+            else:
+                df = pd.DataFrame(data)
+                # Add a column for the country
+                df['country'] = country
+                # Append the DataFrame to the list
+                time_series_list.append(df)
         else:
-            df_time_series = pd.DataFrame(data)
-            # Convert the 'date' column to datetime format for easier manipulation
-            df_time_series['date'] = pd.to_datetime(df_time_series['date'])
-    else:
-        print(f"Failed with status code: {response.status_code}")
+            print(f"Failed with status code: {response.status_code}")
 
+    # Concatenate all DataFrames into a single DataFrame
+    df_time_series = pd.concat(time_series_list)
+
+    # Convert the 'date' column to datetime format
+    df_time_series['date'] = pd.to_datetime(df_time_series['date'])
+
+    # print(df_time_series)
+    print(f"... done!")
+    
     return df_time_series
-
 
