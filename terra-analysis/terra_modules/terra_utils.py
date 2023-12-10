@@ -75,6 +75,29 @@ def convert_to_dataframe(json_data, period):
     # print(metrics)
     return metrics
 
+# Get all countries
+def get_all_countries():
+
+    endpoint = "https://api.terra.istat.it/cls/countries?lang=en"
+    
+    print(f"Endpoint: {endpoint}")
+    
+    # Initialize an empty list to store countries
+    countries = []
+
+    response = requests.get(endpoint)
+    
+    # Check if the request was successful
+    if response.status_code == 200:
+        data = response.json()
+        countries = [item['country'] for item in data if 'country' in item]
+    else:
+        print(f"Failed to fetch data: {response.status_code}")
+    
+    print(f"Countries: {countries}")
+    
+    return countries
+
 
 ## Get metrics for a given enpoint in a specified time range
 def get_graph_metrics(dataset, base_payload, start_date, end_date, frequency):
