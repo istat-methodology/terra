@@ -37,7 +37,7 @@ def is_application_insight_configured():
 
 SEP=","
 DATA_EXTENTION=".dat"
-CSV_EXTENTION=".csv"
+# CSV_EXTENTION=".csv"
 PREFIX_FULL="full"
 PREFIX_TRANSPORT="tr"
 FLOW_IMPORT=1
@@ -558,7 +558,7 @@ def createGeneralInfoOutput():
     info_processing["lastLoadedData"]=end_data_load.strftime("%m, %Y")
     info_processing["windowMonths"]=time_interval_m
 
-    info_processing["monthsToExtract"]=time_interval_m
+    info_processing["monthsToTxtract"]=time_interval_m
     info_processing["offsetMonthToExtract"]=offset_m
     info_processing["appVersion"]="1.0.0"
 
