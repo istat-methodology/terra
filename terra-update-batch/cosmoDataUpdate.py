@@ -33,7 +33,7 @@ from functools import partial
 import zipfile
 
 def is_application_insight_configured():
-    return os.getenv('APPINSIGHTS_INSTRUMENTATIONKEY')!=None or os.getenv('APPLICATIONINSIGHTS_CONNECTION_STRING')!=None
+    return os.getenv('APPINSIGHTS_INSTRUMENTATIONKEY') !=None or os.getenv('APPLICATIONINSIGHTS_CONNECTION_STRING')!=None
 
 SEP=","
 DATA_EXTENTION=".dat"
@@ -56,26 +56,19 @@ annual_new_data=1 if( processing_day < datetime.datetime(processing_day.year , 3
 annual_current_year=(datetime.datetime.strptime(str(processing_day.year), "%Y") - relativedelta(years=annual_new_data)- relativedelta(years=1)).year
 annual_previous_year=(datetime.datetime.strptime(str(processing_day.year), "%Y") - relativedelta(years=annual_new_data)- relativedelta(years=2)).year
 
-months_to_extract_48=48
-months_to_extract_136=136
-offset_month_to_extract=3
-window_months_36=36
-window_months_12=12
+# SET TIME INTERVAL (IN MONTHS)
+time_interval_m=136
+offset_m=3
 
-start_data_load_120= datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_month_to_extract)- relativedelta(months=months_to_extract_136-1)
-start_data_load_36= datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_month_to_extract)- relativedelta(months=window_months_36-1)
-start_data_load_48= datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_month_to_extract)- relativedelta(months=months_to_extract_48-1)
-start_data_load_12= datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_month_to_extract)- relativedelta(months=window_months_12-1)
-
-end_data_load=datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_month_to_extract)
+start_data_load= datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_m)- relativedelta(months=time_interval_m-1)
+end_data_load=datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_m)
 
 ##### SET DATES FOR PAGES #####
-start_data_PAGE_MAP=start_data_load_36
-start_data_PAGE_TIME_SERIES=start_data_load_120
-start_data_PAGE_GRAPH_EXTRA_UE=start_data_load_36
-start_data_PAGE_GRAPH_INTRA_UE=start_data_load_36
-start_data_PAGE_BASKET=start_data_load_36
-months_extracted=months_to_extract_136
+start_data_PAGE_MAP=start_data_load
+start_data_PAGE_TIME_SERIES=start_data_load
+start_data_PAGE_GRAPH_EXTRA_UE=start_data_load
+start_data_PAGE_GRAPH_INTRA_UE=start_data_load
+start_data_PAGE_BASKET=start_data_load
 
 WORKING_FOLDER=os.environ['WORKING_FOLDER']
 
@@ -156,19 +149,25 @@ SQLLITE_DB=DATA_FOLDER_MONTHLY+os.sep+PREFIX_FULL+os.sep+"commext.db"
 
 ## ogni 20 del mese scaricare il file annuale fullAAAAMM.7z con 52 al posto del mese (esempio file full201952.7z)
 ## data URL_COMEXT
+
+# NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FPRODUCTS
 URL_COMEXT_PRODUCTS="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FPRODUCTS%2F"
 
+# NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR
 URL_COMEXT_TR="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR%2F"
 
+# NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt
 URL_COMEXT_CLS_PRODUCTS="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt"
 CLS_PRODUCTS_FILE=DATA_FOLDER+os.sep+"cls_products.dat"
 
+# NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FNSTR.txt
 URL_CLS_NSTR="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FNSTR.txt"
 CLS_NSTR_FILE=DATA_FOLDER+os.sep+"NSTR.txt"
 
 URL_CLS_NSTR_ITA="https://raw.githubusercontent.com/istat-methodology/terra/main/cls/Prodotti_NSTR_ita.csv"
 CLS_NSTR_FILE_ITA=DATA_FOLDER+os.sep+"NSTR_ITA.txt"
 
+# NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCPA21.txt
 URL_CLS_CPA="https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCPA21.txt"
 CLS_PRODUCTS_CPA_FILE=DATA_FOLDER+os.sep+"cls_products_CPA21.txt"
 
@@ -348,9 +347,8 @@ def downloadAndExtractComextAnnualDATAParallel():
     #ris=listing.map(lambda url: downloadAndExtractFile(url, DATA_FOLDER_ANNUAL_DATS)).collect()
 
     #mp<
-    logger.info("Number of processors: ", mp.cpu_count())
+    logger.info("Number of processors: {}".format(mp.cpu_count()))
     pool = mp.Pool(mp.cpu_count())
-    
     ris=pool.map(partial(downloadAndExtractFile,extract_path=DATA_FOLDER_ANNUAL_DATS),urls)
     count_downloaded,count_extracted,count_error=map(sum, zip(*ris))
     
@@ -558,10 +556,10 @@ def createGeneralInfoOutput():
     info_processing["annualCurrentYear"]=annual_current_year
     info_processing["annualPreviousYear"]=annual_previous_year
     info_processing["lastLoadedData"]=end_data_load.strftime("%m, %Y")
-    info_processing["windowMonths"]=window_months_36
+    info_processing["windowMonths"]=time_interval_m
 
-    info_processing["monthsToTxtract"]=months_extracted
-    info_processing["offsetMonthToExtract"]=offset_month_to_extract
+    info_processing["monthsToExtract"]=time_interval_m
+    info_processing["offsetMonthToExtract"]=offset_m
     info_processing["appVersion"]="1.0.0"
 
     time_map_start={}
@@ -1099,7 +1097,7 @@ def createOutputGraphCPAIntraUE():
     # import export variazioni quote CPA
     logger.info('import export variazioni quote CPA INTRA')
 
-    #  end_data_lclearoad=datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_month_to_extract)
+    #  end_data_lclearoad=datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_m)
     #last_12_months=datetime.datetime.strptime(( str(end_data_load.year)+"-"+str(end_data_load.month)- relativedelta(months=12)), "%Y%m")
 
     filter_yyymm=str(start_data_PAGE_GRAPH_INTRA_UE.year-1)+str('%02d' %start_data_PAGE_GRAPH_INTRA_UE.month)
