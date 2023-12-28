@@ -6,5 +6,6 @@ export const Context = {
   GraphIntra: "GRAPH_INTRA",
   Policy: "POLICY",
   Trade: "TRADE",
-  Mobility: "MOBILITY"
+  Mobility: "MOBILITY",
+  News: "NEWS"
 }

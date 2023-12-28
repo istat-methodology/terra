@@ -132,6 +132,23 @@
         </a>
       </div>
       <div class="c-sidebar-nav-item">
+        <a
+          @click="handleNews()"
+          @keypress="handleNews()"
+          class="c-sidebar-nav-link"
+          :class="{ 'c-active c-active-danger': isNews }"
+          :title="$t('sidebar.news')"
+          :aria-current="'false'"
+          tabindex="0">
+          <CIcon
+            name="cil-bell"
+            class="c-sidebar-nav-icon"
+            alt=""
+            :title="$t('sidebar.news')" />
+          {{ $t("sidebar.news") }}
+        </a>
+      </div>
+      <div class="c-sidebar-nav-item">
         <div class="data-update" :title="$t('common.update') + lastLoadedData">
           <CIcon
             name="cil-tags"
@@ -162,7 +179,8 @@ export default {
       isGraphIntra: "isGraphIntra",
       isPolicy: "isPolicy",
       isTrade: "isTrade",
-      isMobility: "isMobility"
+      isMobility: "isMobility",
+      isNews: "isNews"
     }),
     ...mapGetters("metadata", ["appVersion"]),
     ...mapGetters("metadata", ["lastLoadedData"])
@@ -185,6 +203,9 @@ export default {
     },
     handleTrade() {
       this.$router.push({ name: "Trade" })
+    },
+    handleNews() {
+      this.$router.push({ name: "News" })
     }
   }
 }

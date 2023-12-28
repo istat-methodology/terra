@@ -11,6 +11,7 @@ const state = {
   isGraphIntra: false,
   isPolicy: false,
   isTrade: false,
+  isNews: false,
   isMobility: false,
   isItalian: localStorage.getItem("lan") == "en" ? false : true,
   language: localStorage.getItem("lan") || "it", //default language
@@ -62,6 +63,9 @@ const mutations = {
       case Context.Trade:
         state.isTrade = true
         break
+      case Context.News:
+        state.isNews = true
+        break
       case Context.Mobility:
         state.isMobility = true
         break
@@ -77,6 +81,7 @@ const mutations = {
     state.isGraphIntra = false
     state.isPolicy = false
     state.isTrade = false
+    state.isNews = false
     state.isMobility = false
   },
   CREATE_BREADCRUMBS(state, breadcrumbs) {
@@ -170,6 +175,9 @@ const getters = {
   },
   isTrade: (state) => {
     return state.isTrade
+  },
+  isNews: (state) => {
+    return state.isNews
   },
   isMobility: (state) => {
     return state.isMobility

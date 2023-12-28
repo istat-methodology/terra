@@ -114,6 +114,26 @@
         </div>
       </div>
     </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="card" :title="$t('landing.news.title')">
+        <header class="card-header" role="heading" aria-level="2">
+          <CIcon name="cil-bell" :title="$t('landing.news.title')" alt="" />
+          {{ $t("landing.news.title") }}
+        </header>
+        <div class="card-body">
+          <p v-html="$t('landing.news.body')"></p>
+          <p class="section-link">
+            <a
+              @click="handleNews()"
+              @keypress="handleNews()"
+              tabindex="0"
+              :title="$t('landing.news.link')">
+              {{ $t("landing.news.link") }}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -144,6 +164,9 @@ export default {
     },
     handleTrade() {
       this.$router.push({ name: "Trade" })
+    },
+    handleNews() {
+      this.$router.push({ name: "News" })
     },
     fixASidebarMenu() {
       setTimeout(() => {

@@ -69,6 +69,7 @@
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
     "trade": "Basket of traded products",
+    "news": "News on Terra",
     "logo_istat": "Istat Logo",
     "goto_istat": "Go to www.istat.it",
     "opens_goto_istat": "Opens in a new window: ISTAT",
@@ -107,6 +108,11 @@
       "title": "Basket of traded products",
       "body": "This section provides, for each Member State, the <strong>monthly time series of basket composition for exported and imported goods</strong>, classified according to 2 digits CPA 2.1, together with year-over-year changes.",
       "link": "Go to Basket of traded products"
+    },
+    "news": {
+      "title": "News on Terra",
+      "body": "This section shows news on Terra.",
+      "link": "Go to News"
     }
   },
   "map": {
@@ -300,6 +306,11 @@
     },
     "download": {
       "title": "Terra - Basket of Traded Products Filter"
+    }
+  },
+  "news": {
+    "card": {
+      "title": "News on Terra: "
     }
   },
   "privacy": {

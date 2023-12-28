@@ -75,6 +75,14 @@ const routes = [
     }
   },
   {
+    path: "/news",
+    name: "News",
+    component: () => import("../views/news/News"),
+    meta: {
+      authorize: []
+    }
+  },
+  {
     path: "*",
     redirect: "/"
   }

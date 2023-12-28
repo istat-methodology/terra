@@ -68,6 +68,7 @@
     "graphWorld": "Grafi UE - Mondo",
     "timeseries": "Serie storiche",
     "trade": "Paniere dei prodotti",
+    "news": "Le News di Terra",
     "logo_istat": "Logo Istat",
     "goto_istat": "Vai a www.istat.it",
     "opens_goto_istat": "Si apre in un'altra finestra: ISTAT",
@@ -101,6 +102,11 @@
       "title": "Serie storiche",
       "body": "<strong>Strumento di visualizzazione</strong> delle serie <strong>mensili</strong> di dati sul commercio estero <strong>COMEXT</strong>. Questa sezione consente una lettura facile e comprensibile nonostante la mole di dati sottostanti. Utile come strumento di divulgazione. Le serie sono fornite in valore ed il <strong>download è disponibile</strong> in vari formati.",
       "link": "Vai alle Serie storiche"
+    },    
+    "news": {
+      "title": "Le News di Terra",
+      "body": "Questa sezione fornisce le news di Terra.",
+      "link": "Vai alle News di Terra"
     },
     "trade": {
       "title": "Paniere dei prodotti",
@@ -299,6 +305,11 @@
     },
     "download": {
       "title": "Terra - Paniere dei prodotti"
+    }
+  },
+  "news": {
+    "card": {
+      "title": "Le News di Terra: "
     }
   },
   "privacy": {
