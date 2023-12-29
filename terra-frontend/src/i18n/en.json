@@ -112,7 +112,7 @@
     "news": {
       "title": "News on Terra",
       "body": "This section shows news on Terra.",
-      "link": "Go to News"
+      "link": "Go to News on Terra"
     }
   },
   "map": {
@@ -310,7 +310,12 @@
   },
   "news": {
     "card": {
-      "title": "News on Terra: "
+      "title": "News on Terra"
+    },
+    "table": {
+      "date": "date",
+      "text": "text",
+      "type": "type"
     }
   },
   "privacy": {
