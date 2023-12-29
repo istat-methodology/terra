@@ -25,3 +25,7 @@ def month_iter(start_month, start_year, end_month, end_year):
 def createFolder(folder_path):
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
+
+def createFolderStructure(folderDict):
+    for key, value in folderDict.items():
+        createFolder(value)
