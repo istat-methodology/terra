@@ -1,7 +1,8 @@
 import os
 import datetime
 
-WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
+WORKING_FOLDER=os.environ['WORKING_FOLDER']
+#WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 PREFIX_FULL = "full"
 PREFIX_TRANSPORT = "tr"
 PREFIX_MAP = {
@@ -47,17 +48,17 @@ DIRECTORIES = {
 
     "dir_utils" : DATA_FOLDER + os.sep + "utils",
 
-    "dir_product_annual_zip" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + "annual" + os.sep + "zip",
-    "dir_product_annual_file" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + "annual" + os.sep + "file",
-    "dir_product_annual_output" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + "annual" + os.sep + "output",
+    "dir_product_annual_zip" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "zip",
+    "dir_product_annual_file" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "file",
+    "dir_product_annual_output" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "output",
 
-    "dir_product_monthly_zip" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + "monthly" + os.sep + "zip",
-    "dir_product_monthly_file" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + "monthly" + os.sep + "file",
-    "dir_product_monthly_output" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + "monthly" + os.sep + "output",
+    "dir_product_monthly_zip" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "zip",
+    "dir_product_monthly_file" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "file",
+    "dir_product_monthly_output" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output",
 
-    "dir_transport_montly_zip" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + "monthly" + os.sep + "zip",
-    "dir_transport_montly_file" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + "monthly" + os.sep + "file",
-    "dir_transport_montly_output" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + "monthly" + os.sep + "output",
+    "dir_transport_montly_zip" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "zip",
+    "dir_transport_montly_file" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "file",
+    "dir_transport_montly_output" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output",
 }
 
 FILENAMES = {
@@ -81,6 +82,7 @@ FILENAMES = {
     "CPA_TRIM_CSV" : "cpa_trim.csv",
     "CPA2_PRODUCT_CODE_CSV" : "cpa2_products.csv",
     "CPA3_PRODUCT_CODE_CSV" : "cpa3_products.csv",
+
     "TR_EXTRA_UE_CSV" : "tr_extra_ue.csv",
     "TR_PRODUCT_CODE_CSV" : "tr_products_code.csv",
     "TR_EXTRA_UE_TRIMESTRALI_CSV" : "tr_extra_ue_trim.csv",

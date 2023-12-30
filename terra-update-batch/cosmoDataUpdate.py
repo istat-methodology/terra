@@ -26,6 +26,7 @@ from azure.identity import DefaultAzureCredential
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 
 from cosmoUtility import *
+import params
 
 import multiprocessing as mp
 from functools import partial
@@ -93,8 +94,8 @@ start_data_PAGE_GRAPH_EXTRA_UE = start_data_load
 start_data_PAGE_GRAPH_INTRA_UE = start_data_load
 start_data_PAGE_BASKET = start_data_load
 
-# WORKING_FOLDER=os.environ['WORKING_FOLDER']
-WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
+WORKING_FOLDER=os.environ['WORKING_FOLDER']
+# WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -129,6 +130,8 @@ DATA_FOLDER_ANNUAL = DATA_FOLDER + os.sep + "annual"
 DATA_FOLDER_ANNUAL_DATS = DATA_FOLDER_ANNUAL + os.sep + "files"
 DATA_FOLDER_ANNUAL_ZIPS = DATA_FOLDER_ANNUAL + os.sep + "zips"
 DATA_FOLDER_ANNUAL_OUTPUT = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "output"
+DATA_FOLDER_MONTHLY_OUTPUT = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output"
+DATA_FOLDER_TR_MONTHLY_OUTPUT = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output"
 
 # files name  OUTPUT const
 ieinfo_filename = DATA_FOLDER_ANNUAL_OUTPUT + os.sep + "ieinfo.json"
@@ -278,8 +281,8 @@ def downloadAndExtractComextMonthlyDATAParallel(
     DATA_FOLDER_WORKING = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[prefix_file] + os.sep + "monthly"
     DATA_FOLDER_MONTHLY_DATS = DATA_FOLDER_WORKING + os.sep + "file"
     DATA_FOLDER_MONTHLY_ZIPS = DATA_FOLDER_WORKING + os.sep + "zip"
-    createFolder(DATA_FOLDER_MONTHLY_DATS)
-    createFolder(DATA_FOLDER_MONTHLY_ZIPS)
+    # createFolder(DATA_FOLDER_MONTHLY_DATS)
+    # createFolder(DATA_FOLDER_MONTHLY_ZIPS)
 
     logger.info("Path: " + DATA_FOLDER_WORKING)
 
@@ -341,8 +344,8 @@ def downloadAndExtractComextMonthlyDATA(
     DATA_FOLDER_WORKING = DATA_FOLDER_MONTHLY + os.sep + prefix_file
     DATA_FOLDER_MONTHLY_DATS = DATA_FOLDER_WORKING + os.sep + "files"
     DATA_FOLDER_MONTHLY_ZIPS = DATA_FOLDER_WORKING + os.sep + "zips"
-    createFolder(DATA_FOLDER_MONTHLY_DATS)
-    createFolder(DATA_FOLDER_MONTHLY_ZIPS)
+    # createFolder(DATA_FOLDER_MONTHLY_DATS)
+    # createFolder(DATA_FOLDER_MONTHLY_ZIPS)
 
     logger.info("Path: " + DATA_FOLDER_WORKING)
 
@@ -400,8 +403,8 @@ def downloadAndExtractComextMonthlyDATA(
 
 
 def downloadAndExtractComextAnnualDATA():
-    createFolder(DATA_FOLDER_ANNUAL_DATS)
-    createFolder(DATA_FOLDER_ANNUAL_ZIPS)
+    # createFolder(DATA_FOLDER_ANNUAL_DATS)
+    # createFolder(DATA_FOLDER_ANNUAL_ZIPS)
 
     count_downloaded = 0
     count_extracted = 0
@@ -450,8 +453,8 @@ def downloadAndExtractComextAnnualDATA():
 
 
 def downloadAndExtractComextAnnualDATAParallel(url, prefix, zip_folder, data_folder):
-    createFolder(data_folder)
-    createFolder(zip_folder)
+    # createFolder(data_folder)
+    # createFolder(zip_folder)
 
     count_downloaded = 0
     count_extracted = 0
@@ -502,7 +505,7 @@ def downloadAndExtractComextAnnualDATAParallel(url, prefix, zip_folder, data_fol
 
 
 def downloadfile(url_file, filename):
-    createFolder(os.path.dirname(filename))
+    # createFolder(os.path.dirname(filename))
     try:
         urllib.request.urlretrieve(url_file, filename)
     except BaseException as err:
@@ -534,7 +537,7 @@ def getValueFromList(clsRow, code, position):
 # [JSON MAP]
 def annualProcessing(input_path):
     logger.info("annualProcessing()")
-    createFolder(DATA_FOLDER_ANNUAL_OUTPUT)
+    # createFolder(DATA_FOLDER_ANNUAL_OUTPUT)
     ieinfo = []
     current_filename = (
         input_path
@@ -977,7 +980,7 @@ def annualProcessing(input_path):
 
 
 def createGeneralInfoOutput():
-    createFolder(DATA_FOLDER)
+    # createFolder(DATA_FOLDER)
     if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
         os.symlink(
             DATA_FOLDER_PARENT,
@@ -1252,7 +1255,7 @@ def monthlyProcessing():
 
 def createMonthlyOutputTimeSeries(import_ts, export_ts):
     logger.info("createMonthlyOutputTimeSeries START")
-    # createFolder(output_path)
+    # createFolder(DATA_FOLDER_MONTHLY_OUTPUT)
 
     # import export series
     logger.info("import export series")
@@ -1483,7 +1486,7 @@ def createMonthlyOutputVQSTradeQuantity(import_qty, export_qty):
 
 def createMonthlyOutputQuoteSTrade(output_path):
     logger.info("createMonthlyOutputQuoteSTrade quote START")
-    createFolder(output_path)
+    # createFolder(output_path)
 
     conn = sqlite3.connect(SQLLITE_DB)
     quote = pd.read_sql_query(
@@ -1777,6 +1780,7 @@ def createOutputGraphicTrimestre(cpa_trim):
 
 def createOutputGraphExtraUE():
     logger.info("createOutputGraphExtraUE START")
+    # createFolder(DATA_FOLDER_TR_MONTHLY_OUTPUT)
 
     DATA_FOLDER_MONTHLY_DATS = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "file"
 
@@ -2308,69 +2312,97 @@ def executeUpdate():
     repo = "start time: " + start_time.strftime("%H:%M:%S") + "<br/>\n"
 
     try:
-        #repo += createGeneralInfoOutput()
-        #repo += "<!-- 1 --><br/>\n"
-        #repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-#
-        #repo += downloadAndExtractComextAnnualDATAParallel(
-        #    URL_COMEXT_PRODUCTS,
-        #    PREFIX_FULL,
-        #    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "zip",
-        #    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "file",
-        #)
-        #repo += "<!-- 2 --><br/>\n"
-        #repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-        
-        #repo += downloadAndExtractComextMonthlyDATAParallel(
-        #    URL_COMEXT_PRODUCTS,
-        #    PREFIX_FULL,
-        #    start_data_PAGE_TIME_SERIES,
-        #    end_data_load
-        #)
-        #repo += "<!-- 3 --><br/>\n"
-        #repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-#
-        #repo += downloadAndExtractComextMonthlyDATAParallel(
-        #    URL_COMEXT_TR,
-        #    PREFIX_TRANSPORT,
-        #    start_data_PAGE_GRAPH_EXTRA_UE,
-        #    end_data_load,
-        #)
-        #repo += "<!-- 4 --><br/>\n"
-        #repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-#
-        #repo += downloadfile(URL_COMEXT_CLS_PRODUCTS, CLS_PRODUCTS_FILE)
-        #repo += "<!-- 5 --><br/>\n"
-#
-        #repo += downloadfile(URL_CLS_CPA, CLS_PRODUCTS_CPA_FILE)
-        #repo += "<!-- 6 --><br/>\n"
-#
-        #repo += downloadfile(URL_CLS_CPA_3D_ITA, CLS_PRODUCTS_CPA_FILE_3D_ITA)
-        #repo += "<!-- 6.1 --><br/>\n"
-#
-        #repo += downloadfile(URL_CLS_CPA_2D_ITA, CLS_PRODUCTS_CPA_FILE_2D_ITA)
-        #repo += "<!-- 6.2 --><br/>\n"
-#
-        #repo += downloadfile(URL_CLS_NSTR, CLS_NSTR_FILE)
-        #repo += "<!-- 7 --><br/>\n"
-#
-        #repo += downloadfile(URL_CLS_NSTR_ITA, CLS_NSTR_FILE_ITA)
-        #repo += "<!-- 7.1a --><br/>\n"
-#
-        #repo += downloadfile(ANNUAL_POPULATION_URL, ANNUAL_POPULATION_CSV)
-        #repo += "<!-- 7.1 --><br/>\n"
-        #repo += downloadfile(
-        #    ANNUAL_INDUSTRIAL_PRODUCTION_URL, ANNUAL_INDUSTRIAL_PRODUCTION_FILE_CSV
-        #)
-        #repo += "<!-- 7.2 --><br/>\n"
-        #repo += downloadfile(ANNUAL_UNEMPLOYEMENT_URL, ANNUAL_UNEMPLOYEMENT_FILE_CSV)
-        #repo += "<!-- 7.3 --><br/>\n"
-        ## [MAP]
+        repo += "<!-- 0 --><br/>\n"
+        repo += createFolderStructure(params.DIRECTORIES)
+        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+
+        repo += createGeneralInfoOutput()
+        repo += "<!-- 1 --><br/>\n"
+        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+
+        repo += downloadAndExtractComextAnnualDATAParallel(
+            params.URLS["COMEXT_PRODUCTS"],
+            PREFIX_FULL,
+            params.DIRECTORIES["dir_product_annual_zip"],
+            params.DIRECTORIES["dir_product_annual_file"],
+        )
+        repo += "<!-- 2 --><br/>\n"
+        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+    
+        repo += downloadAndExtractComextMonthlyDATAParallel(
+            params.URLS["COMEXT_PRODUCTS"],
+            PREFIX_FULL,
+            start_data_PAGE_TIME_SERIES,
+            end_data_load
+        )
+        repo += "<!-- 3 --><br/>\n"
+        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+
+        repo += downloadAndExtractComextMonthlyDATAParallel(
+            params.URLS["COMEXT_TR"],
+            PREFIX_TRANSPORT,
+            start_data_PAGE_GRAPH_EXTRA_UE,
+            end_data_load,
+        )
+        repo += "<!-- 4 --><br/>\n"
+        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+
+        repo += downloadfile(
+            params.URLS["CLS_PRODUCTS"],
+            CLS_PRODUCTS_FILE
+        )
+        repo += "<!-- 5 --><br/>\n"
+
+        repo += downloadfile(
+            params.URLS["CLS_CPA"],
+            CLS_PRODUCTS_CPA_FILE
+        )
+        repo += "<!-- 6 --><br/>\n"
+
+        repo += downloadfile(
+            params.URLS["CLS_CPA_3D_ITA"],
+            CLS_PRODUCTS_CPA_FILE_3D_ITA
+        )
+        repo += "<!-- 6.1 --><br/>\n"
+
+        repo += downloadfile(
+            params.URLS["CLS_CPA_2D_ITA"],
+            CLS_PRODUCTS_CPA_FILE_2D_ITA
+        )
+        repo += "<!-- 6.2 --><br/>\n"
+
+        repo += downloadfile(
+            params.URLS["CLS_NSTR"],
+            CLS_NSTR_FILE
+        )
+        repo += "<!-- 7 --><br/>\n"
+
+        repo += downloadfile(
+            params.URLS["CLS_NSTR_ITA"],
+            CLS_NSTR_FILE_ITA
+        )
+        repo += "<!-- 7.1a --><br/>\n"
+
+        repo += downloadfile(
+            params.URLS["ANNUAL_POPULATION"],
+            ANNUAL_POPULATION_CSV
+        )
+        repo += "<!-- 7.1 --><br/>\n"
+        repo += downloadfile(
+            params.URLS["ANNUAL_INDUSTRIAL_PRODUCTION"],
+            ANNUAL_INDUSTRIAL_PRODUCTION_FILE_CSV
+        )
+        repo += "<!-- 7.2 --><br/>\n"
+        repo += downloadfile(
+            params.URLS["ANNUAL_UNEMPLOYEMENT"],
+            ANNUAL_UNEMPLOYEMENT_FILE_CSV
+        )
+        repo += "<!-- 7.3 --><br/>\n"
+        # [MAP]
         repo += annualProcessing(DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "file")
         repo += "<!-- 8 --><br/>\n"
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-
-        repo += createMonthlyFULLtable(DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep +"file")
+        repo += createMonthlyFULLtable(params.DIRECTORIES["dir_product_monthly_file"])
         repo += "<!-- 9 --><br/>\n"
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
 

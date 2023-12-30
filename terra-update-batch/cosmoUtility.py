@@ -29,3 +29,5 @@ def createFolder(folder_path):
 def createFolderStructure(folderDict):
     for key, value in folderDict.items():
         createFolder(value)
+    
+    return "Folder structure created"
