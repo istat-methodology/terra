@@ -69,7 +69,7 @@
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
     "trade": "Basket of traded products",
-    "news": "News on Terra",
+    "news": "News",
     "logo_istat": "Istat Logo",
     "goto_istat": "Go to www.istat.it",
     "opens_goto_istat": "Opens in a new window: ISTAT",
@@ -111,8 +111,8 @@
     },
     "news": {
       "title": "News on Terra",
-      "body": "This section shows news on Terra.",
-      "link": "Go to News on Terra"
+      "body": "This section shows news on Terra, related to data updates, bug fixing and improvements in the dashboard",
+      "link": "Go to News"
     }
   },
   "map": {

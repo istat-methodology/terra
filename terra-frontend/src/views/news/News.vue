@@ -1,10 +1,11 @@
 <template>
   <div class="row">
     <h1 class="sr-only">{{ $t("landing.news.title") }}</h1>
-    <div class="col-sm-6 col-md-9">
+    <div class="col-12">
       <CCard :title="'TERRA - ' + $t('news.card.title')">
         <CCardHeader>
           <span class="card-title" role="heading" aria-level="2">
+            <CIcon name="cil-newspaper" :title="$t('news.card.title')" alt="" />
             {{ $t("news.card.title") }}
           </span>
         </CCardHeader>
@@ -86,11 +87,6 @@ export default {
     newsFields() {
       return [
         {
-          key: "id",
-          label: "id",
-          _style: "width:1%;"
-        },
-        {
           key: "date",
           label: this.$t("news.table.date"),
           _style: "width:5%;"
@@ -98,7 +94,7 @@ export default {
         {
           key: "text",
           label: this.$t("news.table.text"),
-          _style: "width:5%;"
+          _style: "width:90%;"
         },
         {
           key: "type",
@@ -287,14 +283,8 @@ export default {
 }
 </script>
 <style scoped>
-.align-right {
-  text-align: right;
-}
-.card-filter .card-body {
-  padding-left: 0.5rem;
-}
-.error {
-  color: red;
+.card-body {
+  padding: 0.2rem 1.25rem;
 }
 .no-visible {
   display: none;

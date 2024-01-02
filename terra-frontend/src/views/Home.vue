@@ -117,7 +117,10 @@
     <div class="col-sm-6 col-md-4">
       <div class="card" :title="$t('landing.news.title')">
         <header class="card-header" role="heading" aria-level="2">
-          <CIcon name="cil-bell" :title="$t('landing.news.title')" alt="" />
+          <CIcon
+            name="cil-newspaper"
+            :title="$t('landing.news.title')"
+            alt="" />
           {{ $t("landing.news.title") }}
         </header>
         <div class="card-body">

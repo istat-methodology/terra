@@ -68,7 +68,7 @@
     "graphWorld": "Grafi UE - Mondo",
     "timeseries": "Serie storiche",
     "trade": "Paniere dei prodotti",
-    "news": "Le News di Terra",
+    "news": "News",
     "logo_istat": "Logo Istat",
     "goto_istat": "Vai a www.istat.it",
     "opens_goto_istat": "Si apre in un'altra finestra: ISTAT",
@@ -105,8 +105,8 @@
     },
     "news": {
       "title": "Le News di Terra",
-      "body": "Questa sezione fornisce le news di Terra.",
-      "link": "Vai alle News di Terra"
+      "body": "Questa sezione fornisce le news di Terra, relative all'aggiornamento dei dataset, alla correzione di bug e all'implementazione di nuove funzionalità in TERRA.",
+      "link": "Vai alle News"
     },
     "trade": {
       "title": "Paniere dei prodotti",

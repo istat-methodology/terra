@@ -45,6 +45,23 @@
             :title="$t('sidebar.home')" />{{ $t("sidebar.home") }}
         </a>
       </div>
+      <div class="c-sidebar-nav-item">
+        <a
+          @click="handleNews()"
+          @keypress="handleNews()"
+          class="c-sidebar-nav-link"
+          :class="{ 'c-active c-active-danger': isNews }"
+          :title="$t('sidebar.news')"
+          :aria-current="'false'"
+          tabindex="0">
+          <CIcon
+            name="cil-newspaper"
+            class="c-sidebar-nav-icon"
+            alt=""
+            :title="$t('sidebar.news')" />
+          {{ $t("sidebar.news") }}
+        </a>
+      </div>
       <div class="c-sidebar-nav-title pb-2">
         {{ $t("sidebar.analysis") }}
       </div>
@@ -129,23 +146,6 @@
             alt=""
             :title="$t('sidebar.trade')" />
           {{ $t("sidebar.trade") }}
-        </a>
-      </div>
-      <div class="c-sidebar-nav-item">
-        <a
-          @click="handleNews()"
-          @keypress="handleNews()"
-          class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-danger': isNews }"
-          :title="$t('sidebar.news')"
-          :aria-current="'false'"
-          tabindex="0">
-          <CIcon
-            name="cil-bell"
-            class="c-sidebar-nav-icon"
-            alt=""
-            :title="$t('sidebar.news')" />
-          {{ $t("sidebar.news") }}
         </a>
       </div>
       <div class="c-sidebar-nav-item">
