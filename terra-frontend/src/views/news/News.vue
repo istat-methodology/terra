@@ -150,7 +150,7 @@ export default {
           if (thead[0].children && thead[1].children) {
             const tr_0 = thead[0].children
             const tr_1 = thead[1].children
-            console.log(tr_0.length - 1)
+            //console.log(tr_0.length - 1)
             const tr_len = tr_0.length - 1
             if (tr_0) {
               for (let i = 0; i <= tr_len; i++) {
@@ -182,7 +182,7 @@ export default {
             "text-center my-5"
           ) {
             tBody.children[0].children[0].children[0].role = "alert"
-            console.log(tBody.children[0].children[0].children[0].role)
+            //console.log(tBody.children[0].children[0].children[0].role)
           }
         }
       }

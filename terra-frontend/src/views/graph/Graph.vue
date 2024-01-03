@@ -634,7 +634,7 @@ export default {
       document.getElementById("vs1__combobox").focus()
     },
     fixTab() {
-      console.log(this.$refs.tablist)
+      //console.log(this.$refs.tablist)
       this.$refs.tablist.$children[0].$el.role = "tablist"
       this.$refs.tablist.$children[1].$children[0].$el.role = "tabpanel"
       this.$refs.tablist.$children[1].$children[1].$el.role = "tabpanel"

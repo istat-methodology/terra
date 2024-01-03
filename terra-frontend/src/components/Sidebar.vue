@@ -237,6 +237,9 @@ a:hover {
 .c-sidebar-nav-link:hover {
   cursor: pointer;
 }
+.c-sidebar-nav-title {
+  margin-top: 0;
+}
 .c-sidebar .c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon,
 .c-sidebar .c-sidebar-nav-link .c-sidebar-nav-icon {
   color: white;

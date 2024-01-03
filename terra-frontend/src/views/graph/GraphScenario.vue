@@ -421,7 +421,7 @@ export default {
           if (table.$el.children[0].children[0].children[1]) {
             const tBody = table.$el.children[0].children[0].children[1]
             tBody.ariaLive = "polite"
-            console.log(tBody)
+            //console.log(tBody)
           }
         }
       }
