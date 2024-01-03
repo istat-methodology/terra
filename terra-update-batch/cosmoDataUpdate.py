@@ -39,62 +39,62 @@ def is_application_insight_configured():
         or os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING") != None
     )
 
-SEP = ","
-DATA_EXTENTION = ".dat"
+#SEP = ","
+#DATA_EXTENTION = ".dat"
 # CSV_EXTENTION=".csv"
-PREFIX_FULL = "full"
-PREFIX_TRANSPORT = "tr"
-PREFIX_MAP = {
-  "tr": "transport",
-  "full": "product"
-}
-FLOW_IMPORT = 1
-FLOW_EXPORT = 2
+#PREFIX_FULL = "full"
+#PREFIX_TRANSPORT = "tr"
+#PREFIX_MAP = {
+#  "tr": "transport",
+#  "full": "product"
+#}
+#FLOW_IMPORT = 1
+#FLOW_EXPORT = 2
 COLS_CLS_PRODUCTS = 4
-SUPPORTED_LANGUAGES = ["it", "en"]
+#SUPPORTED_LANGUAGES = ["it", "en"]
 
 KEY_VAULT_NAME = "statlab-key-vault"
 SECRETNAME_ACCOUNTKEY = "cosmostoragekey"
 
-processing_day = datetime.datetime.today()
-
-this_year = processing_day.year
-this_month = "%02d" % processing_day.month
-annual_new_data = (
-    1 if (processing_day < datetime.datetime(processing_day.year, 3, 20)) else 0
-)
-annual_current_year = (
-    datetime.datetime.strptime(str(processing_day.year), "%Y")
-    - relativedelta(years=annual_new_data)
-    - relativedelta(years=1)
-).year
-annual_previous_year = (
-    datetime.datetime.strptime(str(processing_day.year), "%Y")
-    - relativedelta(years=annual_new_data)
-    - relativedelta(years=2)
-).year
-
-# SET TIME INTERVAL (IN MONTHS)
-time_interval_m = 1
-offset_m = 12
-
-start_data_load = (
-    datetime.datetime.strptime(str(this_year) + "-" + str(this_month), "%Y-%m")
-    - relativedelta(months=offset_m)
-    - relativedelta(months=time_interval_m - 1)
-)
-end_data_load = datetime.datetime.strptime(
-    str(this_year) + "-" + str(this_month), "%Y-%m"
-) - relativedelta(months=offset_m)
-
-##### SET DATES FOR PAGES #####
-start_data_PAGE_MAP = start_data_load
-start_data_PAGE_TIME_SERIES = start_data_load
-start_data_PAGE_GRAPH_EXTRA_UE = start_data_load
-start_data_PAGE_GRAPH_INTRA_UE = start_data_load
-start_data_PAGE_BASKET = start_data_load
-
-WORKING_FOLDER=os.environ['WORKING_FOLDER']
+#processing_day = datetime.datetime.today()
+#
+#this_year = processing_day.year
+#this_month = "%02d" % processing_day.month
+#annual_new_data = (
+#    1 if (processing_day < datetime.datetime(processing_day.year, 3, 20)) else 0
+#)
+#annual_current_year = (
+#    datetime.datetime.strptime(str(processing_day.year), "%Y")
+#    - relativedelta(years=annual_new_data)
+#    - relativedelta(years=1)
+#).year
+#annual_previous_year = (
+#    datetime.datetime.strptime(str(processing_day.year), "%Y")
+#    - relativedelta(years=annual_new_data)
+#    - relativedelta(years=2)
+#).year
+#
+## SET TIME INTERVAL (IN MONTHS)
+#time_interval_m = 1
+#offset_m = 12
+#
+#start_data_load = (
+#    datetime.datetime.strptime(str(this_year) + "-" + str(this_month), "%Y-%m")
+#    - relativedelta(months=offset_m)
+#    - relativedelta(months=time_interval_m - 1)
+#)
+#end_data_load = datetime.datetime.strptime(
+#    str(this_year) + "-" + str(this_month), "%Y-%m"
+#) - relativedelta(months=offset_m)
+#
+###### SET DATES FOR PAGES #####
+#start_data_PAGE_MAP = start_data_load
+#start_data_PAGE_TIME_SERIES = start_data_load
+#start_data_PAGE_GRAPH_EXTRA_UE = start_data_load
+#start_data_PAGE_GRAPH_INTRA_UE = start_data_load
+#start_data_PAGE_BASKET = start_data_load
+#
+#WORKING_FOLDER=os.environ['WORKING_FOLDER']
 # WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
 logging.basicConfig(
@@ -112,135 +112,135 @@ else:
     logger.warning("Application insights is not configured.")
 
 
-job_id = os.getenv("AZ_BATCH_JOB_ID", "").replace(":", "_")
-DATA_FOLDER_PARENT = (
-    WORKING_FOLDER + os.sep + "data" + (("__" + job_id) if (job_id != "") else "")
-)
-DATA_FOLDER = DATA_FOLDER_PARENT + os.sep + str(this_year) + str(this_month)
-SQLITE_TMPDIR = DATA_FOLDER + os.sep + "tmpdb"
-os.environ["SQLITE_TMPDIR"] = SQLITE_TMPDIR
-
-DATA_FOLDER_UTILS = DATA_FOLDER + os.sep + "utils"
-DATA_FOLDER_CLASSIFICATION = DATA_FOLDER + os.sep + "classification"
-DATA_FOLDER_COMEXT = DATA_FOLDER + os.sep + "comext"
-
-DATA_FOLDER_MONTHLY = DATA_FOLDER + os.sep + "monthly"
-DATA_FOLDER_ANNUAL = DATA_FOLDER + os.sep + "annual"
-
-DATA_FOLDER_ANNUAL_DATS = DATA_FOLDER_ANNUAL + os.sep + "files"
-DATA_FOLDER_ANNUAL_ZIPS = DATA_FOLDER_ANNUAL + os.sep + "zips"
-DATA_FOLDER_ANNUAL_OUTPUT = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "output"
-DATA_FOLDER_MONTHLY_OUTPUT = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output"
-DATA_FOLDER_TR_MONTHLY_OUTPUT = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output"
-
-# files name  OUTPUT const
-ieinfo_filename = DATA_FOLDER_ANNUAL_OUTPUT + os.sep + "ieinfo.json"
-
-IMPORT_SERIES_JSON = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "importseries.json"
-)
-EXPORT_SERIES_JSON = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "exportseries.json"
-)
-
-QUOTE_TRADE = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "quoteTrade.json"
-)
-
-IMPORT_QUANTITY_JSON = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "importQuantity.json"
-)
-EXPORT_QUANTITY_JSON = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "exportQuantity.json"
-)
-
-IMPORT_QUOTE_QUANTITY_JSON = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "importQuoteQuantity.json"
-)
-EXPORT_QUOTE_QUANTITY_JSON = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "exportQuoteQuantity.json"
-)
-
-IMPORT_VALUE_JSON = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "importValue.json"
-)
-EXPORT_VALUE_JSON = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "exportValue.json"
-)
-
-IMPORT_QUOTE_VALUE_JSON = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "importQuoteValue.json"
-)
-EXPORT_QUOTE_VALUE_JSON = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "exportQuoteValue.json"
-)
-
-COMEXT_IMP_CSV = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "comext_imp.csv"
-COMEXT_EXP_CSV = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "comext_exp.csv"
-
-CPA_INTRA_CSV = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "cpa_intra.csv"
-CPA_TRIM_CSV = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "cpa_trim.csv"
-
-CPA2_PRODUCT_CODE_CSV = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "cpa2_products.csv"
-)
-CPA3_PRODUCT_CODE_CSV = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "cpa3_products.csv"
-)
-
-TR_EXTRA_UE_CSV = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output" + os.sep + "tr_extra_ue.csv"
-)
-TR_PRODUCT_CODE_CSV = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output" + os.sep + "tr_products_code.csv"
-)
-
-TR_EXTRA_UE_TRIMESTRALI_CSV = (
-    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output" + os.sep + "tr_extra_ue_trim.csv"
-)
-
-ANNUAL_POPULATION_URL = "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/DEMO_GIND/?format=SDMX-CSV&i"
-ANNUAL_POPULATION_CSV = DATA_FOLDER_UTILS + os.sep + "annual_population.csv"
-
-ANNUAL_INDUSTRIAL_PRODUCTION_URL = "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/STS_INPR_A/?format=SDMX-CSV&i"
-ANNUAL_INDUSTRIAL_PRODUCTION_FILE_CSV = DATA_FOLDER_UTILS + os.sep + "annual_industrial_production.csv"
-
-ANNUAL_UNEMPLOYEMENT_URL = "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/UNE_RT_A/?format=SDMX-CSV&i"
-ANNUAL_UNEMPLOYEMENT_FILE_CSV = DATA_FOLDER_UTILS + os.sep + "annual_unemployment.csv"
-
-GENERAL_INFO_FILE = DATA_FOLDER + os.sep + "metadata.json"
-
-SQLLITE_DB = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "comext.db"
-
-## ogni 20 del mese scaricare il file annuale fullAAAAMM.7z con 52 al posto del mese (esempio file full201952.7z)
-## data URL_COMEXT
-
-# NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FPRODUCTS
-URL_COMEXT_PRODUCTS = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FPRODUCTS%2F"
-
-# NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR
-URL_COMEXT_TR = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR%2F"
-
-# NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt
-URL_COMEXT_CLS_PRODUCTS = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt"
-CLS_PRODUCTS_FILE = DATA_FOLDER_CLASSIFICATION + os.sep + "cls_products.dat"
-
-# NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FNSTR.txt
-URL_CLS_NSTR = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FNSTR.txt"
-CLS_NSTR_FILE = DATA_FOLDER_CLASSIFICATION + os.sep + "NSTR.txt"
-
-URL_CLS_NSTR_ITA = "https://raw.githubusercontent.com/istat-methodology/terra/main/cls/Prodotti_NSTR_ita.csv"
-CLS_NSTR_FILE_ITA = DATA_FOLDER_CLASSIFICATION + os.sep + "NSTR_ITA.txt"
-
-# NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCPA21.txt
-URL_CLS_CPA = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCPA21.txt"
-CLS_PRODUCTS_CPA_FILE = DATA_FOLDER_CLASSIFICATION + os.sep + "cls_products_CPA21.txt"
-
-URL_CLS_CPA_3D_ITA = "https://raw.githubusercontent.com/istat-methodology/terra/main/cls/CPA_2_1_3digits_ita.csv"
-CLS_PRODUCTS_CPA_FILE_3D_ITA = DATA_FOLDER_CLASSIFICATION + os.sep + "cls_products_CPA21_3D_ITA.txt"
-
-URL_CLS_CPA_2D_ITA = "https://raw.githubusercontent.com/istat-methodology/terra/main/cls/cpa2.1_2digit_ita.csv"
-CLS_PRODUCTS_CPA_FILE_2D_ITA = DATA_FOLDER_CLASSIFICATION + os.sep + "cls_products_CPA21_2D_ITA.txt"
+#job_id = os.getenv("AZ_BATCH_JOB_ID", "").replace(":", "_")
+#DATA_FOLDER_PARENT = (
+#    WORKING_FOLDER + os.sep + "data" + (("__" + job_id) if (job_id != "") else "")
+#)
+#DATA_FOLDER = DATA_FOLDER_PARENT + os.sep + str(this_year) + str(this_month)
+#SQLITE_TMPDIR = DATA_FOLDER + os.sep + "tmpdb"
+#os.environ["SQLITE_TMPDIR"] = SQLITE_TMPDIR
+#
+#DATA_FOLDER_UTILS = DATA_FOLDER + os.sep + "utils"
+#DATA_FOLDER_CLASSIFICATION = DATA_FOLDER + os.sep + "classification"
+#DATA_FOLDER_COMEXT = DATA_FOLDER + os.sep + "comext"
+#
+#DATA_FOLDER_MONTHLY = DATA_FOLDER + os.sep + "monthly"
+#DATA_FOLDER_ANNUAL = DATA_FOLDER + os.sep + "annual"
+#
+#DATA_FOLDER_ANNUAL_DATS = DATA_FOLDER_ANNUAL + os.sep + "files"
+#DATA_FOLDER_ANNUAL_ZIPS = DATA_FOLDER_ANNUAL + os.sep + "zips"
+#DATA_FOLDER_ANNUAL_OUTPUT = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "output"
+#DATA_FOLDER_MONTHLY_OUTPUT = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output"
+#DATA_FOLDER_TR_MONTHLY_OUTPUT = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output"
+#
+## files name  OUTPUT const
+#ieinfo_filename = DATA_FOLDER_ANNUAL_OUTPUT + os.sep + "ieinfo.json"
+#
+#IMPORT_SERIES_JSON = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "importseries.json"
+#)
+#EXPORT_SERIES_JSON = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "exportseries.json"
+#)
+#
+#QUOTE_TRADE = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "quoteTrade.json"
+#)
+#
+#IMPORT_QUANTITY_JSON = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "importQuantity.json"
+#)
+#EXPORT_QUANTITY_JSON = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "exportQuantity.json"
+#)
+#
+#IMPORT_QUOTE_QUANTITY_JSON = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "importQuoteQuantity.json"
+#)
+#EXPORT_QUOTE_QUANTITY_JSON = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "exportQuoteQuantity.json"
+#)
+#
+#IMPORT_VALUE_JSON = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "importValue.json"
+#)
+#EXPORT_VALUE_JSON = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "exportValue.json"
+#)
+#
+#IMPORT_QUOTE_VALUE_JSON = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "importQuoteValue.json"
+#)
+#EXPORT_QUOTE_VALUE_JSON = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "exportQuoteValue.json"
+#)
+#
+#COMEXT_IMP_CSV = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "comext_imp.csv"
+#COMEXT_EXP_CSV = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "comext_exp.csv"
+#
+#CPA_INTRA_CSV = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "cpa_intra.csv"
+#CPA_TRIM_CSV = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "cpa_trim.csv"
+#
+#CPA2_PRODUCT_CODE_CSV = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "cpa2_products.csv"
+#)
+#CPA3_PRODUCT_CODE_CSV = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output" + os.sep + "cpa3_products.csv"
+#)
+#
+#TR_EXTRA_UE_CSV = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output" + os.sep + "tr_extra_ue.csv"
+#)
+#TR_PRODUCT_CODE_CSV = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output" + os.sep + "tr_products_code.csv"
+#)
+#
+#TR_EXTRA_UE_TRIMESTRALI_CSV = (
+#    DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output" + os.sep + "tr_extra_ue_trim.csv"
+#)
+#
+#ANNUAL_POPULATION_URL = "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/DEMO_GIND/?format=SDMX-CSV&i"
+#ANNUAL_POPULATION_CSV = DATA_FOLDER_UTILS + os.sep + "annual_population.csv"
+#
+#ANNUAL_INDUSTRIAL_PRODUCTION_URL = "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/STS_INPR_A/?format=SDMX-CSV&i"
+#ANNUAL_INDUSTRIAL_PRODUCTION_FILE_CSV = DATA_FOLDER_UTILS + os.sep + "annual_industrial_production.csv"
+#
+#ANNUAL_UNEMPLOYEMENT_URL = "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/UNE_RT_A/?format=SDMX-CSV&i"
+#ANNUAL_UNEMPLOYEMENT_FILE_CSV = DATA_FOLDER_UTILS + os.sep + "annual_unemployment.csv"
+#
+#GENERAL_INFO_FILE = DATA_FOLDER + os.sep + "metadata.json"
+#
+#SQLLITE_DB = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "comext.db"
+#
+### ogni 20 del mese scaricare il file annuale fullAAAAMM.7z con 52 al posto del mese (esempio file full201952.7z)
+### data URL_COMEXT
+#
+## NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FPRODUCTS
+#URL_COMEXT_PRODUCTS = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FPRODUCTS%2F"
+#
+## NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR
+#URL_COMEXT_TR = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR%2F"
+#
+## NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt
+#URL_COMEXT_CLS_PRODUCTS = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt"
+#CLS_PRODUCTS_FILE = DATA_FOLDER_CLASSIFICATION + os.sep + "cls_products.dat"
+#
+## NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FNSTR.txt
+#URL_CLS_NSTR = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FNSTR.txt"
+#CLS_NSTR_FILE = DATA_FOLDER_CLASSIFICATION + os.sep + "NSTR.txt"
+#
+#URL_CLS_NSTR_ITA = "https://raw.githubusercontent.com/istat-methodology/terra/main/cls/Prodotti_NSTR_ita.csv"
+#CLS_NSTR_FILE_ITA = DATA_FOLDER_CLASSIFICATION + os.sep + "NSTR_ITA.txt"
+#
+## NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCPA21.txt
+#URL_CLS_CPA = "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCPA21.txt"
+#CLS_PRODUCTS_CPA_FILE = DATA_FOLDER_CLASSIFICATION + os.sep + "cls_products_CPA21.txt"
+#
+#URL_CLS_CPA_3D_ITA = "https://raw.githubusercontent.com/istat-methodology/terra/main/cls/CPA_2_1_3digits_ita.csv"
+#CLS_PRODUCTS_CPA_FILE_3D_ITA = DATA_FOLDER_CLASSIFICATION + os.sep + "cls_products_CPA21_3D_ITA.txt"
+#
+#URL_CLS_CPA_2D_ITA = "https://raw.githubusercontent.com/istat-methodology/terra/main/cls/cpa2.1_2digit_ita.csv"
+#CLS_PRODUCTS_CPA_FILE_2D_ITA = DATA_FOLDER_CLASSIFICATION + os.sep + "cls_products_CPA21_2D_ITA.txt"
 
 
 URL_JSONDATA_SERVER = "https://api.cosmo.statlab.it/cls"
@@ -276,15 +276,9 @@ def downloadAndExtractFile(param, extract_path):
 
 
 def downloadAndExtractComextMonthlyDATAParallel(
-    url_download, prefix_file, start_data, end_data
+    url_download, zip_folder, file_folder, prefix_file, start_data, end_data
 ):
-    DATA_FOLDER_WORKING = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[prefix_file] + os.sep + "monthly"
-    DATA_FOLDER_MONTHLY_DATS = DATA_FOLDER_WORKING + os.sep + "file"
-    DATA_FOLDER_MONTHLY_ZIPS = DATA_FOLDER_WORKING + os.sep + "zip"
-    # createFolder(DATA_FOLDER_MONTHLY_DATS)
-    # createFolder(DATA_FOLDER_MONTHLY_ZIPS)
-
-    logger.info("Path: " + DATA_FOLDER_WORKING)
+    logger.info("Path: " + zip_folder)
 
     count_downloaded = 0
     count_extracted = 0
@@ -300,7 +294,7 @@ def downloadAndExtractComextMonthlyDATAParallel(
             prefix_file + str(current_month_year) + str(current_month_month) + ".7z"
         )
         url_file = url_download + filenameZip
-        fileMonthlyZip = DATA_FOLDER_MONTHLY_ZIPS + os.sep + filenameZip
+        fileMonthlyZip = zip_folder + os.sep + filenameZip
         urls.append((url_file, fileMonthlyZip))
 
     # spark
@@ -312,7 +306,7 @@ def downloadAndExtractComextMonthlyDATAParallel(
     logger.info("Number of processors: {}".format(mp.cpu_count()))
     pool = mp.Pool(mp.cpu_count())
     ris = pool.map(
-        partial(downloadAndExtractFile, extract_path=DATA_FOLDER_MONTHLY_DATS), urls
+        partial(downloadAndExtractFile, extract_path=file_folder), urls
     )
 
     count_downloaded, count_extracted, count_error = map(sum, zip(*ris))
@@ -453,14 +447,11 @@ def downloadAndExtractComextAnnualDATA():
 
 
 def downloadAndExtractComextAnnualDATAParallel(url, prefix, zip_folder, data_folder):
-    # createFolder(data_folder)
-    # createFolder(zip_folder)
-
     count_downloaded = 0
     count_extracted = 0
     count_error = 0
     urls = []
-    for current_year in [annual_previous_year, annual_current_year]:
+    for current_year in [params.annual_previous_year, params.annual_current_year]:
         filenameZip = prefix + str(current_year) + "52.7z"
 
         url_file = url + filenameZip
@@ -504,15 +495,15 @@ def downloadAndExtractComextAnnualDATAParallel(url, prefix, zip_folder, data_fol
     )
 
 
-def downloadfile(url_file, filename):
+def downloadfile(url, dir, file):
     # createFolder(os.path.dirname(filename))
     try:
-        urllib.request.urlretrieve(url_file, filename)
+        urllib.request.urlretrieve(url, dir + os.sep + file)
     except BaseException as err:
         logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
     else:
-        logger.info("File loaded: " + filename)
-    return "File loaded: " + filename
+        logger.info("File loaded: " + dir + os.sep + file)
+    return "File loaded: " + dir + os.sep + file
 
 
 def getClsProduct(clsRow, codeProduct, position=(COLS_CLS_PRODUCTS - 1)):
@@ -535,28 +526,28 @@ def getValueFromList(clsRow, code, position):
     return "" if pd.isnull(ret) else ret
 
 # [JSON MAP]
-def annualProcessing(input_path):
+def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, annual_ind_prod_data, annual_unemp_data, output_file):
     logger.info("annualProcessing()")
     # createFolder(DATA_FOLDER_ANNUAL_OUTPUT)
     ieinfo = []
     current_filename = (
-        input_path
+        annual_data_input_path
         + os.sep
-        + PREFIX_FULL
+        + params.PREFIX_FULL
         + str(annual_current_year)
         + "52.dat"
     )
     previous_filename = (
-        input_path
+        annual_data_input_path
         + os.sep
-        + PREFIX_FULL
+        + params.PREFIX_FULL
         + str(annual_previous_year)
         + "52.dat"
     )
 
-    logger.info("loading.. " + CLS_PRODUCTS_FILE)
+    logger.info("loading.. " + cls_product_data)
     cls_products = pd.read_csv(
-        CLS_PRODUCTS_FILE,
+        cls_product_data,
         sep="\t",
         low_memory=True,
         header=None,
@@ -567,18 +558,18 @@ def annualProcessing(input_path):
     logger.info("cls_products.head() ")
     logger.info(cls_products.head())
 
-    logger.info("loading.. " + ANNUAL_POPULATION_CSV)
+    logger.info("loading.. " + annual_pop_data)
     # ANNUAL_POPULATION_CSV
     annual_population = pd.read_csv(
-        ANNUAL_POPULATION_CSV, sep=",", keep_default_na=False, na_values=[""]
+        annual_pop_data, sep=",", keep_default_na=False, na_values=[""]
     )
     # FIX Greece code EL in GR
     annual_population["geo"] = annual_population["geo"].replace(["EL"], "GR")
 
-    logger.info("loading.. " + ANNUAL_INDUSTRIAL_PRODUCTION_FILE_CSV)
+    logger.info("loading.. " + annual_ind_prod_data)
     # ANNUAL_INDUSTRIAL_PRODUCTION_FILE_CSV
     annual_industrial_production = pd.read_csv(
-        ANNUAL_INDUSTRIAL_PRODUCTION_FILE_CSV,
+        annual_ind_prod_data,
         sep=",",
         keep_default_na=False,
         na_values=[""],
@@ -588,10 +579,10 @@ def annualProcessing(input_path):
         ["EL"], "GR"
     )
 
-    logger.info("loading.. " + ANNUAL_UNEMPLOYEMENT_FILE_CSV)
+    logger.info("loading.. " + annual_unemp_data)
     # ANNUAL_UNEMPLOYEMENT_FILE_CSV
     annual_unemployement = pd.read_csv(
-        ANNUAL_UNEMPLOYEMENT_FILE_CSV, sep=",", keep_default_na=False, na_values=[""]
+        annual_unemp_data, sep=",", keep_default_na=False, na_values=[""]
     )
     # FIX Greece code EL in GR
     annual_unemployement["geo"] = annual_unemployement["geo"].replace(["EL"], "GR")
@@ -973,91 +964,91 @@ def annualProcessing(input_path):
         logger.info("annual file ...")
         ieinfo.append(ieinfo_country)
 
-    with open(ieinfo_filename, "w") as f:
+    with open(output_file, "w") as f:
         json.dump(ieinfo, f, ensure_ascii=False, indent=4, cls=NpEncoder)
 
-    return "Annual processing ok: file created " + ieinfo_filename
+    return "Annual processing ok: file created " + output_file
 
 
-def createGeneralInfoOutput():
-    # createFolder(DATA_FOLDER)
+def createGeneralInfoOutput(dir, file):
     if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
+        print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
         os.symlink(
-            DATA_FOLDER_PARENT,
+            params.DIRECTORIES["WORKING_FOLDER"], # DATA_FOLDER_PARENT
             os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
         )
 
     info_processing = {}
-    info_processing["processingDay"] = processing_day.strftime("%d-%m-%Y, %H:%M:%S")
-    info_processing["annualCurrentYear"] = annual_current_year
-    info_processing["annualPreviousYear"] = annual_previous_year
-    info_processing["lastLoadedData"] = end_data_load.strftime("%m, %Y")
-    info_processing["windowMonths"] = time_interval_m
+    info_processing["processingDay"] = params.processing_day.strftime("%d-%m-%Y, %H:%M:%S")
+    info_processing["annualCurrentYear"] = params.annual_current_year
+    info_processing["annualPreviousYear"] = params.annual_previous_year
+    info_processing["lastLoadedData"] = params.end_data_load.strftime("%m, %Y")
+    info_processing["windowMonths"] = params.time_interval_m
 
-    info_processing["monthsToTxtract"] = time_interval_m
-    info_processing["offsetMonthToExtract"] = offset_m
+    info_processing["monthsToTxtract"] = params.time_interval_m
+    info_processing["offsetMonthToExtract"] = params.offset_m
     info_processing["appVersion"] = "1.0.0"
 
     time_map_start = {}
     values = {}
-    values["timeSelected"] = str(this_year) + str(this_month)
+    values["timeSelected"] = str(params.this_year) + str(params.this_month)
 
-    time_map_start["year"] = int(start_data_PAGE_MAP.strftime("%Y"))
-    time_map_start["month"] = int(start_data_PAGE_MAP.strftime("%m"))
+    time_map_start["year"] = int(params.start_data_PAGE_MAP.strftime("%Y"))
+    time_map_start["month"] = int(params.start_data_PAGE_MAP.strftime("%m"))
     values["timeStart"] = time_map_start
     time_map_end = {}
-    time_map_end["year"] = int(end_data_load.strftime("%Y"))
-    time_map_end["month"] = int(end_data_load.strftime("%m"))
+    time_map_end["year"] = int(params.end_data_load.strftime("%Y"))
+    time_map_end["month"] = int(params.end_data_load.strftime("%m"))
     values["timeEnd"] = time_map_end
     info_processing["map"] = values
 
     time_graph_start = {}
     time_graphp_end = {}
     values = {}
-    values["timeSelected"] = str(this_year) + str(this_month)
-    time_graph_start["year"] = int(start_data_PAGE_GRAPH_EXTRA_UE.strftime("%Y"))
-    time_graph_start["month"] = int(start_data_PAGE_GRAPH_EXTRA_UE.strftime("%m"))
+    values["timeSelected"] = str(params.this_year) + str(params.this_month)
+    time_graph_start["year"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%Y"))
+    time_graph_start["month"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%m"))
     values["timeStart"] = time_graph_start
-    time_graphp_end["year"] = int(end_data_load.strftime("%Y"))
-    time_graphp_end["month"] = int(end_data_load.strftime("%m"))
+    time_graphp_end["year"] = int(params.end_data_load.strftime("%Y"))
+    time_graphp_end["month"] = int(params.end_data_load.strftime("%m"))
     values["timeEnd"] = time_graphp_end
     info_processing["graph"] = values
 
     time_graphplus_start = {}
     time_graphpplus_end = {}
     values = {}
-    values["timeSelected"] = str(this_year) + str(this_month)
-    time_graphplus_start["year"] = int(start_data_PAGE_GRAPH_INTRA_UE.strftime("%Y"))
-    time_graphplus_start["month"] = int(start_data_PAGE_GRAPH_INTRA_UE.strftime("%m"))
+    values["timeSelected"] = str(params.this_year) + str(params.this_month)
+    time_graphplus_start["year"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%Y"))
+    time_graphplus_start["month"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%m"))
     values["timeStart"] = time_graphplus_start
-    time_graphpplus_end["year"] = int(end_data_load.strftime("%Y"))
-    time_graphpplus_end["month"] = int(end_data_load.strftime("%m"))
+    time_graphpplus_end["year"] = int(params.end_data_load.strftime("%Y"))
+    time_graphpplus_end["month"] = int(params.end_data_load.strftime("%m"))
     values["timeEnd"] = time_graphpplus_end
     info_processing["graphPlus"] = values
 
     time_trade_start = {}
     values = {}
-    values["timeSelected"] = str(this_year) + str(this_month)
-    time_trade_start["year"] = int(start_data_PAGE_BASKET.strftime("%Y"))
-    time_trade_start["month"] = int(start_data_PAGE_BASKET.strftime("%m"))
+    values["timeSelected"] = str(params.this_year) + str(params.this_month)
+    time_trade_start["year"] = int(params.start_data_PAGE_BASKET.strftime("%Y"))
+    time_trade_start["month"] = int(params.start_data_PAGE_BASKET.strftime("%m"))
     values["timeStart"] = time_trade_start
     time_trade_end = {}
-    time_trade_end["year"] = int(end_data_load.strftime("%Y"))
-    time_trade_end["month"] = int(end_data_load.strftime("%m"))
+    time_trade_end["year"] = int(params.end_data_load.strftime("%Y"))
+    time_trade_end["month"] = int(params.end_data_load.strftime("%m"))
     values["timeEnd"] = time_trade_end
 
     info_processing["trade"] = values
 
-    with open(GENERAL_INFO_FILE, "w") as f:
+    with open(dir + os.sep + file, "w") as f:
         json.dump(info_processing, f, ensure_ascii=False, indent=1, cls=NpEncoder)
 
-    return "Info general OK, created file: " + GENERAL_INFO_FILE
+    return "Info general OK, created file: " + dir + file
 
 
-def createMonthlyFULLtable(path_to_scan):
+def createMonthlyFULLtable(db, path_to_scan):
     # createFolder(SQLITE_TMPDIR)
-    logger.info(SQLLITE_DB)
-    conn = sqlite3.connect(SQLLITE_DB)
+    logger.info(db)
+    conn = sqlite3.connect(db)
     cur = conn.cursor()
     logger.info("Creating table  comext_full ")
     cur.execute("DROP TABLE IF EXISTS comext_full;")
@@ -1116,15 +1107,15 @@ def createMonthlyFULLtable(path_to_scan):
     return "TABLE comext_full created!"
 
 
-def monthlyProcessing():
-    conn = sqlite3.connect(SQLLITE_DB)
+def monthlyProcessing(db):
+    conn = sqlite3.connect(db)
 
     cur = conn.cursor()
 
     # Create table Series
     ## considero un 1 anno prima es 48 per 36 mesi
-    filter_yyymm = str(start_data_PAGE_MAP.year - 1) + str(
-        "%02d" % start_data_PAGE_MAP.month
+    filter_yyymm = str(params.start_data_PAGE_MAP.year - 1) + str(
+        "%02d" % params.start_data_PAGE_MAP.month
     )
     logger.info("Creating Series table ")
     cur.execute("DROP TABLE IF EXISTS serie_per_mappa0;")
@@ -1142,8 +1133,8 @@ def monthlyProcessing():
     # /* calcolo i valori per cpa */
 
     ## considero un 1 anno prima es 48 per 36 mesi
-    filter_yyymm = str(start_data_PAGE_BASKET.year - 1) + str(
-        "%02d" % start_data_PAGE_BASKET.month
+    filter_yyymm = str(params.start_data_PAGE_BASKET.year - 1) + str(
+        "%02d" % params.start_data_PAGE_BASKET.month
     )
     logger.info("Creating aggr_cpa table ")
     cur.execute("DROP TABLE IF EXISTS aggr_cpa;")
@@ -1221,8 +1212,8 @@ def monthlyProcessing():
         "create table variazioni_cpa as select a.declarant_iso, a.partner_iso, a.flow, a.cpa, a.period, a.val_cpa, round(100.00*((a.val_cpa-b.val_cpa)*1.00/b.val_cpa),2) as var_cpa, a.q_kg, round(100.00*(a.q_kg-b.q_kg)/b.q_kg,2)  as var_q_cpa  from base_grafi_cpa a, base_grafi_cpa b where a.declarant_iso=b.declarant_iso and a.partner_iso=b.partner_iso and a.flow=b.flow and a.cpa=b.cpa and a.period=(b.period+100) union all select a.declarant_iso, a.partner_iso,a.flow, a.cpa, a.period, a.val_cpa, 100*(a.val_cpa-b.val_cpa)/b.val_cpa as var_cpa, a.q_kg, 100*(a.q_kg-b.q_kg)/b.q_kg  as var_q_cpa from base_grafi_cpa_wo a, base_grafi_cpa_wo b where a.declarant_iso = b.declarant_iso 	and a.flow = b.flow and a.cpa = b.cpa and a.period =(b.period + 100) ; "
     )
 
-    filter_yyymm = str(start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(
-        "%02d" % start_data_PAGE_GRAPH_INTRA_UE.month
+    filter_yyymm = str(params.start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(
+        "%02d" % params.start_data_PAGE_GRAPH_INTRA_UE.month
     )
     # /*  basi trimestrali */
     logger.info("Creating table per_trimestri  ")
@@ -1253,22 +1244,22 @@ def monthlyProcessing():
     return "Monthly processing on DB OK!"
 
 
-def createMonthlyOutputTimeSeries(import_ts, export_ts):
+def createMonthlyOutputTimeSeries(db, import_ts, export_ts):
     logger.info("createMonthlyOutputTimeSeries START")
     # createFolder(DATA_FOLDER_MONTHLY_OUTPUT)
 
     # import export series
     logger.info("import export series")
     iesFiles = {}
-    iesFiles[FLOW_IMPORT] = import_ts
-    iesFiles[FLOW_EXPORT] = export_ts
+    iesFiles[params.FLOW_IMPORT] = import_ts
+    iesFiles[params.FLOW_EXPORT] = export_ts
     ieFlows = {}
 
-    conn = sqlite3.connect(SQLLITE_DB)
+    conn = sqlite3.connect(db)
 
     serie = pd.read_sql_query("SELECT * from serie_per_mappa", conn)
     countries = sorted(pd.unique(serie["DECLARANT_ISO"]))
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         ieSeries = []
         for country in countries:
             logger.debug("country: " + country)
@@ -1288,7 +1279,7 @@ def createMonthlyOutputTimeSeries(import_ts, export_ts):
 
     # print(iesFiles)
 
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("File " + iesFiles[flow])
         with open(iesFiles[flow], "w") as f:
             json.dump(ieFlows[flow], f, ensure_ascii=False, indent=4, cls=NpEncoder)
@@ -1301,16 +1292,16 @@ def createMonthlyOutputTimeSeries(import_ts, export_ts):
     )
 
 
-def createMonthlyOutputVQSTradeValue(import_value, export_value):
+def createMonthlyOutputVQSTradeValue(db, import_value, export_value, cls_product_data, cls_product_2d_data):
     logger.info("createMonthlyOutputVQSTrade START")
     # createFolder(output_path)
     iesVQSFiles = {}
-    iesVQSFiles[FLOW_IMPORT] = import_value
-    iesVQSFiles[FLOW_EXPORT] = export_value
+    iesVQSFiles[params.FLOW_IMPORT] = import_value
+    iesVQSFiles[params.FLOW_EXPORT] = export_value
     ieVQSFlows = {}
 
     cls_products_cpa_en = pd.read_csv(
-        CLS_PRODUCTS_CPA_FILE,
+        cls_product_data,
         sep="\t",
         low_memory=True,
         header=None,
@@ -1318,7 +1309,7 @@ def createMonthlyOutputVQSTradeValue(import_value, export_value):
         na_values=[""],
     )
     cls_products_cpa_it = pd.read_csv(
-        CLS_PRODUCTS_CPA_FILE_2D_ITA,
+        cls_product_2d_data,
         sep="\t",
         low_memory=True,
         header=None,
@@ -1330,21 +1321,21 @@ def createMonthlyOutputVQSTradeValue(import_value, export_value):
     cls_products_cpa_langs["it"] = cls_products_cpa_it
     print(cls_products_cpa_en)
     cls_products_cpa_langs["en"] = cls_products_cpa_en
-    logger.info("cls_products: " + CLS_PRODUCTS_CPA_FILE)
+    logger.info("cls_products: " + cls_product_data)
 
-    conn = sqlite3.connect(SQLLITE_DB)
+    conn = sqlite3.connect(db)
     variazioni = pd.read_sql_query(
         "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, var_val_basket var_basket FROM variazioni where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
         conn,
     )
     countries = sorted(pd.unique(variazioni["DECLARANT_ISO"]))
 
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("FLOW_IMPORT,FLOW_EXPORT: " + str(flow))
         ieVQS = []
 
         for country in countries:
-            for lang in SUPPORTED_LANGUAGES:
+            for lang in params.SUPPORTED_LANGUAGES:
                 cls_products_cpa = cls_products_cpa_langs[lang]
                 logger.info("country: " + country)
                 ieVQS_country = {}
@@ -1380,7 +1371,7 @@ def createMonthlyOutputVQSTradeValue(import_value, export_value):
     if conn:
         conn.close()
 
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("File " + iesVQSFiles[flow])
         with open(iesVQSFiles[flow], "w") as f:
             json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=NpEncoder)
@@ -1393,16 +1384,16 @@ def createMonthlyOutputVQSTradeValue(import_value, export_value):
     )
 
 
-def createMonthlyOutputVQSTradeQuantity(import_qty, export_qty):
+def createMonthlyOutputVQSTradeQuantity(db, import_qty, export_qty, cls_product_data, cls_product_2d_data):
     logger.info("createMonthlyOutputVQSTrade START")
     # createFolder(output_path)
     iesVQSFiles = {}
-    iesVQSFiles[FLOW_IMPORT] = import_qty
-    iesVQSFiles[FLOW_EXPORT] = export_qty
+    iesVQSFiles[params.FLOW_IMPORT] = import_qty
+    iesVQSFiles[params.FLOW_EXPORT] = export_qty
     ieVQSFlows = {}
 
     cls_products_cpa_en = pd.read_csv(
-        CLS_PRODUCTS_CPA_FILE,
+        cls_product_data,
         sep="\t",
         low_memory=True,
         header=None,
@@ -1410,7 +1401,7 @@ def createMonthlyOutputVQSTradeQuantity(import_qty, export_qty):
         na_values=[""],
     )
     cls_products_cpa_it = pd.read_csv(
-        CLS_PRODUCTS_CPA_FILE_2D_ITA,
+        cls_product_2d_data,
         sep="\t",
         low_memory=True,
         header=None,
@@ -1421,21 +1412,21 @@ def createMonthlyOutputVQSTradeQuantity(import_qty, export_qty):
     cls_products_cpa_langs = {}
     cls_products_cpa_langs["it"] = cls_products_cpa_it
     cls_products_cpa_langs["en"] = cls_products_cpa_en
-    logger.info("cls_products: " + CLS_PRODUCTS_CPA_FILE)
+    logger.info("cls_products: " + cls_product_data)
 
-    conn = sqlite3.connect(SQLLITE_DB)
+    conn = sqlite3.connect(db)
     variazioni = pd.read_sql_query(
         "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, var_qua_basket as var_basket FROM variazioni where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
         conn,
     )
     countries = sorted(pd.unique(variazioni["DECLARANT_ISO"]))
 
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("FLOW_IMPORT,FLOW_EXPORT: " + str(flow))
         ieVQS = []
 
         for country in countries:
-            for lang in SUPPORTED_LANGUAGES:
+            for lang in params.SUPPORTED_LANGUAGES:
                 cls_products_cpa = cls_products_cpa_langs[lang]
                 logger.info("country: " + country)
                 ieVQS_country = {}
@@ -1471,7 +1462,7 @@ def createMonthlyOutputVQSTradeQuantity(import_qty, export_qty):
     if conn:
         conn.close()
 
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("File " + iesVQSFiles[flow])
         with open(iesVQSFiles[flow], "w") as f:
             json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=NpEncoder)
@@ -1502,16 +1493,16 @@ def createMonthlyOutputQuoteSTrade(output_path):
     return "Quote  TRADE processing OK; files created: " + QUOTE_TRADE
 
 
-def createMonthlyOutputQuoteSTradeValue(import_quote_value, export_quote_value):
+def createMonthlyOutputQuoteSTradeValue(db, import_quote_value, export_quote_value, cls_product_data, cls_product_2d_data):
     logger.info("createMonthlyOutputQuoteSTrade START")
     # createFolder(output_path)
     iesVQSFiles = {}
-    iesVQSFiles[FLOW_IMPORT] = import_quote_value
-    iesVQSFiles[FLOW_EXPORT] = export_quote_value
+    iesVQSFiles[params.FLOW_IMPORT] = import_quote_value
+    iesVQSFiles[params.FLOW_EXPORT] = export_quote_value
     ieVQSFlows = {}
 
     cls_products_cpa_en = pd.read_csv(
-        CLS_PRODUCTS_CPA_FILE,
+        cls_product_data,
         sep="\t",
         low_memory=True,
         header=None,
@@ -1519,7 +1510,7 @@ def createMonthlyOutputQuoteSTradeValue(import_quote_value, export_quote_value):
         na_values=[""],
     )
     cls_products_cpa_it = pd.read_csv(
-        CLS_PRODUCTS_CPA_FILE_2D_ITA,
+        cls_product_2d_data,
         sep="\t",
         low_memory=True,
         header=None,
@@ -1530,21 +1521,21 @@ def createMonthlyOutputQuoteSTradeValue(import_quote_value, export_quote_value):
     cls_products_cpa_langs = {}
     cls_products_cpa_langs["it"] = cls_products_cpa_it
     cls_products_cpa_langs["en"] = cls_products_cpa_en
-    logger.info("cls_products: " + CLS_PRODUCTS_CPA_FILE)
+    logger.info("cls_products: " + cls_product_data)
 
-    conn = sqlite3.connect(SQLLITE_DB)
+    conn = sqlite3.connect(db)
     quote = pd.read_sql_query(
         "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, q_val_cpa as q_val_basket FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
         conn,
     )
     countries = sorted(pd.unique(quote["DECLARANT_ISO"]))
 
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("FLOW_IMPORT,FLOW_EXPORT: " + str(flow))
         ieVQS = []
 
         for country in countries:
-            for lang in SUPPORTED_LANGUAGES:
+            for lang in params.SUPPORTED_LANGUAGES:
                 cls_products_cpa = cls_products_cpa_langs[lang]
                 logger.info("country: " + country)
                 ieVQS_country = {}
@@ -1579,7 +1570,7 @@ def createMonthlyOutputQuoteSTradeValue(import_quote_value, export_quote_value):
     if conn:
         conn.close()
 
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("File " + iesVQSFiles[flow])
         with open(iesVQSFiles[flow], "w") as f:
             json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=NpEncoder)
@@ -1592,16 +1583,16 @@ def createMonthlyOutputQuoteSTradeValue(import_quote_value, export_quote_value):
     )
 
 
-def createMonthlyOutputQuoteSTradeQuantity(import_quote_qty, export_quote_qty):
+def createMonthlyOutputQuoteSTradeQuantity(db, import_quote_qty, export_quote_qty, cls_product_data, cls_product_2d_data):
     logger.info("createMonthlyOutputQuoteSTrade START")
     # createFolder(output_path)
     iesVQSFiles = {}
-    iesVQSFiles[FLOW_IMPORT] = import_quote_qty
-    iesVQSFiles[FLOW_EXPORT] = export_quote_qty
+    iesVQSFiles[params.FLOW_IMPORT] = import_quote_qty
+    iesVQSFiles[params.FLOW_EXPORT] = export_quote_qty
     ieVQSFlows = {}
 
     cls_products_cpa_en = pd.read_csv(
-        CLS_PRODUCTS_CPA_FILE,
+        cls_product_data,
         sep="\t",
         low_memory=True,
         header=None,
@@ -1609,7 +1600,7 @@ def createMonthlyOutputQuoteSTradeQuantity(import_quote_qty, export_quote_qty):
         na_values=[""],
     )
     cls_products_cpa_it = pd.read_csv(
-        CLS_PRODUCTS_CPA_FILE_2D_ITA,
+        cls_product_2d_data,
         sep="\t",
         low_memory=True,
         header=None,
@@ -1620,21 +1611,21 @@ def createMonthlyOutputQuoteSTradeQuantity(import_quote_qty, export_quote_qty):
     cls_products_cpa_langs = {}
     cls_products_cpa_langs["it"] = cls_products_cpa_it
     cls_products_cpa_langs["en"] = cls_products_cpa_en
-    logger.info("cls_products: " + CLS_PRODUCTS_CPA_FILE)
+    logger.info("cls_products: " + cls_product_data)
 
-    conn = sqlite3.connect(SQLLITE_DB)
+    conn = sqlite3.connect(db)
     quote = pd.read_sql_query(
         "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, q_qua_cpa as q_qua_basket FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
         conn,
     )
     countries = sorted(pd.unique(quote["DECLARANT_ISO"]))
 
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("FLOW_IMPORT,FLOW_EXPORT: " + str(flow))
         ieVQS = []
 
         for country in countries:
-            for lang in SUPPORTED_LANGUAGES:
+            for lang in params.SUPPORTED_LANGUAGES:
                 cls_products_cpa = cls_products_cpa_langs[lang]
                 logger.info("country: " + country)
                 ieVQS_country = {}
@@ -1669,7 +1660,7 @@ def createMonthlyOutputQuoteSTradeQuantity(import_quote_qty, export_quote_qty):
     if conn:
         conn.close()
 
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("File " + iesVQSFiles[flow])
         with open(iesVQSFiles[flow], "w") as f:
             json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=NpEncoder)
@@ -1682,19 +1673,19 @@ def createMonthlyOutputQuoteSTradeQuantity(import_quote_qty, export_quote_qty):
     )
 
 
-def createOutputVariazioniQuoteCPA(comext_imp, comext_exp):
+def createOutputVariazioniQuoteCPA(db, comext_imp, comext_exp, cpa2_prod_code):
     # import export variazioni quote CPA
     logger.info("createOutputVariazioniQuoteCPA START")
     # createFolder(DATA_FOLDER_WORKING)
 
     logger.info("import export variazioni quote CPA")
     iesVQSFiles = {}
-    iesVQSFiles[FLOW_IMPORT] = comext_imp
-    iesVQSFiles[FLOW_EXPORT] = comext_exp
+    iesVQSFiles[params.FLOW_IMPORT] = comext_imp
+    iesVQSFiles[params.FLOW_EXPORT] = comext_exp
 
-    conn = sqlite3.connect(SQLLITE_DB)
+    conn = sqlite3.connect(db)
 
-    for flow in [FLOW_IMPORT, FLOW_EXPORT]:
+    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         variazioni = pd.read_sql_query(
             "SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, trim(cpa) as cpa, PERIOD, val_cpa, q_kg  FROM variazioni_cpa WHERE FLOW="
             + str(flow)
@@ -1706,7 +1697,7 @@ def createOutputVariazioniQuoteCPA(comext_imp, comext_exp):
     pd.read_sql_query(
         "SELECT distinct trim(cpa) as PRODUCT FROM variazioni_cpa WHERE (length(trim(cpa))==2 or trim(cpa) in ('061','062') );",
         conn,
-    ).to_csv(CPA2_PRODUCT_CODE_CSV, sep=",", index=False)
+    ).to_csv(cpa2_prod_code, sep=",", index=False)
 
     if conn:
         conn.close()
@@ -1721,7 +1712,7 @@ def createOutputVariazioniQuoteCPA(comext_imp, comext_exp):
     )
 
 
-def createOutputGraphCPAIntraUE(cpa_intra, cpa3_prod_code):
+def createOutputGraphCPAIntraUE(db, cpa_intra, cpa3_prod_code):
     logger.info("createOutputGraphCPAIntraUE START")
     # createFolder(DATA_FOLDER_WORKING)
 
@@ -1731,11 +1722,11 @@ def createOutputGraphCPAIntraUE(cpa_intra, cpa3_prod_code):
     #  end_data_lclearoad=datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_m)
     # last_12_months=datetime.datetime.strptime(( str(end_data_load.year)+"-"+str(end_data_load.month)- relativedelta(months=12)), "%Y%m")
 
-    filter_yyymm = str(start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(
-        "%02d" % start_data_PAGE_GRAPH_INTRA_UE.month
+    filter_yyymm = str(params.start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(
+        "%02d" % params.start_data_PAGE_GRAPH_INTRA_UE.month
     )
     logger.info("last_months: " + filter_yyymm)
-    conn = sqlite3.connect(SQLLITE_DB)
+    conn = sqlite3.connect(db)
     pd.read_sql_query(
         "SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, PRODUCT, PERIOD, VALUE_IN_EUROS  FROM (SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, cpa as PRODUCT, PERIOD, val_cpa as VALUE_IN_EUROS  FROM base_grafi_cpa WHERE PERIOD>"
         + filter_yyymm
@@ -1758,39 +1749,36 @@ def createOutputGraphCPAIntraUE(cpa_intra, cpa3_prod_code):
     return "CPA Graphic INTRA UE OK; files created: " + cpa_intra
 
 
-def createOutputGraphicTrimestre(cpa_trim):
+def createOutputGraphicTrimestre(db, output_cpa_trim):
     logger.info("createOutputGraphicTrimestre START")
     # createFolder(DATA_FOLDER_WORKING)
 
     # import export variazioni quote CPA
     logger.info("import export variazioni quote CPA INTRA TRim")
 
-    conn = sqlite3.connect(SQLLITE_DB)
+    conn = sqlite3.connect(db)
     pd.read_sql_query(
         "SELECT declarant_iso, partner_iso, flow,  cpa, trimestre,   val_cpa,   q_kg  FROM base_grafi_cpa_trim WHERE length(trim(cpa))==3 union SELECT declarant_iso, partner_iso, flow,  'TOT' as cpa, trimestre,   val_cpa,   q_kg  FROM base_grafi_cpa_trim WHERE trim(cpa)=='00' order by trimestre ASC;",
         conn,
-    ).to_csv(cpa_trim, sep=",", index=False)
+    ).to_csv(output_cpa_trim, sep=",", index=False)
 
     if conn:
         conn.close()
 
     logger.info("createOutputGraphicTrimestre END")
-    return "CPA Graphic INTRA TRIMESTRE UE OK; files created: " + cpa_trim
+    return "CPA Graphic INTRA TRIMESTRE UE OK; files created: " + output_cpa_trim
 
 
-def createOutputGraphExtraUE():
+def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod_code_file):
     logger.info("createOutputGraphExtraUE START")
-    # createFolder(DATA_FOLDER_TR_MONTHLY_OUTPUT)
+    logger.info("Reading from " + input_path)
 
-    DATA_FOLDER_MONTHLY_DATS = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "file"
-
-    logger.info("Reading from " + DATA_FOLDER_MONTHLY_DATS)
     listDataframes = []
-    for f in os.listdir(DATA_FOLDER_MONTHLY_DATS):
-        if f.endswith(DATA_EXTENTION):
+    for f in os.listdir(input_path):
+        if f.endswith(params.DATA_EXTENTION):
             appo = pd.read_csv(
-                DATA_FOLDER_MONTHLY_DATS + os.sep + f,
-                sep=SEP,
+                input_path + os.sep + f,
+                sep=params.SEP,
                 low_memory=False,
                 keep_default_na=False,
                 na_values=[""],
@@ -1814,31 +1802,29 @@ def createOutputGraphExtraUE():
         ]
     ]
 
-    df.to_csv(TR_EXTRA_UE_CSV, sep=",", index=False)
+    df.to_csv(output_tr_extra_ue_file, sep=",", index=False)
 
     pd.DataFrame({"PRODUCT": df["PRODUCT_NSTR"].astype(str).unique()}).to_csv(
-        TR_PRODUCT_CODE_CSV, sep=",", index=False
+        output_tr_prod_code_file, sep=",", index=False
     )
 
-    logger.info("tr_extra_ue file: " + TR_EXTRA_UE_CSV)
+    logger.info("tr_extra_ue file: " + output_tr_extra_ue_file)
     logger.info("createOutputGraph END ")
 
-    return "CPA Graphic EXTRE UE OK; files created: " + TR_EXTRA_UE_CSV
+    return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_file
 
 
-def createOutputGraphExtraUE_Trim():
+def createOutputGraphExtraUE_Trim(input_path, output_tr_extra_ue_trim):
     logger.info("createOutputGraphExtraUE TRIM START")
+    logger.info("Reading from " + input_path)
 
-    DATA_FOLDER_MONTHLY_DATS = DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "file"
-
-    logger.info("Reading from " + DATA_FOLDER_MONTHLY_DATS)
     listDataframes = []
 
-    for f in os.listdir(DATA_FOLDER_MONTHLY_DATS):
-        if f.endswith(DATA_EXTENTION):
+    for f in os.listdir(input_path):
+        if f.endswith(params.DATA_EXTENTION):
             appo = pd.read_csv(
-                DATA_FOLDER_MONTHLY_DATS + os.sep + f,
-                sep=SEP,
+                input_path + os.sep + f,
+                sep=params.SEP,
                 low_memory=False,
                 keep_default_na=False,
                 na_values=[""],
@@ -1890,10 +1876,10 @@ def createOutputGraphExtraUE_Trim():
         .reset_index()
     )
 
-    df_trim.to_csv(TR_EXTRA_UE_TRIMESTRALI_CSV, sep=",", index=False)
-    logger.info("tr_extra_ue TRIMESTRALI file: " + TR_EXTRA_UE_TRIMESTRALI_CSV)
+    df_trim.to_csv(output_tr_extra_ue_trim, sep=",", index=False)
+    logger.info("tr_extra_ue TRIMESTRALI file: " + output_tr_extra_ue_trim)
     logger.info("createOutputGraph TRIM END ")
-    return "CPA Graphic EXTRE UE OK; files created: " + TR_EXTRA_UE_TRIMESTRALI_CSV
+    return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_trim
 
 
 def createClsNOTEmptyProducts(digit, cls, filename, filterValue, fileExistingProducts):
@@ -2109,12 +2095,12 @@ def createClsNOTEmptyProductsLang(
             [cls_products_cpa_langs, cls_products_cpa], axis=0
         ).reset_index(drop=True)
 
-    CPA2_JSON_FILE = DATA_FOLDER_CLASSIFICATION + os.sep + "clsProducts" + filename + ".json"
+    temp = params.DIRECTORIES["CLASSIFICATION"] + os.sep + "clsProducts" + filename + ".json"
     cls_products_cpa_langs.to_json(
-        CPA2_JSON_FILE, orient="records", default_handler=None, lines=False, indent=1
+        temp, orient="records", default_handler=None, lines=False, indent=1
     )
-    logger.info("cls_products created: " + CPA2_JSON_FILE)
-    return "cls_products created: " + CPA2_JSON_FILE
+    logger.info("cls_products created: " + temp)
+    return "cls_products created: " + temp
 
 
 def copyFileToAzure(storage, folder, path_file_source):
@@ -2313,157 +2299,280 @@ def executeUpdate():
 
     try:
         repo += "<!-- 0 --><br/>\n"
+
+        # CREA SISTEMA DI CARTELLE
         repo += createFolderStructure(params.DIRECTORIES)
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
 
-        repo += createGeneralInfoOutput()
+        # CREA FILE GENERAL INFO
+        repo += createGeneralInfoOutput(
+            dir = params.DATA_FOLDER,
+            file = params.FILENAMES["GENERAL_INFO"]
+        )
         repo += "<!-- 1 --><br/>\n"
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
 
+        # DOWNLOAD ANNUALE DEI DATI DI PRODOTTO
         repo += downloadAndExtractComextAnnualDATAParallel(
-            params.URLS["COMEXT_PRODUCTS"],
-            PREFIX_FULL,
-            params.DIRECTORIES["dir_product_annual_zip"],
-            params.DIRECTORIES["dir_product_annual_file"],
+            url = params.URLS["COMEXT_PRODUCTS"],
+            prefix = params.PREFIX_FULL,
+            zip_folder = params.DIRECTORIES["PRODUCT_ANNUAL_ZIP"],
+            data_folder = params.DIRECTORIES["PRODUCT_ANNUAL_FILE"],
         )
         repo += "<!-- 2 --><br/>\n"
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-    
+
+        # DOWNLOAD MENSILE DEI DATI DI PRODOTTO
         repo += downloadAndExtractComextMonthlyDATAParallel(
-            params.URLS["COMEXT_PRODUCTS"],
-            PREFIX_FULL,
-            start_data_PAGE_TIME_SERIES,
-            end_data_load
+            url_download = params.URLS["COMEXT_PRODUCTS"],
+            prefix_file = params.PREFIX_FULL,
+            zip_folder = params.DIRECTORIES["PRODUCT_MONTHLY_ZIP"],
+            file_folder = params.DIRECTORIES["PRODUCT_MONTHLY_FILE"],
+            start_data = params.start_data_PAGE_TIME_SERIES,
+            end_data = params.end_data_load
         )
         repo += "<!-- 3 --><br/>\n"
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
 
+        # DOWNLOAD MENSILE DEI DATI DI TRASPORTO
         repo += downloadAndExtractComextMonthlyDATAParallel(
-            params.URLS["COMEXT_TR"],
-            PREFIX_TRANSPORT,
-            start_data_PAGE_GRAPH_EXTRA_UE,
-            end_data_load,
+            url_download = params.URLS["COMEXT_TR"],
+            prefix_file = params.PREFIX_TRANSPORT,
+            zip_folder = params.DIRECTORIES["TRANSPORT_MONTHLY_ZIP"],
+            file_folder = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
+            start_data = params.start_data_PAGE_GRAPH_EXTRA_UE,
+            end_data = params.end_data_load,
         )
         repo += "<!-- 4 --><br/>\n"
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-
+        
+        # DOWNLOAD FILE CLASSI DI PRODOTTO
         repo += downloadfile(
-            params.URLS["CLS_PRODUCTS"],
-            CLS_PRODUCTS_FILE
+            url = params.URLS["CLS_PRODUCTS"],
+            dir = params.DIRECTORIES["CLASSIFICATION"],
+            file = params.FILENAMES["CLS_PRODUCT_DAT"]
         )
         repo += "<!-- 5 --><br/>\n"
 
+        # DOWNLOAD FILE CLASSI CPA
         repo += downloadfile(
-            params.URLS["CLS_CPA"],
-            CLS_PRODUCTS_CPA_FILE
+            url = params.URLS["CLS_CPA"],
+            dir = params.DIRECTORIES["CLASSIFICATION"],
+            file = params.FILENAMES["CLS_CPA"]
         )
         repo += "<!-- 6 --><br/>\n"
 
+        # DOWNLOAD FILE CLASSI CPA 3-DIGIT ITA
         repo += downloadfile(
-            params.URLS["CLS_CPA_3D_ITA"],
-            CLS_PRODUCTS_CPA_FILE_3D_ITA
+            url = params.URLS["CLS_CPA_3D_ITA"],
+            dir = params.DIRECTORIES["CLASSIFICATION"],
+            file = params.FILENAMES["CLS_CPA_3D_ITA"]
         )
         repo += "<!-- 6.1 --><br/>\n"
 
+        # DOWNLOAD FILE CLASSI CPA 2-DIGIT ITA
         repo += downloadfile(
-            params.URLS["CLS_CPA_2D_ITA"],
-            CLS_PRODUCTS_CPA_FILE_2D_ITA
+            url = params.URLS["CLS_CPA_2D_ITA"],
+            dir = params.DIRECTORIES["CLASSIFICATION"],
+            file = params.FILENAMES["CLS_CPA_2D_ITA"]
         )
         repo += "<!-- 6.2 --><br/>\n"
 
+        # DOWNLOAD FILE CLASSI NSTR
         repo += downloadfile(
-            params.URLS["CLS_NSTR"],
-            CLS_NSTR_FILE
+            url = params.URLS["CLS_NSTR"],
+            dir = params.DIRECTORIES["CLASSIFICATION"],
+            file = params.FILENAMES["CLS_NSTR"]
         )
         repo += "<!-- 7 --><br/>\n"
 
+        # DOWNLOAD FILE CLASSI DI NSTR ITA
         repo += downloadfile(
-            params.URLS["CLS_NSTR_ITA"],
-            CLS_NSTR_FILE_ITA
+            url = params.URLS["CLS_NSTR_ITA"],
+            dir = params.DIRECTORIES["CLASSIFICATION"],
+            file = params.FILENAMES["CLS_NSTR_ITA"]
         )
         repo += "<!-- 7.1a --><br/>\n"
 
+        #[MAP] DOWNLOAD FILE ANNUAL POPULATION
         repo += downloadfile(
-            params.URLS["ANNUAL_POPULATION"],
-            ANNUAL_POPULATION_CSV
+            url = params.URLS["ANNUAL_POPULATION"],
+            dir = params.DIRECTORIES["UTILS"],
+            file = params.FILENAMES["ANNUAL_POPULATION"]
         )
         repo += "<!-- 7.1 --><br/>\n"
+
+        #[MAP] DOWNLOAD FILE ANNUAL INDUSTRIAL PRODUCTION
         repo += downloadfile(
-            params.URLS["ANNUAL_INDUSTRIAL_PRODUCTION"],
-            ANNUAL_INDUSTRIAL_PRODUCTION_FILE_CSV
+            url = params.URLS["ANNUAL_INDUSTRIAL_PRODUCTION"],
+            dir = params.DIRECTORIES["UTILS"],
+            file = params.FILENAMES["ANNUAL_INDUSTRIAL_PRODUCTION"]
         )
         repo += "<!-- 7.2 --><br/>\n"
+
+        #[MAP] DOWNLOAD FILE ANNUAL EMPLOYMENT
         repo += downloadfile(
-            params.URLS["ANNUAL_UNEMPLOYEMENT"],
-            ANNUAL_UNEMPLOYEMENT_FILE_CSV
+            url = params.URLS["ANNUAL_UNEMPLOYEMENT"],
+            dir = params.DIRECTORIES["UTILS"],
+            file = params.FILENAMES["ANNUAL_UNEMPLOYEMENT"]
         )
         repo += "<!-- 7.3 --><br/>\n"
-        # [MAP]
-        repo += annualProcessing(DATA_FOLDER_COMEXT + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "file")
+        ##[MAP] CREAZIONE FILE PER LA MAPPA INTERATTIVA (IEINFO)
+        #repo += annualProcessing(
+        #    annual_data_input_path = params.DIRECTORIES["PRODUCT_ANNUAL_FILE"],
+        #    cls_product_data = params.DIRECTORIES["CLASSIFICATION"] + params.FILENAMES["CLS_PRODUCT_DAT"],
+        #    annual_pop_data = params.DIRECTORIES["UTILS"] + params.FILENAMES["ANNUAL_POPULATION"],
+        #    annual_ind_prod_data = params.DIRECTORIES["UTILS"] + params.FILENAMES["ANNUAL_INDUSTRIAL_PRODUCTION"],
+        #    annual_unemp_data = params.DIRECTORIES["UTILS"] + params.FILENAMES["ANNUAL_UNEMPLOYEMENT"],
+        #    output_file = params.DIRECTORIES["PRODUCT_ANNUAL_OUTPUT"] + params.FILENAMES["IEINFO"]
+        #)
         repo += "<!-- 8 --><br/>\n"
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-        repo += createMonthlyFULLtable(params.DIRECTORIES["dir_product_monthly_file"])
+
+        #[DB] CREAZIONE DB CON TABELLE
+        repo += createMonthlyFULLtable(
+            db = params.DIRECTORIES["PRODUCT_MONTHLY"] + params.FILENAMES["SQLLITE_DB"],
+            path_to_scan = params.DIRECTORIES["PRODUCT_MONTHLY_FILE"]
+        )
         repo += "<!-- 9 --><br/>\n"
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-
-        repo += monthlyProcessing()
+       
+        #[DB] CREAZIONE TABELLE PER SERIE MAPPA
+        repo += monthlyProcessing(
+            db = params.DIRECTORIES["PRODUCT_MONTHLY"] + params.FILENAMES["SQLLITE_DB"]
+        )
         repo += "<!-- 10 --><br/>\n"
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-        repo += createMonthlyOutputTimeSeries(IMPORT_SERIES_JSON, EXPORT_SERIES_JSON)
+        # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT
+        repo += createMonthlyOutputTimeSeries(
+            db = params.DIRECTORIES["PRODUCT_MONTHLY"] + params.FILENAMES["SQLLITE_DB"],
+            import_ts = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["IMPORT_SERIES_JSON"],
+            export_ts = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["EXPORT_SERIES_JSON"]
+        )
 
         repo += "<!-- 11 --><br/>\n"
-        repo += createMonthlyOutputVQSTradeValue(IMPORT_VALUE_JSON, EXPORT_VALUE_JSON)
+
+        # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT VALUE
+        repo += createMonthlyOutputVQSTradeValue(
+            db = params.DIRECTORIES["PRODUCT_MONTHLY"] + params.FILENAMES["SQLLITE_DB"],
+            import_value = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["IMPORT_VALUE_JSON"],
+            export_value = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["EXPORT_VALUE_JSON"],
+            cls_product_data = params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA"],
+            cls_product_2d_data = params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA_2D_ITA"]
+        )
         repo += "<!-- 12 --><br/>\n"
 
-        repo += createMonthlyOutputVQSTradeQuantity(IMPORT_QUANTITY_JSON, EXPORT_QUANTITY_JSON)
+        # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUANTITY
+        repo += createMonthlyOutputVQSTradeQuantity(
+            db = params.DIRECTORIES["PRODUCT_MONTHLY"] + params.FILENAMES["SQLLITE_DB"],
+            import_qty = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["IMPORT_QUANTITY_JSON"],
+            export_qty = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["EXPORT_QUANTITY_JSON"],
+            cls_product_data = params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA"],
+            cls_product_2d_data = params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA_2D_ITA"]
+        )
 
         repo += "<!-- 12.1 --><br/>\n"
         # repo+=createMonthlyOutputQuoteSTrade(output_path) NON USATO
 
-        repo += createMonthlyOutputQuoteSTradeValue(IMPORT_QUOTE_VALUE_JSON, EXPORT_QUOTE_VALUE_JSON)
+        # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUOTE VALUE
+        repo += createMonthlyOutputQuoteSTradeValue(
+            db = params.DIRECTORIES["PRODUCT_MONTHLY"] + params.FILENAMES["SQLLITE_DB"],
+            import_quote_value = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["IMPORT_QUOTE_VALUE_JSON"],
+            export_quote_value = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["EXPORT_QUOTE_VALUE_JSON"],
+            cls_product_data = params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA"],
+            cls_product_2d_data = params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA_2D_ITA"]
+        )
         repo += "<!-- 12.2 --><br/>\n"
-        repo += createMonthlyOutputQuoteSTradeQuantity(IMPORT_QUOTE_QUANTITY_JSON, EXPORT_QUOTE_QUANTITY_JSON)
+
+        # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUATE QUANTITY
+        repo += createMonthlyOutputQuoteSTradeQuantity(
+            db = params.DIRECTORIES["PRODUCT_MONTHLY"] + params.FILENAMES["SQLLITE_DB"],
+            import_quote_qty = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["IMPORT_QUOTE_QUANTITY_JSON"],
+            export_quote_qty = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["EXPORT_QUOTE_QUANTITY_JSON"],
+            cls_product_data = params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA"],
+            cls_product_2d_data = params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA_2D_ITA"]
+        )
         repo += "<!-- 13 --><br/>\n"
-        repo += createOutputGraphCPAIntraUE(CPA_INTRA_CSV, CPA3_PRODUCT_CODE_CSV)
+
+        # CREAZIONE FILE CPA INTRA E CPA PRODUCT CODE
+        repo += createOutputGraphCPAIntraUE(
+            db = params.DIRECTORIES["PRODUCT_MONTHLY"] + params.FILENAMES["SQLLITE_DB"],
+            cpa_intra = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["CPA_INTRA_CSV"],
+            cpa3_prod_code = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["CPA3_PRODUCT_CODE_CSV"]
+        )
         repo += "<!-- 14 --><br/>\n"
 
-        repo += createOutputGraphExtraUE()
+        # CREAZIONE FILE TR EXTRA UE E TR PRODUCT CODE
+        repo += createOutputGraphExtraUE(
+            input_path = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
+            output_tr_extra_ue_file = params.DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["TR_EXTRA_UE_CSV"],
+            output_tr_prod_code_file = params.DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["TR_PRODUCT_CODE_CSV"]
+        )
         repo += "<!-- 15 --><br/>\n"
-        repo += createOutputGraphicTrimestre(CPA_TRIM_CSV)
+
+        # CREAZIONE FILE CPA TRIM
+        repo += createOutputGraphicTrimestre(
+            db = params.DIRECTORIES["PRODUCT_MONTHLY"] + params.FILENAMES["SQLLITE_DB"],
+            output_cpa_trim = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["CPA_TRIM_CSV"]
+        )
         repo += "<!-- 16 --><br/>\n"
 
-        repo += createOutputGraphExtraUE_Trim()
+        # CREAZIONE FILE TR EXTRA UE TRIM
+        repo += createOutputGraphExtraUE_Trim(
+            input_path = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
+            output_tr_extra_ue_trim = params.DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["TR_EXTRA_UE_TRIMESTRALI_CSV"]
+        )
         repo += "<!-- 17 --><br/>\n"
 
-        repo += createOutputVariazioniQuoteCPA(COMEXT_IMP_CSV, COMEXT_EXP_CSV)
+        # CREAZIONE FILE COMEX IMP/EXP E CPA2 PRODUCT CODE
+        repo += createOutputVariazioniQuoteCPA(
+            db = params.DIRECTORIES["PRODUCT_MONTHLY"] + params.FILENAMES["SQLLITE_DB"],
+            comext_imp = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["COMEXT_IMP_CSV"],
+            comext_exp = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["COMEXT_EXP_CSV"],
+            cpa2_prod_code = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["CPA2_PRODUCT_CODE_CSV"]
+        )
         repo += "<!-- 18 --><br/>\n"
         repo += "time: " + getPassedTime(start_time) + "<br/>\n"
 
+        # CREAZIONE FILE CPA CON PULIZIA
         repo += createClsNOTEmptyProductsLang(
-            2,
-            SUPPORTED_LANGUAGES,
-            [CLS_PRODUCTS_CPA_FILE_2D_ITA, CLS_PRODUCTS_CPA_FILE],
-            "CPA",
-            37,
-            CPA2_PRODUCT_CODE_CSV,
+            digit = 2,
+            langs = params.SUPPORTED_LANGUAGES,
+            clsfiles = [
+                params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA_2D_ITA"],
+                params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA"],
+                ],
+            filename = "CPA",
+            filterValue = 37,
+            fileExistingProducts = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["CPA2_PRODUCT_CODE_CSV"]
         )
         repo += "<!-- 19 --><br/>\n"
+
+        # CREAZIONE FILE GRAPH INTRA CON PULIZIA
         repo += createClsNOTEmptyProductsLang(
-            3,
-            SUPPORTED_LANGUAGES,
-            [CLS_PRODUCTS_CPA_FILE_3D_ITA, CLS_PRODUCTS_CPA_FILE],
-            "GraphIntra",
-            37,
-            CPA3_PRODUCT_CODE_CSV,
+            digit = 3,
+            langs = params.SUPPORTED_LANGUAGES,
+            clsfiles = [
+                params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA_3D_ITA"],
+                params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_CPA"]
+                ],
+            filename = "GraphIntra",
+            filterValue = 37,
+            fileExistingProducts = params.DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["CPA3_PRODUCT_CODE_CSV"]
         )
         repo += "<!-- 20 --><br/>\n"
+
+        # CREAZIONE FILE GRAPH EXTRA CON PULIZIA
         repo += createClsNOTEmptyProductsLang(
-            3,
-            SUPPORTED_LANGUAGES,
-            [CLS_NSTR_FILE_ITA, CLS_NSTR_FILE],
-            "GraphExtraNSTR",
-            999999,
-            TR_PRODUCT_CODE_CSV,
+            digit = 3,
+            langs = params.SUPPORTED_LANGUAGES,
+            clsfiles = [
+                params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_NSTR_ITA"],
+                params.DIRECTORIES["CLASSIFICATION"] + os.sep + params.FILENAMES["CLS_NSTR"]
+                ],
+            filename = "GraphExtraNSTR",
+            filterValue = 999999,
+            fileExistingProducts = params.DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + params.FILENAMES["TR_PRODUCT_CODE_CSV"]
         )
 
         repo += "<!-- 21 --><br/>\n"

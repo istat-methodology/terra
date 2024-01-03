@@ -1,22 +1,67 @@
 import os
 import datetime
+from dateutil.relativedelta import relativedelta
 
-WORKING_FOLDER=os.environ['WORKING_FOLDER']
-#WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
+# SET TIME INTERVAL (IN MONTHS)
+time_interval_m = 1
+offset_m = 15
+
+#WORKING_FOLDER=os.environ['WORKING_FOLDER']
+WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 PREFIX_FULL = "full"
 PREFIX_TRANSPORT = "tr"
 PREFIX_MAP = {
   "tr": "transport",
   "full": "product"
 }
+
+FLOW_IMPORT = 1
+FLOW_EXPORT = 2
+
+SUPPORTED_LANGUAGES = ["it", "en"]
+
+DATA_EXTENTION = ".dat"
+SEP = ","
+
 job_id = os.getenv("AZ_BATCH_JOB_ID", "").replace(":", "_")
 DATA_FOLDER_PARENT = (
     WORKING_FOLDER + os.sep + "data" + (("__" + job_id) if (job_id != "") else "")
 )
 
 processing_day = datetime.datetime.today()
+# processing_day = datetime.datetime.today() - relativedelta(months=1)
 this_year = processing_day.year
 this_month = "%02d" % processing_day.month
+annual_new_data = (
+    1 if (processing_day < datetime.datetime(processing_day.year, 3, 20)) else 0
+)
+annual_current_year = (
+    datetime.datetime.strptime(str(processing_day.year), "%Y")
+    - relativedelta(years=annual_new_data)
+    - relativedelta(years=1)
+).year
+annual_previous_year = (
+    datetime.datetime.strptime(str(processing_day.year), "%Y")
+    - relativedelta(years=annual_new_data)
+    - relativedelta(years=2)
+).year
+
+start_data_load = (
+    datetime.datetime.strptime(str(this_year) + "-" + str(this_month), "%Y-%m")
+    - relativedelta(months=offset_m)
+    - relativedelta(months=time_interval_m - 1)
+)
+end_data_load = datetime.datetime.strptime(
+    str(this_year) + "-" + str(this_month), "%Y-%m"
+) - relativedelta(months=offset_m)
+
+##### SET DATES FOR PAGES #####
+start_data_PAGE_MAP = start_data_load
+start_data_PAGE_TIME_SERIES = start_data_load
+start_data_PAGE_GRAPH_EXTRA_UE = start_data_load
+start_data_PAGE_GRAPH_INTRA_UE = start_data_load
+start_data_PAGE_BASKET = start_data_load
+
 DATA_FOLDER = DATA_FOLDER_PARENT + os.sep + str(this_year) + str(this_month)
 
 URLS = {
@@ -28,8 +73,9 @@ URLS = {
     "COMEXT_PRODUCTS" : "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FPRODUCTS%2F",
     
     # NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR
-    "COMEXT_TR" : "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR%2F",
-    
+    # ACTUAL USED ENDPOINT: "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR%2F"
+    "COMEXT_TR" : "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_HISTORICAL_DATA%2FTRANSPORT_BY_NSTR%2F",
+
     # NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt
     "CLS_PRODUCTS" : "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt",
     
@@ -44,24 +90,26 @@ URLS = {
 }
 
 DIRECTORIES = {
-    "dir_classification" : DATA_FOLDER + os.sep + "classification",
+    "CLASSIFICATION" : DATA_FOLDER + os.sep + "classification",
 
-    "dir_utils" : DATA_FOLDER + os.sep + "utils",
+    "UTILS" : DATA_FOLDER + os.sep + "utils",
 
-    "dir_product_annual_zip" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "zip",
-    "dir_product_annual_file" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "file",
-    "dir_product_annual_output" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "output",
+    "PRODUCT_ANNUAL_ZIP" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "zip",
+    "PRODUCT_ANNUAL_FILE" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "file",
+    "PRODUCT_ANNUAL_OUTPUT" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "output",
 
-    "dir_product_monthly_zip" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "zip",
-    "dir_product_monthly_file" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "file",
-    "dir_product_monthly_output" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output",
+    "PRODUCT_MONTHLY" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly",
+    "PRODUCT_MONTHLY_ZIP" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "zip",
+    "PRODUCT_MONTHLY_FILE" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "file",
+    "PRODUCT_MONTHLY_OUTPUT" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output",
 
-    "dir_transport_montly_zip" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "zip",
-    "dir_transport_montly_file" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "file",
-    "dir_transport_montly_output" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output",
+    "TRANSPORT_MONTHLY_ZIP" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "zip",
+    "TRANSPORT_MONTHLY_FILE" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "file",
+    "TRANSPORT_MONTHLY_OUTPUT" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output",
 }
 
 FILENAMES = {
+    "SQLLITE_DB" : "comext.db",
     "GENERAL_INFO": "metadata.json",
     "IEINFO" : "ieinfo.json",
     "IMPORT_SERIES_JSON" : "importseries.json",
@@ -82,6 +130,17 @@ FILENAMES = {
     "CPA_TRIM_CSV" : "cpa_trim.csv",
     "CPA2_PRODUCT_CODE_CSV" : "cpa2_products.csv",
     "CPA3_PRODUCT_CODE_CSV" : "cpa3_products.csv",
+
+    "CLS_PRODUCT_DAT" : "cls_products.dat",
+    "CLS_CPA" : "cls_products_CPA21.txt",
+    "CLS_CPA_3D_ITA" : "cls_products_CPA21_3D_ITA.txt",
+    "CLS_CPA_2D_ITA" : "cls_products_CPA21_2D_ITA.txt",
+    "CLS_NSTR" : "NSTR.txt",
+    "CLS_NSTR_ITA" : "NSTR_ITA.txt",
+
+    "ANNUAL_POPULATION" : "annual_population.csv",
+    "ANNUAL_INDUSTRIAL_PRODUCTION" : "annual_industrial_production.csv",
+    "ANNUAL_UNEMPLOYEMENT" : "annual_unemployment.csv",
 
     "TR_EXTRA_UE_CSV" : "tr_extra_ue.csv",
     "TR_PRODUCT_CODE_CSV" : "tr_products_code.csv",
