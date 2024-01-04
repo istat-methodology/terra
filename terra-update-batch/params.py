@@ -14,7 +14,7 @@ URL_PYTHONDATA_SERVER = "https://api.cosmo.statlab.it/graph"
 
 MAIL_SETTINGS = {
     "SERVER": "https://prod-190.westeurope.logic.azure.com:443/workflows/52cafc0d0f2d4dd08ee290a5d367f109/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PFatjXjc32cpXZqX-KFBkn0a7ZKgT1q5iR2hI07NR4w",
-    "TO" : "framato@istat.it",
+    "TO" : "giulio.massacci@istat.it",
     "SUBJECT" : "Repo from cosmo update"
 }
 

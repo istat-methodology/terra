@@ -2,36 +2,15 @@
 
 import os
 import sys
-import urllib.request
 import logging
-import py7zr
-import pandas as pd
-import numpy as np
 import datetime
-import time
-import json
-import sqlite3
-import shutil
-from sqlite3 import Error
-
-from dataclasses import dataclass
-from pathlib import Path
-from re import S
-
-from dateutil.relativedelta import relativedelta
-
-from azure.storage.file import FileService
-from azure.keyvault.secrets import SecretClient
-from azure.identity import DefaultAzureCredential
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 
-import multiprocessing as mp
-from functools import partial
-
-import zipfile
-
 # TERRA MODULES
-from cosmoUtility import *
+from modules import cosmoUtility as cUtil
+from modules import cosmoDownload as cDownl
+from modules import cosmoProcess as cProc
+from modules import cosmoOutput as cOut
 import params
 
 def is_application_insight_configured():
@@ -54,2043 +33,6 @@ else:
     logger.warning("Application insights is not configured.")
 
 
-def downloadAndExtractFile(param, extract_path):
-    url_file = param[0]
-    file_zip = param[1]
-    count_downloaded = 0
-    count_extracted = 0
-    count_error = 0
-
-    logger.info("File: " + url_file)
-    logger.info("File zip: " + file_zip)
-    logger.info("extract path: " + extract_path)
-    logger.info("Downloading....")
-
-    try:
-        urllib.request.urlretrieve(url_file, file_zip)
-        count_downloaded += 1
-        with py7zr.SevenZipFile(file_zip) as z:
-            z.extractall(path=extract_path)
-            count_extracted += 1
-    except BaseException as err:
-        logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
-        count_error += 1
-    else:
-        logger.info("File loaded and extracted: " + file_zip)
-
-    return (count_downloaded, count_extracted, count_error)
-
-
-def downloadAndExtractComextMonthlyDATAParallel(
-    url_download, zip_folder, file_folder, prefix_file, start_data, end_data
-):
-    logger.info("Path: " + zip_folder)
-
-    count_downloaded = 0
-    count_extracted = 0
-    count_error = 0
-    urls = []
-    for current_month in month_iter(
-        start_data.month, start_data.year, end_data.month, end_data.year
-    ):
-        current_month_month = current_month[0]
-        current_month_year = current_month[1]
-
-        filenameZip = (
-            prefix_file + str(current_month_year) + str(current_month_month) + ".7z"
-        )
-        url_file = url_download + filenameZip
-        fileMonthlyZip = zip_folder + os.sep + filenameZip
-        urls.append((url_file, fileMonthlyZip))
-
-    # spark
-    # spark = SparkSession.builder.getOrCreate()
-    # listing = spark.sparkContext.parallelize(urls)
-    # ris=listing.map(lambda url: downloadAndExtractFile(url[0],url[1], DATA_FOLDER_MONTHLY_DATS)).collect()
-
-    # mp
-    logger.info("Number of processors: {}".format(mp.cpu_count()))
-    pool = mp.Pool(mp.cpu_count())
-    ris = pool.map(
-        partial(downloadAndExtractFile, extract_path=file_folder), urls
-    )
-
-    count_downloaded, count_extracted, count_error = map(sum, zip(*ris))
-
-    logger.info(
-        "Monthly files repo: "
-        + str(count_downloaded)
-        + " downloaded, "
-        + str(count_extracted)
-        + " extracted "
-        + str(count_error)
-        + " error"
-    )
-
-    return (
-        "Monthly files repo: "
-        + str(count_downloaded)
-        + " downloaded, "
-        + str(count_extracted)
-        + " extracted "
-        + str(count_error)
-        + " error "
-    )
-
-
-#def downloadAndExtractComextMonthlyDATA(
-#    url_download, prefix_file, start_data, end_data
-#):
-#    DATA_FOLDER_WORKING = DATA_FOLDER_MONTHLY + os.sep + prefix_file
-#    DATA_FOLDER_MONTHLY_DATS = DATA_FOLDER_WORKING + os.sep + "files"
-#    DATA_FOLDER_MONTHLY_ZIPS = DATA_FOLDER_WORKING + os.sep + "zips"
-#    # createFolder(DATA_FOLDER_MONTHLY_DATS)
-#    # createFolder(DATA_FOLDER_MONTHLY_ZIPS)
-#
-#    logger.info("Path: " + DATA_FOLDER_WORKING)
-#
-#    count_downloaded = 0
-#    count_extracted = 0
-#    count_error = 0
-#    for current_month in month_iter(
-#        start_data.month, start_data.year, end_data.month, end_data.year
-#    ):
-#        current_month_month = current_month[0]
-#        current_month_year = current_month[1]
-#
-#        logger.info(str(current_month_year) + " " + str(current_month_month))
-#        filenameZip = (
-#            prefix_file + str(current_month_year) + str(current_month_month) + ".7z"
-#        )
-#
-#        url_file = url_download + filenameZip
-#        fileMonthlyZip = DATA_FOLDER_MONTHLY_ZIPS + os.sep + filenameZip
-#
-#        logger.info("File: " + url_file)
-#        logger.info("Downloading....")
-#
-#        try:
-#            urllib.request.urlretrieve(url_file, fileMonthlyZip)
-#            count_downloaded += 1
-#            with py7zr.SevenZipFile(fileMonthlyZip) as z:
-#                z.extractall(path=DATA_FOLDER_MONTHLY_DATS)
-#                count_extracted += 1
-#        except BaseException as err:
-#            logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
-#            count_error += 1
-#        else:
-#            logger.info("File loaded: " + filenameZip)
-#
-#    logger.info(
-#        "Monthly files repo: "
-#        + str(count_downloaded)
-#        + " downloaded, "
-#        + str(count_extracted)
-#        + " extracted "
-#        + str(count_error)
-#        + " error"
-#    )
-#
-#    return (
-#        "Monthly files repo: "
-#        + str(count_downloaded)
-#        + " downloaded, "
-#        + str(count_extracted)
-#        + " extracted "
-#        + str(count_error)
-#        + " error "
-#    )
-
-
-#def downloadAndExtractComextAnnualDATA():
-#    # createFolder(DATA_FOLDER_ANNUAL_DATS)
-#    # createFolder(DATA_FOLDER_ANNUAL_ZIPS)
-#
-#    count_downloaded = 0
-#    count_extracted = 0
-#    count_error = 0
-#
-#    for current_year in [annual_previous_year, annual_current_year]:
-#        filenameZip = "full" + str(current_year) + "52.7z"
-#
-#        url_file = URL_COMEXT_PRODUCTS + filenameZip
-#        fileAnnualZip = DATA_FOLDER_ANNUAL_ZIPS + os.sep + filenameZip
-#
-#        logger.info("File: " + url_file)
-#        logger.info("Downloading....")
-#
-#        try:
-#            urllib.request.urlretrieve(url_file, fileAnnualZip)
-#            count_downloaded += 1
-#            with py7zr.SevenZipFile(fileAnnualZip) as z:
-#                z.extractall(path=DATA_FOLDER_ANNUAL_DATS)
-#                count_extracted += 1
-#        except BaseException as err:
-#            logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
-#            count_error += 1
-#        else:
-#            logger.info("File loaded: " + filenameZip)
-#
-#    logger.info(
-#        "Annual files repo: "
-#        + str(count_downloaded)
-#        + " downloaded, "
-#        + str(count_extracted)
-#        + " extracted "
-#        + str(count_error)
-#        + " error"
-#    )
-#
-#    return (
-#        "Annual files repo: "
-#        + str(count_downloaded)
-#        + " downloaded, "
-#        + str(count_extracted)
-#        + " extracted "
-#        + str(count_error)
-#        + " error "
-#    )
-
-
-def downloadAndExtractComextAnnualDATAParallel(url, prefix, zip_folder, data_folder):
-    count_downloaded = 0
-    count_extracted = 0
-    count_error = 0
-    urls = []
-    for current_year in [params.annual_previous_year, params.annual_current_year]:
-        filenameZip = prefix + str(current_year) + "52.7z"
-
-        url_file = url + filenameZip
-        fileAnnualZip = zip_folder + os.sep + filenameZip
-
-        logger.info("File: " + url_file)
-        logger.info("Downloading....")
-        urls.append((url_file, fileAnnualZip))
-
-    # spark version
-    # spark = SparkSession.builder.getOrCreate()
-    # listing = spark.sparkContext.parallelize(urls)
-    # ris=listing.map(lambda url: downloadAndExtractFile(url, data_folder)).collect()
-
-    # mp<
-    logger.info("Number of processors: {}".format(mp.cpu_count()))
-    pool = mp.Pool(mp.cpu_count())
-    ris = pool.map(
-        partial(downloadAndExtractFile, extract_path=data_folder), urls
-    )
-    count_downloaded, count_extracted, count_error = map(sum, zip(*ris))
-
-    logger.info(
-        "Annual files repo: "
-        + str(count_downloaded)
-        + " downloaded, "
-        + str(count_extracted)
-        + " extracted "
-        + str(count_error)
-        + " error"
-    )
-
-    return (
-        "Annual files repo: "
-        + str(count_downloaded)
-        + " downloaded, "
-        + str(count_extracted)
-        + " extracted "
-        + str(count_error)
-        + " error "
-    )
-
-
-def downloadfile(url, file):
-    # createFolder(os.path.dirname(filename))
-    try:
-        urllib.request.urlretrieve(url, file)
-    except BaseException as err:
-        logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
-    else:
-        logger.info("File loaded: " + file)
-    return "File loaded: " + file
-
-
-def getClsProduct(clsRow, codeProduct, position=(params.COLS_CLS_PRODUCTS - 1)):
-    if (len(clsRow) > 0) & (len(clsRow.columns) >= position):
-        return clsRow.iat[0, position]
-    else:
-        return codeProduct
-
-
-def getClsProductByCode(cls_products, product, position=(params.COLS_CLS_PRODUCTS - 1)):
-    return getClsProduct(cls_products[cls_products[0] == product], product, position)
-
-
-def getValueFromList(clsRow, code, position):
-    ret = ""
-    if (len(clsRow) > 0) & (len(clsRow.columns) >= position):
-        ret = clsRow.iat[0, position]
-    else:
-        ret = code
-    return "" if pd.isnull(ret) else ret
-
-# [JSON MAP]
-def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, annual_ind_prod_data, annual_unemp_data, output_file):
-    logger.info("annualProcessing()")
-
-    ieinfo = []
-    current_filename = (
-        annual_data_input_path
-        + os.sep
-        + params.PREFIX_PRODUCT
-        + str(params.annual_current_year)
-        + "52.dat"
-    )
-    previous_filename = (
-        annual_data_input_path
-        + os.sep
-        + params.PREFIX_PRODUCT
-        + str(params.annual_previous_year)
-        + "52.dat"
-    )
-
-    logger.info("loading.. " + cls_product_data)
-    cls_products = pd.read_csv(
-        cls_product_data,
-        sep="\t",
-        low_memory=True,
-        header=None,
-        keep_default_na=False,
-        na_values=[""],
-        encoding="latin-1",
-    )
-    logger.info("cls_products.head() ")
-    logger.info(cls_products.head())
-
-    logger.info("loading.. " + annual_pop_data)
-    # ANNUAL_POPULATION_CSV
-    annual_population = pd.read_csv(
-        annual_pop_data, sep=",", keep_default_na=False, na_values=[""]
-    )
-    # FIX Greece code EL in GR
-    annual_population["geo"] = annual_population["geo"].replace(["EL"], "GR")
-
-    logger.info("loading.. " + annual_ind_prod_data)
-    # ANNUAL_INDUSTRIAL_PRODUCTION_FILE_CSV
-    annual_industrial_production = pd.read_csv(
-        annual_ind_prod_data,
-        sep=",",
-        keep_default_na=False,
-        na_values=[""],
-    )
-    # FIX Greece code EL in GR
-    annual_industrial_production["geo"] = annual_industrial_production["geo"].replace(
-        ["EL"], "GR"
-    )
-
-    logger.info("loading.. " + annual_unemp_data)
-    # ANNUAL_UNEMPLOYEMENT_FILE_CSV
-    annual_unemployement = pd.read_csv(
-        annual_unemp_data, sep=",", keep_default_na=False, na_values=[""]
-    )
-    # FIX Greece code EL in GR
-    annual_unemployement["geo"] = annual_unemployement["geo"].replace(["EL"], "GR")
-
-    logger.info("loading.. " + previous_filename)
-    data_annual_previous_year = pd.read_csv(
-        previous_filename,
-        sep=",",
-        low_memory=True,
-        keep_default_na=False,
-        na_values=[""],
-    )
-    logger.info("loading.. " + current_filename)
-    data_annual_current_year = pd.read_csv(
-        current_filename,
-        sep=",",
-        low_memory=True,
-        keep_default_na=False,
-        na_values=[""],
-    )
-
-    logger.info("previous_filename: " + previous_filename)
-    logger.info("current_filename: " + current_filename)
-    logger.info("data.head() ")
-    logger.info(data_annual_current_year.head())
-
-    countries = sorted(pd.unique(data_annual_current_year["DECLARANT_ISO"]))
-    logger.info("countries: " + " ".join(countries))
-    n_rows = 3
-
-    for country in countries:
-        logger.info("country: " + country)
-        ieinfo_country = {}
-        ieinfo_country["Country_Code"] = country
-
-        # Main information
-        minfo = []
-
-        summary_population = {}
-        summary_population["Year"] = "Population"
-
-        summary_population[str(params.annual_previous_year)] = getValueFromList(
-            annual_population[
-                (annual_population["indic_de"] == "JAN")
-                & (annual_population["geo"] == country)
-                & (annual_population["TIME_PERIOD"] == params.annual_previous_year)
-            ],
-            np.int64(0),
-            6,
-        ).astype(np.int64)
-        summary_population[str(params.annual_current_year)] = getValueFromList(
-            annual_population[
-                (annual_population["indic_de"] == "JAN")
-                & (annual_population["geo"] == country)
-                & (annual_population["TIME_PERIOD"] == params.annual_current_year)
-            ],
-            np.int64(0),
-            6,
-        ).astype(np.int64)
-        minfo.append(summary_population)
-
-        summary_industrial_production = {}
-        summary_industrial_production["Year"] = "Industrial Production"
-
-        summary_industrial_production[str(params.annual_previous_year)] = getValueFromList(
-            annual_industrial_production[
-                (annual_industrial_production["nace_r2"] == "B-D")
-                & (annual_industrial_production["s_adj"] == "CA")
-                & (annual_industrial_production["unit"] == "I15")
-                & (annual_industrial_production["geo"] == country)
-                & (annual_industrial_production["TIME_PERIOD"] == params.annual_previous_year)
-            ],
-            "",
-            9,
-        )
-        summary_industrial_production[str(params.annual_current_year)] = getValueFromList(
-            annual_industrial_production[
-                (annual_industrial_production["nace_r2"] == "B-D")
-                & (annual_industrial_production["s_adj"] == "CA")
-                & (annual_industrial_production["unit"] == "I15")
-                & (annual_industrial_production["geo"] == country)
-                & (annual_industrial_production["TIME_PERIOD"] == params.annual_current_year)
-            ],
-            "",
-            9,
-        )
-        minfo.append(summary_industrial_production)
-
-        summary_unemployement = {}
-        summary_unemployement["Year"] = "Unemployment"
-
-        summary_unemployement[str(params.annual_previous_year)] = getValueFromList(
-            annual_unemployement[
-                (annual_unemployement["sex"] == "T")
-                & (annual_unemployement["unit"] == "PC_ACT")
-                & (annual_unemployement["age"] == "Y15-74")
-                & (annual_unemployement["geo"] == country)
-                & (annual_unemployement["TIME_PERIOD"] == params.annual_previous_year)
-            ],
-            "",
-            8,
-        )
-        summary_unemployement[str(params.annual_current_year)] = getValueFromList(
-            annual_unemployement[
-                (annual_unemployement["sex"] == "T")
-                & (annual_unemployement["unit"] == "PC_ACT")
-                & (annual_unemployement["age"] == "Y15-74")
-                & (annual_unemployement["geo"] == country)
-                & (annual_unemployement["TIME_PERIOD"] == params.annual_current_year)
-            ],
-            "",
-            8,
-        )
-        minfo.append(summary_unemployement)
-
-        minfo_imp = {}
-        minfo_imp["Year"] = "Import"
-        minfo_imp[str(params.annual_previous_year)] = data_annual_previous_year[
-            (data_annual_previous_year["DECLARANT_ISO"] == country)
-            & (data_annual_previous_year["FLOW"] == params.FLOW_IMPORT)
-            & (data_annual_previous_year["PRODUCT_NC"].str.strip().str.len() == 8)
-        ]["VALUE_IN_EUROS"].sum()
-        minfo_imp[str(params.annual_current_year)] = data_annual_current_year[
-            (data_annual_current_year["DECLARANT_ISO"] == country)
-            & (data_annual_current_year["FLOW"] == params.FLOW_IMPORT)
-            & (data_annual_current_year["PRODUCT_NC"].str.strip().str.len() == 8)
-        ]["VALUE_IN_EUROS"].sum()
-        minfo.append(minfo_imp)
-
-        minfo_exp = {}
-        minfo_exp["Year"] = "Export"
-        minfo_exp[str(params.annual_previous_year)] = data_annual_previous_year[
-            (data_annual_previous_year["DECLARANT_ISO"] == country)
-            & (data_annual_previous_year["FLOW"] == params.FLOW_EXPORT)
-            & (data_annual_previous_year["PRODUCT_NC"].str.strip().str.len() == 8)
-        ]["VALUE_IN_EUROS"].sum()
-        minfo_exp[str(params.annual_current_year)] = data_annual_current_year[
-            (data_annual_current_year["DECLARANT_ISO"] == country)
-            & (data_annual_current_year["FLOW"] == params.FLOW_EXPORT)
-            & (data_annual_current_year["PRODUCT_NC"].str.strip().str.len() == 8)
-        ]["VALUE_IN_EUROS"].sum()
-        minfo.append(minfo_exp)
-        ieinfo_country["Main information"] = minfo
-        # Main Import partner
-        mips_j = []
-        logger.info("# Main Import partner")
-        mips_previous = (
-            data_annual_previous_year[
-                (data_annual_previous_year["DECLARANT_ISO"] == country)
-                & (data_annual_previous_year["FLOW"] == params.FLOW_IMPORT)
-                & (data_annual_previous_year["PRODUCT_NC"].str.strip().str.len() == 8)
-            ]
-            .groupby(["PARTNER_ISO"])["VALUE_IN_EUROS"]
-            .sum()
-            .nlargest(3)
-            .reset_index()
-        )
-        mips_current = (
-            data_annual_current_year[
-                (data_annual_current_year["DECLARANT_ISO"] == country)
-                & (data_annual_current_year["FLOW"] == params.FLOW_IMPORT)
-                & (data_annual_current_year["PRODUCT_NC"].str.strip().str.len() == 8)
-            ]
-            .groupby(["PARTNER_ISO"])["VALUE_IN_EUROS"]
-            .sum()
-            .nlargest(3)
-            .reset_index()
-        )
-
-        for index in range(n_rows):
-            mip_j = {}
-            mip_j["Main partner " + str(params.annual_previous_year)] = mips_previous.loc[
-                index, "PARTNER_ISO"
-            ]
-            mip_j["Total import " + str(params.annual_previous_year)] = mips_previous.loc[
-                index, "VALUE_IN_EUROS"
-            ]
-            mip_j["Main partner " + str(params.annual_current_year)] = mips_current.loc[
-                index, "PARTNER_ISO"
-            ]
-            mip_j["Total import " + str(params.annual_current_year)] = mips_current.loc[
-                index, "VALUE_IN_EUROS"
-            ]
-            mips_j.append(mip_j)
-
-        ieinfo_country["Main Import Partners"] = mips_j
-        # Main Export partner
-        meps_j = []
-        meps_previous = (
-            data_annual_previous_year[
-                (data_annual_previous_year["DECLARANT_ISO"] == country)
-                & (data_annual_previous_year["FLOW"] == params.FLOW_EXPORT)
-                & (data_annual_previous_year["PRODUCT_NC"].str.strip().str.len() == 8)
-            ]
-            .groupby(["PARTNER_ISO"])["VALUE_IN_EUROS"]
-            .sum()
-            .nlargest(3)
-            .reset_index()
-        )
-        meps_current = (
-            data_annual_current_year[
-                (data_annual_current_year["DECLARANT_ISO"] == country)
-                & (data_annual_current_year["FLOW"] == params.FLOW_EXPORT)
-                & (data_annual_current_year["PRODUCT_NC"].str.strip().str.len() == 8)
-            ]
-            .groupby(["PARTNER_ISO"])["VALUE_IN_EUROS"]
-            .sum()
-            .nlargest(3)
-            .reset_index()
-        )
-        logger.info(" Main Export Partners ...")
-        for index2 in range(n_rows):
-            mep_j = {}
-            mep_j["Main partner " + str(params.annual_previous_year)] = meps_previous.loc[
-                index2, "PARTNER_ISO"
-            ]
-            mep_j["Total export " + str(params.annual_previous_year)] = meps_previous.loc[
-                index2, "VALUE_IN_EUROS"
-            ]
-            mep_j["Main partner " + str(params.annual_current_year)] = meps_current.loc[
-                index2, "PARTNER_ISO"
-            ]
-            mep_j["Total export " + str(params.annual_current_year)] = meps_current.loc[
-                index2, "VALUE_IN_EUROS"
-            ]
-            meps_j.append(mep_j)
-
-        ieinfo_country["Main Export Partners"] = meps_j
-        logger.info('"Main Import Goods ...')
-        # Main Import good
-        migs_j = []
-        migs_previous = (
-            data_annual_previous_year[
-                (data_annual_previous_year["DECLARANT_ISO"] == country)
-                & (data_annual_previous_year["FLOW"] == params.FLOW_IMPORT)
-                & (data_annual_previous_year["PRODUCT_NC"].str.strip().str.len() == 8)
-            ]
-            .groupby(["PRODUCT_NC"])["VALUE_IN_EUROS"]
-            .sum()
-            .nlargest(3)
-            .reset_index()
-        )
-        migs_current = (
-            data_annual_current_year[
-                (data_annual_current_year["DECLARANT_ISO"] == country)
-                & (data_annual_current_year["FLOW"] == params.FLOW_IMPORT)
-                & (data_annual_current_year["PRODUCT_NC"].str.strip().str.len() == 8)
-            ]
-            .groupby(["PRODUCT_NC"])["VALUE_IN_EUROS"]
-            .sum()
-            .nlargest(3)
-            .reset_index()
-        )
-
-        for index in range(n_rows):
-            previous_product = migs_previous.loc[index, "PRODUCT_NC"]
-            current_product = migs_current.loc[index, "PRODUCT_NC"]
-            mig_j = {}
-            mig_j["Main good " + str(params.annual_previous_year)] = getClsProduct(
-                cls_products[
-                    (cls_products[0] == previous_product)
-                    & (
-                        pd.to_datetime(
-                            cls_products[1], errors="coerce", format="%d/%m/%y"
-                        ).dt.year.fillna(0)
-                        <= params.annual_previous_year
-                    )
-                    & (
-                        pd.to_datetime(
-                            cls_products[2], errors="coerce", format="%d/%m/%y"
-                        ).dt.year.fillna(2500)
-                        >= params.annual_previous_year
-                    )
-                ],
-                previous_product,
-            )
-            mig_j["Total import " + str(params.annual_previous_year)] = migs_previous.loc[
-                index, "VALUE_IN_EUROS"
-            ]
-            mig_j["Main good " + str(params.annual_current_year)] = getClsProduct(
-                cls_products[
-                    (cls_products[0] == current_product)
-                    & (
-                        pd.to_datetime(
-                            cls_products[1], errors="coerce", format="%d/%m/%y"
-                        ).dt.year.fillna(0)
-                        <= params.annual_current_year
-                    )
-                    & (
-                        pd.to_datetime(
-                            cls_products[2], errors="coerce", format="%d/%m/%y"
-                        ).dt.year.fillna(2500)
-                        >= params.annual_current_year
-                    )
-                ],
-                current_product,
-            )
-            mig_j["Total import " + str(params.annual_current_year)] = migs_current.loc[
-                index, "VALUE_IN_EUROS"
-            ]
-            migs_j.append(mig_j)
-
-        ieinfo_country["Main Import Goods"] = migs_j
-        logger.info("Main Export Goods ...")
-        # Main Export partner
-        megs_j = []
-        megs_previous = (
-            data_annual_previous_year[
-                (data_annual_previous_year["DECLARANT_ISO"] == country)
-                & (data_annual_previous_year["FLOW"] == params.FLOW_EXPORT)
-                & (data_annual_previous_year["PRODUCT_NC"].str.strip().str.len() == 8)
-            ]
-            .groupby(["PRODUCT_NC"])["VALUE_IN_EUROS"]
-            .sum()
-            .nlargest(3)
-            .reset_index()
-        )
-        megs_current = (
-            data_annual_current_year[
-                (data_annual_current_year["DECLARANT_ISO"] == country)
-                & (data_annual_current_year["FLOW"] == params.FLOW_EXPORT)
-                & (data_annual_current_year["PRODUCT_NC"].str.strip().str.len() == 8)
-            ]
-            .groupby(["PRODUCT_NC"])["VALUE_IN_EUROS"]
-            .sum()
-            .nlargest(3)
-            .reset_index()
-        )
-
-        for index in range(n_rows):
-            previous_product = megs_previous.loc[index, "PRODUCT_NC"]
-            current_product = megs_current.loc[index, "PRODUCT_NC"]
-            meg_j = {}
-            meg_j["Main good " + str(params.annual_previous_year)] = getClsProduct(
-                cls_products[
-                    (cls_products[0] == previous_product)
-                    & (
-                        pd.to_datetime(
-                            cls_products[1], errors="coerce", format="%d/%m/%y"
-                        ).dt.year.fillna(0)
-                        <= params.annual_previous_year
-                    )
-                    & (
-                        pd.to_datetime(
-                            cls_products[2], errors="coerce", format="%d/%m/%y"
-                        ).dt.year.fillna(2500)
-                        >= params.annual_previous_year
-                    )
-                ],
-                previous_product,
-            )
-            meg_j["Total export " + str(params.annual_previous_year)] = megs_previous.loc[
-                index, "VALUE_IN_EUROS"
-            ]
-            meg_j["Main good " + str(params.annual_current_year)] = getClsProduct(
-                cls_products[
-                    (cls_products[0] == current_product)
-                    & (
-                        pd.to_datetime(
-                            cls_products[1], errors="coerce", format="%d/%m/%y"
-                        ).dt.year.fillna(0)
-                        <= params.annual_current_year
-                    )
-                    & (
-                        pd.to_datetime(
-                            cls_products[2], errors="coerce", format="%d/%m/%y"
-                        ).dt.year.fillna(2500)
-                        >= params.annual_current_year
-                    )
-                ],
-                current_product,
-            )
-            meg_j["Total export " + str(params.annual_current_year)] = megs_current.loc[
-                index, "VALUE_IN_EUROS"
-            ]
-            megs_j.append(meg_j)
-
-        ieinfo_country["Main Export Goods"] = megs_j
-        logger.info("annual file ...")
-        ieinfo.append(ieinfo_country)
-
-    with open(output_file, "w") as f:
-        json.dump(ieinfo, f, ensure_ascii=False, indent=4, cls=NpEncoder)
-
-    return "Annual processing ok: file created " + output_file
-
-
-def createGeneralInfoOutput(file):
-    if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
-        print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
-        os.symlink(
-            params.DIRECTORIES["WORKING_FOLDER"], # DATA_FOLDER_PARENT
-            os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
-        )
-
-    info_processing = {}
-    info_processing["processingDay"] = params.processing_day.strftime("%d-%m-%Y, %H:%M:%S")
-    info_processing["annualCurrentYear"] = params.annual_current_year
-    info_processing["annualPreviousYear"] = params.annual_previous_year
-    info_processing["lastLoadedData"] = params.end_data_load.strftime("%m, %Y")
-    info_processing["windowMonths"] = params.TIME_INTERVAL_M
-
-    info_processing["monthsToTxtract"] = params.TIME_INTERVAL_M
-    info_processing["offsetMonthToExtract"] = params.OFFSET_M
-    info_processing["appVersion"] = "1.0.0"
-
-    time_map_start = {}
-    values = {}
-    values["timeSelected"] = str(params.this_year) + str(params.this_month)
-
-    time_map_start["year"] = int(params.start_data_PAGE_MAP.strftime("%Y"))
-    time_map_start["month"] = int(params.start_data_PAGE_MAP.strftime("%m"))
-    values["timeStart"] = time_map_start
-    time_map_end = {}
-    time_map_end["year"] = int(params.end_data_load.strftime("%Y"))
-    time_map_end["month"] = int(params.end_data_load.strftime("%m"))
-    values["timeEnd"] = time_map_end
-    info_processing["map"] = values
-
-    time_graph_start = {}
-    time_graphp_end = {}
-    values = {}
-    values["timeSelected"] = str(params.this_year) + str(params.this_month)
-    time_graph_start["year"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%Y"))
-    time_graph_start["month"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%m"))
-    values["timeStart"] = time_graph_start
-    time_graphp_end["year"] = int(params.end_data_load.strftime("%Y"))
-    time_graphp_end["month"] = int(params.end_data_load.strftime("%m"))
-    values["timeEnd"] = time_graphp_end
-    info_processing["graph"] = values
-
-    time_graphplus_start = {}
-    time_graphpplus_end = {}
-    values = {}
-    values["timeSelected"] = str(params.this_year) + str(params.this_month)
-    time_graphplus_start["year"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%Y"))
-    time_graphplus_start["month"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%m"))
-    values["timeStart"] = time_graphplus_start
-    time_graphpplus_end["year"] = int(params.end_data_load.strftime("%Y"))
-    time_graphpplus_end["month"] = int(params.end_data_load.strftime("%m"))
-    values["timeEnd"] = time_graphpplus_end
-    info_processing["graphPlus"] = values
-
-    time_trade_start = {}
-    values = {}
-    values["timeSelected"] = str(params.this_year) + str(params.this_month)
-    time_trade_start["year"] = int(params.start_data_PAGE_BASKET.strftime("%Y"))
-    time_trade_start["month"] = int(params.start_data_PAGE_BASKET.strftime("%m"))
-    values["timeStart"] = time_trade_start
-    time_trade_end = {}
-    time_trade_end["year"] = int(params.end_data_load.strftime("%Y"))
-    time_trade_end["month"] = int(params.end_data_load.strftime("%m"))
-    values["timeEnd"] = time_trade_end
-
-    info_processing["trade"] = values
-
-    with open(file, "w") as f:
-        json.dump(info_processing, f, ensure_ascii=False, indent=1, cls=NpEncoder)
-
-    return "Info general OK, created file: " + file
-
-
-def createMonthlyFULLtable(db, path_to_scan):
-    # createFolder(SQLITE_TMPDIR)
-    logger.info(db)
-    conn = sqlite3.connect(db)
-    cur = conn.cursor()
-    logger.info("Creating table  comext_full ")
-    cur.execute("DROP TABLE IF EXISTS comext_full;")
-    cur.execute(
-        "CREATE TABLE comext_full (DECLARANT_ISO TEXT,PARTNER_ISO TEXT,PRODUCT_NC TEXT,PRODUCT_CPA2_1 TEXT,PRODUCT_BEC TEXT,FLOW INTEGER,PERIOD INTEGER, VALUE_IN_EUROS INTEGER, QUANTITY_IN_KG INTEGER,CPA2 TEXT,CPA23 TEXT,CPA3 TEXT,IS_PRODUCT INTEGER DEFAULT 0)"
-    )
-
-    logger.info("SCANNED PATH: " + path_to_scan)
-    count = 0
-    index = 0
-    for filedat in os.scandir(path_to_scan):
-        if filedat.is_file():
-            comext_monthly_data = pd.read_csv(
-                filedat, sep=",", low_memory=True, keep_default_na=False, na_values=[""]
-            )
-            length = len(comext_monthly_data.index)
-            count += length
-            index += 1
-            logger.info(
-                str(index)
-                + ") loaded rows:"
-                + str(length)
-                + " count:"
-                + str(count)
-                + "  file: "
-                + filedat.name
-            )
-            comext_monthly_data[
-                [
-                    "DECLARANT_ISO",
-                    "PARTNER_ISO",
-                    "PRODUCT_NC",
-                    "PRODUCT_CPA2_1",
-                    "PRODUCT_BEC",
-                    "FLOW",
-                    "PERIOD",
-                    "VALUE_IN_EUROS",
-                    "QUANTITY_IN_KG",
-                ]
-            ].to_sql(
-                "comext_full", conn, if_exists="append", index=False, chunksize=10000
-            )
-
-    for row in cur.execute("SELECT count(*) FROM comext_full "):
-        logger.info("from count:" + str(count))
-        logger.info("from DB:" + str(row))
-
-    logger.info("UPDATE TABLE comext_full A CPA2, CPA23 CPA3 TEXT")
-    cur.execute(
-        """UPDATE comext_full SET CPA2=substr(product_cpa2_1,1,2), CPA23=substr(product_cpa2_1,1,2)||' ', CPA3=substr(product_cpa2_1,1,3),IS_PRODUCT=1  WHERE length(product_nc)==8;"""
-    )
-    conn.commit()
-    if conn:
-        conn.close()
-
-    return "TABLE comext_full created!"
-
-
-def monthlyProcessing(db):
-    conn = sqlite3.connect(db)
-
-    cur = conn.cursor()
-
-    # Create table Series
-    ## considero un 1 anno prima es 48 per 36 mesi
-    filter_yyymm = str(params.start_data_PAGE_MAP.year - 1) + str(
-        "%02d" % params.start_data_PAGE_MAP.month
-    )
-    logger.info("Creating Series table ")
-    cur.execute("DROP TABLE IF EXISTS serie_per_mappa0;")
-    cur.execute(
-        "Create table serie_per_mappa0 as select declarant_iso, period, flow, sum(value_in_euros) as value_in_euros from comext_full where product_nc= 'TOTAL' and period>="
-        + filter_yyymm
-        + " group by declarant_iso, period,flow;"
-    )
-    cur.execute("DROP TABLE IF EXISTS serie_per_mappa;")
-    cur.execute(
-        "Create table serie_per_mappa as select a.declarant_iso, a.period, a.flow, round(100.00*( (a.value_in_euros-b.value_in_euros)*1.0  / b.value_in_euros ),2) as TENDENZIALE from serie_per_mappa0 a, serie_per_mappa0 b where a.flow=b.flow and a.declarant_iso=b.declarant_iso and a.period=(b.period+100);"
-    )
-    conn.commit()
-
-    # /* calcolo i valori per cpa */
-
-    ## considero un 1 anno prima es 48 per 36 mesi
-    filter_yyymm = str(params.start_data_PAGE_BASKET.year - 1) + str(
-        "%02d" % params.start_data_PAGE_BASKET.month
-    )
-    logger.info("Creating aggr_cpa table ")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa;")
-    cur.execute(
-        "create table aggr_cpa as select declarant_iso, flow, cpa2, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_cpa  from comext_full  WHERE IS_PRODUCT==1 and period>="
-        + filter_yyymm
-        + " group by declarant_iso, flow, cpa2, period order by declarant_iso, flow, cpa2, period;"
-    )
-
-    conn.commit()
-
-    # /* calcolo il valore totale */
-    logger.info("Creating aggr_tot table ")
-    cur.execute("DROP TABLE IF EXISTS aggr_tot;")
-    cur.execute(
-        "create table aggr_tot as select declarant_iso, flow, period, sum(val_cpa) as val_tot, sum(q_cpa) as q_tot from aggr_cpa group by declarant_iso, flow, period order by declarant_iso, flow, period;"
-    )
-    conn.commit()
-
-    # /* calcolo le quote */
-    logger.info("Creating quote_cpa table ")
-    cur.execute("DROP TABLE IF EXISTS quote_cpa;")
-    cur.execute(
-        "create table quote_cpa as select a.declarant_iso, a.flow, a.cpa2, a.period, a.val_cpa, b.val_tot, a.q_cpa, b.q_tot, 100.0*a.val_cpa/b.val_tot as q_val_cpa, 100.0*a.q_cpa/b.q_tot as q_qua_cpa  from aggr_cpa a, aggr_tot b where a.declarant_iso=b.declarant_iso and a.flow=b.flow and a.period=b.period;"
-    )
-
-    # /* calcolo le variazioni */
-    logger.info("Creating variazioni table ")
-    cur.execute("DROP TABLE IF EXISTS variazioni;")
-    cur.execute(
-        "create table variazioni as select a.declarant_iso, a.flow, a.cpa2, a.period, a.val_cpa, round(100.0*(a.val_cpa-b.val_cpa)/b.val_cpa,2) as var_val_cpa, round(100.0*(a.q_val_cpa-b.q_val_cpa)/b.q_val_cpa,2) as var_val_basket, a.q_cpa, round(100.0*(a.q_cpa-b.q_cpa)/b.q_cpa,2) as var_q_cpa, round(100.0*(a.q_qua_cpa-b.q_qua_cpa)/b.q_qua_cpa,2) as var_qua_basket from quote_cpa a, quote_cpa b where a.declarant_iso=b.declarant_iso and a.flow=b.flow and a.cpa2=b.cpa2 and a.period=(b.period+100);"
-    )
-
-    ## grafi in classificazione CPA e scambi tra paesi intra-UE
-
-    # /* aggrego per cpa2 */
-    logger.info("Creating table aggr_cpa2 ")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa2;")
-    cur.execute(
-        "create table aggr_cpa2 as select declarant_iso, partner_iso, flow, cpa23 as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg from comext_full  WHERE IS_PRODUCT==1 group by declarant_iso, partner_iso, flow, cpa23, period order by declarant_iso, partner_iso, flow, cpa23, period;"
-    )
-
-    # /* aggrego per cpa3 */
-    logger.info("Creating table aggr_cpa3 ")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa3;")
-    cur.execute(
-        "create table aggr_cpa3 as select declarant_iso, partner_iso, flow, cpa3 as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg from comext_full  WHERE IS_PRODUCT==1 group by declarant_iso, partner_iso, flow, cpa3, period order by declarant_iso, partner_iso, flow, cpa3, period;"
-    )
-
-    # /* aggrego per cpa TOTAL 00 */
-    logger.info("Creating table aggr_cpa_tot ")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa_tot;")
-    cur.execute(
-        "create table aggr_cpa_tot as select declarant_iso, partner_iso, flow, '00' as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg from comext_full WHERE product_nc= 'TOTAL' group by declarant_iso, partner_iso, flow,  cpa, period;"
-    )
-
-    # /*  view */
-    logger.info("Creating table base_grafi_cpa ")
-    cur.execute("DROP TABLE IF EXISTS base_grafi_cpa;")
-    cur.execute(
-        "create table base_grafi_cpa as select * from  aggr_cpa2 where (1* substr(cpa,1,2) >0 and 1* substr(cpa,1,2) <37) union select * from  aggr_cpa3 where (1* substr(cpa,1,3) >0 and 1* substr(cpa,1,3) <370) union  select * from aggr_cpa_tot;"
-    )
-
-    # /*  create table WORLD for all partners * add ALL COUNTRIES AC
-    logger.info("Creating table base_grafi_cpa_wo ")
-    cur.execute("DROP TABLE IF EXISTS base_grafi_cpa_wo;")
-    cur.execute(
-        "create table base_grafi_cpa_wo as select declarant_iso, 'AC' as partner_iso, flow, cpa, period, sum(val_cpa) as val_cpa,sum(q_kg) as q_kg from base_grafi_cpa group by declarant_iso, flow, cpa, period order by declarant_iso, flow, cpa, period; "
-    )
-
-    # /*  view */
-    logger.info("Creating table variazioni_cpa ")
-    cur.execute("DROP TABLE IF EXISTS variazioni_cpa;")
-    cur.execute(
-        "create table variazioni_cpa as select a.declarant_iso, a.partner_iso, a.flow, a.cpa, a.period, a.val_cpa, round(100.00*((a.val_cpa-b.val_cpa)*1.00/b.val_cpa),2) as var_cpa, a.q_kg, round(100.00*(a.q_kg-b.q_kg)/b.q_kg,2)  as var_q_cpa  from base_grafi_cpa a, base_grafi_cpa b where a.declarant_iso=b.declarant_iso and a.partner_iso=b.partner_iso and a.flow=b.flow and a.cpa=b.cpa and a.period=(b.period+100) union all select a.declarant_iso, a.partner_iso,a.flow, a.cpa, a.period, a.val_cpa, 100*(a.val_cpa-b.val_cpa)/b.val_cpa as var_cpa, a.q_kg, 100*(a.q_kg-b.q_kg)/b.q_kg  as var_q_cpa from base_grafi_cpa_wo a, base_grafi_cpa_wo b where a.declarant_iso = b.declarant_iso 	and a.flow = b.flow and a.cpa = b.cpa and a.period =(b.period + 100) ; "
-    )
-
-    filter_yyymm = str(params.start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(
-        "%02d" % params.start_data_PAGE_GRAPH_INTRA_UE.month
-    )
-    # /*  basi trimestrali */
-    logger.info("Creating table per_trimestri  ")
-    cur.execute("DROP TABLE IF EXISTS per_trimestri;")
-    cur.execute(
-        "create table per_trimestri as select *, substr(period,1,4)||'T1' as trimestre from base_grafi_cpa where substr(period,5,2) in ('01', '02','03') and period >= "
-        + filter_yyymm
-        + " union select *, substr(period,1,4)||'T2' as trimestre from base_grafi_cpa where substr(period,5,2) in ('04', '05','06') and period >= "
-        + filter_yyymm
-        + " union select *, substr(period,1,4)||'T3' as trimestre from base_grafi_cpa where substr(period,5,2) in ('07', '08','09') and period > "
-        + filter_yyymm
-        + " union select *, substr(period,1,4)||'T4' as trimestre from base_grafi_cpa where substr(period,5,2) in ('10', '11','12') and period > "
-        + filter_yyymm
-        + ""
-    )
-
-    # /*  basi trimestrali */
-    logger.info("Creating table per_trimestri  ")
-    cur.execute("DROP TABLE IF EXISTS base_grafi_cpa_trim;")
-    cur.execute(
-        "create table base_grafi_cpa_trim as select declarant_iso, partner_iso, flow,  cpa, trimestre, sum(val_cpa) as val_cpa, sum(q_kg) as q_kg from per_trimestri group by declarant_iso, partner_iso, flow, cpa, trimestre;"
-    )
-
-    logger.info("Creating END ")
-    if conn:
-        conn.close()
-
-    return "Monthly processing on DB OK!"
-
-
-def createMonthlyOutputTimeSeries(db, import_ts, export_ts):
-    logger.info("createMonthlyOutputTimeSeries START")
-    # createFolder(DATA_FOLDER_MONTHLY_OUTPUT)
-
-    # import export series
-    logger.info("import export series")
-    iesFiles = {}
-    iesFiles[params.FLOW_IMPORT] = import_ts
-    iesFiles[params.FLOW_EXPORT] = export_ts
-    ieFlows = {}
-
-    conn = sqlite3.connect(db)
-
-    serie = pd.read_sql_query("SELECT * from serie_per_mappa", conn)
-    countries = sorted(pd.unique(serie["DECLARANT_ISO"]))
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        ieSeries = []
-        for country in countries:
-            logger.debug("country: " + country)
-            ieIseries_country = {}
-            ieIseries_country["country"] = country
-            serie_country = serie[
-                (serie["DECLARANT_ISO"] == country) & (serie["FLOW"] == flow)
-            ]
-
-            for index, row in serie_country.iterrows():
-                ieIseries_country[str(row["PERIOD"])] = row["TENDENZIALE"]
-            ieSeries.append(ieIseries_country)
-        ieFlows[flow] = ieSeries
-
-    if conn:
-        conn.close()
-
-    # print(iesFiles)
-
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        logger.info("File " + iesFiles[flow])
-        with open(iesFiles[flow], "w") as f:
-            json.dump(ieFlows[flow], f, ensure_ascii=False, indent=4, cls=NpEncoder)
-
-    return (
-        "TIME SERIES processing OK; files created: "
-        + import_ts
-        + " and "
-        + export_ts
-    )
-
-
-def createMonthlyOutputVQSTradeValue(db, import_value, export_value, cls_product_data, cls_product_2d_data):
-    logger.info("createMonthlyOutputVQSTrade START")
-    # createFolder(output_path)
-    iesVQSFiles = {}
-    iesVQSFiles[params.FLOW_IMPORT] = import_value
-    iesVQSFiles[params.FLOW_EXPORT] = export_value
-    ieVQSFlows = {}
-
-    cls_products_cpa_en = pd.read_csv(
-        cls_product_data,
-        sep="\t",
-        low_memory=True,
-        header=None,
-        keep_default_na=False,
-        na_values=[""],
-    )
-    cls_products_cpa_it = pd.read_csv(
-        cls_product_2d_data,
-        sep="\t",
-        low_memory=True,
-        header=None,
-        keep_default_na=False,
-        na_values=[""],
-        dtype=str,
-    )
-    cls_products_cpa_langs = {}
-    cls_products_cpa_langs["it"] = cls_products_cpa_it
-    print(cls_products_cpa_en)
-    cls_products_cpa_langs["en"] = cls_products_cpa_en
-    logger.info("cls_products: " + cls_product_data)
-
-    conn = sqlite3.connect(db)
-    variazioni = pd.read_sql_query(
-        "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, var_val_basket var_basket FROM variazioni where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
-        conn,
-    )
-    countries = sorted(pd.unique(variazioni["DECLARANT_ISO"]))
-
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        logger.info("FLOW_IMPORT,FLOW_EXPORT: " + str(flow))
-        ieVQS = []
-
-        for country in countries:
-            for lang in params.SUPPORTED_LANGUAGES:
-                cls_products_cpa = cls_products_cpa_langs[lang]
-                logger.info("country: " + country)
-                ieVQS_country = {}
-                ieVQS_country["id"] = country
-                ieVQS_country["lang"] = lang
-                dataVQSs = []
-                vqs_country = variazioni[
-                    (variazioni["DECLARANT_ISO"] == country)
-                    & (variazioni["FLOW"] == flow)
-                ]
-
-                products_country = sorted(pd.unique(vqs_country["PRODUCT"]))
-                for product in products_country:
-                    logger.debug("product: " + product)
-                    dataVQS = {}
-
-                    dataVQS["productID"] = product
-                    dataVQS["dataname"] = getClsProductByCode(
-                        cls_products_cpa, product, 1
-                    )
-                    valuesVQS = []
-                    vqs = vqs_country[vqs_country["PRODUCT"] == product].fillna("NA")
-                    for indexp, row_vqs in vqs.iterrows():
-                        valuesVQS.append(row_vqs["var_basket"])
-
-                    dataVQS["value"] = valuesVQS
-                    dataVQSs.append(dataVQS)
-
-                ieVQS_country["data"] = dataVQSs
-                ieVQS.append(ieVQS_country)
-        ieVQSFlows[flow] = ieVQS
-
-    if conn:
-        conn.close()
-
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        logger.info("File " + iesVQSFiles[flow])
-        with open(iesVQSFiles[flow], "w") as f:
-            json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=NpEncoder)
-
-    return (
-        "VQS VALUE TRADE processing OK; files created: "
-        + import_value
-        + " and "
-        + export_value
-    )
-
-
-def createMonthlyOutputVQSTradeQuantity(db, import_qty, export_qty, cls_product_data, cls_product_2d_data):
-    logger.info("createMonthlyOutputVQSTrade START")
-    # createFolder(output_path)
-    iesVQSFiles = {}
-    iesVQSFiles[params.FLOW_IMPORT] = import_qty
-    iesVQSFiles[params.FLOW_EXPORT] = export_qty
-    ieVQSFlows = {}
-
-    cls_products_cpa_en = pd.read_csv(
-        cls_product_data,
-        sep="\t",
-        low_memory=True,
-        header=None,
-        keep_default_na=False,
-        na_values=[""],
-    )
-    cls_products_cpa_it = pd.read_csv(
-        cls_product_2d_data,
-        sep="\t",
-        low_memory=True,
-        header=None,
-        keep_default_na=False,
-        na_values=[""],
-        dtype=str,
-    )
-    cls_products_cpa_langs = {}
-    cls_products_cpa_langs["it"] = cls_products_cpa_it
-    cls_products_cpa_langs["en"] = cls_products_cpa_en
-    logger.info("cls_products: " + cls_product_data)
-
-    conn = sqlite3.connect(db)
-    variazioni = pd.read_sql_query(
-        "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, var_qua_basket as var_basket FROM variazioni where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
-        conn,
-    )
-    countries = sorted(pd.unique(variazioni["DECLARANT_ISO"]))
-
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        logger.info("FLOW_IMPORT,FLOW_EXPORT: " + str(flow))
-        ieVQS = []
-
-        for country in countries:
-            for lang in params.SUPPORTED_LANGUAGES:
-                cls_products_cpa = cls_products_cpa_langs[lang]
-                logger.info("country: " + country)
-                ieVQS_country = {}
-                ieVQS_country["id"] = country
-                ieVQS_country["lang"] = lang
-                dataVQSs = []
-                vqs_country = variazioni[
-                    (variazioni["DECLARANT_ISO"] == country)
-                    & (variazioni["FLOW"] == flow)
-                ]
-
-                products_country = sorted(pd.unique(vqs_country["PRODUCT"]))
-                for product in products_country:
-                    logger.debug("product: " + product)
-                    dataVQS = {}
-
-                    dataVQS["productID"] = product
-                    dataVQS["dataname"] = getClsProductByCode(
-                        cls_products_cpa, product, 1
-                    )
-                    valuesVQS = []
-                    vqs = vqs_country[vqs_country["PRODUCT"] == product].fillna("NA")
-                    for indexp, row_vqs in vqs.iterrows():
-                        valuesVQS.append(row_vqs["var_basket"])
-
-                    dataVQS["value"] = valuesVQS
-                    dataVQSs.append(dataVQS)
-
-                ieVQS_country["data"] = dataVQSs
-                ieVQS.append(ieVQS_country)
-        ieVQSFlows[flow] = ieVQS
-
-    if conn:
-        conn.close()
-
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        logger.info("File " + iesVQSFiles[flow])
-        with open(iesVQSFiles[flow], "w") as f:
-            json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=NpEncoder)
-
-    return (
-        "VQS QUANTITY TRADE processing OK; files created: "
-        + import_qty
-        + " and "
-        + export_qty
-    )
-
-
-def createMonthlyOutputQuoteSTrade(db, quote_trade):
-    logger.info("createMonthlyOutputQuoteSTrade quote START")
-    # createFolder(output_path)
-
-    conn = sqlite3.connect(db)
-    quote = pd.read_sql_query(
-        "SELECT DECLARANT_ISO as id, FLOW,cpa2 as PRODUCT, PERIOD, q_val_cpa as quote_valore, q_qua_cpa as quote_quantita FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
-        conn,
-    )
-
-    if conn:
-        conn.close()
-
-    quote.to_json(quote_trade, orient="records")
-
-    return "Quote  TRADE processing OK; files created: " + quote_trade
-
-
-def createMonthlyOutputQuoteSTradeValue(db, import_quote_value, export_quote_value, cls_product_data, cls_product_2d_data):
-    logger.info("createMonthlyOutputQuoteSTrade START")
-    # createFolder(output_path)
-    iesVQSFiles = {}
-    iesVQSFiles[params.FLOW_IMPORT] = import_quote_value
-    iesVQSFiles[params.FLOW_EXPORT] = export_quote_value
-    ieVQSFlows = {}
-
-    cls_products_cpa_en = pd.read_csv(
-        cls_product_data,
-        sep="\t",
-        low_memory=True,
-        header=None,
-        keep_default_na=False,
-        na_values=[""],
-    )
-    cls_products_cpa_it = pd.read_csv(
-        cls_product_2d_data,
-        sep="\t",
-        low_memory=True,
-        header=None,
-        keep_default_na=False,
-        na_values=[""],
-        dtype=str,
-    )
-    cls_products_cpa_langs = {}
-    cls_products_cpa_langs["it"] = cls_products_cpa_it
-    cls_products_cpa_langs["en"] = cls_products_cpa_en
-    logger.info("cls_products: " + cls_product_data)
-
-    conn = sqlite3.connect(db)
-    quote = pd.read_sql_query(
-        "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, q_val_cpa as q_val_basket FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
-        conn,
-    )
-    countries = sorted(pd.unique(quote["DECLARANT_ISO"]))
-
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        logger.info("FLOW_IMPORT,FLOW_EXPORT: " + str(flow))
-        ieVQS = []
-
-        for country in countries:
-            for lang in params.SUPPORTED_LANGUAGES:
-                cls_products_cpa = cls_products_cpa_langs[lang]
-                logger.info("country: " + country)
-                ieVQS_country = {}
-                ieVQS_country["id"] = country
-                ieVQS_country["lang"] = lang
-                dataVQSs = []
-                vqs_country = quote[
-                    (quote["DECLARANT_ISO"] == country) & (quote["FLOW"] == flow)
-                ]
-
-                products_country = sorted(pd.unique(vqs_country["PRODUCT"]))
-                for product in products_country:
-                    logger.debug("product: " + product)
-                    dataVQS = {}
-
-                    dataVQS["productID"] = product
-                    dataVQS["dataname"] = getClsProductByCode(
-                        cls_products_cpa, product, 1
-                    )
-                    valuesVQS = []
-                    vqs = vqs_country[vqs_country["PRODUCT"] == product].fillna("NA")
-                    for indexp, row_vqs in vqs.iterrows():
-                        valuesVQS.append(row_vqs["q_val_basket"])
-
-                    dataVQS["value"] = valuesVQS
-                    dataVQSs.append(dataVQS)
-
-                ieVQS_country["data"] = dataVQSs
-                ieVQS.append(ieVQS_country)
-        ieVQSFlows[flow] = ieVQS
-
-    if conn:
-        conn.close()
-
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        logger.info("File " + iesVQSFiles[flow])
-        with open(iesVQSFiles[flow], "w") as f:
-            json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=NpEncoder)
-
-    return (
-        "Quote VALUE TRADE processing OK; files created: "
-        + import_quote_value
-        + " and "
-        + export_quote_value
-    )
-
-
-def createMonthlyOutputQuoteSTradeQuantity(db, import_quote_qty, export_quote_qty, cls_product_data, cls_product_2d_data):
-    logger.info("createMonthlyOutputQuoteSTrade START")
-    # createFolder(output_path)
-    iesVQSFiles = {}
-    iesVQSFiles[params.FLOW_IMPORT] = import_quote_qty
-    iesVQSFiles[params.FLOW_EXPORT] = export_quote_qty
-    ieVQSFlows = {}
-
-    cls_products_cpa_en = pd.read_csv(
-        cls_product_data,
-        sep="\t",
-        low_memory=True,
-        header=None,
-        keep_default_na=False,
-        na_values=[""],
-    )
-    cls_products_cpa_it = pd.read_csv(
-        cls_product_2d_data,
-        sep="\t",
-        low_memory=True,
-        header=None,
-        keep_default_na=False,
-        na_values=[""],
-        dtype=str,
-    )
-    cls_products_cpa_langs = {}
-    cls_products_cpa_langs["it"] = cls_products_cpa_it
-    cls_products_cpa_langs["en"] = cls_products_cpa_en
-    logger.info("cls_products: " + cls_product_data)
-
-    conn = sqlite3.connect(db)
-    quote = pd.read_sql_query(
-        "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, q_qua_cpa as q_qua_basket FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
-        conn,
-    )
-    countries = sorted(pd.unique(quote["DECLARANT_ISO"]))
-
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        logger.info("FLOW_IMPORT,FLOW_EXPORT: " + str(flow))
-        ieVQS = []
-
-        for country in countries:
-            for lang in params.SUPPORTED_LANGUAGES:
-                cls_products_cpa = cls_products_cpa_langs[lang]
-                logger.info("country: " + country)
-                ieVQS_country = {}
-                ieVQS_country["id"] = country
-                ieVQS_country["lang"] = lang
-                dataVQSs = []
-                vqs_country = quote[
-                    (quote["DECLARANT_ISO"] == country) & (quote["FLOW"] == flow)
-                ]
-
-                products_country = sorted(pd.unique(vqs_country["PRODUCT"]))
-                for product in products_country:
-                    logger.debug("product: " + product)
-                    dataVQS = {}
-
-                    dataVQS["productID"] = product
-                    dataVQS["dataname"] = getClsProductByCode(
-                        cls_products_cpa, product, 1
-                    )
-                    valuesVQS = []
-                    vqs = vqs_country[vqs_country["PRODUCT"] == product].fillna("NA")
-                    for indexp, row_vqs in vqs.iterrows():
-                        valuesVQS.append(row_vqs["q_qua_basket"])
-
-                    dataVQS["value"] = valuesVQS
-                    dataVQSs.append(dataVQS)
-
-                ieVQS_country["data"] = dataVQSs
-                ieVQS.append(ieVQS_country)
-        ieVQSFlows[flow] = ieVQS
-
-    if conn:
-        conn.close()
-
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        logger.info("File " + iesVQSFiles[flow])
-        with open(iesVQSFiles[flow], "w") as f:
-            json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=NpEncoder)
-
-    return (
-        "QUOTE S QUANTITY TRADE processing OK; files created: "
-        + import_quote_qty
-        + " and "
-        + export_quote_qty
-    )
-
-
-def createOutputVariazioniQuoteCPA(db, comext_imp, comext_exp, cpa2_prod_code):
-    # import export variazioni quote CPA
-    logger.info("createOutputVariazioniQuoteCPA START")
-    # createFolder(DATA_FOLDER_WORKING)
-
-    logger.info("import export variazioni quote CPA")
-    iesVQSFiles = {}
-    iesVQSFiles[params.FLOW_IMPORT] = comext_imp
-    iesVQSFiles[params.FLOW_EXPORT] = comext_exp
-
-    conn = sqlite3.connect(db)
-
-    for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        variazioni = pd.read_sql_query(
-            "SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, trim(cpa) as cpa, PERIOD, val_cpa, q_kg  FROM variazioni_cpa WHERE FLOW="
-            + str(flow)
-            + " and (length(trim(cpa))==2 or trim(cpa) in ('061','062') ) order by PERIOD ASC;",
-            conn,
-        )
-        variazioni.to_csv(iesVQSFiles[flow], sep=",", index=False)
-
-    pd.read_sql_query(
-        "SELECT distinct trim(cpa) as PRODUCT FROM variazioni_cpa WHERE (length(trim(cpa))==2 or trim(cpa) in ('061','062') );",
-        conn,
-    ).to_csv(cpa2_prod_code, sep=",", index=False)
-
-    if conn:
-        conn.close()
-
-    logger.info("createMonthlyOutput END")
-
-    return (
-        "Variazioni quote CPA processing OK; files created: "
-        + comext_imp
-        + " and "
-        + comext_exp
-    )
-
-
-def createOutputGraphCPAIntraUE(db, cpa_intra, cpa3_prod_code):
-    logger.info("createOutputGraphCPAIntraUE START")
-    # createFolder(DATA_FOLDER_WORKING)
-
-    # import export variazioni quote CPA
-    logger.info("import export variazioni quote CPA INTRA")
-
-    #  end_data_lclearoad=datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_m)
-    # last_12_months=datetime.datetime.strptime(( str(end_data_load.year)+"-"+str(end_data_load.month)- relativedelta(months=12)), "%Y%m")
-
-    filter_yyymm = str(params.start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(
-        "%02d" % params.start_data_PAGE_GRAPH_INTRA_UE.month
-    )
-    logger.info("last_months: " + filter_yyymm)
-    conn = sqlite3.connect(db)
-    pd.read_sql_query(
-        "SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, PRODUCT, PERIOD, VALUE_IN_EUROS  FROM (SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, cpa as PRODUCT, PERIOD, val_cpa as VALUE_IN_EUROS  FROM base_grafi_cpa WHERE PERIOD>"
-        + filter_yyymm
-        + " and length(trim(cpa))==3 union SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, 'TOT' as PRODUCT, PERIOD, val_cpa as VALUE_IN_EUROS  FROM base_grafi_cpa WHERE PERIOD>"
-        + filter_yyymm
-        + " and  trim(cpa)=='00')   order by PERIOD ASC;",
-        conn,
-    ).to_csv(cpa_intra, sep=",", index=False)
-    pd.read_sql_query(
-        "SELECT distinct cpa as PRODUCT  FROM base_grafi_cpa WHERE PERIOD>"
-        + filter_yyymm
-        + " and length(trim(cpa))==3;",
-        conn,
-    ).to_csv(cpa3_prod_code, sep=",", index=False)
-    if conn:
-        conn.close()
-
-    logger.info("createMonthlyOutput END")
-
-    return "CPA Graphic INTRA UE OK; files created: " + cpa_intra
-
-
-def createOutputGraphicTrimestre(db, output_cpa_trim):
-    logger.info("createOutputGraphicTrimestre START")
-    # createFolder(DATA_FOLDER_WORKING)
-
-    # import export variazioni quote CPA
-    logger.info("import export variazioni quote CPA INTRA TRim")
-
-    conn = sqlite3.connect(db)
-    pd.read_sql_query(
-        "SELECT declarant_iso, partner_iso, flow,  cpa, trimestre,   val_cpa,   q_kg  FROM base_grafi_cpa_trim WHERE length(trim(cpa))==3 union SELECT declarant_iso, partner_iso, flow,  'TOT' as cpa, trimestre,   val_cpa,   q_kg  FROM base_grafi_cpa_trim WHERE trim(cpa)=='00' order by trimestre ASC;",
-        conn,
-    ).to_csv(output_cpa_trim, sep=",", index=False)
-
-    if conn:
-        conn.close()
-
-    logger.info("createOutputGraphicTrimestre END")
-    return "CPA Graphic INTRA TRIMESTRE UE OK; files created: " + output_cpa_trim
-
-
-def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod_code_file):
-    logger.info("createOutputGraphExtraUE START")
-    logger.info("Reading from " + input_path)
-
-    listDataframes = []
-    for f in os.listdir(input_path):
-        if f.endswith(params.DATA_EXTENTION):
-            appo = pd.read_csv(
-                input_path + os.sep + f,
-                sep=params.SEP,
-                low_memory=False,
-                keep_default_na=False,
-                na_values=[""],
-            )
-            listDataframes.append(appo)
-
-    df = pd.concat(listDataframes, axis=0)
-    # df=df[df["PRODUCT_NSTR"]!="TOT"]
-    df = df[df["DECLARANT_ISO"] != "EU"]
-    df = df[df["PARTNER_ISO"] != "EU"]
-    df = df[
-        [
-            "PRODUCT_NSTR",
-            "DECLARANT_ISO",
-            "PARTNER_ISO",
-            "PERIOD",
-            "TRANSPORT_MODE",
-            "FLOW",
-            "VALUE_IN_EUROS",
-            "QUANTITY_IN_KG",
-        ]
-    ]
-
-    df.to_csv(output_tr_extra_ue_file, sep=",", index=False)
-
-    pd.DataFrame({"PRODUCT": df["PRODUCT_NSTR"].astype(str).unique()}).to_csv(
-        output_tr_prod_code_file, sep=",", index=False
-    )
-
-    logger.info("tr_extra_ue file: " + output_tr_extra_ue_file)
-    logger.info("createOutputGraph END ")
-
-    return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_file
-
-
-def createOutputGraphExtraUE_Trim(input_path, output_tr_extra_ue_trim):
-    logger.info("createOutputGraphExtraUE TRIM START")
-    logger.info("Reading from " + input_path)
-
-    listDataframes = []
-
-    for f in os.listdir(input_path):
-        if f.endswith(params.DATA_EXTENTION):
-            appo = pd.read_csv(
-                input_path + os.sep + f,
-                sep=params.SEP,
-                low_memory=False,
-                keep_default_na=False,
-                na_values=[""],
-            )
-            listDataframes.append(appo)
-
-    df = pd.concat(listDataframes, axis=0)
-    # df=df[df["PRODUCT_NSTR"]!="TOT"]
-    df = df[df["DECLARANT_ISO"] != "EU"]
-    df = df[df["PARTNER_ISO"] != "EU"]
-    df = df[
-        [
-            "PRODUCT_NSTR",
-            "DECLARANT_ISO",
-            "PARTNER_ISO",
-            "PERIOD",
-            "TRANSPORT_MODE",
-            "FLOW",
-            "VALUE_IN_EUROS",
-            "QUANTITY_IN_KG",
-        ]
-    ]
-
-    df["TRIMESTRE"] = df["PERIOD"]
-    df["TRIMESTRE"] = df["TRIMESTRE"].apply(
-        lambda x: str(x)[0:4] + "T1"
-        if str(x)[4:6] in ["01", "02", "03"]
-        else str(x)[0:4] + "T2"
-        if str(x)[4:6] in ["04", "05", "06"]
-        else str(x)[0:4] + "T3"
-        if str(x)[4:6] in ["07", "08", "09"]
-        else str(x)[0:4] + "T4"
-        if str(x)[4:6] in ["10", "11", "12"]
-        else x
-    )
-
-    df_trim = (
-        df.groupby(
-            [
-                "PRODUCT_NSTR",
-                "DECLARANT_ISO",
-                "PARTNER_ISO",
-                "TRIMESTRE",
-                "TRANSPORT_MODE",
-                "FLOW",
-            ]
-        )[["VALUE_IN_EUROS", "QUANTITY_IN_KG"]]
-        .sum()
-        .reset_index()
-    )
-
-    df_trim.to_csv(output_tr_extra_ue_trim, sep=",", index=False)
-    logger.info("tr_extra_ue TRIMESTRALI file: " + output_tr_extra_ue_trim)
-    logger.info("createOutputGraph TRIM END ")
-    return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_trim
-
-
-def createClsNOTEmptyProducts(digit, cls, filename, filterValue, fileExistingProducts):
-    logger.info("createCls START")
-
-    cls_products_cpa = pd.read_csv(
-        cls,
-        sep="\t",
-        low_memory=True,
-        names=["id", "descr"],
-        keep_default_na=False,
-        na_values=[""],
-    )
-    logger.info("cls_products: " + cls)
-
-    cls_products_cpa = cls_products_cpa[
-        (cls_products_cpa["id"].str.len() == digit)
-        & (cls_products_cpa["id"].str.isnumeric())
-        & (
-            pd.to_numeric(cls_products_cpa["id"].str.slice(stop=2), errors="coerce")
-            .fillna(999)
-            .astype(int)
-            < filterValue
-        )
-    ]
-    if fileExistingProducts:
-        products = pd.read_csv(
-            fileExistingProducts, sep=",", low_memory=True, dtype={"PRODUCT": str}
-        )
-        cls_products_cpa = pd.merge(
-            cls_products_cpa, products, left_on="id", right_on="PRODUCT"
-        )
-        cls_products_cpa = cls_products_cpa[["id", "descr"]]
-
-    if digit == 2:
-        # cls_products_cpa.insert(0,{"id":"00","descr":"All Products" })
-        cls_products_cpa = pd.concat(
-            [
-                pd.DataFrame({"id": "00", "descr": "All Products"}, index=[0]),
-                cls_products_cpa,
-            ]
-        ).reset_index(drop=True)
-        cls_products_cpa = pd.concat(
-            [
-                pd.DataFrame({"id": "061", "descr": "Crude petroleum"}, index=[0]),
-                cls_products_cpa,
-            ]
-        ).reset_index(drop=True)
-        cls_products_cpa = pd.concat(
-            [
-                pd.DataFrame(
-                    {
-                        "id": "062",
-                        "descr": "Natural gas, liquefied or in gaseous state",
-                    },
-                    index=[0],
-                ),
-                cls_products_cpa,
-            ]
-        ).reset_index(drop=True)
-        cls_products_cpa = cls_products_cpa.sort_values("id")
-        cls_products_cpa = cls_products_cpa.reset_index(drop=True)
-
-    if digit == 3:
-        # cls_products_cpa.append({"id":"TOT","descr":"All Products" })
-        cls_products_cpa = pd.concat(
-            [
-                cls_products_cpa,
-                pd.DataFrame({"id": "TOT", "descr": "All Products"}, index=[0]),
-            ]
-        ).reset_index(drop=True)
-
-    CPA2_JSON_FILE = params.DATA_FOLDER + os.sep + "clsProducts" + filename + ".json"
-
-    cls_products_cpa.to_json(
-        CPA2_JSON_FILE, orient="records", default_handler=None, lines=False, indent=1
-    )
-    logger.info("cls_products created: " + CPA2_JSON_FILE)
-    return "cls_products created: " + CPA2_JSON_FILE
-
-
-def createClsNOTEmptyProductsLang(
-    digit, langs, clsfiles, filename, filterValue, fileExistingProducts
-):
-    logger.info("createCls START")
-    cls_products_cpa_langs = pd.DataFrame()
-    for i in range(len(langs)):
-        lang = langs[i]
-        clsfile = clsfiles[i]
-        cls_products_cpa = pd.read_csv(
-            clsfile,
-            sep="\t",
-            low_memory=True,
-            names=["id", "descr"],
-            keep_default_na=False,
-            na_values=[""],
-            dtype={"id": str},
-        )
-        cls_products_cpa["lang"] = lang
-        logger.info("cls_products: " + clsfile)
-
-        cls_products_cpa = cls_products_cpa[
-            (cls_products_cpa["id"].str.len() == digit)
-            & (cls_products_cpa["id"].str.isnumeric())
-            & (
-                pd.to_numeric(cls_products_cpa["id"].str.slice(stop=2), errors="coerce")
-                .fillna(999)
-                .astype(int)
-                < filterValue
-            )
-        ]
-        if fileExistingProducts:
-            products = pd.read_csv(
-                fileExistingProducts, sep=",", low_memory=True, dtype={"PRODUCT": str}
-            )
-            cls_products_cpa = pd.merge(
-                cls_products_cpa, products, left_on="id", right_on="PRODUCT"
-            )
-            cls_products_cpa = cls_products_cpa[["id", "descr", "lang"]]
-
-        if digit == 2:
-            # cls_products_cpa.insert(0,{"id":"00","descr":"All Products" })
-            if lang == "it":
-                cls_products_cpa = pd.concat(
-                    [
-                        pd.DataFrame(
-                            {"id": "00", "descr": "Tutti i prodotti", "lang": "it"},
-                            index=[0],
-                        ),
-                        cls_products_cpa,
-                    ]
-                ).reset_index(drop=True)
-                cls_products_cpa = pd.concat(
-                    [
-                        pd.DataFrame(
-                            {"id": "061", "descr": "Petrolio greggio", "lang": "it"},
-                            index=[0],
-                        ),
-                        cls_products_cpa,
-                    ]
-                ).reset_index(drop=True)
-                cls_products_cpa = pd.concat(
-                    [
-                        pd.DataFrame(
-                            {
-                                "id": "062",
-                                "descr": "Gas naturale, liquefatto o allo stato gassoso",
-                                "lang": "it",
-                            },
-                            index=[0],
-                        ),
-                        cls_products_cpa,
-                    ]
-                ).reset_index(drop=True)
-            else:
-                cls_products_cpa = pd.concat(
-                    [
-                        pd.DataFrame(
-                            {"id": "00", "descr": "All Products", "lang": "en"},
-                            index=[0],
-                        ),
-                        cls_products_cpa,
-                    ]
-                ).reset_index(drop=True)
-                cls_products_cpa = pd.concat(
-                    [
-                        pd.DataFrame(
-                            {"id": "061", "descr": "Crude petroleum", "lang": "en"},
-                            index=[0],
-                        ),
-                        cls_products_cpa,
-                    ]
-                ).reset_index(drop=True)
-                cls_products_cpa = pd.concat(
-                    [
-                        pd.DataFrame(
-                            {
-                                "id": "062",
-                                "descr": "Natural gas, liquefied or in gaseous state",
-                                "lang": "en",
-                            },
-                            index=[0],
-                        ),
-                        cls_products_cpa,
-                    ]
-                ).reset_index(drop=True)
-            cls_products_cpa = cls_products_cpa.sort_values("id")
-            cls_products_cpa = cls_products_cpa.reset_index(drop=True)
-
-        if digit == 3:
-            if lang == "it":
-                cls_products_cpa = pd.concat(
-                    [
-                        cls_products_cpa,
-                        pd.DataFrame(
-                            {"id": "TOT", "descr": "Tutti i prodotti", "lang": "it"},
-                            index=[0],
-                        ),
-                    ]
-                ).reset_index(drop=True)
-            else:
-                # cls_products_cpa.append({"id":"TOT","descr":"All Products" })
-                cls_products_cpa = pd.concat(
-                    [
-                        cls_products_cpa,
-                        pd.DataFrame(
-                            {"id": "TOT", "descr": "All Products", "lang": "en"},
-                            index=[0],
-                        ),
-                    ]
-                ).reset_index(drop=True)
-        cls_products_cpa_langs = pd.concat(
-            [cls_products_cpa_langs, cls_products_cpa], axis=0
-        ).reset_index(drop=True)
-
-    temp = params.DIRECTORIES["CLASSIFICATION"] + os.sep + "clsProducts" + filename + ".json"
-    cls_products_cpa_langs.to_json(
-        temp, orient="records", default_handler=None, lines=False, indent=1
-    )
-    logger.info("cls_products created: " + temp)
-    return "cls_products created: " + temp
-
-
-def copyFileToAzure(storage, folder, path_file_source):
-    logger.info("copyFileToAzure START:" + os.path.basename(path_file_source))
-
-    storage_account_key = os.getenv("STORAGE_ACCOUNT_KEY", "")
-    if storage_account_key == "":
-        kvclient = SecretClient(
-            vault_url=f"https://{params.KEY_VAULT_NAME}.vault.azure.net",
-            credential=DefaultAzureCredential(),
-        )
-        storage_account_key = kvclient.get_secret(params.SECRETNAME_ACCOUNTKEY).value
-
-    fileService = FileService(
-        account_name=os.environ["STORAGE_ACCOUNT_NAME"], account_key=storage_account_key
-    )
-    fileService.create_file_from_path(
-        storage, folder, os.path.basename(path_file_source), path_file_source
-    )
-    logger.info("copyFileToAzure END: " + os.path.basename(path_file_source))
-    return "copyFileToAzure END: " + os.path.basename(path_file_source)
-
-
-def exportOutputs():
-    logger.info("exportOutputs START")
-
-    # LOCAL FOLDER
-    OUTPUT_CLASS_FOLDER = params.DIRECTORIES["CLASSIFICATION"] + os.sep
-
-    # JSON-SERVER
-    copyFileToAzure("istat-cosmo-data-json", "general", params.FILES["GENERAL_INFO"])
-    copyFileToAzure("istat-cosmo-data-json", "map", params.FILES["IEINFO"])
-    copyFileToAzure("istat-cosmo-data-json", "map", params.FILES["IMPORT_SERIES_JSON"])
-    copyFileToAzure("istat-cosmo-data-json", "map", params.FILES["EXPORT_SERIES_JSON"])
-
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_QUANTITY_JSON"])
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_QUANTITY_JSON"])
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_VALUE_JSON"])
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_VALUE_JSON"])
-
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_QUOTE_QUANTITY_JSON"])
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_QUOTE_QUANTITY_JSON"])
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_QUOTE_VALUE_JSON"])
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_QUOTE_VALUE_JSON"])
-
-    copyFileToAzure("istat-cosmo-data-json", "classification", OUTPUT_CLASS_FOLDER + "clsProductsCPA.json")
-    copyFileToAzure("istat-cosmo-data-json","classification",OUTPUT_CLASS_FOLDER + "clsProductsGraphExtraNSTR.json",)
-    copyFileToAzure("istat-cosmo-data-json","classification",OUTPUT_CLASS_FOLDER + "clsProductsGraphIntra.json",)
-
-    # R-SERVER
-    copyFileToAzure("istat-cosmo-data-r", None, params.FILES["COMEXT_IMP_CSV"])
-    copyFileToAzure("istat-cosmo-data-r", None, params.FILES["COMEXT_EXP_CSV"])
-
-    # Python-SERVER
-    copyFileToAzure("istat-cosmo-data-python", None, params.FILES["CPA_INTRA_CSV"])
-    copyFileToAzure("istat-cosmo-data-python", None, params.FILES["CPA_TRIM_CSV"])
-    copyFileToAzure("istat-cosmo-data-python", None, params.FILES["TR_EXTRA_UE_CSV"])
-    copyFileToAzure("istat-cosmo-data-python", None, params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"])
-
-    logger.info("exportOutputs END")
-    return "exportOutputs END"
-
-
-def createAndSendBackupFiles():
-    logger.info("createAndSendBackupFiles START")
-
-    OUTPUT_ROOT_FOLDER = params.DATA_FOLDER + os.sep
-    OUTPUT_CLASS_FOLDER = params.DIRECTORIES["CLASSIFICATION"] + os.sep
-
-    listFiles = [
-        params.FILES["GENERAL_INFO"],
-        params.FILES["IEINFO"],
-        params.FILES["IMPORT_SERIES_JSON"],
-        params.FILES["EXPORT_SERIES_JSON"],
-        params.FILES["IMPORT_QUANTITY_JSON"],
-        params.FILES["EXPORT_QUANTITY_JSON"],
-        params.FILES["IMPORT_VALUE_JSON"],
-        params.FILES["EXPORT_VALUE_JSON"],
-        params.FILES["IMPORT_QUOTE_QUANTITY_JSON"],
-        params.FILES["EXPORT_QUOTE_QUANTITY_JSON"],
-        params.FILES["IMPORT_QUOTE_VALUE_JSON"],
-        params.FILES["EXPORT_QUOTE_VALUE_JSON"],
-        OUTPUT_CLASS_FOLDER + "clsProductsCPA.json",
-        OUTPUT_CLASS_FOLDER + "clsProductsGraphExtraNSTR.json",
-        OUTPUT_CLASS_FOLDER + "clsProductsGraphIntra.json",
-        params.FILES["COMEXT_IMP_CSV"],
-        params.FILES["COMEXT_EXP_CSV"],
-        params.FILES["CPA_INTRA_CSV"],
-        params.FILES["CPA_TRIM_CSV"],
-        params.FILES["TR_EXTRA_UE_CSV"],
-        params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"],
-    ]
-
-    fileZip = (
-        OUTPUT_ROOT_FOLDER + "backup_" + str(params.this_year) + str(params.this_month) + ".zip"
-    )
-    print(fileZip)
-    with zipfile.ZipFile(fileZip, "w", zipfile.ZIP_DEFLATED) as zipObj:
-        # Iterate over all the files in list
-        for filename in listFiles:
-            zipObj.write(filename)
-
-    copyFileToAzure("istat-cosmo-data-backup", "files", fileZip)
-
-    logger.info("createAndSendBackupFiles END")
-    return "createAndSendBackupFiles END"
-
-# [MICROSERVICES] START AND STOP MICROSERVICES
-def refreshMicroservicesDATA():
-    logger.info("refreshMicroservices DATA START")
-    resultRefresh = ""
-    try:
-        contents = urllib.request.urlopen(
-            params.URL_RDATA_SERVER + "/load-comext", timeout=300
-        ).read()
-        resultRefresh += "Refresh DATA R-SERVER OK<br/>\n"
-        contents = urllib.request.urlopen(
-            params.URL_JSONDATA_SERVER + "/stop", timeout=300
-        ).read()
-        resultRefresh += "Refresh DATA JSON-SERVER OK<br/>\n"
-        contents = urllib.request.urlopen(
-            params.URL_PYTHONDATA_SERVER + "/refreshdata", timeout=500
-        ).read()
-        resultRefresh += "Refresh DATA PYTHON-SERVER OK<br/>\n"
-        time.sleep(30)
-    except BaseException as e:
-        resultRefresh += "ERRROR Refresh " + str(e)
-    return resultRefresh
-
-
-def checkUPMicroservices():
-    logger.info("checkUPMicroservices START")
-    resultCall = ""
-    try:
-        call = urllib.request.urlopen(params.URL_RDATA_SERVER + "/hello", timeout=30).read()
-        logger.info(str(call))
-        resultCall += " Check UP R-SERVER OK<br/>\n"
-        call = urllib.request.urlopen(params.URL_JSONDATA_SERVER + "/hello", timeout=30).read()
-        logger.info(str(call))
-        resultCall += " Check UP JSON-SERVER OK<br/>\n"
-        call = urllib.request.urlopen(
-            params.URL_PYTHONDATA_SERVER + "/hello", timeout=30
-        ).read()
-        logger.info(str(call))
-        resultCall += " Check UP PYTHON-SERVER OK<br/>\n"
-    except BaseException as e:
-        resultCall += " ERRROR Refresh: " + str(e) + "<br/>\n"
-        logger.info(" ERRROR Refresh: " + str(e) + "<br/>\n")
-
-    logger.info("checkUPMicroservices END")
-
-    return resultCall
-
-
-def sendEmailRepo(report_text):
-    logger.info("sendEmailRepo START")
-    url_Email_service = params.MAIL_SETTINGS["SERVER"]
-    body_msg = {
-        "to": params.MAIL_SETTINGS["TO"],
-        "subject": params.MAIL_SETTINGS["SUBJECT"],
-        "body": report_text,
-    }
-
-    req = urllib.request.Request(url_Email_service, method="POST")
-    req.add_header("Content-Type", "application/json")
-
-    data = json.dumps(body_msg)
-    data = data.encode()
-    r = urllib.request.urlopen(req, data=data)
-    logger.info("sendEmailRepo END")
-
-    return "sendEmailRepo END"
-
-
-def deleteFolder(folder):
-    logger.info("deleteFolder ... " + folder)
-    shutil.rmtree(folder, ignore_errors=True)
-    return "Folder removed: " + folder + "<br/>\n"
-
-
-def getPassedTime(initial_time):
-    return str(datetime.datetime.now() - initial_time)
-
-
 def executeUpdate():
     error = False
     logger.info("executeUpdate ")
@@ -2102,235 +44,261 @@ def executeUpdate():
         repo += "<!-- 0 --><br/>\n"
 
         # CREA SISTEMA DI CARTELLE
-        repo += createFolderStructure(params.DIRECTORIES)
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += cUtil.createFolderStructure(params.DIRECTORIES)
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
         # CREA FILE GENERAL INFO
-        repo += createGeneralInfoOutput(
+        repo += cOut.createGeneralInfoOutput(
             file = params.FILES["GENERAL_INFO"]
         )
         repo += "<!-- 1 --><br/>\n"
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
         # DOWNLOAD ANNUALE DEI DATI DI PRODOTTO
-        repo += downloadAndExtractComextAnnualDATAParallel(
+        repo += cDownl.downloadAndExtractComextAnnualDATAParallel(
             url = params.URLS["COMEXT_PRODUCTS"],
             prefix = params.PREFIX_PRODUCT,
             zip_folder = params.DIRECTORIES["PRODUCT_ANNUAL_ZIP"],
             data_folder = params.DIRECTORIES["PRODUCT_ANNUAL_FILE"],
+            logger = logger
         )
         repo += "<!-- 2 --><br/>\n"
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
         # DOWNLOAD MENSILE DEI DATI DI PRODOTTO
-        repo += downloadAndExtractComextMonthlyDATAParallel(
+        repo += cDownl.downloadAndExtractComextMonthlyDATAParallel(
             url_download = params.URLS["COMEXT_PRODUCTS"],
             prefix_file = params.PREFIX_PRODUCT,
             zip_folder = params.DIRECTORIES["PRODUCT_MONTHLY_ZIP"],
             file_folder = params.DIRECTORIES["PRODUCT_MONTHLY_FILE"],
             start_data = params.start_data_PAGE_TIME_SERIES,
-            end_data = params.end_data_load
+            end_data = params.end_data_load,
+            logger = logger
         )
         repo += "<!-- 3 --><br/>\n"
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
         # DOWNLOAD MENSILE DEI DATI DI TRASPORTO
-        repo += downloadAndExtractComextMonthlyDATAParallel(
+        repo += cDownl.downloadAndExtractComextMonthlyDATAParallel(
             url_download = params.URLS["COMEXT_TR"],
             prefix_file = params.PREFIX_TRANSPORT,
             zip_folder = params.DIRECTORIES["TRANSPORT_MONTHLY_ZIP"],
             file_folder = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
             start_data = params.start_data_PAGE_GRAPH_EXTRA_UE,
             end_data = params.end_data_load,
+            logger = logger
         )
         repo += "<!-- 4 --><br/>\n"
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
         
         # DOWNLOAD FILE CLASSI DI PRODOTTO
-        repo += downloadfile(
+        repo += cDownl.downloadfile(
             url = params.URLS["CLS_PRODUCTS"],
-            file = params.FILES["CLS_PRODUCT_DAT"]
+            file = params.FILES["CLS_PRODUCT_DAT"],
+            logger = logger
         )
         repo += "<!-- 5 --><br/>\n"
 
         # DOWNLOAD FILE CLASSI CPA
-        repo += downloadfile(
+        repo += cDownl.downloadfile(
             url = params.URLS["CLS_CPA"],
-            file = params.FILES["CLS_CPA"]
+            file = params.FILES["CLS_CPA"],
+            logger = logger
         )
         repo += "<!-- 6 --><br/>\n"
 
         # DOWNLOAD FILE CLASSI CPA 3-DIGIT ITA
-        repo += downloadfile(
+        repo += cDownl.downloadfile(
             url = params.URLS["CLS_CPA_3D_ITA"],
-            file = params.FILES["CLS_CPA_3D_ITA"]
+            file = params.FILES["CLS_CPA_3D_ITA"],
+            logger = logger
         )
         repo += "<!-- 6.1 --><br/>\n"
 
         # DOWNLOAD FILE CLASSI CPA 2-DIGIT ITA
-        repo += downloadfile(
+        repo += cDownl.downloadfile(
             url = params.URLS["CLS_CPA_2D_ITA"],
-            file = params.FILES["CLS_CPA_2D_ITA"]
+            file = params.FILES["CLS_CPA_2D_ITA"],
+            logger = logger
         )
         repo += "<!-- 6.2 --><br/>\n"
 
         # DOWNLOAD FILE CLASSI NSTR
-        repo += downloadfile(
+        repo += cDownl.downloadfile(
             url = params.URLS["CLS_NSTR"],
-            file = params.FILES["CLS_NSTR"]
+            file = params.FILES["CLS_NSTR"],
+            logger = logger
         )
         repo += "<!-- 7 --><br/>\n"
 
         # DOWNLOAD FILE CLASSI DI NSTR ITA
-        repo += downloadfile(
+        repo += cDownl.downloadfile(
             url = params.URLS["CLS_NSTR_ITA"],
-            file = params.FILES["CLS_NSTR_ITA"]
+            file = params.FILES["CLS_NSTR_ITA"],
+            logger = logger
         )
         repo += "<!-- 7.1a --><br/>\n"
 
         #[MAP] DOWNLOAD FILE ANNUAL POPULATION
-        repo += downloadfile(
+        repo += cDownl.downloadfile(
             url = params.URLS["ANNUAL_POPULATION"],
-            file = params.FILES["ANNUAL_POPULATION_CSV"]
+            file = params.FILES["ANNUAL_POPULATION_CSV"],
+            logger = logger
         )
         repo += "<!-- 7.1 --><br/>\n"
 
         #[MAP] DOWNLOAD FILE ANNUAL INDUSTRIAL PRODUCTION
-        repo += downloadfile(
+        repo += cDownl.downloadfile(
             url = params.URLS["ANNUAL_INDUSTRIAL_PRODUCTION"],
-            file = params.FILES["ANNUAL_INDUSTRIAL_PRODUCTION_CSV"]
+            file = params.FILES["ANNUAL_INDUSTRIAL_PRODUCTION_CSV"],
+            logger = logger
         )
         repo += "<!-- 7.2 --><br/>\n"
 
         #[MAP] DOWNLOAD FILE ANNUAL EMPLOYMENT
-        repo += downloadfile(
+        repo += cDownl.downloadfile(
             url = params.URLS["ANNUAL_UNEMPLOYEMENT"],
-            file = params.FILES["ANNUAL_UNEMPLOYEMENT_CSV"]
+            file = params.FILES["ANNUAL_UNEMPLOYEMENT_CSV"],
+            logger = logger
         )
         repo += "<!-- 7.3 --><br/>\n"
         #[MAP] CREAZIONE FILE PER LA MAPPA INTERATTIVA (IEINFO)
-        repo += annualProcessing(
+        repo += cOut.annualProcessing(
             annual_data_input_path = params.DIRECTORIES["PRODUCT_ANNUAL_FILE"],
             cls_product_data = params.FILES["CLS_PRODUCT_DAT"],
             annual_pop_data = params.FILES["ANNUAL_POPULATION_CSV"],
             annual_ind_prod_data = params.FILES["ANNUAL_INDUSTRIAL_PRODUCTION_CSV"],
             annual_unemp_data = params.FILES["ANNUAL_UNEMPLOYEMENT_CSV"],
-            output_file = params.FILES["IEINFO"]
+            output_file = params.FILES["IEINFO"],
+            logger = logger
         )
         repo += "<!-- 8 --><br/>\n"
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
         #[DB] CREAZIONE DB CON TABELLE
-        repo += createMonthlyFULLtable(
+        repo += cProc.createMonthlyFULLtable(
             db = params.FILES["SQLLITE_DB"],
-            path_to_scan = params.DIRECTORIES["PRODUCT_MONTHLY_FILE"]
+            path_to_scan = params.DIRECTORIES["PRODUCT_MONTHLY_FILE"],
+            logger = logger
         )
         repo += "<!-- 9 --><br/>\n"
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
        
         #[DB] CREAZIONE TABELLE PER SERIE MAPPA
-        repo += monthlyProcessing(
-            db = params.FILES["SQLLITE_DB"]
+        repo += cProc.monthlyProcessing(
+            db = params.FILES["SQLLITE_DB"],
+            logger = logger
         )
         repo += "<!-- 10 --><br/>\n"
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
         # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT
-        repo += createMonthlyOutputTimeSeries(
+        repo += cOut.createMonthlyOutputTimeSeries(
             db = params.FILES["SQLLITE_DB"],
             import_ts = params.FILES["IMPORT_SERIES_JSON"],
-            export_ts = params.FILES["EXPORT_SERIES_JSON"]
+            export_ts = params.FILES["EXPORT_SERIES_JSON"],
+            logger = logger
         )
 
         repo += "<!-- 11 --><br/>\n"
 
         # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT VALUE
-        repo += createMonthlyOutputVQSTradeValue(
+        repo += cOut.createMonthlyOutputVQSTradeValue(
             db = params.FILES["SQLLITE_DB"],
             import_value = params.FILES["IMPORT_VALUE_JSON"],
             export_value = params.FILES["EXPORT_VALUE_JSON"],
             cls_product_data = params.FILES["CLS_CPA"],
-            cls_product_2d_data = params.FILES["CLS_CPA_2D_ITA"]
+            cls_product_2d_data = params.FILES["CLS_CPA_2D_ITA"],
+            logger = logger
         )
         repo += "<!-- 12 --><br/>\n"
 
         # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUANTITY
-        repo += createMonthlyOutputVQSTradeQuantity(
+        repo += cOut.createMonthlyOutputVQSTradeQuantity(
             db = params.FILES["SQLLITE_DB"],
             import_qty = params.FILES["IMPORT_QUANTITY_JSON"],
             export_qty = params.FILES["EXPORT_QUANTITY_JSON"],
             cls_product_data = params.FILES["CLS_CPA"],
-            cls_product_2d_data = params.FILES["CLS_CPA_2D_ITA"]
+            cls_product_2d_data = params.FILES["CLS_CPA_2D_ITA"],
+            logger = logger
         )
 
         repo += "<!-- 12.1 --><br/>\n"
         ## NON USATO
-        #repo+=createMonthlyOutputQuoteSTrade(
+        #repo+=cOut.createMonthlyOutputQuoteSTrade(
         #    db = params.FILES["SQLLITE_DB"],
-        #    quote_trade = params.FILES["QUOTE_TRADE_JSON"]
+        #    quote_trade = params.FILES["QUOTE_TRADE_JSON"],
+        #    logger = logger
         #)
 
         # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUOTE VALUE
-        repo += createMonthlyOutputQuoteSTradeValue(
+        repo += cOut.createMonthlyOutputQuoteSTradeValue(
             db = params.FILES["SQLLITE_DB"],
             import_quote_value = params.FILES["IMPORT_QUOTE_VALUE_JSON"],
             export_quote_value = params.FILES["EXPORT_QUOTE_VALUE_JSON"],
             cls_product_data = params.FILES["CLS_CPA"],
-            cls_product_2d_data = params.FILES["CLS_CPA_2D_ITA"]
+            cls_product_2d_data = params.FILES["CLS_CPA_2D_ITA"],
+            logger = logger
         )
         repo += "<!-- 12.2 --><br/>\n"
 
         # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUATE QUANTITY
-        repo += createMonthlyOutputQuoteSTradeQuantity(
+        repo += cOut.createMonthlyOutputQuoteSTradeQuantity(
             db = params.FILES["SQLLITE_DB"],
             import_quote_qty = params.FILES["IMPORT_QUOTE_QUANTITY_JSON"],
             export_quote_qty = params.FILES["EXPORT_QUOTE_QUANTITY_JSON"],
             cls_product_data = params.FILES["CLS_CPA"],
-            cls_product_2d_data = params.FILES["CLS_CPA_2D_ITA"]
+            cls_product_2d_data = params.FILES["CLS_CPA_2D_ITA"],
+            logger = logger
         )
         repo += "<!-- 13 --><br/>\n"
 
         # CREAZIONE FILE CPA INTRA E CPA PRODUCT CODE
-        repo += createOutputGraphCPAIntraUE(
+        repo += cOut.createOutputGraphCPAIntraUE(
             db = params.FILES["SQLLITE_DB"],
             cpa_intra = params.FILES["CPA_INTRA_CSV"],
-            cpa3_prod_code = params.FILES["CPA3_PRODUCT_CODE_CSV"]
+            cpa3_prod_code = params.FILES["CPA3_PRODUCT_CODE_CSV"],
+            logger = logger
         )
         repo += "<!-- 14 --><br/>\n"
 
         # CREAZIONE FILE TR EXTRA UE E TR PRODUCT CODE
-        repo += createOutputGraphExtraUE(
+        repo += cOut.createOutputGraphExtraUE(
             input_path = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
             output_tr_extra_ue_file = params.FILES["TR_EXTRA_UE_CSV"],
-            output_tr_prod_code_file = params.FILES["TR_PRODUCT_CODE_CSV"]
+            output_tr_prod_code_file = params.FILES["TR_PRODUCT_CODE_CSV"],
+            logger = logger
         )
         repo += "<!-- 15 --><br/>\n"
 
         # CREAZIONE FILE CPA TRIM
-        repo += createOutputGraphicTrimestre(
+        repo += cOut.createOutputGraphicTrimestre(
             db = params.FILES["SQLLITE_DB"],
-            output_cpa_trim = params.FILES["CPA_TRIM_CSV"]
+            output_cpa_trim = params.FILES["CPA_TRIM_CSV"],
+            logger = logger
         )
         repo += "<!-- 16 --><br/>\n"
 
         # CREAZIONE FILE TR EXTRA UE TRIM
-        repo += createOutputGraphExtraUE_Trim(
+        repo += cOut.createOutputGraphExtraUE_Trim(
             input_path = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
-            output_tr_extra_ue_trim = params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"]
+            output_tr_extra_ue_trim = params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"],
+            logger = logger
         )
         repo += "<!-- 17 --><br/>\n"
 
         # CREAZIONE FILE COMEX IMP/EXP E CPA2 PRODUCT CODE
-        repo += createOutputVariazioniQuoteCPA(
+        repo += cOut.createOutputVariazioniQuoteCPA(
             db = params.FILES["SQLLITE_DB"],
             comext_imp = params.FILES["COMEXT_IMP_CSV"],
             comext_exp = params.FILES["COMEXT_EXP_CSV"],
-            cpa2_prod_code =  params.FILES["CPA2_PRODUCT_CODE_CSV"]
+            cpa2_prod_code =  params.FILES["CPA2_PRODUCT_CODE_CSV"],
+            logger = logger
         )
         repo += "<!-- 18 --><br/>\n"
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
-
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
+        
         # CREAZIONE FILE CPA CON PULIZIA
-        repo += createClsNOTEmptyProductsLang(
+        repo += cOut.createClsNOTEmptyProductsLang(
             digit = 2,
             langs = params.SUPPORTED_LANGUAGES,
             clsfiles = [
@@ -2339,12 +307,13 @@ def executeUpdate():
                 ],
             filename = "CPA",
             filterValue = 37,
-            fileExistingProducts = params.FILES["CPA2_PRODUCT_CODE_CSV"]
+            fileExistingProducts = params.FILES["CPA2_PRODUCT_CODE_CSV"],
+            logger = logger
         )
         repo += "<!-- 19 --><br/>\n"
 
         # CREAZIONE FILE GRAPH INTRA CON PULIZIA
-        repo += createClsNOTEmptyProductsLang(
+        repo += cOut.createClsNOTEmptyProductsLang(
             digit = 3,
             langs = params.SUPPORTED_LANGUAGES,
             clsfiles = [
@@ -2353,12 +322,13 @@ def executeUpdate():
                 ],
             filename = "GraphIntra",
             filterValue = 37,
-            fileExistingProducts = params.FILES["CPA3_PRODUCT_CODE_CSV"]
+            fileExistingProducts = params.FILES["CPA3_PRODUCT_CODE_CSV"],
+            logger = logger
         )
         repo += "<!-- 20 --><br/>\n"
 
         # CREAZIONE FILE GRAPH EXTRA CON PULIZIA
-        repo += createClsNOTEmptyProductsLang(
+        repo += cOut.createClsNOTEmptyProductsLang(
             digit = 3,
             langs = params.SUPPORTED_LANGUAGES,
             clsfiles = [
@@ -2367,28 +337,29 @@ def executeUpdate():
                 ],
             filename = "GraphExtraNSTR",
             filterValue = 999999,
-            fileExistingProducts = params.FILES["TR_PRODUCT_CODE_CSV"]
+            fileExistingProducts = params.FILES["TR_PRODUCT_CODE_CSV"],
+            logger = logger
         )
 
         repo += "<!-- 21 --><br/>\n"
-        repo += exportOutputs()
+        repo += cUtil.exportOutputs(logger)
         repo += "<!-- 22 --><br/>\n"
 
-        repo += createAndSendBackupFiles()
+        repo += cUtil.createAndSendBackupFiles(logger)
         repo += "<!-- 22.1 --><br/>\n"
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
-        repo += deleteFolder(params.DATA_FOLDER)
+        repo += cUtil.deleteFolder(params.DATA_FOLDER , logger)
         repo += "<!-- 23 --><br/>\n"
 
-        repo += refreshMicroservicesDATA()
+        repo += cUtil.refreshMicroservicesDATA(logger)
         repo += "<!-- 24 --><br/>\n"
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
-        repo += checkUPMicroservices()
+        repo += cUtil.checkUPMicroservices(logger)
         repo += "<!-- 25 --><br/>\n"
 
-        repo += "time: " + getPassedTime(start_time) + "<br/>\n"
+        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
     except BaseException as e:
         repo += "ERROR UPDATE  " + str(e)
@@ -2403,7 +374,7 @@ def executeUpdate():
         repo += "<br/>\n"
         repo += "TOTAL time: " + str(total_time) + "<br/>\n"
         repo += "<br/>\n"
-        repo += sendEmailRepo(repo)
+        repo += cUtil.sendEmailRepo(repo , logger)
         repo += "<br/>\n"
         logger.info("[cosmoUpdateData]: " + repo)
 
