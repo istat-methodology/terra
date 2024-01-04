@@ -2,13 +2,27 @@ import os
 import datetime
 from dateutil.relativedelta import relativedelta
 
-# SET TIME INTERVAL (IN MONTHS)
-time_interval_m = 1
-offset_m = 15
+WORKING_FOLDER=os.environ['WORKING_FOLDER']
+#WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
-#WORKING_FOLDER=os.environ['WORKING_FOLDER']
-WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
-PREFIX_FULL = "full"
+KEY_VAULT_NAME = "statlab-key-vault"
+SECRETNAME_ACCOUNTKEY = "cosmostoragekey"
+
+URL_JSONDATA_SERVER = "https://api.cosmo.statlab.it/cls"
+URL_RDATA_SERVER = "https://api.cosmo.statlab.it/time-series"
+URL_PYTHONDATA_SERVER = "https://api.cosmo.statlab.it/graph"
+
+MAIL_SETTINGS = {
+    "SERVER": "https://prod-190.westeurope.logic.azure.com:443/workflows/52cafc0d0f2d4dd08ee290a5d367f109/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PFatjXjc32cpXZqX-KFBkn0a7ZKgT1q5iR2hI07NR4w",
+    "TO" : "framato@istat.it",
+    "SUBJECT" : "Repo from cosmo update"
+}
+
+# SET TIME INTERVAL (IN MONTHS)
+TIME_INTERVAL_M = 1
+OFFSET_M = 15
+
+PREFIX_PRODUCT = "full"
 PREFIX_TRANSPORT = "tr"
 PREFIX_MAP = {
   "tr": "transport",
@@ -17,9 +31,8 @@ PREFIX_MAP = {
 
 FLOW_IMPORT = 1
 FLOW_EXPORT = 2
-
+COLS_CLS_PRODUCTS = 4
 SUPPORTED_LANGUAGES = ["it", "en"]
-
 DATA_EXTENTION = ".dat"
 SEP = ","
 
@@ -29,7 +42,6 @@ DATA_FOLDER_PARENT = (
 )
 
 processing_day = datetime.datetime.today()
-# processing_day = datetime.datetime.today() - relativedelta(months=1)
 this_year = processing_day.year
 this_month = "%02d" % processing_day.month
 annual_new_data = (
@@ -48,12 +60,12 @@ annual_previous_year = (
 
 start_data_load = (
     datetime.datetime.strptime(str(this_year) + "-" + str(this_month), "%Y-%m")
-    - relativedelta(months=offset_m)
-    - relativedelta(months=time_interval_m - 1)
+    - relativedelta(months=OFFSET_M)
+    - relativedelta(months=TIME_INTERVAL_M - 1)
 )
 end_data_load = datetime.datetime.strptime(
     str(this_year) + "-" + str(this_month), "%Y-%m"
-) - relativedelta(months=offset_m)
+) - relativedelta(months=OFFSET_M)
 
 ##### SET DATES FOR PAGES #####
 start_data_PAGE_MAP = start_data_load
@@ -90,18 +102,18 @@ URLS = {
 }
 
 DIRECTORIES = {
+    "ROOT" : DATA_FOLDER,
     "CLASSIFICATION" : DATA_FOLDER + os.sep + "classification",
-
     "UTILS" : DATA_FOLDER + os.sep + "utils",
 
-    "PRODUCT_ANNUAL_ZIP" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "zip",
-    "PRODUCT_ANNUAL_FILE" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "file",
-    "PRODUCT_ANNUAL_OUTPUT" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "annual" + os.sep + "output",
-
-    "PRODUCT_MONTHLY" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly",
-    "PRODUCT_MONTHLY_ZIP" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "zip",
-    "PRODUCT_MONTHLY_FILE" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "file",
-    "PRODUCT_MONTHLY_OUTPUT" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_FULL] + os.sep + "monthly" + os.sep + "output",
+    "PRODUCT" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_PRODUCT],
+    "PRODUCT_ANNUAL_ZIP" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_PRODUCT] + os.sep + "annual" + os.sep + "zip",
+    "PRODUCT_ANNUAL_FILE" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_PRODUCT] + os.sep + "annual" + os.sep + "file",
+    "PRODUCT_ANNUAL_OUTPUT" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_PRODUCT] + os.sep + "annual" + os.sep + "output",
+    "PRODUCT_MONTHLY" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_PRODUCT] + os.sep + "monthly",
+    "PRODUCT_MONTHLY_ZIP" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_PRODUCT] + os.sep + "monthly" + os.sep + "zip",
+    "PRODUCT_MONTHLY_FILE" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_PRODUCT] + os.sep + "monthly" + os.sep + "file",
+    "PRODUCT_MONTHLY_OUTPUT" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_PRODUCT] + os.sep + "monthly" + os.sep + "output",
 
     "TRANSPORT_MONTHLY_ZIP" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "zip",
     "TRANSPORT_MONTHLY_FILE" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "file",
@@ -110,8 +122,11 @@ DIRECTORIES = {
 
 FILENAMES = {
     "SQLLITE_DB" : "comext.db",
+
     "GENERAL_INFO": "metadata.json",
+
     "IEINFO" : "ieinfo.json",
+
     "IMPORT_SERIES_JSON" : "importseries.json",
     "EXPORT_SERIES_JSON" : "exportseries.json",
     "QUOTE_TRADE_JSON" : "quoteTrade.json",
@@ -138,15 +153,53 @@ FILENAMES = {
     "CLS_NSTR" : "NSTR.txt",
     "CLS_NSTR_ITA" : "NSTR_ITA.txt",
 
-    "ANNUAL_POPULATION" : "annual_population.csv",
-    "ANNUAL_INDUSTRIAL_PRODUCTION" : "annual_industrial_production.csv",
-    "ANNUAL_UNEMPLOYEMENT" : "annual_unemployment.csv",
-
     "TR_EXTRA_UE_CSV" : "tr_extra_ue.csv",
     "TR_PRODUCT_CODE_CSV" : "tr_products_code.csv",
     "TR_EXTRA_UE_TRIMESTRALI_CSV" : "tr_extra_ue_trim.csv",
 
     "ANNUAL_POPULATION_CSV" : "annual_population.csv",
     "ANNUAL_INDUSTRIAL_PRODUCTION_CSV" : "annual_industrial_production.csv",
-    "ANNUAL_UNEMPLOYEMENT_FILE_CSV" : "annual_unemployment.csv"
+    "ANNUAL_UNEMPLOYEMENT_CSV" : "annual_unemployment.csv"
+}
+
+FILES = {
+    "GENERAL_INFO" : DIRECTORIES["ROOT"] + os.sep + FILENAMES["GENERAL_INFO"],
+
+    "SQLLITE_DB" : DIRECTORIES["PRODUCT"] + os.sep + FILENAMES["SQLLITE_DB"],
+
+    "CLS_PRODUCT_DAT" : DIRECTORIES["CLASSIFICATION"] + os.sep + FILENAMES["CLS_PRODUCT_DAT"],
+    "CLS_CPA" : DIRECTORIES["CLASSIFICATION"] + os.sep + FILENAMES["CLS_CPA"],
+    "CLS_CPA_3D_ITA" : DIRECTORIES["CLASSIFICATION"] + os.sep + FILENAMES["CLS_CPA_3D_ITA"],
+    "CLS_CPA_2D_ITA" : DIRECTORIES["CLASSIFICATION"] + os.sep + FILENAMES["CLS_CPA_2D_ITA"],
+    "CLS_NSTR" : DIRECTORIES["CLASSIFICATION"] + os.sep + FILENAMES["CLS_NSTR"],
+    "CLS_NSTR_ITA" : DIRECTORIES["CLASSIFICATION"] + os.sep + FILENAMES["CLS_NSTR_ITA"],
+    
+    "ANNUAL_POPULATION_CSV" : DIRECTORIES["UTILS"] + os.sep + FILENAMES["ANNUAL_POPULATION_CSV"],
+    "ANNUAL_INDUSTRIAL_PRODUCTION_CSV" : DIRECTORIES["UTILS"] + os.sep + FILENAMES["ANNUAL_INDUSTRIAL_PRODUCTION_CSV"],
+    "ANNUAL_UNEMPLOYEMENT_CSV" : DIRECTORIES["UTILS"] + os.sep + FILENAMES["ANNUAL_UNEMPLOYEMENT_CSV"],
+
+    "IEINFO" : DIRECTORIES["PRODUCT_ANNUAL_OUTPUT"] + os.sep + FILENAMES["IEINFO"],
+
+    "COMEXT_IMP_CSV" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["COMEXT_IMP_CSV"],
+    "COMEXT_EXP_CSV" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["COMEXT_EXP_CSV"],
+    "CPA_INTRA_CSV" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["CPA_INTRA_CSV"],
+    "CPA_TRIM_CSV" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["CPA_TRIM_CSV"],
+    "CPA2_PRODUCT_CODE_CSV" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["CPA2_PRODUCT_CODE_CSV"],
+    "CPA3_PRODUCT_CODE_CSV" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["CPA3_PRODUCT_CODE_CSV"],
+
+    "IMPORT_SERIES_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["IMPORT_SERIES_JSON"],
+    "EXPORT_SERIES_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["EXPORT_SERIES_JSON"],
+    "QUOTE_TRADE_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["QUOTE_TRADE_JSON"],
+    "IMPORT_QUANTITY_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["IMPORT_QUANTITY_JSON"],
+    "EXPORT_QUANTITY_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["EXPORT_QUANTITY_JSON"],
+    "IMPORT_QUOTE_QUANTITY_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["IMPORT_QUOTE_QUANTITY_JSON"],
+    "EXPORT_QUOTE_QUANTITY_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["EXPORT_QUOTE_QUANTITY_JSON"],
+    "IMPORT_VALUE_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["IMPORT_VALUE_JSON"],
+    "EXPORT_VALUE_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["EXPORT_VALUE_JSON"],
+    "IMPORT_QUOTE_VALUE_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["IMPORT_QUOTE_VALUE_JSON"],
+    "EXPORT_QUOTE_VALUE_JSON" : DIRECTORIES["PRODUCT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["EXPORT_QUOTE_VALUE_JSON"],
+
+    "TR_EXTRA_UE_CSV" : DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["TR_EXTRA_UE_CSV"],
+    "TR_PRODUCT_CODE_CSV" : DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["TR_PRODUCT_CODE_CSV"],
+    "TR_EXTRA_UE_TRIMESTRALI_CSV" : DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["TR_EXTRA_UE_TRIMESTRALI_CSV"],
 }
