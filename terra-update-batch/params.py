@@ -2,8 +2,8 @@ import os
 import datetime
 from dateutil.relativedelta import relativedelta
 
-WORKING_FOLDER=os.environ['WORKING_FOLDER']
-#WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
+#WORKING_FOLDER=os.environ['WORKING_FOLDER']
+WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
 KEY_VAULT_NAME = "statlab-key-vault"
 SECRETNAME_ACCOUNTKEY = "cosmostoragekey"
@@ -132,7 +132,7 @@ FILENAMES = {
     "QUOTE_TRADE_JSON" : "quoteTrade.json",
     "IMPORT_QUANTITY_JSON" : "importQuantity.json",
     "EXPORT_QUANTITY_JSON" : "exportQuantity.json",
-    "IMPORT_QUOTE_QUANTITY_JSON" : "exportQuoteQuantity.json",
+    "IMPORT_QUOTE_QUANTITY_JSON" : "importQuoteQuantity.json",
     "EXPORT_QUOTE_QUANTITY_JSON" : "exportQuoteQuantity.json",
     "IMPORT_VALUE_JSON" : "importValue.json",
     "EXPORT_VALUE_JSON" : "exportValue.json",

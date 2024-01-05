@@ -191,7 +191,8 @@ def executeUpdate():
         )
         repo += "<!-- 10 --><br/>\n"
         repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
-        # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT
+        
+        #[JSON-SERVER/MAP] CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT
         repo += cOut.createMonthlyOutputTimeSeries(
             db = params.FILES["SQLLITE_DB"],
             import_ts = params.FILES["IMPORT_SERIES_JSON"],
@@ -201,7 +202,7 @@ def executeUpdate():
 
         repo += "<!-- 11 --><br/>\n"
 
-        # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT VALUE
+        #[JSON-SERVER/TRADE] CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT VALUE
         repo += cOut.createMonthlyOutputVQSTradeValue(
             db = params.FILES["SQLLITE_DB"],
             import_value = params.FILES["IMPORT_VALUE_JSON"],
@@ -212,7 +213,7 @@ def executeUpdate():
         )
         repo += "<!-- 12 --><br/>\n"
 
-        # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUANTITY
+        #[JSON-SERVER/TRADE] CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUANTITY
         repo += cOut.createMonthlyOutputVQSTradeQuantity(
             db = params.FILES["SQLLITE_DB"],
             import_qty = params.FILES["IMPORT_QUANTITY_JSON"],
@@ -230,7 +231,7 @@ def executeUpdate():
         #    logger = logger
         #)
 
-        # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUOTE VALUE
+        #[JSON-SERVER/TRADE] CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUOTE VALUE
         repo += cOut.createMonthlyOutputQuoteSTradeValue(
             db = params.FILES["SQLLITE_DB"],
             import_quote_value = params.FILES["IMPORT_QUOTE_VALUE_JSON"],
@@ -241,7 +242,7 @@ def executeUpdate():
         )
         repo += "<!-- 12.2 --><br/>\n"
 
-        # CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUATE QUANTITY
+        #[JSON-SERVER/TRADE] CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT QUATE QUANTITY
         repo += cOut.createMonthlyOutputQuoteSTradeQuantity(
             db = params.FILES["SQLLITE_DB"],
             import_quote_qty = params.FILES["IMPORT_QUOTE_QUANTITY_JSON"],
@@ -252,7 +253,7 @@ def executeUpdate():
         )
         repo += "<!-- 13 --><br/>\n"
 
-        # CREAZIONE FILE CPA INTRA E CPA PRODUCT CODE
+        #[PYTHON-SERVER] CREAZIONE FILE CPA INTRA E CPA PRODUCT CODE
         repo += cOut.createOutputGraphCPAIntraUE(
             db = params.FILES["SQLLITE_DB"],
             cpa_intra = params.FILES["CPA_INTRA_CSV"],
@@ -261,7 +262,7 @@ def executeUpdate():
         )
         repo += "<!-- 14 --><br/>\n"
 
-        # CREAZIONE FILE TR EXTRA UE E TR PRODUCT CODE
+        #[PYTHON-SERVER] CREAZIONE FILE TR EXTRA UE E TR PRODUCT CODE
         repo += cOut.createOutputGraphExtraUE(
             input_path = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
             output_tr_extra_ue_file = params.FILES["TR_EXTRA_UE_CSV"],
@@ -270,7 +271,7 @@ def executeUpdate():
         )
         repo += "<!-- 15 --><br/>\n"
 
-        # CREAZIONE FILE CPA TRIM
+        #[PYTHON-SERVER] CREAZIONE FILE CPA TRIM
         repo += cOut.createOutputGraphicTrimestre(
             db = params.FILES["SQLLITE_DB"],
             output_cpa_trim = params.FILES["CPA_TRIM_CSV"],
@@ -278,7 +279,7 @@ def executeUpdate():
         )
         repo += "<!-- 16 --><br/>\n"
 
-        # CREAZIONE FILE TR EXTRA UE TRIM
+        #[PYTHON-SERVER] CREAZIONE FILE TR EXTRA UE TRIM
         repo += cOut.createOutputGraphExtraUE_Trim(
             input_path = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
             output_tr_extra_ue_trim = params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"],
@@ -286,7 +287,7 @@ def executeUpdate():
         )
         repo += "<!-- 17 --><br/>\n"
 
-        # CREAZIONE FILE COMEX IMP/EXP E CPA2 PRODUCT CODE
+        #[R-SERVER] CREAZIONE FILE COMEX IMP/EXP E CPA2 PRODUCT CODE
         repo += cOut.createOutputVariazioniQuoteCPA(
             db = params.FILES["SQLLITE_DB"],
             comext_imp = params.FILES["COMEXT_IMP_CSV"],
@@ -297,7 +298,7 @@ def executeUpdate():
         repo += "<!-- 18 --><br/>\n"
         repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
         
-        # CREAZIONE FILE CPA CON PULIZIA
+        #[JSON-SERVER/CLASSIFICATION] CREAZIONE FILE CPA CON PULIZIA
         repo += cOut.createClsNOTEmptyProductsLang(
             digit = 2,
             langs = params.SUPPORTED_LANGUAGES,
@@ -312,7 +313,7 @@ def executeUpdate():
         )
         repo += "<!-- 19 --><br/>\n"
 
-        # CREAZIONE FILE GRAPH INTRA CON PULIZIA
+        #[JSON-SERVER/CLASSIFICATION] CREAZIONE FILE GRAPH INTRA CON PULIZIA
         repo += cOut.createClsNOTEmptyProductsLang(
             digit = 3,
             langs = params.SUPPORTED_LANGUAGES,
@@ -327,7 +328,7 @@ def executeUpdate():
         )
         repo += "<!-- 20 --><br/>\n"
 
-        # CREAZIONE FILE GRAPH EXTRA CON PULIZIA
+        #[JSON-SERVER/CLASSIFICATION] CREAZIONE FILE GRAPH EXTRA CON PULIZIA
         repo += cOut.createClsNOTEmptyProductsLang(
             digit = 3,
             langs = params.SUPPORTED_LANGUAGES,
