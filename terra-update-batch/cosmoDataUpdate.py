@@ -163,6 +163,7 @@ def executeUpdate():
         )
         repo += "<!-- 7.3 --><br/>\n"
         #[MAP] CREAZIONE FILE PER LA MAPPA INTERATTIVA (IEINFO)
+        
         repo += cOut.annualProcessing(
             annual_data_input_path = params.DIRECTORIES["PRODUCT_ANNUAL_FILE"],
             cls_product_data = params.FILES["CLS_PRODUCT_DAT"],

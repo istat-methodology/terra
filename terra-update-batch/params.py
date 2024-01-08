@@ -2,8 +2,8 @@ import os
 import datetime
 from dateutil.relativedelta import relativedelta
 
-#WORKING_FOLDER=os.environ['WORKING_FOLDER']
-WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
+WORKING_FOLDER=os.environ['WORKING_FOLDER']
+#WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
 KEY_VAULT_NAME = "statlab-key-vault"
 SECRETNAME_ACCOUNTKEY = "cosmostoragekey"
@@ -19,8 +19,8 @@ MAIL_SETTINGS = {
 }
 
 # SET TIME INTERVAL (IN MONTHS)
-TIME_INTERVAL_M = 1
-OFFSET_M = 15
+TIME_INTERVAL_M = 132
+OFFSET_M = 3
 
 PREFIX_PRODUCT = "full"
 PREFIX_TRANSPORT = "tr"
