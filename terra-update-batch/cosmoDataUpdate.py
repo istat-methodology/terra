@@ -343,25 +343,25 @@ def executeUpdate():
             logger = logger
         )
 
-        repo += "<!-- 21 --><br/>\n"
-        repo += cUtil.exportOutputs(logger)
-        repo += "<!-- 22 --><br/>\n"
-
-        repo += cUtil.createAndSendBackupFiles(logger)
-        repo += "<!-- 22.1 --><br/>\n"
-        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
-
-        repo += cUtil.deleteFolder(params.DATA_FOLDER , logger)
-        repo += "<!-- 23 --><br/>\n"
-
-        repo += cUtil.refreshMicroservicesDATA(logger)
-        repo += "<!-- 24 --><br/>\n"
-        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
-
-        repo += cUtil.checkUPMicroservices(logger)
-        repo += "<!-- 25 --><br/>\n"
-
-        repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
+        #repo += "<!-- 21 --><br/>\n"
+        #repo += cUtil.exportOutputs(logger)
+        #repo += "<!-- 22 --><br/>\n"
+#
+        #repo += cUtil.createAndSendBackupFiles(logger)
+        #repo += "<!-- 22.1 --><br/>\n"
+        #repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
+#
+        #repo += cUtil.deleteFolder(params.DATA_FOLDER , logger)
+        #repo += "<!-- 23 --><br/>\n"
+#
+        #repo += cUtil.refreshMicroservicesDATA(logger)
+        #repo += "<!-- 24 --><br/>\n"
+        #repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
+#
+        #repo += cUtil.checkUPMicroservices(logger)
+        #repo += "<!-- 25 --><br/>\n"
+#
+        #repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
     except BaseException as e:
         repo += "ERROR UPDATE  " + str(e)

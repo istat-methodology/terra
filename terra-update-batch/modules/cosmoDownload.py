@@ -8,6 +8,8 @@ import multiprocessing as mp
 import params
 from modules import cosmoUtility as cUtil
 
+# [TODO]: CREARE UNA CLASSE DOWNLOAD CHE RAZIONALIZZI IL DOWNLOAD
+
 def downloadAndExtractFile(param, extract_path, logger):
     url_file = param[0]
     file_zip = param[1]
@@ -65,6 +67,8 @@ def downloadAndExtractComextMonthlyDATAParallel(
     # mp
     logger.info("Number of processors: {}".format(mp.cpu_count()))
     pool = mp.Pool(mp.cpu_count())
+
+    # [TODO]: CAMBIARE NOMI (urls/params) PER RENDERLI PIù PARLANTI. URLS è UNA TUPLA DI URL E ZIP FILENAME
     ris = pool.map(
         partial(downloadAndExtractFile, extract_path = file_folder, logger = logger), urls
     )
