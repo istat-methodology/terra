@@ -9,9 +9,12 @@ import urllib.request
 import time
 import shutil
 
-from azure.storage.file import FileService
-from azure.keyvault.secrets import SecretClient
-from azure.identity import DefaultAzureCredential
+try:
+    from azure.storage.file import FileService
+    from azure.keyvault.secrets import SecretClient
+    from azure.identity import DefaultAzureCredential
+except:
+    print('Azure libraries not imported')
 
 import params
 
