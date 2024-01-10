@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import pandas as pd
+import numpy as np
 import params
 
 def createMonthlyFULLtable(db, path_to_scan, logger):
@@ -24,15 +25,13 @@ def createMonthlyFULLtable(db, path_to_scan, logger):
             length = len(comext_monthly_data.index)
             count += length
             index += 1
-            logger.info(
-                str(index)
-                + ") loaded rows:"
-                + str(length)
-                + " count:"
-                + str(count)
-                + "  file: "
-                + filedat.name
-            )
+            logger.info(f'{str(index)}) loaded rows:{str(length)} count:{str(count)} file:{filedat.name}')
+            
+            comext_monthly_data["CPA2"] = np.where(comext_monthly_data["PRODUCT_NC"].astype("str").str.len()==8, comext_monthly_data["PRODUCT_CPA2_1"].astype("str").str[:2], "")
+            comext_monthly_data["CPA23"] = np.where(comext_monthly_data["PRODUCT_NC"].astype("str").str.len()==8, comext_monthly_data["PRODUCT_CPA2_1"].astype("str").str[:2]+" ", "")
+            comext_monthly_data["CPA3"] = np.where(comext_monthly_data["PRODUCT_NC"].astype("str").str.len()==8, comext_monthly_data["PRODUCT_CPA2_1"].astype("str").str[:3], "")
+            comext_monthly_data["IS_PRODUCT"] = np.where(comext_monthly_data["PRODUCT_NC"].astype("str").str.len()==8, 1, 0)
+            
             comext_monthly_data[
                 [
                     "DECLARANT_ISO",
@@ -44,6 +43,10 @@ def createMonthlyFULLtable(db, path_to_scan, logger):
                     "PERIOD",
                     "VALUE_IN_EUROS",
                     "QUANTITY_IN_KG",
+                    "CPA2",
+                    "CPA23",
+                    "CPA3",
+                    "IS_PRODUCT"
                 ]
             ].to_sql(
                 "comext_full", conn, if_exists="append", index=False, chunksize=10000
@@ -53,10 +56,10 @@ def createMonthlyFULLtable(db, path_to_scan, logger):
         logger.info("from count:" + str(count))
         logger.info("from DB:" + str(row))
 
-    logger.info("UPDATE TABLE comext_full A CPA2, CPA23 CPA3 TEXT")
-    cur.execute(
-        """UPDATE comext_full SET CPA2=substr(product_cpa2_1,1,2), CPA23=substr(product_cpa2_1,1,2)||' ', CPA3=substr(product_cpa2_1,1,3),IS_PRODUCT=1  WHERE length(product_nc)==8;"""
-    )
+    #logger.info("UPDATE TABLE comext_full A CPA2, CPA23 CPA3 TEXT")
+    #cur.execute(
+    #    """UPDATE comext_full SET CPA2=substr(product_cpa2_1,1,2), CPA23=substr(product_cpa2_1,1,2)||' ', CPA3=substr(product_cpa2_1,1,3),IS_PRODUCT=1  WHERE length(product_nc)==8;"""
+    #)
     conn.commit()
     if conn:
         conn.close()
