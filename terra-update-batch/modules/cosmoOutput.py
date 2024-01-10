@@ -21,59 +21,59 @@ def createGeneralInfoOutput(file):
     info_processing["processingDay"] = params.processing_day.strftime("%d-%m-%Y, %H:%M:%S")
     info_processing["annualCurrentYear"] = params.annual_current_year
     info_processing["annualPreviousYear"] = params.annual_previous_year
-    info_processing["lastLoadedData"] = params.end_data_load.strftime("%m, %Y")
-    info_processing["windowMonths"] = params.TIME_INTERVAL_M
+    info_processing["lastLoadedData"] = params.end_data_DOWNLOAD.strftime("%m, %Y")
+    info_processing["windowMonths"] = params.DOWNLOAD_TIME_INTERVAL_M
 
-    info_processing["monthsToExtract"] = params.TIME_INTERVAL_M
+    info_processing["monthsToExtract"] = params.DOWNLOAD_TIME_INTERVAL_M
     info_processing["offsetMonthToExtract"] = params.OFFSET_M
     info_processing["appVersion"] = "1.0.0"
 
     time_map_start = {}
     values = {}
-    values["timeSelected"] = str(params.this_year) + str(params.this_month)
+    values["timeSelected"] = str(params.this_year_month)
 
     time_map_start["year"] = int(params.start_data_PAGE_MAP.strftime("%Y"))
     time_map_start["month"] = int(params.start_data_PAGE_MAP.strftime("%m"))
     values["timeStart"] = time_map_start
     time_map_end = {}
-    time_map_end["year"] = int(params.end_data_load.strftime("%Y"))
-    time_map_end["month"] = int(params.end_data_load.strftime("%m"))
+    time_map_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
+    time_map_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
     values["timeEnd"] = time_map_end
     info_processing["map"] = values
 
     time_graph_start = {}
     time_graphp_end = {}
     values = {}
-    values["timeSelected"] = str(params.this_year) + str(params.this_month)
+    values["timeSelected"] = str(params.this_year_month)
     time_graph_start["year"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%Y"))
     time_graph_start["month"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%m"))
     values["timeStart"] = time_graph_start
-    time_graphp_end["year"] = int(params.end_data_load.strftime("%Y"))
-    time_graphp_end["month"] = int(params.end_data_load.strftime("%m"))
+    time_graphp_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
+    time_graphp_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
     values["timeEnd"] = time_graphp_end
     info_processing["graph"] = values
 
     time_graphplus_start = {}
     time_graphpplus_end = {}
     values = {}
-    values["timeSelected"] = str(params.this_year) + str(params.this_month)
+    values["timeSelected"] = str(params.this_year_month)
     time_graphplus_start["year"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%Y"))
     time_graphplus_start["month"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%m"))
     values["timeStart"] = time_graphplus_start
-    time_graphpplus_end["year"] = int(params.end_data_load.strftime("%Y"))
-    time_graphpplus_end["month"] = int(params.end_data_load.strftime("%m"))
+    time_graphpplus_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
+    time_graphpplus_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
     values["timeEnd"] = time_graphpplus_end
     info_processing["graphPlus"] = values
 
     time_trade_start = {}
     values = {}
-    values["timeSelected"] = str(params.this_year) + str(params.this_month)
+    values["timeSelected"] = str(params.this_year_month)
     time_trade_start["year"] = int(params.start_data_PAGE_BASKET.strftime("%Y"))
     time_trade_start["month"] = int(params.start_data_PAGE_BASKET.strftime("%m"))
     values["timeStart"] = time_trade_start
     time_trade_end = {}
-    time_trade_end["year"] = int(params.end_data_load.strftime("%Y"))
-    time_trade_end["month"] = int(params.end_data_load.strftime("%m"))
+    time_trade_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
+    time_trade_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
     values["timeEnd"] = time_trade_end
 
     info_processing["trade"] = values
@@ -990,7 +990,7 @@ def createOutputGraphCPAIntraUE(db, cpa_intra, cpa3_prod_code, logger):
     # import export variazioni quote CPA
     logger.info("import export variazioni quote CPA INTRA")
 
-    #  end_data_lclearoad=datetime.datetime.strptime(str(this_year)+"-"+str(this_month), "%Y-%m")- relativedelta(months=offset_m)
+    #  end_data_lclearoad=datetime.datetime.strptime(str(this_year_month), "%Y%m")- relativedelta(months=offset_m)
     # last_12_months=datetime.datetime.strptime(( str(end_data_load.year)+"-"+str(end_data_load.month)- relativedelta(months=12)), "%Y%m")
 
     filter_yyymm = str(params.start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(

@@ -19,8 +19,15 @@ MAIL_SETTINGS = {
 }
 
 # SET TIME INTERVAL (IN MONTHS)
-TIME_INTERVAL_M = 36
 OFFSET_M = 3
+DOWNLOAD_TIME_INTERVAL_M = 36
+
+PAGE_MAP_TIME_INTERVAL_M = 36
+PAGE_TIME_SERIES_TIME_INTERVAL_M = 36
+PAGE_GRAPH_EXTRA_UE_TIME_INTERVAL_M = 36
+PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M = 36
+PAGE_BASKET_TIME_INTERVAL_M = 36
+
 
 PREFIX_PRODUCT = "full"
 PREFIX_TRANSPORT = "tr"
@@ -42,8 +49,10 @@ DATA_FOLDER_PARENT = (
 )
 
 processing_day = datetime.datetime.today()
-this_year = processing_day.year
-this_month = "%02d" % processing_day.month
+#this_year = processing_day.year
+#this_month = "%02d" % processing_day.month
+this_year_month = processing_day.year * 100 + processing_day.month
+
 annual_new_data = (
     1 if (processing_day < datetime.datetime(processing_day.year, 3, 20)) else 0
 )
@@ -58,23 +67,43 @@ annual_previous_year = (
     - relativedelta(years=2)
 ).year
 
-start_data_load = (
-    datetime.datetime.strptime(str(this_year) + "-" + str(this_month), "%Y-%m")
+start_data_DOWNLOAD = (
+    datetime.datetime.strptime(str(this_year_month), "%Y%m")
     - relativedelta(months=OFFSET_M)
-    - relativedelta(months=TIME_INTERVAL_M - 1)
+    - relativedelta(months=DOWNLOAD_TIME_INTERVAL_M - 1)
 )
-end_data_load = datetime.datetime.strptime(
-    str(this_year) + "-" + str(this_month), "%Y-%m"
+end_data_DOWNLOAD = datetime.datetime.strptime(
+    str(this_year_month), "%Y%m"
 ) - relativedelta(months=OFFSET_M)
 
-##### SET DATES FOR PAGES #####
-start_data_PAGE_MAP = start_data_load
-start_data_PAGE_TIME_SERIES = start_data_load
-start_data_PAGE_GRAPH_EXTRA_UE = start_data_load
-start_data_PAGE_GRAPH_INTRA_UE = start_data_load
-start_data_PAGE_BASKET = start_data_load
+##### SET START DATE FOR PAGES #####
+start_data_PAGE_MAP = (
+    datetime.datetime.strptime(str(this_year_month), "%Y%m")
+    - relativedelta(months=OFFSET_M)
+    - relativedelta(months=PAGE_MAP_TIME_INTERVAL_M - 1)
+)
+start_data_PAGE_TIME_SERIES = (
+    datetime.datetime.strptime(str(this_year_month), "%Y%m")
+    - relativedelta(months=OFFSET_M)
+    - relativedelta(months=PAGE_TIME_SERIES_TIME_INTERVAL_M - 1)
+)
+start_data_PAGE_GRAPH_EXTRA_UE = (
+    datetime.datetime.strptime(str(this_year_month), "%Y%m")
+    - relativedelta(months=OFFSET_M)
+    - relativedelta(months=PAGE_GRAPH_EXTRA_UE_TIME_INTERVAL_M - 1)
+)
+start_data_PAGE_GRAPH_INTRA_UE = (
+    datetime.datetime.strptime(str(this_year_month), "%Y%m")
+    - relativedelta(months=OFFSET_M)
+    - relativedelta(months=PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M - 1)
+)
+start_data_PAGE_BASKET = (
+    datetime.datetime.strptime(str(this_year_month), "%Y%m")
+    - relativedelta(months=OFFSET_M)
+    - relativedelta(months=PAGE_BASKET_TIME_INTERVAL_M - 1)
+)
 
-DATA_FOLDER = DATA_FOLDER_PARENT + os.sep + str(this_year) + str(this_month)
+DATA_FOLDER = DATA_FOLDER_PARENT + os.sep + str(this_year_month)
 
 URLS = {
     "ANNUAL_POPULATION" : "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/DEMO_GIND/?format=SDMX-CSV&i",

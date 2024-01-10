@@ -71,8 +71,8 @@ def executeUpdate():
             prefix_file = params.PREFIX_PRODUCT,
             zip_folder = params.DIRECTORIES["PRODUCT_MONTHLY_ZIP"],
             file_folder = params.DIRECTORIES["PRODUCT_MONTHLY_FILE"],
-            start_data = params.start_data_PAGE_TIME_SERIES,
-            end_data = params.end_data_load,
+            start_data = params.start_data_DOWNLOAD,
+            end_data = params.end_data_DOWNLOAD,
             logger = logger
         )
         repo += "<!-- 3 --><br/>\n"
@@ -84,8 +84,8 @@ def executeUpdate():
             prefix_file = params.PREFIX_TRANSPORT,
             zip_folder = params.DIRECTORIES["TRANSPORT_MONTHLY_ZIP"],
             file_folder = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
-            start_data = params.start_data_PAGE_GRAPH_EXTRA_UE,
-            end_data = params.end_data_load,
+            start_data = params.start_data_DOWNLOAD,
+            end_data = params.end_data_DOWNLOAD,
             logger = logger
         )
         repo += "<!-- 4 --><br/>\n"
