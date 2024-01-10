@@ -20,7 +20,7 @@ MAIL_SETTINGS = {
 
 # SET TIME INTERVAL (IN MONTHS)
 TIME_INTERVAL_M = 36
-OFFSET_M = 15
+OFFSET_M = 3
 
 PREFIX_PRODUCT = "full"
 PREFIX_TRANSPORT = "tr"
@@ -85,7 +85,8 @@ URLS = {
     
     # NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR
     # ACTUAL USED ENDPOINT: "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR%2F"
-    "COMEXT_TR" : "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_HISTORICAL_DATA%2FTRANSPORT_BY_NSTR%2F",
+    # "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_HISTORICAL_DATA%2FTRANSPORT_BY_NSTR%2F"
+    "COMEXT_TR" : "https://ec.europa.eu/eurostat/api/dissemination/files?sort=1&file=comext%2FCOMEXT_HISTORICAL_DATA%2FTRANSPORT_BY_NSTR%2F",
 
     "CLS_PRODUCTS" : "https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt",
     

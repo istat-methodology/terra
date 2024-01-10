@@ -188,7 +188,7 @@ def monthlyProcessing(db, logger):
     )
 
     # /*  basi trimestrali */
-    logger.info("Creating table per_trimestri  ")
+    logger.info("Creating table base_grafi_cpa_trim  ")
     cur.execute("DROP TABLE IF EXISTS base_grafi_cpa_trim;")
     cur.execute(
         "create table base_grafi_cpa_trim as select declarant_iso, partner_iso, flow,  cpa, trimestre, sum(val_cpa) as val_cpa, sum(q_kg) as q_kg from per_trimestri group by declarant_iso, partner_iso, flow, cpa, trimestre;"

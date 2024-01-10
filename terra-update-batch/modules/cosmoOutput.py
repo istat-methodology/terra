@@ -24,7 +24,7 @@ def createGeneralInfoOutput(file):
     info_processing["lastLoadedData"] = params.end_data_load.strftime("%m, %Y")
     info_processing["windowMonths"] = params.TIME_INTERVAL_M
 
-    info_processing["monthsToTxtract"] = params.TIME_INTERVAL_M
+    info_processing["monthsToExtract"] = params.TIME_INTERVAL_M
     info_processing["offsetMonthToExtract"] = params.OFFSET_M
     info_processing["appVersion"] = "1.0.0"
 
