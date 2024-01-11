@@ -3,62 +3,57 @@ import urllib.request
 import py7zr
 from functools import partial
 import multiprocessing as mp
-from datetime import datetime
 
 # custom TERRA modules
 import params
 from modules import cosmoUtility as cUtil
 
-class downloadAndExtractComextParallel():
+class DownloadAndExtractComextParallel():
     """
     A class for downloading and extracting .7z files from a specified url.
 
     Args:
-        parameters: A .py file of parameters for the download and extraction process.
-        prefix_file: A tuple of file prefixes for the files to be downloaded.
         logger: A logger object for logging messages.
     """
 
-    def __init__(self, parameters, prefix_file: tuple, logger):
-        self.parameters = parameters
+    def __init__(self, logger=None):
         self.logger = logger
     
-    def downloadAndExtractFile(self, paths, extract_path: str, logger):
+    def download_and_extract_file(self, paths: tuple[str], extract_path: str):
         """
         Downloads and extracts a single .7z file.
 
         Args:
-            paths: A tuple containing the url of the file to be downloaded (url_file) and the path to the downloaded file (file_zip).
+            paths: A tuple containing the url of the file to be downloaded (file_url) and the path to the downloaded file (zip_file_url).
             extract_path: The path where the extracted files will be saved.
-            logger: A logger object for logging messages.
 
         Returns:
             A tuple containing the number of files downloaded, extracted, and with errors.
         """
-        url_file = paths[0]
-        file_zip = paths[1]
-        count_downloaded = 0
-        count_extracted = 0
-        count_error = 0
-
-        logger.info("File: " + url_file)
-        logger.info("File zip: " + file_zip)
-        logger.info("extract path: " + extract_path)
-        logger.info("Downloading....")
+        file_url, zip_file_url = paths[0], paths[1]
+        n_downloaded, n_extracted, n_errors = 0
+        
+        if self.logger is not None:
+            self.logger.info(f"file url: {file_url}")
+            self.logger.info(f"zip file url: {zip_file_url}")
+            self.logger.info(f"extract path: {extract_path}")
+            self.logger.info("Downloading....")
 
         try:
-            urllib.request.urlretrieve(url_file, file_zip)
-            count_downloaded += 1
-            with py7zr.SevenZipFile(file_zip) as z:
+            urllib.request.urlretrieve(file_url, zip_file_url)
+            n_downloaded += 1
+            with py7zr.SevenZipFile(zip_file_url) as z:
                 z.extractall(path=extract_path)
-                count_extracted += 1
-        except BaseException as err:
-            logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
-            count_error += 1
+                n_extracted += 1
+        except BaseException as e:
+            if self.logger is not None:
+                self.logger.error(f"Unexpected {str(e)}; type: {str(type(e))}")
+            n_errors += 1
         else:
-            logger.info("File loaded and extracted: " + file_zip)
+            if self.logger is not None:
+                self.logger.info("File loaded and extracted: " + zip_file_url)
 
-        return (count_downloaded, count_extracted, count_error)
+        return (n_downloaded, n_extracted, n_errors)
     
     
     def data_download(self, frequency: str, file_type: str, url_download: str, out_path: str, zip_path: str):
@@ -76,17 +71,14 @@ class downloadAndExtractComextParallel():
             A string summarizing the download and extraction results.
         """
 
-        params = self.parameters  
-        self.logger.info("Path: " + zip_path)
+        if self.logger is not None:
+            self.logger.info("Path: " + zip_path)
 
-        count_downloaded, count_extracted, count_errors = 0
-        
         paths = []
 
-        if file_type == params.PREFIX_MAP["full"]:
-            prefix_file = params.PREFIX_PRODUCT
-        elif file_type == params.PREFIX_MAP["tr"]:
-            prefix_file == params.PREFIX_TRANSPORT
+        prefix_file = params.PREFIX_MAP.get(file_type)
+        if prefix_file is None:
+            raise ValueError(f"Invalid file type: '{file_type}', admissible file types are: {list(params.PREFIX_MAP.keys())}")
 
         if frequency == 'monthly':
             start_date = params.start_data_load
@@ -97,26 +89,31 @@ class downloadAndExtractComextParallel():
             date_list = [params.annual_previous_year, params.annual_current_year]
             date_tuple = ('', *date_list)
             file_extension = '52.7z'
+        else:
+            raise ValueError("Invalid frequency. Please use 'monthly' or 'annual'.")
 
         for date in date_tuple:
             filename_zip = f"{prefix_file}{date[1]}{date[0]}{file_extension}"
             url_file = url_download + filename_zip
             file_zip_path = f'{zip_path}{os.sep}{filename_zip}'
             
-            self.logger.info(f'File: {url_file}')
-            self.logger.info(f'Downloading...')
+            if self.logger is not None:
+                self.logger.info(f'File: {url_file}')
+                self.logger.info(f'Downloading...')
             
             paths.append((url_file, file_zip_path))
-            
-        self.logger.info(f'Number of processors: {mp.cpu_count()}')
-        pool = mp.Pool(mp.cpu_count())
 
-        results = pool.map(partial(self.downloadAndExtractFile, extract_path=out_path, logger=self.logger), paths)
+        if self.logger is not None:   
+            self.logger.info(f'Number of processors: {mp.cpu_count()}')
 
-        count_downloaded, count_extracted, count_errors = map(sum, zip(*results))
+        with mp.Pool(mp.cpu_count()) as pool:
+            results = pool.map(partial(self.data_download, extract_path=out_path, logger=self.logger), paths)
 
-        info_string = "Monthly files repo: " + str(count_downloaded) + " downloaded, " + str(count_extracted) + " extracted " + str(count_errors) + " errors"
+        n_downloaded, n_extracted, n_errors = map(sum, zip(*results))
 
-        self.logger.info(info_string)
+        info_string = f"Monthly files repo: {str(n_downloaded)} downloaded | {str(n_extracted)} extracted | {str(n_errors)} errors."
+
+        if self.logger is not None:
+            self.logger.info(info_string)
 
         return info_string
