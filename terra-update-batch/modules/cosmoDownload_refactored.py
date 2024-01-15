@@ -31,7 +31,7 @@ class DownloadAndExtractComextParallel():
             A tuple containing the number of files downloaded, extracted, and with errors.
         """
         file_url, zip_file_url = paths[0], paths[1]
-        n_downloaded, n_extracted, n_errors = 0
+        n_downloaded, n_extracted, n_errors = 0, 0, 0
         
         if self.logger is not None:
             self.logger.info(f"file url: {file_url}")
@@ -76,24 +76,22 @@ class DownloadAndExtractComextParallel():
 
         paths = []
 
-        prefix_file = params.PREFIX_MAP.get(file_type)
-        if prefix_file is None:
+        if file_type is None:
             raise ValueError(f"Invalid file type: '{file_type}', admissible file types are: {list(params.PREFIX_MAP.keys())}")
 
         if frequency == 'monthly':
-            start_date = params.start_data_load
-            end_date = params.end_data_load
+            start_date = params.start_data_DOWNLOAD
+            end_date = params.end_data_DOWNLOAD
             date_tuple = cUtil.month_iter(start_date.month, start_date.year, end_date.month, end_date.year)
             file_extension = '.7z'
         elif frequency == 'annual':
-            date_list = [params.annual_previous_year, params.annual_current_year]
-            date_tuple = ('', *date_list)
+            date_tuple = [('',params.annual_previous_year), ('',params.annual_current_year)]
             file_extension = '52.7z'
         else:
             raise ValueError("Invalid frequency. Please use 'monthly' or 'annual'.")
 
         for date in date_tuple:
-            filename_zip = f"{prefix_file}{date[1]}{date[0]}{file_extension}"
+            filename_zip = f"{file_type}{date[1]}{date[0]}{file_extension}"
             url_file = url_download + filename_zip
             file_zip_path = f'{zip_path}{os.sep}{filename_zip}'
             
@@ -107,7 +105,7 @@ class DownloadAndExtractComextParallel():
             self.logger.info(f'Number of processors: {mp.cpu_count()}')
 
         with mp.Pool(mp.cpu_count()) as pool:
-            results = pool.map(partial(self.data_download, extract_path=out_path, logger=self.logger), paths)
+            results = pool.map(partial(self.download_and_extract_file, extract_path=out_path), paths)
 
         n_downloaded, n_extracted, n_errors = map(sum, zip(*results))
 
