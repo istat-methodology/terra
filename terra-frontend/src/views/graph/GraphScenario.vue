@@ -59,14 +59,14 @@
           </td>
         </template>
         <template #euro="{ item }">
-          <td headers="head_scenario_2">
-            {{ item.euro }}
+          <td headers="head_scenario_2" class="num">
+            {{ item.euro.toLocaleString() }}
+
+            €
           </td>
         </template>
         <template #percentage="{ item }">
-          <td headers="head_scenario_3">
-            {{ item.percentage }}
-          </td>
+          <td headers="head_scenario_3" class="num">{{ item.percentage }} %</td>
         </template>
         <template #flow="{ item }">
           <td headers="head_scenario_4">
@@ -448,6 +448,7 @@ export default {
   font-size: 16px;
   font-weight: 600;
 }
+
 .scenario-analysis {
   font-weight: 500;
   font-size: 16px;
@@ -516,7 +517,11 @@ export default {
 .drag-el:nth-last-of-type(1) {
   margin-bottom: 0;
 }
+
 .no-visible {
   display: none;
+}
+.num {
+  text-align: right;
 }
 </style>

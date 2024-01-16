@@ -266,10 +266,12 @@ export default {
           to: selectedEdge.to,
           total: weightFormatted.toLocaleString(this.$i18n.locale),
           percentage:
-            Math.round((percentage + Number.EPSILON) * 100) / 100 + "%",
+            //Math.round((percentage + Number.EPSILON) * 100) / 100, + "%",
+            Math.round((percentage + Number.EPSILON) * 100) / 100,
           flow: this.selectedNode.id == sourceNode.id ? "Export" : "Import",
           euro:
-            selectedEdge.VALUE_IN_EUROS.toLocaleString(this.$i18n.locale) + "€"
+            //selectedEdge.VALUE_IN_EUROS.toLocaleString(this.$i18n.locale) + "€"
+            selectedEdge.VALUE_IN_EUROS
         })
       })
       //Local copy of selected transports
