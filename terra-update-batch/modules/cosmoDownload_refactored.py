@@ -1,8 +1,9 @@
 import os
 import urllib.request
 import py7zr
-from functools import partial
+import time
 import multiprocessing as mp
+from functools import partial
 
 # custom TERRA modules
 import params
@@ -18,6 +19,19 @@ class DownloadAndExtractComextParallel():
 
     def __init__(self, logger=None):
         self.logger = logger
+    
+    def download_file(self, url, file):
+        """
+        Downloads a file from url
+        """
+        try:
+            urllib.request.urlretrieve(url, file)
+        except BaseException as err:
+            self.logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
+        else:
+            self.logger.info("File loaded: " + file)
+
+        return "File loaded: " + file
     
     def download_and_extract_file(self, paths: tuple[str], extract_path: str):
         """
@@ -39,19 +53,27 @@ class DownloadAndExtractComextParallel():
             self.logger.info(f"extract path: {extract_path}")
             self.logger.info("Downloading....")
 
-        try:
-            urllib.request.urlretrieve(file_url, zip_file_url)
-            n_downloaded += 1
-            with py7zr.SevenZipFile(zip_file_url) as z:
-                z.extractall(path=extract_path)
-                n_extracted += 1
-        except BaseException as e:
-            if self.logger is not None:
-                self.logger.error(f"Unexpected {str(e)}; type: {str(type(e))}")
-            n_errors += 1
-        else:
-            if self.logger is not None:
-                self.logger.info("File loaded and extracted: " + zip_file_url)
+        n_attempts = 0
+
+        for attempt in range(params.MAX_RETRY):
+            n_attempts+=1
+            try:
+                urllib.request.urlretrieve(file_url, zip_file_url)
+                n_downloaded += 1
+                with py7zr.SevenZipFile(zip_file_url) as z:
+                    z.extractall(path=extract_path)
+                    n_extracted += 1
+            except BaseException as e:
+                if self.logger is not None:
+                    self.logger.error(f"Attempt {n_attempts}/{params.MAX_RETRY} failed. Unexpected {str(e)}; type: {str(type(e))}")
+                if attempt == params.MAX_RETRY - 1:
+                    n_errors += 1
+                else:
+                    time.sleep(params.RETRY_WAIT)
+            else:
+                if self.logger is not None:
+                    self.logger.info(f"File loaded and extracted after {n_attempts} attempt(s): " + zip_file_url)
+                break
 
         return (n_downloaded, n_extracted, n_errors)
     

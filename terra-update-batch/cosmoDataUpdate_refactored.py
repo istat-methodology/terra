@@ -8,7 +8,6 @@ from opencensus.ext.azure.log_exporter import AzureLogHandler
 
 # TERRA MODULES
 from modules import cosmoUtility as cUtil
-from modules import cosmoDownload as cDownl
 from modules import cosmoDownload_refactored as cDownl_ref
 from modules import cosmoProcess as cProc
 from modules import cosmoOutput as cOut
@@ -45,128 +44,120 @@ def executeUpdate():
     try:
         repo += "<!-- 0 --><br/>\n"
 
-        # CREA SISTEMA DI CARTELLE
+        # Create folder structure
         repo += cUtil.createFolderStructure(params.DIRECTORIES)
         repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
-        # CREA FILE GENERAL INFO
+        # Create general info file
         repo += cOut.createGeneralInfoOutput(
             file = params.FILES["GENERAL_INFO"]
         )
         repo += "<!-- 1 --><br/>\n"
         repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
-        # DOWNLOAD ANNUALE DEI DATI DI PRODOTTO
+        # ----------------------------- DOWNLOADS --------------------------------- #
+
+        # Download class initialization
         dataDownloader = cDownl_ref.DownloadAndExtractComextParallel(logger=logger)
         
-        # DOWNLOAD ANNUALE DEI DATI DI PRODOTTO
+        # Data Download - Product (Annual)
         repo += dataDownloader.data_download(
             frequency="annual",
             file_type=params.PREFIX_PRODUCT,
             url_download=params.URLS["COMEXT_PRODUCTS"],
             zip_path=params.DIRECTORIES["PRODUCT_ANNUAL_ZIP"],
-            out_path=params.DIRECTORIES["PRODUCT_ANNUAL_FILE"]
-            
+            out_path=params.DIRECTORIES["PRODUCT_ANNUAL_FILE"]   
         )
-
         repo += "<!-- 2 --><br/>\n"
         repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
-        # DOWNLOAD MENSILE DEI DATI DI PRODOTTO
+        # Data Download - Product (Monthly)
         repo += dataDownloader.data_download(
             frequency="monthly",
             file_type=params.PREFIX_PRODUCT,
             url_download=params.URLS["COMEXT_PRODUCTS"],
             zip_path=params.DIRECTORIES["PRODUCT_MONTHLY_ZIP"],
-            out_path=params.DIRECTORIES["PRODUCT_MONTHLY_FILE"]
-            
+            out_path=params.DIRECTORIES["PRODUCT_MONTHLY_FILE"]    
         )
         repo += "<!-- 3 --><br/>\n"
         repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
 
-        # DOWNLOAD MENSILE DEI DATI DI TRASPORTO
+        # Data Download - Transport (Monthly)
         repo += dataDownloader.data_download(
             frequency="monthly",
             file_type=params.PREFIX_TRANSPORT,
             url_download=params.URLS["COMEXT_TR"],
             zip_path=params.DIRECTORIES["TRANSPORT_MONTHLY_ZIP"],
-            out_path=params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"]
-            
+            out_path=params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"]    
         )
         repo += "<!-- 4 --><br/>\n"
         repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
-        
-        # DOWNLOAD FILE CLASSI DI PRODOTTO
-        repo += cDownl.downloadfile(
+
+        # File Download - Product Class
+        repo += dataDownloader.download_file(
             url = params.URLS["CLS_PRODUCTS"],
-            file = params.FILES["CLS_PRODUCT_DAT"],
-            logger = logger
+            file = params.FILES["CLS_PRODUCT_DAT"]
         )
         repo += "<!-- 5 --><br/>\n"
 
-        # DOWNLOAD FILE CLASSI CPA
-        repo += cDownl.downloadfile(
+        # File Download - CPA Class
+        repo += dataDownloader.download_file(
             url = params.URLS["CLS_CPA"],
-            file = params.FILES["CLS_CPA"],
-            logger = logger
+            file = params.FILES["CLS_CPA"]
         )
         repo += "<!-- 6 --><br/>\n"
 
-        # DOWNLOAD FILE CLASSI CPA 3-DIGIT ITA
-        repo += cDownl.downloadfile(
+        # File Download - 3-Digit CPA Class Ita
+        repo += dataDownloader.download_file(
             url = params.URLS["CLS_CPA_3D_ITA"],
-            file = params.FILES["CLS_CPA_3D_ITA"],
-            logger = logger
+            file = params.FILES["CLS_CPA_3D_ITA"]
         )
         repo += "<!-- 6.1 --><br/>\n"
 
-        # DOWNLOAD FILE CLASSI CPA 2-DIGIT ITA
-        repo += cDownl.downloadfile(
+        # File Download - 2-Digit CPA Ita Class
+        repo += dataDownloader.download_file(
             url = params.URLS["CLS_CPA_2D_ITA"],
-            file = params.FILES["CLS_CPA_2D_ITA"],
-            logger = logger
+            file = params.FILES["CLS_CPA_2D_ITA"]
         )
         repo += "<!-- 6.2 --><br/>\n"
 
-        # DOWNLOAD FILE CLASSI NSTR
-        repo += cDownl.downloadfile(
+        # File Download - NSTR Class
+        repo += dataDownloader.download_file(
             url = params.URLS["CLS_NSTR"],
-            file = params.FILES["CLS_NSTR"],
-            logger = logger
+            file = params.FILES["CLS_NSTR"]
         )
         repo += "<!-- 7 --><br/>\n"
 
-        # DOWNLOAD FILE CLASSI DI NSTR ITA
-        repo += cDownl.downloadfile(
+        # File Download - NSTR Class Ita
+        repo += dataDownloader.download_file(
             url = params.URLS["CLS_NSTR_ITA"],
-            file = params.FILES["CLS_NSTR_ITA"],
-            logger = logger
+            file = params.FILES["CLS_NSTR_ITA"]
         )
         repo += "<!-- 7.1a --><br/>\n"
 
-        #[MAP] DOWNLOAD FILE ANNUAL POPULATION
-        repo += cDownl.downloadfile(
+        # [Map] File Download - Annual Population
+        repo += dataDownloader.download_file(
             url = params.URLS["ANNUAL_POPULATION"],
-            file = params.FILES["ANNUAL_POPULATION_CSV"],
-            logger = logger
+            file = params.FILES["ANNUAL_POPULATION_CSV"]
         )
         repo += "<!-- 7.1 --><br/>\n"
 
-        #[MAP] DOWNLOAD FILE ANNUAL INDUSTRIAL PRODUCTION
-        repo += cDownl.downloadfile(
+        # [Map] File Download - Annual Industrial Production
+        repo += dataDownloader.download_file(
             url = params.URLS["ANNUAL_INDUSTRIAL_PRODUCTION"],
-            file = params.FILES["ANNUAL_INDUSTRIAL_PRODUCTION_CSV"],
-            logger = logger
+            file = params.FILES["ANNUAL_INDUSTRIAL_PRODUCTION_CSV"]
         )
         repo += "<!-- 7.2 --><br/>\n"
 
-        #[MAP] DOWNLOAD FILE ANNUAL EMPLOYMENT
-        repo += cDownl.downloadfile(
+        # [Map] File Download - Annual Employment
+        repo += dataDownloader.download_file(
             url = params.URLS["ANNUAL_UNEMPLOYEMENT"],
-            file = params.FILES["ANNUAL_UNEMPLOYEMENT_CSV"],
-            logger = logger
+            file = params.FILES["ANNUAL_UNEMPLOYEMENT_CSV"]
         )
         repo += "<!-- 7.3 --><br/>\n"
+
+        # ----------------------------- PROCESSING --------------------------------- #
+
         #[MAP] CREAZIONE FILE PER LA MAPPA INTERATTIVA (IEINFO)
         
         repo += cOut.annualProcessing(

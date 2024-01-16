@@ -2,8 +2,8 @@ import os
 import datetime
 from dateutil.relativedelta import relativedelta
 
-WORKING_FOLDER=os.environ['WORKING_FOLDER']
-#WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
+#WORKING_FOLDER=os.environ['WORKING_FOLDER']
+WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
 KEY_VAULT_NAME = "statlab-key-vault"
 SECRETNAME_ACCOUNTKEY = "cosmostoragekey"
@@ -18,10 +18,13 @@ MAIL_SETTINGS = {
     "SUBJECT" : "Repo from cosmo update"
 }
 
-# SET TIME INTERVAL (IN MONTHS)
-OFFSET_M = 3
-DOWNLOAD_TIME_INTERVAL_M = 36
+# SET TIME INTERVAL (IN MONTHS) FOR DOWNLOAD
+OFFSET_M = 15
+DOWNLOAD_TIME_INTERVAL_M = 3
+MAX_RETRY = 5
+RETRY_WAIT = 1
 
+# TIME INTERVAL FOR PROCESSING
 PAGE_MAP_TIME_INTERVAL_M = 36
 PAGE_TIME_SERIES_TIME_INTERVAL_M = 36
 PAGE_GRAPH_EXTRA_UE_TIME_INTERVAL_M = 36
