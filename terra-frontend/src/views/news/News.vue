@@ -77,7 +77,10 @@ export default {
       this.$store.dispatch("message/success", this.$t("common.update_cls"))
       this.$store.dispatch("classification/getClassifications").then(() => {
         this.fixLanguageAccessibility()
-        this.fixMetaTitle()
+        this.$store.dispatch("news/findAll").then(() => {
+          this.fixHeaderTableForAccessibility()
+          this.spinnerStart(false)
+        })
       })
     }
   },
@@ -89,17 +92,17 @@ export default {
         {
           key: "date",
           label: this.$t("news.table.date"),
-          _style: "width:5%;"
+          _style: "width:15%;"
         },
         {
           key: "text",
           label: this.$t("news.table.text"),
-          _style: "width:90%;"
+          _style: "width:70%;"
         },
         {
           key: "type",
           label: this.$t("news.table.type"),
-          _style: "width:5%;"
+          _style: "width:15%;"
         }
       ]
     }
@@ -263,17 +266,17 @@ export default {
     this.fixSortingTable()
     this.fixNavTable()
     this.fixBodyTable()
+    this.fixASidebarMenu()
   },
   updated() {
     this.fixSortingTable()
     this.fixNavTable()
     this.fixBodyTable()
+    this.fixASidebarMenu()
   },
   created() {
     this.spinnerStart(true)
     this.$store.dispatch("coreui/setContext", Context.News)
-    this.fixLanguageAccessibility()
-    this.fixASidebarMenu()
     this.fixMetaTitle()
     this.$store.dispatch("news/findAll").then(() => {
       this.fixHeaderTableForAccessibility()
@@ -286,6 +289,7 @@ export default {
 .card-body {
   padding: 0.2rem 1.25rem;
 }
+
 .no-visible {
   display: none;
 }
