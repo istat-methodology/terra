@@ -11,7 +11,7 @@ from modules import cosmoUtility as cUtil
 from modules import cosmoDownload as cDownl
 from modules import cosmoProcess as cProc
 from modules import cosmoOutput as cOut
-import params
+from resources import params
 
 def is_application_insight_configured():
     return (

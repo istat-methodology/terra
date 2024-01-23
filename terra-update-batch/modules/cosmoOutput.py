@@ -5,7 +5,7 @@ import json
 import sqlite3
 
 # TERRA MODULES
-import params
+from resources import params
 from modules import cosmoUtility as cUtil
 
 # [JSON] METADATA

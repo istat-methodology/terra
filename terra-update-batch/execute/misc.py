@@ -1,6 +1,6 @@
 import os
 import logging
-import params
+from resources import params
 from datetime import datetime
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 from modules import cosmoUtility as cUtil

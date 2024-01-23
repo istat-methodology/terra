@@ -2,7 +2,7 @@ import os
 import sqlite3
 import pandas as pd
 import numpy as np
-import params
+from resources import params
 
 def createMonthlyFULLtable(db, path_to_scan, logger):
     logger.info(db)

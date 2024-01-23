@@ -16,7 +16,7 @@ try:
 except:
     print('Azure libraries not imported')
 
-import params
+from resources import params
 
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):

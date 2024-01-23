@@ -1,4 +1,4 @@
-import params
+from resources import params
 from modules import cosmoProcess as cProc
 from modules import cosmoOutput as cOut
 
@@ -20,7 +20,6 @@ def executeProcessing(logger):
             logger.info(f'Processed Product (Annual) table')
         except Exception as e:
             logger.error(f'Error processing Product (Annual) table: {str(e)}')
-
 
     # [DB] Database Creation
     try:

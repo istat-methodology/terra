@@ -1,5 +1,5 @@
 from modules import cosmoDownload as cDownl
-import config_download
+from resources import config_download
 
 def executeDownload(logger):
     logger.info('<-- Download -->')

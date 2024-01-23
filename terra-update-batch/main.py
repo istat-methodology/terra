@@ -1,9 +1,6 @@
 import sys
-import params
-import download
-import processing
-import output
-import misc
+from resources import params
+from execute import download, processing, output, misc
 
 logger = misc.get_logger()
 
@@ -18,7 +15,7 @@ def executeUpdate():
             processing.executeProcessing(logger)
         
         if params.RUN_OUTPUT:
-            output.exectuteOutput(logger=logger, repo=repo, start_time=start_time)
+            output.exectuteOutput(logger)
 
         misc.executeUtils(logger=logger, repo=repo, start_time=start_time)
 

@@ -6,7 +6,7 @@ import multiprocessing as mp
 from functools import partial
 
 # custom TERRA modules
-import params
+from resources import params
 from modules import cosmoUtility as cUtil
 
 class DownloadAndExtractComextParallel():
