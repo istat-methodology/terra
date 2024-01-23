@@ -2,6 +2,11 @@ import os
 import datetime
 from dateutil.relativedelta import relativedelta
 
+RUN_DOWNLOAD = True
+RUN_PROCESSING = True
+RUN_ANNUAL_PROCESSING = False
+RUN_OUTPUT = True
+
 #WORKING_FOLDER=os.environ['WORKING_FOLDER']
 WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 

@@ -1,269 +1,139 @@
 import os
 import urllib.request
 import py7zr
-from functools import partial
+import time
 import multiprocessing as mp
+from functools import partial
 
-# TERRA MODULES
+# custom TERRA modules
 import params
 from modules import cosmoUtility as cUtil
 
-# [TODO]: CREARE UNA CLASSE DOWNLOAD CHE RAZIONALIZZI IL DOWNLOAD
+class DownloadAndExtractComextParallel():
+    """
+    A class for downloading and extracting .7z files from a specified url.
 
-def downloadAndExtractFile(param, extract_path, logger):
-    url_file = param[0]
-    file_zip = param[1]
-    count_downloaded = 0
-    count_extracted = 0
-    count_error = 0
+    Args:
+        logger: A logger object for logging messages.
+    """
 
-    logger.info("File: " + url_file)
-    logger.info("File zip: " + file_zip)
-    logger.info("extract path: " + extract_path)
-    logger.info("Downloading....")
+    def __init__(self, logger=None):
+        self.logger = logger
+    
+    def download_file(self, url, file):
+        """
+        Downloads a file from url
+        """
+        try:
+            urllib.request.urlretrieve(url, file)
+        except BaseException as err:
+            self.logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
+        else:
+            self.logger.info("File loaded: " + file)
 
-    try:
-        urllib.request.urlretrieve(url_file, file_zip)
-        count_downloaded += 1
-        with py7zr.SevenZipFile(file_zip) as z:
-            z.extractall(path=extract_path)
-            count_extracted += 1
-    except BaseException as err:
-        logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
-        count_error += 1
-    else:
-        logger.info("File loaded and extracted: " + file_zip)
+        return "File loaded: " + file
+    
+    def download_and_extract_file(self, paths: tuple[str], extract_path: str):
+        """
+        Downloads and extracts a single .7z file.
 
-    return (count_downloaded, count_extracted, count_error)
+        Args:
+            paths: A tuple containing the url of the file to be downloaded (file_url) and the path to the downloaded file (zip_file_url).
+            extract_path: The path where the extracted files will be saved.
 
+        Returns:
+            A tuple containing the number of files downloaded, extracted, and with errors.
+        """
+        file_url, zip_file_url = paths[0], paths[1]
+        n_downloaded, n_extracted, n_errors = 0, 0, 0
+        
+        if self.logger is not None:
+            self.logger.info(f"file url: {file_url}")
+            self.logger.info(f"zip file url: {zip_file_url}")
+            self.logger.info(f"extract path: {extract_path}")
+            self.logger.info("Downloading....")
 
-def downloadAndExtractComextMonthlyDATAParallel(
-    url_download, zip_folder, file_folder, prefix_file, start_data, end_data, logger
-):
-    logger.info("Path: " + zip_folder)
+        n_attempts = 0
 
-    count_downloaded = 0
-    count_extracted = 0
-    count_error = 0
-    urls = []
-    for current_month in cUtil.month_iter(
-        start_data.month, start_data.year, end_data.month, end_data.year
-    ):
-        current_month_month = current_month[0]
-        current_month_year = current_month[1]
+        for attempt in range(params.MAX_RETRY):
+            n_attempts+=1
+            try:
+                urllib.request.urlretrieve(file_url, zip_file_url)
+                n_downloaded += 1
+                with py7zr.SevenZipFile(zip_file_url) as z:
+                    z.extractall(path=extract_path)
+                    n_extracted += 1
+            except BaseException as e:
+                if self.logger is not None:
+                    self.logger.error(f"Attempt {n_attempts}/{params.MAX_RETRY} failed. Unexpected {str(e)}; type: {str(type(e))}")
+                if attempt == params.MAX_RETRY - 1:
+                    n_errors += 1
+                else:
+                    time.sleep(params.RETRY_WAIT)
+            else:
+                if self.logger is not None:
+                    self.logger.info(f"File loaded and extracted after {n_attempts} attempt(s): " + zip_file_url)
+                break
 
-        filenameZip = (
-            prefix_file + str(current_month_year) + str(current_month_month) + ".7z"
-        )
-        url_file = url_download + filenameZip
-        fileMonthlyZip = zip_folder + os.sep + filenameZip
-        urls.append((url_file, fileMonthlyZip))
+        return (n_downloaded, n_extracted, n_errors)
+    
+    
+    def data_download(self, frequency: str, file_type: str, url_download: str, out_path: str, zip_path: str):
+        """
+        Downloads and extracts multiple .7z files from a specified url.
 
-    # spark
-    # spark = SparkSession.builder.getOrCreate()
-    # listing = spark.sparkContext.parallelize(urls)
-    # ris=listing.map(lambda url: downloadAndExtractFile(url[0],url[1], DATA_FOLDER_MONTHLY_DATS)).collect()
+        Args:
+            frequency: The frequency of the files to be downloaded (monthly or annual).
+            file_type: The type of files to be downloaded (full or tr).
+            url_download: The url of the files to be downloaded.
+            out_path: The path where the extracted files will be saved.
+            zip_path: The path where the zipped files will be saved.
 
-    # mp
-    logger.info("Number of processors: {}".format(mp.cpu_count()))
-    pool = mp.Pool(mp.cpu_count())
+        Returns:
+            A string summarizing the download and extraction results.
+        """
 
-    # [TODO]: CAMBIARE NOMI (urls/params) PER RENDERLI PIù PARLANTI. URLS è UNA TUPLA DI URL E ZIP FILENAME
-    ris = pool.map(
-        partial(downloadAndExtractFile, extract_path = file_folder, logger = logger), urls
-    )
+        if self.logger is not None:
+            self.logger.info("Path: " + zip_path)
 
-    count_downloaded, count_extracted, count_error = map(sum, zip(*ris))
+        paths = []
 
-    logger.info(
-        "Monthly files repo: "
-        + str(count_downloaded)
-        + " downloaded, "
-        + str(count_extracted)
-        + " extracted "
-        + str(count_error)
-        + " error"
-    )
+        if file_type is None:
+            raise ValueError(f"Invalid file type: '{file_type}', admissible file types are: {list(params.PREFIX_MAP.keys())}")
 
-    return (
-        "Monthly files repo: "
-        + str(count_downloaded)
-        + " downloaded, "
-        + str(count_extracted)
-        + " extracted "
-        + str(count_error)
-        + " error "
-    )
+        if frequency == 'monthly':
+            start_date = params.start_data_DOWNLOAD
+            end_date = params.end_data_DOWNLOAD
+            date_tuple = cUtil.month_iter(start_date.month, start_date.year, end_date.month, end_date.year)
+            file_extension = '.7z'
+        elif frequency == 'annual':
+            date_tuple = [('',params.annual_previous_year), ('',params.annual_current_year)]
+            file_extension = '52.7z'
+        else:
+            raise ValueError("Invalid frequency. Please use 'monthly' or 'annual'.")
 
+        for date in date_tuple:
+            filename_zip = f"{file_type}{date[1]}{date[0]}{file_extension}"
+            url_file = url_download + filename_zip
+            file_zip_path = f'{zip_path}{os.sep}{filename_zip}'
+            
+            if self.logger is not None:
+                self.logger.info(f'File: {url_file}')
+                self.logger.info(f'Downloading...')
+            
+            paths.append((url_file, file_zip_path))
 
-#def downloadAndExtractComextMonthlyDATA(
-#    url_download, prefix_file, start_data, end_data
-#):
-#    DATA_FOLDER_WORKING = DATA_FOLDER_MONTHLY + os.sep + prefix_file
-#    DATA_FOLDER_MONTHLY_DATS = DATA_FOLDER_WORKING + os.sep + "files"
-#    DATA_FOLDER_MONTHLY_ZIPS = DATA_FOLDER_WORKING + os.sep + "zips"
-#    # createFolder(DATA_FOLDER_MONTHLY_DATS)
-#    # createFolder(DATA_FOLDER_MONTHLY_ZIPS)
-#
-#    logger.info("Path: " + DATA_FOLDER_WORKING)
-#
-#    count_downloaded = 0
-#    count_extracted = 0
-#    count_error = 0
-#    for current_month in month_iter(
-#        start_data.month, start_data.year, end_data.month, end_data.year
-#    ):
-#        current_month_month = current_month[0]
-#        current_month_year = current_month[1]
-#
-#        logger.info(str(current_month_year) + " " + str(current_month_month))
-#        filenameZip = (
-#            prefix_file + str(current_month_year) + str(current_month_month) + ".7z"
-#        )
-#
-#        url_file = url_download + filenameZip
-#        fileMonthlyZip = DATA_FOLDER_MONTHLY_ZIPS + os.sep + filenameZip
-#
-#        logger.info("File: " + url_file)
-#        logger.info("Downloading....")
-#
-#        try:
-#            urllib.request.urlretrieve(url_file, fileMonthlyZip)
-#            count_downloaded += 1
-#            with py7zr.SevenZipFile(fileMonthlyZip) as z:
-#                z.extractall(path=DATA_FOLDER_MONTHLY_DATS)
-#                count_extracted += 1
-#        except BaseException as err:
-#            logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
-#            count_error += 1
-#        else:
-#            logger.info("File loaded: " + filenameZip)
-#
-#    logger.info(
-#        "Monthly files repo: "
-#        + str(count_downloaded)
-#        + " downloaded, "
-#        + str(count_extracted)
-#        + " extracted "
-#        + str(count_error)
-#        + " error"
-#    )
-#
-#    return (
-#        "Monthly files repo: "
-#        + str(count_downloaded)
-#        + " downloaded, "
-#        + str(count_extracted)
-#        + " extracted "
-#        + str(count_error)
-#        + " error "
-#    )
+        if self.logger is not None:   
+            self.logger.info(f'Number of processors: {mp.cpu_count()}')
 
+        with mp.Pool(mp.cpu_count()) as pool:
+            results = pool.map(partial(self.download_and_extract_file, extract_path=out_path), paths)
 
-#def downloadAndExtractComextAnnualDATA():
-#    # createFolder(DATA_FOLDER_ANNUAL_DATS)
-#    # createFolder(DATA_FOLDER_ANNUAL_ZIPS)
-#
-#    count_downloaded = 0
-#    count_extracted = 0
-#    count_error = 0
-#
-#    for current_year in [annual_previous_year, annual_current_year]:
-#        filenameZip = "full" + str(current_year) + "52.7z"
-#
-#        url_file = URL_COMEXT_PRODUCTS + filenameZip
-#        fileAnnualZip = DATA_FOLDER_ANNUAL_ZIPS + os.sep + filenameZip
-#
-#        logger.info("File: " + url_file)
-#        logger.info("Downloading....")
-#
-#        try:
-#            urllib.request.urlretrieve(url_file, fileAnnualZip)
-#            count_downloaded += 1
-#            with py7zr.SevenZipFile(fileAnnualZip) as z:
-#                z.extractall(path=DATA_FOLDER_ANNUAL_DATS)
-#                count_extracted += 1
-#        except BaseException as err:
-#            logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
-#            count_error += 1
-#        else:
-#            logger.info("File loaded: " + filenameZip)
-#
-#    logger.info(
-#        "Annual files repo: "
-#        + str(count_downloaded)
-#        + " downloaded, "
-#        + str(count_extracted)
-#        + " extracted "
-#        + str(count_error)
-#        + " error"
-#    )
-#
-#    return (
-#        "Annual files repo: "
-#        + str(count_downloaded)
-#        + " downloaded, "
-#        + str(count_extracted)
-#        + " extracted "
-#        + str(count_error)
-#        + " error "
-#    )
+        n_downloaded, n_extracted, n_errors = map(sum, zip(*results))
 
+        info_string = f"Monthly files repo: {str(n_downloaded)} downloaded | {str(n_extracted)} extracted | {str(n_errors)} errors."
 
-def downloadAndExtractComextAnnualDATAParallel(url, prefix, zip_folder, data_folder, logger):
-    count_downloaded = 0
-    count_extracted = 0
-    count_error = 0
-    urls = []
-    for current_year in [params.annual_previous_year, params.annual_current_year]:
-        filenameZip = prefix + str(current_year) + "52.7z"
+        if self.logger is not None:
+            self.logger.info(info_string)
 
-        url_file = url + filenameZip
-        fileAnnualZip = zip_folder + os.sep + filenameZip
-
-        logger.info("File: " + url_file)
-        logger.info("Downloading....")
-        urls.append((url_file, fileAnnualZip))
-
-    # spark version
-    # spark = SparkSession.builder.getOrCreate()
-    # listing = spark.sparkContext.parallelize(urls)
-    # ris=listing.map(lambda url: downloadAndExtractFile(url, data_folder)).collect()
-
-    # mp<
-    logger.info("Number of processors: {}".format(mp.cpu_count()))
-    pool = mp.Pool(mp.cpu_count())
-    ris = pool.map(
-        partial(downloadAndExtractFile, extract_path = data_folder, logger = logger), urls
-    )
-    count_downloaded, count_extracted, count_error = map(sum, zip(*ris))
-
-    logger.info(
-        "Annual files repo: "
-        + str(count_downloaded)
-        + " downloaded, "
-        + str(count_extracted)
-        + " extracted "
-        + str(count_error)
-        + " error"
-    )
-
-    return (
-        "Annual files repo: "
-        + str(count_downloaded)
-        + " downloaded, "
-        + str(count_extracted)
-        + " extracted "
-        + str(count_error)
-        + " error "
-    )
-
-
-def downloadfile(url, file, logger):
-    try:
-        urllib.request.urlretrieve(url, file)
-    except BaseException as err:
-        logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
-    else:
-        logger.info("File loaded: " + file)
-    return "File loaded: " + file
+        return info_string

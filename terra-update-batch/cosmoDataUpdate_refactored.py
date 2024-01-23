@@ -8,7 +8,7 @@ from opencensus.ext.azure.log_exporter import AzureLogHandler
 
 # TERRA MODULES
 from modules import cosmoUtility as cUtil
-from modules import cosmoDownload_refactored as cDownl_ref
+from modules import cosmoDownload as cDownl
 from modules import cosmoProcess as cProc
 from modules import cosmoOutput as cOut
 import params
@@ -58,7 +58,7 @@ def executeUpdate():
         # ----------------------------- DOWNLOADS --------------------------------- #
 
         # Download class initialization
-        dataDownloader = cDownl_ref.DownloadAndExtractComextParallel(logger=logger)
+        dataDownloader = cDownl.DownloadAndExtractComextParallel(logger=logger)
         
         # Data Download - Product (Annual)
         repo += dataDownloader.data_download(
@@ -188,6 +188,8 @@ def executeUpdate():
         )
         repo += "<!-- 10 --><br/>\n"
         repo += "time: " + cUtil.getPassedTime(start_time) + "<br/>\n"
+
+        # ----------------------------- OUTPUT --------------------------------- #
         
         #[JSON-SERVER/MAP] CREAZIONE FILE JSON PER SERIE IMPORT/EXPORT
         repo += cOut.createMonthlyOutputTimeSeries(
