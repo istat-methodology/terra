@@ -1,4 +1,4 @@
-from resources import params
+import params
 
 DATA_DOWNLOAD = [
     {

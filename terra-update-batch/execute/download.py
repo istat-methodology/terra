@@ -3,6 +3,7 @@ from resources import config_download
 
 def executeDownload(logger):
     logger.info('<-- Download -->')
+    
     dataDownloader =cDownl.DownloadAndExtractComextParallel(logger=logger)
 
     for data_category in config_download.DATA_DOWNLOAD:

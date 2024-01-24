@@ -1,12 +1,14 @@
 import sys
+from datetime import datetime
 from resources import params
 from execute import download, processing, output, misc
 
 logger = misc.get_logger()
 
 def executeUpdate():
+    start_time = datetime.now()
     try:
-        error, start_time, repo = misc.executePreliminaries(logger)
+        misc.executePreliminaries(logger, start_time)
 
         if params.RUN_DOWNLOAD:
             download.executeDownload(logger)
@@ -17,18 +19,18 @@ def executeUpdate():
         if params.RUN_OUTPUT:
             output.exectuteOutput(logger)
 
-        misc.executeUtils(logger=logger, repo=repo, start_time=start_time)
+        misc.executeUtils(logger)
 
     except Exception as e:
         logger.error(f'Error executing update: {str(e)}')
-        error = True
+        raise
     
     finally:
-        repo = misc.executeFinals(logger=logger, repo=repo, start_time=start_time)
-
-    return error
+        misc.executeFinals(logger, start_time)
 
 
 if __name__ == '__main__':
-    if executeUpdate():
+    try:
+        executeUpdate()
+    except Exception:
         sys.exit(1)
