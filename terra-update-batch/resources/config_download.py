@@ -1,4 +1,4 @@
-import params
+from resources import params
 
 DATA_DOWNLOAD = [
     {
@@ -47,6 +47,12 @@ FILE_DOWNLOAD = [
         "variable": "CLS_CPA_2D_ITA",
         "file": params.FILES["CLS_CPA_2D_ITA"],
         "url_download": params.URLS["CLS_CPA_2D_ITA"]
+    },
+
+    {
+        "variable": "CLS_CPA_3D_ITA",
+        "file": params.FILES["CLS_CPA_3D_ITA"],
+        "url_download": params.URLS["CLS_CPA_3D_ITA"]
     },
 
     {

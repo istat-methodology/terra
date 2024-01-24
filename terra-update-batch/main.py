@@ -19,7 +19,8 @@ def executeUpdate():
         if params.RUN_OUTPUT:
             output.exectuteOutput(logger)
 
-        misc.executeUtils(logger)
+        if params.RUN_UTILS:
+            misc.executeUtils(logger)
 
     except Exception as e:
         logger.error(f'Error executing update: {str(e)}')

@@ -6,9 +6,10 @@ RUN_DOWNLOAD = True
 RUN_PROCESSING = True
 RUN_ANNUAL_PROCESSING = False
 RUN_OUTPUT = True
+RUN_UTILS = False
 
-#WORKING_FOLDER=os.environ['WORKING_FOLDER']
-WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
+WORKING_FOLDER=os.environ['WORKING_FOLDER']
+#WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
 KEY_VAULT_NAME = "statlab-key-vault"
 SECRETNAME_ACCOUNTKEY = "cosmostoragekey"
@@ -19,13 +20,13 @@ URL_PYTHONDATA_SERVER = "https://api.cosmo.statlab.it/graph"
 
 MAIL_SETTINGS = {
     "SERVER": "https://prod-190.westeurope.logic.azure.com:443/workflows/52cafc0d0f2d4dd08ee290a5d367f109/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PFatjXjc32cpXZqX-KFBkn0a7ZKgT1q5iR2hI07NR4w",
-    "TO" : "giulio.massacci@istat.it",
+    "TO" : "giulio.massacci@istat.it;francesco.ortame@istat.it;mbruno@istat.it",
     "SUBJECT" : "Repo from cosmo update"
 }
 
 # SET TIME INTERVAL (IN MONTHS) FOR DOWNLOAD
-OFFSET_M = 15
-DOWNLOAD_TIME_INTERVAL_M = 3
+OFFSET_M = 3
+DOWNLOAD_TIME_INTERVAL_M = 36
 MAX_RETRY = 5
 RETRY_WAIT = 1
 

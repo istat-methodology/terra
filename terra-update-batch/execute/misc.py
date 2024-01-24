@@ -18,7 +18,7 @@ def get_logger():
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S"
+        datefmt="%Y-%m-%d %H:%M:%S"        
     )
     logger = logging.getLogger(__name__)
 
@@ -74,7 +74,6 @@ def executeFinals(logger, start_time: datetime):
     
     end_time = datetime.now()
     logger.info(f'end time: {end_time.strftime("%H:%M:%S")}')
-    total_time = end_time - start_time
     logger.info(f'TOTAL time: {str(end_time - start_time)}')
 
     cUtil.sendEmailRepo('[ Exectute Update Log ]', logger)
