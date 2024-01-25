@@ -17,21 +17,19 @@ class DownloadAndExtractComextParallel():
         logger: A logger object for logging messages.
     """
 
-    def __init__(self, logger=None):
+    def __init__(self, logger):
         self.logger = logger
     
-    def download_file(self, url, file):
+    def file_download(self, url, file):
         """
         Downloads a file from url
         """
         try:
             urllib.request.urlretrieve(url, file)
-        except BaseException as err:
-            self.logger.error("Unexpected " + str(err) + " ; type: " + str(type(err)))
+        except Exception as e:
+            self.logger.error(f'Unexpected {str(e)}; type: {str(type(e))}')
         else:
-            self.logger.info("File loaded: " + file)
-
-        return "File loaded: " + file
+            self.logger.info(f'File loaded: {file}')
     
     def download_and_extract_file(self, paths: tuple[str], extract_path: str):
         """
@@ -47,11 +45,10 @@ class DownloadAndExtractComextParallel():
         file_url, zip_file_url = paths[0], paths[1]
         n_downloaded, n_extracted, n_errors = 0, 0, 0
         
-        if self.logger is not None:
-            self.logger.info(f"file url: {file_url}")
-            self.logger.info(f"zip file url: {zip_file_url}")
-            self.logger.info(f"extract path: {extract_path}")
-            self.logger.info("Downloading....")
+        self.logger.info(f"file url: {file_url}")
+        self.logger.info(f"zip file url: {zip_file_url}")
+        self.logger.info(f"extract path: {extract_path}")
+        self.logger.info("Downloading....")
 
         n_attempts = 0
 
@@ -63,16 +60,14 @@ class DownloadAndExtractComextParallel():
                 with py7zr.SevenZipFile(zip_file_url) as z:
                     z.extractall(path=extract_path)
                     n_extracted += 1
-            except BaseException as e:
-                if self.logger is not None:
-                    self.logger.error(f"Attempt {n_attempts}/{params.MAX_RETRY} failed. Unexpected {str(e)}; type: {str(type(e))}")
+            except Exception as e:
+                self.logger.error(f'Attempt {n_attempts}/{params.MAX_RETRY} failed. Unexpected {str(e)}; type: {str(type(e))}')
                 if attempt == params.MAX_RETRY - 1:
                     n_errors += 1
                 else:
                     time.sleep(params.RETRY_WAIT)
             else:
-                if self.logger is not None:
-                    self.logger.info(f"File loaded and extracted after {n_attempts} attempt(s): " + zip_file_url)
+                self.logger.info(f'File loaded and extracted after {n_attempts} attempt(s): {zip_file_url}')
                 break
 
         return (n_downloaded, n_extracted, n_errors)
@@ -93,8 +88,7 @@ class DownloadAndExtractComextParallel():
             A string summarizing the download and extraction results.
         """
 
-        if self.logger is not None:
-            self.logger.info("Path: " + zip_path)
+        self.logger.info(f'Path: {zip_path}')
 
         paths = []
 
@@ -117,23 +111,16 @@ class DownloadAndExtractComextParallel():
             url_file = url_download + filename_zip
             file_zip_path = f'{zip_path}{os.sep}{filename_zip}'
             
-            if self.logger is not None:
-                self.logger.info(f'File: {url_file}')
-                self.logger.info(f'Downloading...')
+            self.logger.info(f'File: {url_file}')
+            self.logger.info(f'Downloading...')
             
             paths.append((url_file, file_zip_path))
 
-        if self.logger is not None:   
-            self.logger.info(f'Number of processors: {mp.cpu_count()}')
+        self.logger.info(f'Number of processors: {mp.cpu_count()}')
 
         with mp.Pool(mp.cpu_count()) as pool:
             results = pool.map(partial(self.download_and_extract_file, extract_path=out_path), paths)
 
         n_downloaded, n_extracted, n_errors = map(sum, zip(*results))
 
-        info_string = f"Monthly files repo: {str(n_downloaded)} downloaded | {str(n_extracted)} extracted | {str(n_errors)} errors."
-
-        if self.logger is not None:
-            self.logger.info(info_string)
-
-        return info_string
+        self.logger.info(f"Monthly files repo: {str(n_downloaded)} downloaded | {str(n_extracted)} extracted | {str(n_errors)} errors.")

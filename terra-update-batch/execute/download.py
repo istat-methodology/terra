@@ -21,7 +21,7 @@ def executeDownload(logger):
     
     for file_category in config_download.FILE_DOWNLOAD:
         try:
-            dataDownloader.download_file(
+            dataDownloader.file_download(
                 url=file_category['url_download'],
                 file=file_category['file']
             )

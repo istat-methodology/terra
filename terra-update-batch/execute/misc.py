@@ -14,7 +14,6 @@ def is_application_insight_configured():
 
 
 def get_logger():
-    
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
@@ -56,7 +55,6 @@ def executeUtils(logger):
     cUtil.createAndSendBackupFiles(logger)
     logger.info(f'Backup files created and sent - time: {cUtil.getPassedTime(start_time)})')
 
-    start_time = datetime.now()
     cUtil.deleteFolder(params.DATA_FOLDER , logger)
     logger.info(f'Folder deleted')
 

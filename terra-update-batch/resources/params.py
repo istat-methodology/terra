@@ -3,13 +3,13 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 RUN_DOWNLOAD = True
-RUN_PROCESSING = True
 RUN_ANNUAL_PROCESSING = False
+RUN_MONTHLY_PROCESSING = True
 RUN_OUTPUT = True
 RUN_UTILS = False
 
-WORKING_FOLDER=os.environ['WORKING_FOLDER']
-#WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
+#WORKING_FOLDER=os.environ['WORKING_FOLDER']
+WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
 KEY_VAULT_NAME = "statlab-key-vault"
 SECRETNAME_ACCOUNTKEY = "cosmostoragekey"

@@ -13,8 +13,10 @@ def executeUpdate():
         if params.RUN_DOWNLOAD:
             download.executeDownload(logger)
 
-        if params.RUN_PROCESSING:
-            processing.executeProcessing(logger)
+        if params.RUN_ANNUAL_PROCESSING:
+            processing.executeAnnualProcessing(logger)
+        if params.RUN_MONTHLY_PROCESSING:
+            processing.executeMonthlyProcessing(logger)
         
         if params.RUN_OUTPUT:
             output.exectuteOutput(logger)
@@ -28,7 +30,6 @@ def executeUpdate():
     
     finally:
         misc.executeFinals(logger, start_time)
-
 
 if __name__ == '__main__':
     try:
