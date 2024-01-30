@@ -20,7 +20,7 @@ class DownloadAndExtractComextParallel():
     def __init__(self, logger):
         self.logger = logger
     
-    def file_download(self, url, file):
+    def file_download(self, url: str, file: str):
         """
         Downloads a file from url
         """
@@ -42,7 +42,7 @@ class DownloadAndExtractComextParallel():
         Returns:
             A tuple containing the number of files downloaded, extracted, and with errors.
         """
-        file_url, zip_file_url = paths[0], paths[1]
+        file_url, zip_file_url, filename = paths[0], paths[1], paths[2]
         n_downloaded, n_extracted, n_errors = 0, 0, 0
         
         self.logger.info(f"file url: {file_url}")
@@ -51,7 +51,6 @@ class DownloadAndExtractComextParallel():
         self.logger.info("Downloading....")
 
         n_attempts = 0
-
         for attempt in range(params.MAX_RETRY):
             n_attempts+=1
             try:
@@ -61,16 +60,17 @@ class DownloadAndExtractComextParallel():
                     z.extractall(path=extract_path)
                     n_extracted += 1
             except Exception as e:
-                self.logger.error(f'Attempt {n_attempts}/{params.MAX_RETRY} failed. Unexpected {str(e)}; type: {str(type(e))}')
+                self.logger.error(f'{filename}: Attempt {n_attempts}/{params.MAX_RETRY} failed. Unexpected {str(e)}; type: {str(type(e))}')
                 if attempt == params.MAX_RETRY - 1:
                     n_errors += 1
+                    self.logger.error(f'Failed to download: {filename}')
                 else:
                     time.sleep(params.RETRY_WAIT)
             else:
-                self.logger.info(f'File loaded and extracted after {n_attempts} attempt(s): {zip_file_url}')
+                self.logger.info(f'{filename}: File loaded and extracted after {n_attempts} attempt(s): {zip_file_url}')
                 break
 
-        return (n_downloaded, n_extracted, n_errors)
+        return (n_downloaded, n_extracted, n_errors, filename if n_errors != 0 else '')
     
     
     def data_download(self, frequency: str, file_type: str, url_download: str, out_path: str, zip_path: str):
@@ -79,7 +79,7 @@ class DownloadAndExtractComextParallel():
 
         Args:
             frequency: The frequency of the files to be downloaded (monthly or annual).
-            file_type: The type of files to be downloaded (full or tr).
+            file_type: The type of files to be downloaded ('full' or 'tr').
             url_download: The url of the files to be downloaded.
             out_path: The path where the extracted files will be saved.
             zip_path: The path where the zipped files will be saved.
@@ -92,11 +92,15 @@ class DownloadAndExtractComextParallel():
 
         paths = []
 
-        if file_type is None:
+        if file_type not in list(params.PREFIX_MAP.keys()):
             raise ValueError(f"Invalid file type: '{file_type}', admissible file types are: {list(params.PREFIX_MAP.keys())}")
 
         if frequency == 'monthly':
-            start_date = params.start_data_DOWNLOAD
+            if file_type == 'full':
+                start_date = params.start_data_DOWNLOAD_PRODUCT
+            else: 
+                start_date = params.start_data_DOWNLOAD_TRANSPORT
+
             end_date = params.end_data_DOWNLOAD
             date_tuple = cUtil.month_iter(start_date.month, start_date.year, end_date.month, end_date.year)
             file_extension = '.7z'
@@ -114,13 +118,15 @@ class DownloadAndExtractComextParallel():
             self.logger.info(f'File: {url_file}')
             self.logger.info(f'Downloading...')
             
-            paths.append((url_file, file_zip_path))
+            paths.append((url_file, file_zip_path, filename_zip))
 
         self.logger.info(f'Number of processors: {mp.cpu_count()}')
 
         with mp.Pool(mp.cpu_count()) as pool:
             results = pool.map(partial(self.download_and_extract_file, extract_path=out_path), paths)
 
-        n_downloaded, n_extracted, n_errors = map(sum, zip(*results))
+        n_downloaded, n_extracted, n_errors, error_list = [sum(filter(lambda x: isinstance(x, int), col)) if isinstance(col[0], int) else '|'.join(col) for col in zip(*results)]
+        
 
         self.logger.info(f"Monthly files repo: {str(n_downloaded)} downloaded | {str(n_extracted)} extracted | {str(n_errors)} errors.")
+        self.logger.warning(f"Files failed to download: {error_list}")

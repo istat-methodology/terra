@@ -2,55 +2,56 @@ import os
 import datetime
 from dateutil.relativedelta import relativedelta
 
-RUN_DOWNLOAD = True
-RUN_ANNUAL_PROCESSING = False
-RUN_MONTHLY_PROCESSING = True
-RUN_OUTPUT = True
-RUN_UTILS = False
+RUN_DOWNLOAD          : bool = True
+RUN_ANNUAL_PROCESSING : bool = True
+RUN_MONTHLY_PROCESSING: bool = True
+RUN_OUTPUT            : bool = True
+RUN_UTILS             : bool = True
 
-#WORKING_FOLDER=os.environ['WORKING_FOLDER']
-WORKING_FOLDER = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
+WORKING_FOLDER        : str  = os.environ['WORKING_FOLDER']
+#WORKING_FOLDER : str = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
-KEY_VAULT_NAME = "statlab-key-vault"
-SECRETNAME_ACCOUNTKEY = "cosmostoragekey"
+KEY_VAULT_NAME        : str  = "statlab-key-vault"
+SECRETNAME_ACCOUNTKEY : str  = "cosmostoragekey"
 
-URL_JSONDATA_SERVER = "https://api.cosmo.statlab.it/cls"
-URL_RDATA_SERVER = "https://api.cosmo.statlab.it/time-series"
-URL_PYTHONDATA_SERVER = "https://api.cosmo.statlab.it/graph"
+URL_JSONDATA_SERVER   : str  = "https://api.cosmo.statlab.it/cls"
+URL_RDATA_SERVER      : str  = "https://api.cosmo.statlab.it/time-series"
+URL_PYTHONDATA_SERVER : str  = "https://api.cosmo.statlab.it/graph"
 
-MAIL_SETTINGS = {
+MAIL_SETTINGS         : str  = {
     "SERVER": "https://prod-190.westeurope.logic.azure.com:443/workflows/52cafc0d0f2d4dd08ee290a5d367f109/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PFatjXjc32cpXZqX-KFBkn0a7ZKgT1q5iR2hI07NR4w",
     "TO" : "giulio.massacci@istat.it;francesco.ortame@istat.it;mbruno@istat.it",
     "SUBJECT" : "Repo from cosmo update"
 }
 
 # SET TIME INTERVAL (IN MONTHS) FOR DOWNLOAD
-OFFSET_M = 3
-DOWNLOAD_TIME_INTERVAL_M = 36
-MAX_RETRY = 5
-RETRY_WAIT = 1
+OFFSET_M                          : int = 3
+DOWNLOAD_TIME_INTERVAL_PRODUCT_M  : int = 144
+DOWNLOAD_TIME_INTERVAL_TRANSPORT_M: int = 60
+MAX_RETRY                         : int = 5
+RETRY_WAIT                        : int = 1
 
 # TIME INTERVAL FOR PROCESSING
-PAGE_MAP_TIME_INTERVAL_M = 36
-PAGE_TIME_SERIES_TIME_INTERVAL_M = 36
-PAGE_GRAPH_EXTRA_UE_TIME_INTERVAL_M = 36
-PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M = 36
-PAGE_BASKET_TIME_INTERVAL_M = 36
+PAGE_MAP_TIME_INTERVAL_M           : int = 60
+PAGE_TIME_SERIES_TIME_INTERVAL_M   : int = 144
+PAGE_GRAPH_EXTRA_UE_TIME_INTERVAL_M: int = 60
+PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M: int = 60
+PAGE_BASKET_TIME_INTERVAL_M        : int = 60
 
 
-PREFIX_PRODUCT = "full"
-PREFIX_TRANSPORT = "tr"
-PREFIX_MAP = {
+PREFIX_PRODUCT  : str = "full"
+PREFIX_TRANSPORT: str = "tr"
+PREFIX_MAP      : dict[str] = {
   "tr": "transport",
   "full": "product"
 }
 
-FLOW_IMPORT = 1
-FLOW_EXPORT = 2
-COLS_CLS_PRODUCTS = 4
-SUPPORTED_LANGUAGES = ["it", "en"]
-DATA_EXTENTION = ".dat"
-SEP = ","
+FLOW_IMPORT        : int = 1
+FLOW_EXPORT        : int = 2
+COLS_CLS_PRODUCTS  : int = 4
+SUPPORTED_LANGUAGES: list[str] = ["it", "en"]
+DATA_EXTENTION     : str = ".dat"
+SEP                : str = ","
 
 job_id = os.getenv("AZ_BATCH_JOB_ID", "").replace(":", "_")
 DATA_FOLDER_PARENT = (
@@ -76,10 +77,15 @@ annual_previous_year = (
     - relativedelta(years=2)
 ).year
 
-start_data_DOWNLOAD = (
+start_data_DOWNLOAD_PRODUCT = (
     datetime.datetime.strptime(str(this_year_month), "%Y%m")
     - relativedelta(months=OFFSET_M)
-    - relativedelta(months=DOWNLOAD_TIME_INTERVAL_M - 1)
+    - relativedelta(months=DOWNLOAD_TIME_INTERVAL_PRODUCT_M - 1)
+)
+start_data_DOWNLOAD_TRANSPORT = (
+    datetime.datetime.strptime(str(this_year_month), "%Y%m")
+    - relativedelta(months=OFFSET_M)
+    - relativedelta(months=DOWNLOAD_TIME_INTERVAL_TRANSPORT_M - 1)
 )
 end_data_DOWNLOAD = datetime.datetime.strptime(
     str(this_year_month), "%Y%m"
@@ -112,9 +118,9 @@ start_data_PAGE_BASKET = (
     - relativedelta(months=PAGE_BASKET_TIME_INTERVAL_M - 1)
 )
 
-DATA_FOLDER = DATA_FOLDER_PARENT + os.sep + str(this_year_month)
+DATA_FOLDER: str = DATA_FOLDER_PARENT + os.sep + str(this_year_month)
 
-URLS = {
+URLS: dict[str] = {
     "ANNUAL_POPULATION" : "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/DEMO_GIND/?format=SDMX-CSV&i",
     "ANNUAL_INDUSTRIAL_PRODUCTION" : "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/STS_INPR_A/?format=SDMX-CSV&i",
     "ANNUAL_UNEMPLOYEMENT" : "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/UNE_RT_A/?format=SDMX-CSV&i",
@@ -136,7 +142,7 @@ URLS = {
     "CLS_CPA_2D_ITA" : "https://raw.githubusercontent.com/istat-methodology/terra/main/cls/cpa2.1_2digit_ita.csv"   
 }
 
-DIRECTORIES = {
+DIRECTORIES: dict[str] = {
     "ROOT" : DATA_FOLDER,
     "CLASSIFICATION" : DATA_FOLDER + os.sep + "classification",
     "UTILS" : DATA_FOLDER + os.sep + "utils",
@@ -155,7 +161,7 @@ DIRECTORIES = {
     "TRANSPORT_MONTHLY_OUTPUT" : DATA_FOLDER + os.sep + "comext" + os.sep + PREFIX_MAP[PREFIX_TRANSPORT] + os.sep + "monthly" + os.sep + "output",
 }
 
-FILENAMES = {
+FILENAMES: dict[str] = {
     "SQLLITE_DB" : "comext.db",
 
     "GENERAL_INFO": "metadata.json",
@@ -197,7 +203,7 @@ FILENAMES = {
     "ANNUAL_UNEMPLOYEMENT_CSV" : "annual_unemployment.csv"
 }
 
-FILES = {
+FILES: dict[str] = {
     "GENERAL_INFO" : DIRECTORIES["ROOT"] + os.sep + FILENAMES["GENERAL_INFO"],
 
     "SQLLITE_DB" : DIRECTORIES["PRODUCT"] + os.sep + FILENAMES["SQLLITE_DB"],

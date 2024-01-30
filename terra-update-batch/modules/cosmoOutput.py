@@ -22,9 +22,9 @@ def createGeneralInfoOutput(file):
     info_processing["annualCurrentYear"] = params.annual_current_year
     info_processing["annualPreviousYear"] = params.annual_previous_year
     info_processing["lastLoadedData"] = params.end_data_DOWNLOAD.strftime("%m, %Y")
-    info_processing["windowMonths"] = params.DOWNLOAD_TIME_INTERVAL_M
+    info_processing["windowMonths"] = params.DOWNLOAD_TIME_INTERVAL_PRODUCT_M
 
-    info_processing["monthsToExtract"] = params.DOWNLOAD_TIME_INTERVAL_M
+    info_processing["monthsToExtract"] = params.DOWNLOAD_TIME_INTERVAL_PRODUCT_M
     info_processing["offsetMonthToExtract"] = params.OFFSET_M
     info_processing["appVersion"] = "1.0.0"
 
