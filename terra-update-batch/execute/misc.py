@@ -4,7 +4,6 @@ from resources import params
 from datetime import datetime
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 from modules import cosmoUtility as cUtil
-from modules import cosmoOutput as cOut
 
 def is_application_insight_configured():
         return (
@@ -37,9 +36,6 @@ def executePreliminaries(logger, start_time: datetime):
 
     cUtil.createFolderStructure(params.DIRECTORIES)
     logger.info('Created folder structure')
-
-    cOut.createGeneralInfoOutput(file = params.FILES["GENERAL_INFO"])
-    logger.info('Created general info file')
 
     return start_time
 

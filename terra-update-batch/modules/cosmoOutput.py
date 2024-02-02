@@ -8,8 +8,8 @@ import sqlite3
 from resources import params
 from modules import cosmoUtility as cUtil
 
-# [JSON] METADATA
-def createGeneralInfoOutput(file):
+# [JSON] METADATA OLD (ELIMINARE)
+def createGeneralInfoOutput_old(file, output_interval):
     if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
         print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
         os.symlink(
@@ -30,53 +30,105 @@ def createGeneralInfoOutput(file):
 
     time_map_start = {}
     values = {}
-    values["timeSelected"] = str(params.this_year_month)
-
-    time_map_start["year"] = int(params.start_data_PAGE_MAP.strftime("%Y"))
-    time_map_start["month"] = int(params.start_data_PAGE_MAP.strftime("%m"))
+    #values["timeSelected"] = str(params.this_year_month)
+    values["timeSelected"] = str(output_interval["timeSeries"][1])
+    #time_map_start["year"] = int(params.start_data_PAGE_MAP.strftime("%Y"))
+    #time_map_start["month"] = int(params.start_data_PAGE_MAP.strftime("%m"))    
+    time_map_start["year"] = int(str(output_interval["timeSeries"][0])[:4])
+    time_map_start["month"] = int(str(output_interval["timeSeries"][0])[-2:])
     values["timeStart"] = time_map_start
     time_map_end = {}
-    time_map_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
-    time_map_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
+    #time_map_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
+    #time_map_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
+    time_map_end["year"] = int(str(output_interval["timeSeries"][1])[:4])
+    time_map_end["month"] = int(str(output_interval["timeSeries"][1])[-2:])
     values["timeEnd"] = time_map_end
     info_processing["map"] = values
 
     time_graph_start = {}
     time_graphp_end = {}
     values = {}
-    values["timeSelected"] = str(params.this_year_month)
-    time_graph_start["year"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%Y"))
-    time_graph_start["month"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%m"))
+    #values["timeSelected"] = str(params.this_year_month)
+    values["timeSelected"] = str(output_interval["graphExtra"][1])
+    #time_graph_start["year"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%Y"))
+    #time_graph_start["month"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%m"))
+    time_graph_start["year"] = int(str(output_interval["graphExtra"][0])[:4])
+    time_graph_start["month"] = int(str(output_interval["graphExtra"][0])[-2:])
     values["timeStart"] = time_graph_start
-    time_graphp_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
-    time_graphp_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
+    #time_graphp_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
+    #time_graphp_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
+    time_graphp_end["year"] = int(str(output_interval["graphExtra"][1])[:4])
+    time_graphp_end["month"] = int(str(output_interval["graphExtra"][1])[-2:])
     values["timeEnd"] = time_graphp_end
     info_processing["graph"] = values
 
     time_graphplus_start = {}
     time_graphpplus_end = {}
     values = {}
-    values["timeSelected"] = str(params.this_year_month)
-    time_graphplus_start["year"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%Y"))
-    time_graphplus_start["month"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%m"))
+    #values["timeSelected"] = str(params.this_year_month)
+    values["timeSelected"] = str(output_interval["graphIntra"][1])
+    #time_graphplus_start["year"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%Y"))
+    #time_graphplus_start["month"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%m"))
+    time_graphplus_start["year"] = int(str(output_interval["graphIntra"][0])[:4])
+    time_graphplus_start["month"] = int(str(output_interval["graphIntra"][0])[-2:])
     values["timeStart"] = time_graphplus_start
-    time_graphpplus_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
-    time_graphpplus_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
+    #time_graphpplus_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
+    #time_graphpplus_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
+    time_graphpplus_end["year"] = int(str(output_interval["graphIntra"][1])[:4])
+    time_graphpplus_end["month"] = int(str(output_interval["graphIntra"][1])[-2:])
     values["timeEnd"] = time_graphpplus_end
     info_processing["graphPlus"] = values
 
     time_trade_start = {}
     values = {}
-    values["timeSelected"] = str(params.this_year_month)
-    time_trade_start["year"] = int(params.start_data_PAGE_BASKET.strftime("%Y"))
-    time_trade_start["month"] = int(params.start_data_PAGE_BASKET.strftime("%m"))
+    #values["timeSelected"] = str(params.this_year_month)
+    values["timeSelected"] = str(output_interval["tradeValue"][1])
+    #time_trade_start["year"] = int(params.start_data_PAGE_BASKET.strftime("%Y"))
+    #time_trade_start["month"] = int(params.start_data_PAGE_BASKET.strftime("%m"))
+    time_trade_start["year"] = int(str(output_interval["tradeValue"][0])[:4])
+    time_trade_start["month"] = int(str(output_interval["tradeValue"][0])[-2:])
     values["timeStart"] = time_trade_start
     time_trade_end = {}
-    time_trade_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
-    time_trade_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
+    #time_trade_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
+    #time_trade_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
+    time_trade_end["year"] = int(str(output_interval["tradeValue"][1])[:4])
+    time_trade_end["month"] = int(str(output_interval["tradeValue"][1])[-2:])
     values["timeEnd"] = time_trade_end
 
     info_processing["trade"] = values
+
+    with open(file, "w") as f:
+        json.dump(info_processing, f, ensure_ascii=False, indent=1, cls=cUtil.NpEncoder)
+
+    return "Info general OK, created file: " + file
+
+# [JSON] METADATA
+def createGeneralInfoOutput(file, output_interval):
+    if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
+        print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
+        os.symlink(
+            params.DIRECTORIES["WORKING_FOLDER"], # DATA_FOLDER_PARENT
+            os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
+        )
+
+    info_processing = {}
+    info_processing["processingDay"] = params.processing_day.strftime("%d-%m-%Y, %H:%M:%S")
+    info_processing["annualCurrentYear"] = params.annual_current_year
+    info_processing["annualPreviousYear"] = params.annual_previous_year
+    info_processing["lastLoadedData"] = params.end_data_DOWNLOAD.strftime("%m, %Y")
+    info_processing["appVersion"] = "1.0.0"
+
+    time_map_start = {}
+    values = {}
+    values["timeSelected"] = str(output_interval["timeSeries"][1])  
+    time_map_start["year"] = int(str(output_interval["timeSeries"][0])[:4])
+    time_map_start["month"] = int(str(output_interval["timeSeries"][0])[-2:])
+    values["timeStart"] = time_map_start
+    time_map_end = {}
+    time_map_end["year"] = int(str(output_interval["timeSeries"][1])[:4])
+    time_map_end["month"] = int(str(output_interval["timeSeries"][1])[-2:])
+    values["timeEnd"] = time_map_end
+    info_processing["map"] = values
 
     with open(file, "w") as f:
         json.dump(info_processing, f, ensure_ascii=False, indent=1, cls=cUtil.NpEncoder)
@@ -564,13 +616,15 @@ def createMonthlyOutputTimeSeries(db, import_ts, export_ts, logger):
         logger.info("File " + iesFiles[flow])
         with open(iesFiles[flow], "w") as f:
             json.dump(ieFlows[flow], f, ensure_ascii=False, indent=4, cls=cUtil.NpEncoder)
-
-    return (
-        "TIME SERIES processing OK; files created: "
-        + import_ts
-        + " and "
-        + export_ts
-    )
+    
+    time_range = list(serie[serie["FLOW"].isin([params.FLOW_IMPORT, params.FLOW_EXPORT])]["PERIOD"].agg(['min', 'max']))
+    return time_range
+    #return (
+    #    "TIME SERIES processing OK; files created: "
+    #    + import_ts
+    #    + " and "
+    #    + export_ts
+    #)
 
 
 def createMonthlyOutputVQSTradeValue(db, import_value, export_value, cls_product_data, cls_product_2d_data, logger):
@@ -599,7 +653,6 @@ def createMonthlyOutputVQSTradeValue(db, import_value, export_value, cls_product
     )
     cls_products_cpa_langs = {}
     cls_products_cpa_langs["it"] = cls_products_cpa_it
-    print(cls_products_cpa_en)
     cls_products_cpa_langs["en"] = cls_products_cpa_en
     logger.info("cls_products: " + cls_product_data)
 
@@ -656,12 +709,14 @@ def createMonthlyOutputVQSTradeValue(db, import_value, export_value, cls_product
         with open(iesVQSFiles[flow], "w") as f:
             json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=cUtil.NpEncoder)
 
-    return (
-        "VQS VALUE TRADE processing OK; files created: "
-        + import_value
-        + " and "
-        + export_value
-    )
+    time_range = list(variazioni[variazioni["FLOW"].isin([params.FLOW_IMPORT, params.FLOW_EXPORT])]["PERIOD"].agg(['min', 'max']))
+    return time_range
+    #return (
+    #    "VQS VALUE TRADE processing OK; files created: "
+    #    + import_value
+    #    + " and "
+    #    + export_value
+    #)
 
 
 def createMonthlyOutputVQSTradeQuantity(db, import_qty, export_qty, cls_product_data, cls_product_2d_data, logger):
@@ -746,12 +801,14 @@ def createMonthlyOutputVQSTradeQuantity(db, import_qty, export_qty, cls_product_
         with open(iesVQSFiles[flow], "w") as f:
             json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=cUtil.NpEncoder)
 
-    return (
-        "VQS QUANTITY TRADE processing OK; files created: "
-        + import_qty
-        + " and "
-        + export_qty
-    )
+    time_range = list(variazioni[variazioni["FLOW"].isin([params.FLOW_IMPORT, params.FLOW_EXPORT])]["PERIOD"].agg(['min', 'max']))
+    return time_range
+    #return (
+    #    "VQS QUANTITY TRADE processing OK; files created: "
+    #    + import_qty
+    #    + " and "
+    #    + export_qty
+    #)
 
 
 def createMonthlyOutputQuoteSTrade(db, quote_trade, logger):
@@ -851,12 +908,14 @@ def createMonthlyOutputQuoteSTradeValue(db, import_quote_value, export_quote_val
         with open(iesVQSFiles[flow], "w") as f:
             json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=cUtil.NpEncoder)
 
-    return (
-        "Quote VALUE TRADE processing OK; files created: "
-        + import_quote_value
-        + " and "
-        + export_quote_value
-    )
+    time_range = list(quote[quote["FLOW"].isin([params.FLOW_IMPORT, params.FLOW_EXPORT])]["PERIOD"].agg(['min', 'max']))
+    return time_range
+    #return (
+    #    "Quote VALUE TRADE processing OK; files created: "
+    #    + import_quote_value
+    #    + " and "
+    #    + export_quote_value
+    #)
 
 
 def createMonthlyOutputQuoteSTradeQuantity(db, import_quote_qty, export_quote_qty, cls_product_data, cls_product_2d_data, logger):
@@ -940,12 +999,14 @@ def createMonthlyOutputQuoteSTradeQuantity(db, import_quote_qty, export_quote_qt
         with open(iesVQSFiles[flow], "w") as f:
             json.dump(ieVQSFlows[flow], f, ensure_ascii=False, indent=1, cls=cUtil.NpEncoder)
 
-    return (
-        "QUOTE S QUANTITY TRADE processing OK; files created: "
-        + import_quote_qty
-        + " and "
-        + export_quote_qty
-    )
+    time_range = list(quote[quote["FLOW"].isin([params.FLOW_IMPORT, params.FLOW_EXPORT])]["PERIOD"].agg(['min', 'max']))
+    return time_range
+    #return (
+    #    "QUOTE S QUANTITY TRADE processing OK; files created: "
+    #    + import_quote_qty
+    #    + " and "
+    #    + export_quote_qty
+    #)
 
 
 def createOutputVariazioniQuoteCPA(db, comext_imp, comext_exp, cpa2_prod_code, logger):
@@ -957,6 +1018,7 @@ def createOutputVariazioniQuoteCPA(db, comext_imp, comext_exp, cpa2_prod_code, l
     iesVQSFiles[params.FLOW_EXPORT] = comext_exp
 
     conn = sqlite3.connect(db)
+    time_range = []
 
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         variazioni = pd.read_sql_query(
@@ -966,6 +1028,8 @@ def createOutputVariazioniQuoteCPA(db, comext_imp, comext_exp, cpa2_prod_code, l
             conn,
         )
         variazioni.to_csv(iesVQSFiles[flow], sep=",", index=False)
+        time_range.append(variazioni["PERIOD"].min())
+        time_range.append(variazioni["PERIOD"].max())
 
     pd.read_sql_query(
         "SELECT distinct trim(cpa) as PRODUCT FROM variazioni_cpa WHERE (length(trim(cpa))==2 or trim(cpa) in ('061','062') );",
@@ -976,13 +1040,13 @@ def createOutputVariazioniQuoteCPA(db, comext_imp, comext_exp, cpa2_prod_code, l
         conn.close()
 
     logger.info("createMonthlyOutput END")
-
-    return (
-        "Variazioni quote CPA processing OK; files created: "
-        + comext_imp
-        + " and "
-        + comext_exp
-    )
+    return [min(time_range),max(time_range)]
+    #return (
+    #    "Variazioni quote CPA processing OK; files created: "
+    #    + comext_imp
+    #    + " and "
+    #    + comext_exp
+    #)
 
 
 def createOutputGraphCPAIntraUE(db, cpa_intra, cpa3_prod_code, logger):
@@ -998,14 +1062,15 @@ def createOutputGraphCPAIntraUE(db, cpa_intra, cpa3_prod_code, logger):
     )
     logger.info("last_months: " + filter_yyymm)
     conn = sqlite3.connect(db)
-    pd.read_sql_query(
+    result = pd.read_sql_query(
         "SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, PRODUCT, PERIOD, VALUE_IN_EUROS  FROM (SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, cpa as PRODUCT, PERIOD, val_cpa as VALUE_IN_EUROS  FROM base_grafi_cpa WHERE PERIOD>"
         + filter_yyymm
         + " and length(trim(cpa))==3 union SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, 'TOT' as PRODUCT, PERIOD, val_cpa as VALUE_IN_EUROS  FROM base_grafi_cpa WHERE PERIOD>"
         + filter_yyymm
         + " and  trim(cpa)=='00')   order by PERIOD ASC;",
         conn,
-    ).to_csv(cpa_intra, sep=",", index=False)
+    )
+    result.to_csv(cpa_intra, sep=",", index=False)
     pd.read_sql_query(
         "SELECT distinct cpa as PRODUCT  FROM base_grafi_cpa WHERE PERIOD>"
         + filter_yyymm
@@ -1017,7 +1082,9 @@ def createOutputGraphCPAIntraUE(db, cpa_intra, cpa3_prod_code, logger):
 
     logger.info("createMonthlyOutput END")
 
-    return "CPA Graphic INTRA UE OK; files created: " + cpa_intra
+    time_range = list(result["PERIOD"].agg(['min', 'max']))
+    return time_range
+    #return "CPA Graphic INTRA UE OK; files created: " + cpa_intra
 
 
 def createOutputGraphicTrimestre(db, output_cpa_trim, logger):
@@ -1026,16 +1093,20 @@ def createOutputGraphicTrimestre(db, output_cpa_trim, logger):
     logger.info("import export variazioni quote CPA INTRA TRim")
 
     conn = sqlite3.connect(db)
-    pd.read_sql_query(
+    result = pd.read_sql_query(
         "SELECT declarant_iso, partner_iso, flow,  cpa, trimestre,   val_cpa,   q_kg  FROM base_grafi_cpa_trim WHERE length(trim(cpa))==3 union SELECT declarant_iso, partner_iso, flow,  'TOT' as cpa, trimestre,   val_cpa,   q_kg  FROM base_grafi_cpa_trim WHERE trim(cpa)=='00' order by trimestre ASC;",
         conn,
-    ).to_csv(output_cpa_trim, sep=",", index=False)
+    )
+    result.to_csv(output_cpa_trim, sep=",", index=False)
 
     if conn:
         conn.close()
 
     logger.info("createOutputGraphicTrimestre END")
-    return "CPA Graphic INTRA TRIMESTRE UE OK; files created: " + output_cpa_trim
+
+    time_range = list(result["trimestre"].agg(['min', 'max']))
+    return time_range
+    #return "CPA Graphic INTRA TRIMESTRE UE OK; files created: " + output_cpa_trim
 
 
 def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod_code_file, logger):
@@ -1080,7 +1151,9 @@ def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod
     logger.info("tr_extra_ue file: " + output_tr_extra_ue_file)
     logger.info("createOutputGraph END ")
 
-    return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_file
+    time_range = list(df["PERIOD"].agg(['min', 'max']))
+    return time_range
+    #return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_file
 
 
 def createOutputGraphExtraUE_Trim(input_path, output_tr_extra_ue_trim, logger):
@@ -1148,7 +1221,10 @@ def createOutputGraphExtraUE_Trim(input_path, output_tr_extra_ue_trim, logger):
     df_trim.to_csv(output_tr_extra_ue_trim, sep=",", index=False)
     logger.info("tr_extra_ue TRIMESTRALI file: " + output_tr_extra_ue_trim)
     logger.info("createOutputGraph TRIM END ")
-    return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_trim
+
+    time_range = list(df_trim["TRIMESTRE"].agg(['min', 'max']))
+    return time_range
+    #return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_trim
 
 
 def createClsNOTEmptyProductsLang(
