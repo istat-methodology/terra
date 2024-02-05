@@ -74,8 +74,8 @@ export default {
             ? target.substring(1, target.length)
             : target
         ), // target container element - strip the prefix #
-        w = htmlElement.offsetWidth, // width of container element
-        h = htmlElement.offsetHeight, // height of container element
+        w = htmlElement ? htmlElement.offsetWidth : 20, // width of container element
+        h = htmlElement ? htmlElement.offsetHeight : 20, // height of container element
         colors = [],
         padding = [6, 4, 10, 4], // top, right, bottom, left
         boxSpacing = 0, // spacing between boxes

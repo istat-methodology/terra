@@ -305,7 +305,10 @@ export default {
       "statusNorm"
     ]),
     options() {
-      return this.getOptions(this.statusMain != "00" ? true : false)
+      return this.getOptions(
+        this.statusMain != "00" ? true : false,
+        this.$i18n.locale
+      )
     }
   },
   validations: {
@@ -478,12 +481,15 @@ export default {
             const month = dt.getMonth() + 1
             table.push({
               field: year + "-" + month,
-              value: values[index]
+              value: this.formatNumber(values[index])
             })
           })
         return [table, id]
       }
       return null
+    },
+    formatNumber(num) {
+      return num ? num.toLocaleString(this.$i18n.locale) : "-"
     },
     fixLabelAccessibility() {
       setTimeout(() => {

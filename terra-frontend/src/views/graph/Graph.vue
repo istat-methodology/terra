@@ -470,7 +470,9 @@ export default {
               "message/success",
               this.$t("common.data_updated")
             )
-            this.$refs.cosmograph.handleGraphFit()
+            if (this.$refs.cosmograph) {
+              this.$refs.cosmograph.handleGraphFit()
+            }
           }
           this.spinnerStart(false)
         })
@@ -552,10 +554,23 @@ export default {
       this.spinner = bool
     },
     getData(data, id) {
-      if (data != null) {
-        return [data, id]
+      if (data != null || data.lenght > 0) {
+        let datacsv = []
+        data.forEach((field) => {
+          datacsv.push({
+            label: field.label,
+            name: field.name,
+            vulnerability: this.formatNumber(field.vulnerability),
+            hubness: this.formatNumber(field.hubness),
+            exportStrenght: this.formatNumber(field.exportStrenght)
+          })
+        })
+        return [datacsv, id]
       }
       return null
+    },
+    formatNumber(num) {
+      return num ? num.toLocaleString("it-IT") : "-"
     },
     fixSliderAccessibility() {
       setTimeout(() => {

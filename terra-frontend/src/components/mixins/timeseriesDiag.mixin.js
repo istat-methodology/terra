@@ -98,7 +98,7 @@ export default {
     }
   }),
   methods: {
-    getOptions(isLegend) {
+    getOptions(isLegend, locale) {
       return {
         responsive: true,
         maintainAspectRatio: false,
@@ -107,7 +107,18 @@ export default {
         },
         tooltips: {
           //mode: "index",
-          intersect: true
+          intersect: true,
+          callbacks: {
+            label: function (tooltipItem, data) {
+              var label = data.datasets[tooltipItem.datasetIndex].label || ""
+
+              if (label) {
+                label += ": "
+              }
+              label += tooltipItem.yLabel.toLocaleString(locale)
+              return label
+            }
+          }
         },
         hover: {
           mode: "nearest",
@@ -124,11 +135,10 @@ export default {
                 display: true,
                 labelString: ""
               },
-
               ticks: {
                 // For a category axis, the val is the index so the lookup via getLabelForValue is needed
                 callback: function (val) {
-                  return val.toLocaleString("it-IT")
+                  return val.toLocaleString(locale)
                 }
               }
             }
