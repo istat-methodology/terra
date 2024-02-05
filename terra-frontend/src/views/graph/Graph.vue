@@ -570,7 +570,10 @@ export default {
       return null
     },
     formatNumber(num) {
-      return num ? num.toLocaleString("it-IT") : "-"
+      if (num) {
+        let n = parseFloat(num)
+        return n ? n.toLocaleString(this.$i18n.locale) : "-"
+      }
     },
     fixSliderAccessibility() {
       setTimeout(() => {
