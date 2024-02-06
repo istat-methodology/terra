@@ -52,7 +52,7 @@
                 tabindex="0">
                 <span class="tooltip-span" tabindex="-1"
                   >{{ marker.name }} {{ ie }}
-                  {{ marker.series + "%" }}
+                  {{ formatNumber(marker.series) + "%" }}
                 </span>
               </l-tooltip>
             </l-circle-marker>
@@ -275,19 +275,69 @@ export default {
         : []
     },
     infoTabMain() {
-      return this.isItalian ? "Dati macro" : "Main"
+      return this.$t("map.info.tab.main")
     },
     infoTabImport() {
-      return this.isItalian ? "Partner di importazione" : "Import partners"
+      return this.$t("map.info.tab.import_partner")
     },
     infoTabExport() {
-      return this.isItalian ? "Partner di esportazione" : "Export partners"
+      return this.$t("map.info.tab.export_partner")
+    },
+    mainFields() {
+      return [
+        {
+          key: "Year",
+          label: ""
+        },
+        {
+          key: "2021",
+          label: "2021"
+        },
+        {
+          key: "2022",
+          label: "2022"
+        }
+      ]
     },
     importFields() {
-      return this.isItalian ? this.importFields_it : this.importFields_en
+      return [
+        {
+          key: "Main partner 2021",
+          label: this.$t("map.info.table.partner.2021")
+        },
+        {
+          key: "Total import 2021",
+          label: this.$t("map.info.table.total.import.2021")
+        },
+        {
+          key: "Main partner 2022",
+          label: this.$t("map.info.table.partner.2022")
+        },
+        {
+          key: "Total import 2022",
+          label: this.$t("map.info.table.total.import.2022")
+        }
+      ]
     },
     exportFields() {
-      return this.isItalian ? this.exportFields_it : this.exportFields_en
+      return [
+        {
+          key: "Main partner 2021",
+          label: this.$t("map.info.table.partner.2021")
+        },
+        {
+          key: "Total export 2021",
+          label: this.$t("map.info.table.total.export.2021")
+        },
+        {
+          key: "Main partner 2022",
+          label: this.$t("map.info.table.partner.2022")
+        },
+        {
+          key: "Total export 2022",
+          label: this.$t("map.info.table.total.export.2022")
+        }
+      ]
     },
     importDataItems() {
       return this.infoData ? this.infoData[0]["Main Import Partners"] : []
@@ -338,7 +388,7 @@ export default {
               "<span> " +
               this.ie +
               "</span> " +
-              value +
+              this.formatNumber(value) +
               "%" +
               "</span>" +
               " </div>",
@@ -353,6 +403,12 @@ export default {
     }
   },
   methods: {
+    formatNumber(num) {
+      if (num) {
+        let n = parseFloat(num)
+        return n ? n.toLocaleString(this.$i18n.locale) : "0"
+      }
+    },
     helpOn(showModal) {
       this.isModalHelp = showModal
       this.modalHelpTitle = "About map"

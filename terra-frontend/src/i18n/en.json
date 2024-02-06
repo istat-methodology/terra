@@ -136,6 +136,29 @@
         "body": "This section provides a map displaying for each country the total population, some macro-economic indicators, main imported and exported goods ,and main trade partner countries. Moreover, a time-lapse functionality to represent the international trade year-on-year monthly variations for the last three years is provided.",
         "keywords": ""
       }
+    },
+    "info": {
+      "tab":{
+        "main":"Main",
+        "import_partner": "Import partners",
+        "export_partner": "Export partners"
+      },
+      "table": {
+        "partner": {
+          "2021": "Main partner 2021",
+          "2022": "Main partner 2022"
+        },
+        "total": {
+          "import": {
+            "2021": "Total import 2021",
+            "2022": "Total import 2022"
+          },
+          "export": {
+            "2021": "Total export 2021",
+            "2022": "Total export 2022"
+          }
+        }
+      }
     }
   },
   "graph": {

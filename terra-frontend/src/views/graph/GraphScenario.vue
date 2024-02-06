@@ -13,7 +13,7 @@
         <span class="float-right">
           <exporter
             filename="terra_scenario"
-            :data="getData(csvTable, 'table')"
+            :data="getDataCSV(csvTable, 'table')"
             :options="['csv']"
             source="table"
             :header="csvHeader">
@@ -60,13 +60,15 @@
         </template>
         <template #euro="{ item }">
           <td headers="head_scenario_2" class="num">
-            {{ item.euro.toLocaleString() }}
+            {{ formatNumber(item.euro) }}
 
             €
           </td>
         </template>
         <template #percentage="{ item }">
-          <td headers="head_scenario_3" class="num">{{ item.percentage }} %</td>
+          <td headers="head_scenario_3" class="num">
+            {{ formatNumber(item.percentage) }} %
+          </td>
         </template>
         <template #flow="{ item }">
           <td headers="head_scenario_4">
@@ -322,6 +324,28 @@ export default {
         return [data, id]
       }
       return null
+    },
+    getDataCSV(data, id) {
+      if (data != null || data.lenght > 0) {
+        let datacsv = []
+        data.forEach((field) => {
+          datacsv.push({
+            source: field.source,
+            destination: field.destination,
+            euro: this.formatNumber(field.euro),
+            percentage: this.formatNumber(field.percentage),
+            flow: field.flow
+          })
+        })
+        return [datacsv, id]
+      }
+      return null
+    },
+    formatNumber(num) {
+      if (num) {
+        let n = parseFloat(num)
+        return n ? n.toLocaleString(this.$i18n.locale) : "-"
+      }
     },
     fixHeaderTableForAccessibility() {
       setTimeout(() => {

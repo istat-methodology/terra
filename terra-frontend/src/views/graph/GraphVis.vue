@@ -23,7 +23,7 @@
               class="text-primary"
               :title="$t('graph.stats.density') + ' ' + graphDensity">
               {{ $t("graph.stats.density") }} </span
-            >{{ graphDensity }}</span
+            >{{ formatNumber(graphDensity) }}</span
           >
           <span class="pl-2" v-if="nodeMetric">
             <span
@@ -39,7 +39,7 @@
                 nodeMetric.exportationstrength
               "
               >, {{ $t("graph.stats.exportationstrength") }} </span
-            >{{ nodeMetric.exportationstrength }}
+            >{{ formatNumber(nodeMetric.exportationstrength) }}
             <span
               class="text-primary"
               :title="
@@ -47,12 +47,12 @@
               "
               >, {{ $t("graph.stats.vulnerability") }}
             </span>
-            {{ nodeMetric.vulnerability }}
+            {{ formatNumber(nodeMetric.vulnerability) }}
             <span
               class="text-primary"
               :title="$t('graph.stats.hubness') + ' ' + nodeMetric.hubness"
               >, {{ $t("graph.stats.hubness") }} </span
-            >{{ nodeMetric.hubness }}</span
+            >{{ formatNumber(nodeMetric.hubness) }}</span
           >
         </div>
       </CCardHeader>
@@ -396,6 +396,12 @@ export default {
       }
       let jsonData = JSON.stringify({ nodes, edges })
       return [jsonData, id]
+    },
+    formatNumber(num) {
+      if (num) {
+        let n = parseFloat(num)
+        return n ? n.toLocaleString(this.$i18n.locale) : "0"
+      }
     }
   }
 }

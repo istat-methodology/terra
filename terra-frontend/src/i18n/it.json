@@ -135,6 +135,29 @@
         "body": "Questa sezione fornisce una mappa che mostra per ogni paese la <strong>popolazione totale</strong>, alcuni <strong>indicatori macroeconomici</strong>, i principali <strong>prodotti importati ed esportati </strong>e i principali <strong>paesi partner commerciali</strong>.<br><br>Inoltre, viene fornita una funzionalità <strong>time-lapse</strong> per rappresentare le variazioni mensili tendenziali del commercio internazionale per gli ultimi tre anni.",
         "keywords": ""
       }
+    },
+    "info": {
+      "tab":{
+        "main":"Dati macro",
+        "import_partner": "Partner di importazione",
+        "export_partner": "Partner di esportazione"
+      },
+      "table": {
+        "partner": {
+          "2021": "Partner principale 2021",
+          "2022": "Partner principale 2022"
+        },
+        "total": {
+          "import": {
+            "2021": "Importazione totale 2021",
+            "2022": "Importazione totale 2022"
+          },
+          "export": {
+            "2021": "Esportazione totale 2021",
+            "2022": "Esportazione totale 2022"
+          }
+        }
+      }
     }
   },
   "graph": {

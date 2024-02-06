@@ -29,18 +29,18 @@
         </td>
       </template>
       <template #vulnerability="{ item }">
-        <td headers="head_2">
-          {{ item.vulnerability }}
+        <td headers="head_2" class="col-right">
+          {{ formatNumber(item.vulnerability) }}
         </td>
       </template>
       <template #hubness="{ item }">
-        <td headers="head_3">
-          {{ item.hubness }}
+        <td headers="head_3" class="col-right">
+          {{ formatNumber(item.hubness) }}
         </td>
       </template>
       <template #exportStrenght="{ item }">
-        <td headers="head_4">
-          {{ item.exportStrenght }}
+        <td headers="head_4" class="col-right">
+          {{ formatNumber(item.exportStrenght) }}
         </td>
       </template>
     </CDataTable>
@@ -68,6 +68,12 @@ export default {
     }
   },
   methods: {
+    formatNumber(num) {
+      if (num) {
+        let n = parseFloat(num)
+        return n ? n.toLocaleString(this.$i18n.locale) : "0"
+      }
+    },
     fixSortingTable() {
       if (this.$refs.metricsTable) {
         const table = this.$refs.metricsTable
@@ -189,5 +195,16 @@ export default {
 <style>
 .no-visible {
   display: none;
+}
+
+.col-left {
+  flex: 0 0 47%;
+  max-width: 47%;
+}
+
+.col-right {
+  text-align: right;
+  flex: 0 0 47%;
+  max-width: 47%;
 }
 </style>
