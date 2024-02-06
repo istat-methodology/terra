@@ -440,8 +440,8 @@ export default {
     },
     formatNumber_2(num) {
       if (num) {
-        //let n = num
-        let n = parseFloat(num)
+        let n = num
+        //let n = parseFloat(num)
         return n ? n.toLocaleString(this.$i18n.locale) : "0"
       }
     },
