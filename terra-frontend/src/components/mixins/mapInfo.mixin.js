@@ -30,7 +30,8 @@ export default {
       this.isInfo = false
     },
     localizeMain(mainInfo, isItalian) {
-      let mainInfoItalian = []
+      //let mainInfoItalian = []
+      console.log(isItalian)
       for (var info of mainInfo) {
         switch (info["Year"]) {
           case "Population.":
@@ -49,9 +50,10 @@ export default {
             info["Year"] = this.$t("map.info.main.export")
             break
         }
-        mainInfoItalian.push(info)
+        //mainInfoItalian.push(info)
       }
-      return isItalian ? mainInfoItalian : mainInfo
+      //return isItalian ? mainInfoItalian : mainInfo
+      return mainInfo
     }
   }
 }
