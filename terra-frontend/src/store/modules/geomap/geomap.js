@@ -32,11 +32,11 @@ const actions = {
     return geomapService
       .findByName(name)
       .then((data) => {
-        for (const key in data[0]) {
+        /*for (const key in data[0]) {
           if (key != "Country_Code") {
             data[0][key].forEach((obj) => {
               for (const key in obj) {
-                //console.log(obj[key]);
+                console.log(obj[key]);
                 var val = obj[key]
                 if (typeof val === "number") {
                   obj[key] = val.toLocaleString("en-US")
@@ -46,7 +46,7 @@ const actions = {
               }
             })
           }
-        }
+        }*/
         commit("SET_INFO", data)
       })
       .catch((err) => {
