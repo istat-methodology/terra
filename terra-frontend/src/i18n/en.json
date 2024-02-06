@@ -158,7 +158,14 @@
             "2022": "Total export 2022"
           }
         }
-      }
+      },
+      "main":{
+        "population":"Population",
+        "industrial_production":"Industrial Production (%)",
+        "unemployment":"Unemployment (%)",
+        "import": "Import (euro)",
+        "export": "Export (euro)"
+      }     
     }
   },
   "graph": {
