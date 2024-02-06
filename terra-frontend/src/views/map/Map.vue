@@ -445,7 +445,6 @@ export default {
         return n ? n.toLocaleString(this.$i18n.locale) : "0"
       }
     },
-
     helpOn(showModal) {
       this.isModalHelp = showModal
       this.modalHelpTitle = "About map"
