@@ -368,12 +368,6 @@ export default {
       }
       return this.infoData ? this.infoData[0]["Main Export Partners"] : []
     },
-    //importGoods() {
-    //  return this.infoData ? this.infoData[0]["Main Import Goods"] : []
-    //},
-    //exportGoods() {
-    // return this.infoData ? this.infoData[0]["Main Export Goods"] : []
-    //},
     options() {
       return {
         onEachFeature: this.onEachFeatureFunction
