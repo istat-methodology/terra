@@ -137,12 +137,19 @@
       }
     },
     "info": {
-      "tab":{
-        "main":"Dati macro",
+      "tab": {
+        "main": "Dati macro",
         "import_partner": "Partner di importazione",
         "export_partner": "Partner di esportazione"
       },
       "table": {
+        "information": {
+          "population": "Popolazione",
+          "industrial_production": "Produzione industriale (%)",
+          "unemployment": "Disoccupazione (%)",
+          "import": "Importazioni (euro)",
+          "export": "Esportazioni (euro)"
+        },
         "partner": {
           "2021": "Partner principale 2021",
           "2022": "Partner principale 2022"
@@ -157,13 +164,6 @@
             "2022": "Esportazione totale 2022"
           }
         }
-      },
-      "main": {
-        "population":"Popolazione",
-        "industrial_production":"Produzione industriale (%)",
-        "unemployment":"Disoccupazione (%)",
-        "import": "Importazioni (euro)",
-        "export": "Esportazioni (euro)"
       }
     }
   },

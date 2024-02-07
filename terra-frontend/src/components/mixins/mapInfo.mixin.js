@@ -35,19 +35,21 @@ export default {
       for (var info of mainInfo) {
         switch (info["Year"]) {
           case "Population.":
-            info["Year"] = this.$t("map.info.main.population")
+            info["Year"] = this.$t("map.info.table.information.population")
             break
           case "Industrial Production.":
-            info["Year"] = this.$t("map.info.main.industrial_production")
+            info["Year"] = this.$t(
+              "map.info.table.information.industrial_production"
+            )
             break
           case "Unemployment.":
-            info["Year"] = this.$t("map.info.main.unemployment")
+            info["Year"] = this.$t("map.info.table.information.unemployment")
             break
           case "Import.":
-            info["Year"] = this.$t("map.info.main.import")
+            info["Year"] = this.$t("map.info.table.information.import")
             break
           case "Export.":
-            info["Year"] = this.$t("map.info.main.export")
+            info["Year"] = this.$t("map.info.information.export")
             break
         }
         //mainInfoItalian.push(info)
