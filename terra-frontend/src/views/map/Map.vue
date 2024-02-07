@@ -74,7 +74,10 @@
                 </div>
                 <CTabs v-if="infoData" variant="tabs" :active-tab="0">
                   <CTab :title="infoTabMain">
-                    <CDataTable :items="micro" :fields="mainFields" hover />
+                    <CDataTable
+                      :items="informationDataItems"
+                      :fields="informationFields"
+                      hover />
                   </CTab>
                   <CTab :title="infoTabImport">
                     <CDataTable
@@ -275,7 +278,7 @@ export default {
     infoTabExport() {
       return this.$t("map.info.tab.export_partner")
     },
-    mainFields() {
+    informationFields() {
       return [
         {
           key: "Year",
@@ -331,7 +334,7 @@ export default {
         }
       ]
     },
-    micro() {
+    informationDataItems() {
       if (this.infoData[0]["Main information"]) {
         for (var mainIformation of this.infoData[0]["Main information"]) {
           mainIformation["2021"] = this.formatNumber_2(mainIformation["2021"])
