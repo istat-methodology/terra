@@ -337,8 +337,12 @@ export default {
     informationDataItems() {
       if (this.infoData[0]["Main information"]) {
         for (var mainIformation of this.infoData[0]["Main information"]) {
-          mainIformation["2021"] = this.formatNumber_2(mainIformation["2021"])
-          mainIformation["2022"] = this.formatNumber_2(mainIformation["2022"])
+          mainIformation["2021"] = this.formatToLocaleString(
+            mainIformation["2021"]
+          )
+          mainIformation["2022"] = this.formatToLocaleString(
+            mainIformation["2022"]
+          )
         }
       }
       return this.infoData
@@ -351,11 +355,11 @@ export default {
     importDataItems() {
       if (this.infoData[0]["Main Import Partners"]) {
         for (var mainImport of this.infoData[0]["Main Import Partners"]) {
-          mainImport["Total import 2021"] = this.formatNumber_2(
+          mainImport["Total import 2021"] = this.formatToLocaleString(
             mainImport["Total import 2021"]
           )
 
-          mainImport["Total import 2022"] = this.formatNumber_2(
+          mainImport["Total import 2022"] = this.formatToLocaleString(
             mainImport["Total import 2022"]
           )
         }
@@ -366,11 +370,11 @@ export default {
     exportDataItems() {
       if (this.infoData[0]["Main Export Partners"]) {
         for (var mainExport of this.infoData[0]["Main Export Partners"]) {
-          mainExport["Total export 2021"] = this.formatNumber_2(
+          mainExport["Total export 2021"] = this.formatToLocaleString(
             mainExport["Total export 2021"]
           )
 
-          mainExport["Total export 2022"] = this.formatNumber_2(
+          mainExport["Total export 2022"] = this.formatToLocaleString(
             mainExport["Total export 2022"]
           )
         }
@@ -441,10 +445,9 @@ export default {
         return n ? n.toLocaleString(this.$i18n.locale) : "0"
       }
     },
-    formatNumber_2(num) {
+    formatToLocaleString(num) {
       if (num) {
         let n = num
-        //let n = parseFloat(num)
         return n ? n.toLocaleString(this.$i18n.locale) : "0"
       }
     },
