@@ -159,18 +159,6 @@
         </div>
       </div>
     </div>
-    <!-- Marker modal -->
-    <CModal
-      :title="$t('map.modal.main.title')"
-      :show.sync="isModalHelp"
-      size="lg">
-      <p v-html="$t('map.modal.main.body')"></p>
-      <template #footer>
-        <CButton color="outline-primary" square size="sm" @click="helpOn(false)"
-          >Close</CButton
-        >
-      </template>
-    </CModal>
   </div>
 </template>
 <script>
@@ -245,7 +233,6 @@ export default {
 
     ie: "Export",
 
-    isModalHelp: false,
     simpleMapScreenshoter: {}
   }),
   watch: {
@@ -381,12 +368,12 @@ export default {
       }
       return this.infoData ? this.infoData[0]["Main Export Partners"] : []
     },
-    importGoods() {
-      return this.infoData ? this.infoData[0]["Main Import Goods"] : []
-    },
-    exportGoods() {
-      return this.infoData ? this.infoData[0]["Main Export Goods"] : []
-    },
+    //importGoods() {
+    //  return this.infoData ? this.infoData[0]["Main Import Goods"] : []
+    //},
+    //exportGoods() {
+    // return this.infoData ? this.infoData[0]["Main Export Goods"] : []
+    //},
     options() {
       return {
         onEachFeature: this.onEachFeatureFunction
@@ -450,10 +437,6 @@ export default {
         let n = num
         return n ? n.toLocaleString(this.$i18n.locale) : "0"
       }
-    },
-    helpOn(showModal) {
-      this.isModalHelp = showModal
-      this.modalHelpTitle = "About map"
     },
     handleCounterChange(val) {
       this.seriesPeriod = val
