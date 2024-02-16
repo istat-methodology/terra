@@ -9,7 +9,7 @@ RUN_OUTPUT            : bool = True
 RUN_UTILS             : bool = True
 
 WORKING_FOLDER        : str  = os.environ['WORKING_FOLDER']
-#WORKING_FOLDER : str = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
+#WORKING_FOLDER         : str = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
 KEY_VAULT_NAME        : str  = "statlab-key-vault"
 SECRETNAME_ACCOUNTKEY : str  = "cosmostoragekey"
@@ -38,11 +38,10 @@ PAGE_GRAPH_EXTRA_UE_TIME_INTERVAL_M: int = 60
 PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M: int = 60
 PAGE_BASKET_TIME_INTERVAL_M        : int = 60
 
-
 PREFIX_PRODUCT  : str = "full"
-PREFIX_TRANSPORT: str = "tr"
+PREFIX_TRANSPORT: str = "nst07_extra"
 PREFIX_MAP      : dict[str] = {
-  "tr": "transport",
+  "nst07_extra": "transport",
   "full": "product"
 }
 
@@ -126,16 +125,12 @@ URLS: dict[str] = {
     "ANNUAL_UNEMPLOYEMENT" : "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/UNE_RT_A/?format=SDMX-CSV&i",
 
     "COMEXT_PRODUCTS" : "https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&downfile=comext%2FCOMEXT_DATA%2FPRODUCTS%2F",
-    
-    # NEW ENDPOINT: https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&dir=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR
-    # ACTUAL USED ENDPOINT: "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_DATA%2FTRANSPORT_NSTR%2F"
-    # "https://ec.europa.eu/eurostat/estat-navtree-portlet-prod/BulkDownloadListing?sort=1&file=comext%2FCOMEXT_HISTORICAL_DATA%2FTRANSPORT_BY_NSTR%2F"
-    "COMEXT_TR" : "https://ec.europa.eu/eurostat/api/dissemination/files?sort=1&file=comext%2FCOMEXT_HISTORICAL_DATA%2FTRANSPORT_BY_NSTR%2F",
+    "COMEXT_TR" : "https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_DATA%2FTRANSPORT_NST07%2F",
 
     "CLS_PRODUCTS" : "https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCN.txt",
     
-    "CLS_NSTR" : "https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FNSTR.txt",
-    "CLS_NSTR_ITA" : "https://raw.githubusercontent.com/istat-methodology/terra/main/cls/Prodotti_NSTR_ita.csv",
+    "CLS_NSTR" : "https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FNST2007.txt",
+    "CLS_NSTR_ITA" : "https://raw.githubusercontent.com/istat-methodology/terra/main/cls/Prodotti_NSTR_2007_ita.csv",
     
     "CLS_CPA" : "https://ec.europa.eu/eurostat/api/dissemination/files/?sort=1&file=comext%2FCOMEXT_METADATA%2FCLASSIFICATIONS_AND_RELATIONS%2FCLASSIFICATIONS%2FENGLISH%2FCPA21.txt",
     "CLS_CPA_3D_ITA" : "https://raw.githubusercontent.com/istat-methodology/terra/main/cls/CPA_2_1_3digits_ita.csv",

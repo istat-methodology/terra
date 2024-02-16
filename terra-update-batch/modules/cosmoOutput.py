@@ -1087,7 +1087,7 @@ def createOutputGraphCPAIntraUE(db, cpa_intra, cpa3_prod_code, logger):
     #return "CPA Graphic INTRA UE OK; files created: " + cpa_intra
 
 
-def createOutputGraphicTrimestre(db, output_cpa_trim, logger):
+def createOutputGraphTrimestre(db, output_cpa_trim, logger):
     logger.info("createOutputGraphicTrimestre START")
     # import export variazioni quote CPA
     logger.info("import export variazioni quote CPA INTRA TRim")
@@ -1109,7 +1109,7 @@ def createOutputGraphicTrimestre(db, output_cpa_trim, logger):
     #return "CPA Graphic INTRA TRIMESTRE UE OK; files created: " + output_cpa_trim
 
 
-def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod_code_file, logger):
+def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod_code_file, output_tr_extra_ue_trim, logger):
     logger.info("createOutputGraphExtraUE START")
     logger.info("Reading from " + input_path)
 
@@ -1126,12 +1126,12 @@ def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod
             listDataframes.append(appo)
 
     df = pd.concat(listDataframes, axis=0)
-    # df=df[df["PRODUCT_NSTR"]!="TOT"]
+    # df=df[df["PRODUCT_NST07"]!="TOT"]
     df = df[df["DECLARANT_ISO"] != "EU"]
     df = df[df["PARTNER_ISO"] != "EU"]
     df = df[
         [
-            "PRODUCT_NSTR",
+            "PRODUCT_NST07",
             "DECLARANT_ISO",
             "PARTNER_ISO",
             "PERIOD",
@@ -1141,55 +1141,28 @@ def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod
             "QUANTITY_IN_KG",
         ]
     ]
-
+    df.rename(columns={'PRODUCT_NST07': 'PRODUCT_NSTR'}, inplace=True)
+    df_tot = df.groupby([
+        "DECLARANT_ISO",
+        "PARTNER_ISO",
+        "PERIOD",
+        "TRANSPORT_MODE",
+        "FLOW"
+        ]).sum().reset_index()[["DECLARANT_ISO","PARTNER_ISO","PERIOD","TRANSPORT_MODE","FLOW","VALUE_IN_EUROS","QUANTITY_IN_KG"]]
+    df_tot["PRODUCT_NSTR"] = "TOT"
+    df = pd.concat([df, df_tot], ignore_index=True)
     df.to_csv(output_tr_extra_ue_file, sep=",", index=False)
 
+    # PRODUCT CODE
     pd.DataFrame({"PRODUCT": df["PRODUCT_NSTR"].astype(str).unique()}).to_csv(
         output_tr_prod_code_file, sep=",", index=False
     )
 
     logger.info("tr_extra_ue file: " + output_tr_extra_ue_file)
     logger.info("createOutputGraph END ")
-
-    time_range = list(df["PERIOD"].agg(['min', 'max']))
-    return time_range
-    #return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_file
-
-
-def createOutputGraphExtraUE_Trim(input_path, output_tr_extra_ue_trim, logger):
+    
+    # TRIMESTRALI
     logger.info("createOutputGraphExtraUE TRIM START")
-    logger.info("Reading from " + input_path)
-
-    listDataframes = []
-
-    for f in os.listdir(input_path):
-        if f.endswith(params.DATA_EXTENTION):
-            appo = pd.read_csv(
-                input_path + os.sep + f,
-                sep=params.SEP,
-                low_memory=False,
-                keep_default_na=False,
-                na_values=[""],
-            )
-            listDataframes.append(appo)
-
-    df = pd.concat(listDataframes, axis=0)
-    # df=df[df["PRODUCT_NSTR"]!="TOT"]
-    df = df[df["DECLARANT_ISO"] != "EU"]
-    df = df[df["PARTNER_ISO"] != "EU"]
-    df = df[
-        [
-            "PRODUCT_NSTR",
-            "DECLARANT_ISO",
-            "PARTNER_ISO",
-            "PERIOD",
-            "TRANSPORT_MODE",
-            "FLOW",
-            "VALUE_IN_EUROS",
-            "QUANTITY_IN_KG",
-        ]
-    ]
-
     df["TRIMESTRE"] = df["PERIOD"]
     df["TRIMESTRE"] = df["TRIMESTRE"].apply(
         lambda x: str(x)[0:4] + "T1"
@@ -1222,10 +1195,9 @@ def createOutputGraphExtraUE_Trim(input_path, output_tr_extra_ue_trim, logger):
     logger.info("tr_extra_ue TRIMESTRALI file: " + output_tr_extra_ue_trim)
     logger.info("createOutputGraph TRIM END ")
 
-    time_range = list(df_trim["TRIMESTRE"].agg(['min', 'max']))
+    time_range = list(df["PERIOD"].agg(['min', 'max']))
     return time_range
-    #return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_trim
-
+    #return "CPA Graphic EXTRE UE OK; files created: " + output_tr_extra_ue_file
 
 def createClsNOTEmptyProductsLang(
     digit, langs, clsfiles, filename, filterValue, fileExistingProducts, logger

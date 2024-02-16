@@ -79,7 +79,7 @@ class DownloadAndExtractComextParallel():
 
         Args:
             frequency: The frequency of the files to be downloaded (monthly or annual).
-            file_type: The type of files to be downloaded ('full' or 'tr').
+            file_type: The type of files to be downloaded ('full' or 'nst07_extra').
             url_download: The url of the files to be downloaded.
             out_path: The path where the extracted files will be saved.
             zip_path: The path where the zipped files will be saved.

@@ -85,21 +85,22 @@ def exectuteOutput(logger):
     except Exception as e:
         logger.error(f'Error creating CPA intra and CPA product code files: {str(e)}')
 
-    #[PYTHON-SERVER] Creazione file TR extra-UE e TR product code
+    #[PYTHON-SERVER] Creazione file TR extra-UE, TR product code e TR trimestrali
     try:
         output_interval["graphExtra"] = cOut.createOutputGraphExtraUE(
             input_path = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
             output_tr_extra_ue_file = params.FILES["TR_EXTRA_UE_CSV"],
             output_tr_prod_code_file = params.FILES["TR_PRODUCT_CODE_CSV"],
+            output_tr_extra_ue_trim = params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"],
             logger = logger
         )
         logger.info(f'Created TR extra and TR product code files')
     except Exception as e:
-        logger.error(f'Error creating TR extra and TR product code files: {str(e)}')
+        logger.error(f'Error creating TR extra, TR product code files and TR trimestrali: {str(e)}')
 
     #[PYTHON-SERVER] Creazione file CPA trim
     try:
-        output_interval["graphIntraTrim"] = cOut.createOutputGraphicTrimestre(
+        output_interval["graphIntraTrim"] = cOut.createOutputGraphTrimestre(
             db = params.FILES["SQLLITE_DB"],
             output_cpa_trim = params.FILES["CPA_TRIM_CSV"],
             logger = logger
@@ -107,17 +108,6 @@ def exectuteOutput(logger):
         logger.info(f'Created quarterly CPA file')
     except Exception as e:
         logger.error(f'Error creating quarterly CPA file: {str(e)}')
-
-    #[PYTHON-SERVER] Creazione file TR extra-UE trim
-    try:
-        output_interval["graphExtraTrim"] = cOut.createOutputGraphExtraUE_Trim(
-            input_path = params.DIRECTORIES["TRANSPORT_MONTHLY_FILE"],
-            output_tr_extra_ue_trim = params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"],
-            logger = logger
-        )
-        logger.info(f'Created quarterly TR extra file')
-    except Exception as e:
-        logger.error(f'Error creating quarterly TR extra file: {str(e)}')
 
     #[R-SERVER] Creazione file Comext IMP/EXP e CPA2 product code
     try:
