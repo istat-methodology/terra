@@ -150,7 +150,7 @@ COMEXT_EXP = load_comext(export_file_path)
 app = Flask(__name__)
 CORS(app, resources=r'/*')
 
-@app.route('/itsa', methods=['GET'])
+@app.route('/ts', methods=['GET'])
 def itsa_route():
     flow = request.args.get('flow')
     var = request.args.get('var')
