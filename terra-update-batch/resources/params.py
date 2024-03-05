@@ -24,18 +24,18 @@ MAIL_SETTINGS         : str  = {
 }
 
 # SET TIME INTERVAL (IN MONTHS) FOR DOWNLOAD
-OFFSET_M                          : int = 3
-DOWNLOAD_TIME_INTERVAL_PRODUCT_M  : int = 144
-DOWNLOAD_TIME_INTERVAL_TRANSPORT_M: int = 60
-MAX_RETRY                         : int = 5
-RETRY_WAIT                        : int = 1
+OFFSET_M                          : int = int(os.getenv("OFFSET_M", "3"))
+DOWNLOAD_TIME_INTERVAL_PRODUCT_M  : int = int(os.getenv("DOWNLOAD_TIME_INTERVAL_PRODUCT_M", "144"))
+DOWNLOAD_TIME_INTERVAL_TRANSPORT_M: int = int(os.getenv("DOWNLOAD_TIME_INTERVAL_TRANSPORT_M", "60"))
+MAX_RETRY                         : int = int(os.getenv("MAX_RETRY", "5"))
+RETRY_WAIT                        : int = int(os.getenv("RETRY_WAIT", "5"))
 
 # TIME INTERVAL FOR PROCESSING
-PAGE_MAP_TIME_INTERVAL_M           : int = 60
-PAGE_TIME_SERIES_TIME_INTERVAL_M   : int = 144
-PAGE_GRAPH_EXTRA_UE_TIME_INTERVAL_M: int = 60
-PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M: int = 60
-PAGE_BASKET_TIME_INTERVAL_M        : int = 60
+PAGE_MAP_TIME_INTERVAL_M           : int = int(os.getenv("PAGE_MAP_TIME_INTERVAL_M", "60"))
+PAGE_TIME_SERIES_TIME_INTERVAL_M   : int = int(os.getenv("PAGE_TIME_SERIES_TIME_INTERVAL_M", "144"))
+PAGE_GRAPH_EXTRA_UE_TIME_INTERVAL_M: int = int(os.getenv("PAGE_GRAPH_EXTRA_UE_TIME_INTERVAL_M", "60"))
+PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M: int = int(os.getenv("PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M", "60"))
+PAGE_BASKET_TIME_INTERVAL_M        : int = int(os.getenv("PAGE_BASKET_TIME_INTERVAL_M", "60"))
 
 PREFIX_PRODUCT  : str = "full"
 PREFIX_TRANSPORT: str = "nst07_extra"
