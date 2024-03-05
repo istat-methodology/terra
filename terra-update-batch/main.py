@@ -1,3 +1,5 @@
+# Version 1.2.0
+
 import sys
 from datetime import datetime
 from resources import params

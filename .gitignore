@@ -6,7 +6,7 @@ terra-update-batch/cosmoDataUpdate-*.zip
 terra-backend/R-server/.Rhistory
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+__pycache__
 *.py[cod]
 *$py.class
 
