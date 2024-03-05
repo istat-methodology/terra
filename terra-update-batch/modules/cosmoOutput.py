@@ -13,7 +13,7 @@ def createGeneralInfoOutput_old(file, output_interval):
     if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
         print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
         os.symlink(
-            params.DIRECTORIES["WORKING_FOLDER"], # DATA_FOLDER_PARENT
+            params.DATA_FOLDER_PARENT,
             os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
         )
 

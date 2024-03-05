@@ -9,7 +9,6 @@ RUN_OUTPUT            : bool = True
 RUN_UTILS             : bool = True
 
 WORKING_FOLDER        : str  = os.environ['WORKING_FOLDER']
-#WORKING_FOLDER         : str = "C:" + os.sep + "Users" + os.sep + "UTENTE" + os.sep + "terra_output"
 
 KEY_VAULT_NAME        : str  = "statlab-key-vault"
 SECRETNAME_ACCOUNTKEY : str  = "cosmostoragekey"
