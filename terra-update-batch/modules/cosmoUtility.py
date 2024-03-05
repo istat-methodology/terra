@@ -228,7 +228,7 @@ def checkUPMicroservices(logger):
 
 def sendEmailRepo(report_text , logger):
     logger.info("sendEmailRepo START")
-    url_Email_service = params.MAIL_SETTINGS["SERVER"]
+    url_Email_service = params.MAIL_SETTINGS["URL"]
     body_msg = {
         "to": params.MAIL_SETTINGS["TO"],
         "subject": params.MAIL_SETTINGS["SUBJECT"],

@@ -19,9 +19,9 @@ URL_RDATA_SERVER      : str  = "https://api.cosmo.statlab.it/time-series"
 URL_PYTHONDATA_SERVER : str  = "https://api.cosmo.statlab.it/graph"
 
 MAIL_SETTINGS         : str  = {
-    "SERVER": "https://prod-190.westeurope.logic.azure.com:443/workflows/52cafc0d0f2d4dd08ee290a5d367f109/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PFatjXjc32cpXZqX-KFBkn0a7ZKgT1q5iR2hI07NR4w",
-    "TO" : "giulio.massacci@istat.it;francesco.ortame@istat.it;mbruno@istat.it",
-    "SUBJECT" : "Repo from cosmo update"
+    "URL": os.getenv("LOGICAPP_URL"),
+    "TO" : os.getenv("MAIL_RECIPIENTS"),
+    "SUBJECT" : os.getenv("MAIL_SUBJECT", "Repo from cosmo update")
 }
 
 # SET TIME INTERVAL (IN MONTHS) FOR DOWNLOAD
@@ -40,7 +40,7 @@ PAGE_BASKET_TIME_INTERVAL_M        : int = 60
 
 PREFIX_PRODUCT  : str = "full"
 PREFIX_TRANSPORT: str = "nst07_extra"
-PREFIX_MAP      : dict[str] = {
+PREFIX_MAP      : dict[str, str] = {
   "nst07_extra": "transport",
   "full": "product"
 }
