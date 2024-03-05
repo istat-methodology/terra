@@ -1,11 +1,20 @@
 # Version 1.2.0
 
+import os
 import sys
 from datetime import datetime
 from resources import params
 from execute import download, processing, output, misc
 
 logger = misc.get_logger()
+
+if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
+    print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
+    os.symlink(
+        params.DATA_FOLDER_PARENT,
+        os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
+    )
+    logger.info(f"symlink created: {params.DATA_FOLDER_PARENT} -> {os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data"}")
 
 def executeUpdate():
     start_time = datetime.now()

@@ -2,11 +2,11 @@ import os
 import datetime
 from dateutil.relativedelta import relativedelta
 
-RUN_DOWNLOAD          : bool = True
-RUN_ANNUAL_PROCESSING : bool = True
-RUN_MONTHLY_PROCESSING: bool = True
-RUN_OUTPUT            : bool = True
-RUN_UTILS             : bool = True
+RUN_DOWNLOAD          : bool = bool(os.getenv("RUN_DOWNLOAD", "True"))
+RUN_ANNUAL_PROCESSING : bool = bool(os.getenv("RUN_ANNUAL_PROCESSING", "True"))
+RUN_MONTHLY_PROCESSING: bool = bool(os.getenv("RUN_MONTHLY_PROCESSING", "True"))
+RUN_OUTPUT            : bool = bool(os.getenv("RUN_OUTPUT", "True"))
+RUN_UTILS             : bool = bool(os.getenv("RUN_UTILS", "True"))
 
 WORKING_FOLDER        : str  = os.environ['WORKING_FOLDER']
 

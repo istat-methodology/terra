@@ -10,14 +10,6 @@ from modules import cosmoUtility as cUtil
 
 # [JSON] METADATA
 def createGeneralInfoOutput(file, output_interval, logger):
-    if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
-        print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
-        os.symlink(
-            params.DATA_FOLDER_PARENT,
-            os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
-        )
-        logger.info(f"symlink created: {params.DATA_FOLDER_PARENT} -> {os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data"}")
-
     info_processing = {}
     info_processing["processingDay"] = params.processing_day.strftime("%d-%m-%Y, %H:%M:%S")
     info_processing["annualCurrentYear"] = params.annual_current_year
