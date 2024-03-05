@@ -14,7 +14,7 @@ if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
         params.DATA_FOLDER_PARENT,
         os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
     )
-    logger.info(f"symlink created: {params.DATA_FOLDER_PARENT} -> {os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data"}")
+    logger.info(f"symlink created: {params.DATA_FOLDER_PARENT} -> {os.environ['AZ_BATCH_TASK_WORKING_DIR'] + os.sep + 'data'}")
 
 def executeUpdate():
     start_time = datetime.now()
