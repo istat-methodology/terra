@@ -178,7 +178,7 @@ def exectuteOutput(logger):
         logger.error(f'Error creating clean extra graph file: {str(e)}')
 
     try:
-        cOut.createGeneralInfoOutput(file = params.FILES["GENERAL_INFO"], output_interval = output_interval)
+        cOut.createGeneralInfoOutput(file = params.FILES["GENERAL_INFO"], output_interval = output_interval, logger = logger)
         logger.info('Created general info file')
     except Exception as e:
         logger.error(f'Error creating general info file: {str(e)}')

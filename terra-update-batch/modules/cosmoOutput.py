@@ -8,108 +8,15 @@ import sqlite3
 from resources import params
 from modules import cosmoUtility as cUtil
 
-# [JSON] METADATA OLD (ELIMINARE)
-def createGeneralInfoOutput_old(file, output_interval):
+# [JSON] METADATA
+def createGeneralInfoOutput(file, output_interval, logger):
     if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
         print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
         os.symlink(
             params.DATA_FOLDER_PARENT,
             os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
         )
-
-    info_processing = {}
-    info_processing["processingDay"] = params.processing_day.strftime("%d-%m-%Y, %H:%M:%S")
-    info_processing["annualCurrentYear"] = params.annual_current_year
-    info_processing["annualPreviousYear"] = params.annual_previous_year
-    info_processing["lastLoadedData"] = params.end_data_DOWNLOAD.strftime("%m, %Y")
-    info_processing["windowMonths"] = params.DOWNLOAD_TIME_INTERVAL_PRODUCT_M
-
-    info_processing["monthsToExtract"] = params.DOWNLOAD_TIME_INTERVAL_PRODUCT_M
-    info_processing["offsetMonthToExtract"] = params.OFFSET_M
-    info_processing["appVersion"] = "1.0.0"
-
-    time_map_start = {}
-    values = {}
-    #values["timeSelected"] = str(params.this_year_month)
-    values["timeSelected"] = str(output_interval["timeSeries"][1])
-    #time_map_start["year"] = int(params.start_data_PAGE_MAP.strftime("%Y"))
-    #time_map_start["month"] = int(params.start_data_PAGE_MAP.strftime("%m"))    
-    time_map_start["year"] = int(str(output_interval["timeSeries"][0])[:4])
-    time_map_start["month"] = int(str(output_interval["timeSeries"][0])[-2:])
-    values["timeStart"] = time_map_start
-    time_map_end = {}
-    #time_map_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
-    #time_map_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
-    time_map_end["year"] = int(str(output_interval["timeSeries"][1])[:4])
-    time_map_end["month"] = int(str(output_interval["timeSeries"][1])[-2:])
-    values["timeEnd"] = time_map_end
-    info_processing["map"] = values
-
-    time_graph_start = {}
-    time_graphp_end = {}
-    values = {}
-    #values["timeSelected"] = str(params.this_year_month)
-    values["timeSelected"] = str(output_interval["graphExtra"][1])
-    #time_graph_start["year"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%Y"))
-    #time_graph_start["month"] = int(params.start_data_PAGE_GRAPH_EXTRA_UE.strftime("%m"))
-    time_graph_start["year"] = int(str(output_interval["graphExtra"][0])[:4])
-    time_graph_start["month"] = int(str(output_interval["graphExtra"][0])[-2:])
-    values["timeStart"] = time_graph_start
-    #time_graphp_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
-    #time_graphp_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
-    time_graphp_end["year"] = int(str(output_interval["graphExtra"][1])[:4])
-    time_graphp_end["month"] = int(str(output_interval["graphExtra"][1])[-2:])
-    values["timeEnd"] = time_graphp_end
-    info_processing["graph"] = values
-
-    time_graphplus_start = {}
-    time_graphpplus_end = {}
-    values = {}
-    #values["timeSelected"] = str(params.this_year_month)
-    values["timeSelected"] = str(output_interval["graphIntra"][1])
-    #time_graphplus_start["year"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%Y"))
-    #time_graphplus_start["month"] = int(params.start_data_PAGE_GRAPH_INTRA_UE.strftime("%m"))
-    time_graphplus_start["year"] = int(str(output_interval["graphIntra"][0])[:4])
-    time_graphplus_start["month"] = int(str(output_interval["graphIntra"][0])[-2:])
-    values["timeStart"] = time_graphplus_start
-    #time_graphpplus_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
-    #time_graphpplus_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
-    time_graphpplus_end["year"] = int(str(output_interval["graphIntra"][1])[:4])
-    time_graphpplus_end["month"] = int(str(output_interval["graphIntra"][1])[-2:])
-    values["timeEnd"] = time_graphpplus_end
-    info_processing["graphPlus"] = values
-
-    time_trade_start = {}
-    values = {}
-    #values["timeSelected"] = str(params.this_year_month)
-    values["timeSelected"] = str(output_interval["tradeValue"][1])
-    #time_trade_start["year"] = int(params.start_data_PAGE_BASKET.strftime("%Y"))
-    #time_trade_start["month"] = int(params.start_data_PAGE_BASKET.strftime("%m"))
-    time_trade_start["year"] = int(str(output_interval["tradeValue"][0])[:4])
-    time_trade_start["month"] = int(str(output_interval["tradeValue"][0])[-2:])
-    values["timeStart"] = time_trade_start
-    time_trade_end = {}
-    #time_trade_end["year"] = int(params.end_data_DOWNLOAD.strftime("%Y"))
-    #time_trade_end["month"] = int(params.end_data_DOWNLOAD.strftime("%m"))
-    time_trade_end["year"] = int(str(output_interval["tradeValue"][1])[:4])
-    time_trade_end["month"] = int(str(output_interval["tradeValue"][1])[-2:])
-    values["timeEnd"] = time_trade_end
-
-    info_processing["trade"] = values
-
-    with open(file, "w") as f:
-        json.dump(info_processing, f, ensure_ascii=False, indent=1, cls=cUtil.NpEncoder)
-
-    return "Info general OK, created file: " + file
-
-# [JSON] METADATA
-def createGeneralInfoOutput(file, output_interval):
-    if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
-        print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
-        os.symlink(
-            params.DIRECTORIES["WORKING_FOLDER"], # DATA_FOLDER_PARENT
-            os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
-        )
+        logger.info(f"symlink created: {params.DATA_FOLDER_PARENT} -> {os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data"}")
 
     info_processing = {}
     info_processing["processingDay"] = params.processing_day.strftime("%d-%m-%Y, %H:%M:%S")

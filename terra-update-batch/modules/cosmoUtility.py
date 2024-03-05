@@ -161,7 +161,6 @@ def createAndSendBackupFiles(logger):
     fileZip = (
         OUTPUT_ROOT_FOLDER + "backup_" + str(params.this_year_month) + ".zip"
     )
-    print(fileZip)
     with zipfile.ZipFile(fileZip, "w", zipfile.ZIP_DEFLATED) as zipObj:
         # Iterate over all the files in list
         for filename in listFiles:
