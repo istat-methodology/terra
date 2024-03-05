@@ -92,38 +92,41 @@ def exportOutputs(logger):
     # LOCAL FOLDER
     OUTPUT_CLASS_FOLDER = params.DIRECTORIES["CLASSIFICATION"] + os.sep
 
-    # JSON-SERVER
-    copyFileToAzure("istat-cosmo-data-json", "general", params.FILES["GENERAL_INFO"] , logger)
-    copyFileToAzure("istat-cosmo-data-json", "map", params.FILES["IEINFO"] , logger)
-    copyFileToAzure("istat-cosmo-data-json", "map", params.FILES["IMPORT_SERIES_JSON"] , logger)
-    copyFileToAzure("istat-cosmo-data-json", "map", params.FILES["EXPORT_SERIES_JSON"] , logger)
+    if os.getenv("SIMULATE_ONLY", "1") != "1":
+        # JSON-SERVER
+        copyFileToAzure("istat-cosmo-data-json", "general", params.FILES["GENERAL_INFO"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "map", params.FILES["IEINFO"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "map", params.FILES["IMPORT_SERIES_JSON"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "map", params.FILES["EXPORT_SERIES_JSON"] , logger)
 
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_QUANTITY_JSON"] , logger)
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_QUANTITY_JSON"] , logger)
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_VALUE_JSON"] , logger)
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_VALUE_JSON"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_QUANTITY_JSON"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_QUANTITY_JSON"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_VALUE_JSON"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_VALUE_JSON"] , logger)
 
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_QUOTE_QUANTITY_JSON"] , logger)
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_QUOTE_QUANTITY_JSON"] , logger)
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_QUOTE_VALUE_JSON"] , logger)
-    copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_QUOTE_VALUE_JSON"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_QUOTE_QUANTITY_JSON"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_QUOTE_QUANTITY_JSON"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["IMPORT_QUOTE_VALUE_JSON"] , logger)
+        copyFileToAzure("istat-cosmo-data-json", "trade", params.FILES["EXPORT_QUOTE_VALUE_JSON"] , logger)
 
-    copyFileToAzure("istat-cosmo-data-json", "classification", OUTPUT_CLASS_FOLDER + "clsProductsCPA.json" , logger)
-    copyFileToAzure("istat-cosmo-data-json","classification",OUTPUT_CLASS_FOLDER + "clsProductsGraphExtraNSTR.json" , logger)
-    copyFileToAzure("istat-cosmo-data-json","classification",OUTPUT_CLASS_FOLDER + "clsProductsGraphIntra.json" , logger)
+        copyFileToAzure("istat-cosmo-data-json", "classification", OUTPUT_CLASS_FOLDER + "clsProductsCPA.json" , logger)
+        copyFileToAzure("istat-cosmo-data-json","classification",OUTPUT_CLASS_FOLDER + "clsProductsGraphExtraNSTR.json" , logger)
+        copyFileToAzure("istat-cosmo-data-json","classification",OUTPUT_CLASS_FOLDER + "clsProductsGraphIntra.json" , logger)
 
-    # R-SERVER
-    copyFileToAzure("istat-cosmo-data-r", None, params.FILES["COMEXT_IMP_CSV"] , logger)
-    copyFileToAzure("istat-cosmo-data-r", None, params.FILES["COMEXT_EXP_CSV"] , logger)
+        # R-SERVER
+        copyFileToAzure("istat-cosmo-data-r", None, params.FILES["COMEXT_IMP_CSV"] , logger)
+        copyFileToAzure("istat-cosmo-data-r", None, params.FILES["COMEXT_EXP_CSV"] , logger)
 
-    # Python-SERVER
-    copyFileToAzure("istat-cosmo-data-python", None, params.FILES["CPA_INTRA_CSV"] , logger)
-    copyFileToAzure("istat-cosmo-data-python", None, params.FILES["CPA_TRIM_CSV"] , logger)
-    copyFileToAzure("istat-cosmo-data-python", None, params.FILES["TR_EXTRA_UE_CSV"] , logger)
-    copyFileToAzure("istat-cosmo-data-python", None, params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"] , logger)
+        # Python-SERVER
+        copyFileToAzure("istat-cosmo-data-python", None, params.FILES["CPA_INTRA_CSV"] , logger)
+        copyFileToAzure("istat-cosmo-data-python", None, params.FILES["CPA_TRIM_CSV"] , logger)
+        copyFileToAzure("istat-cosmo-data-python", None, params.FILES["TR_EXTRA_UE_CSV"] , logger)
+        copyFileToAzure("istat-cosmo-data-python", None, params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"] , logger)
 
-    logger.info("exportOutputs END")
-    return "exportOutputs END"
+        logger.info("exportOutputs END")
+    
+    else:
+        logger.info("exportOutputs: simulate only")
 
 def createAndSendBackupFiles(logger):
     logger.info("createAndSendBackupFiles START")
@@ -164,10 +167,11 @@ def createAndSendBackupFiles(logger):
         for filename in listFiles:
             zipObj.write(filename)
 
-    copyFileToAzure("istat-cosmo-data-backup", "files", fileZip , logger)
-
-    logger.info("createAndSendBackupFiles END")
-    return "createAndSendBackupFiles END"
+    if os.getenv("SIMULATE_ONLY", "1") != "1":
+        copyFileToAzure("istat-cosmo-data-backup", "files", fileZip , logger)
+        logger.info("createAndSendBackupFiles END")
+    else:
+        logger.info("createAndSendBackupFiles: simulate only")
 
 
 def deleteFolder(folder , logger):
