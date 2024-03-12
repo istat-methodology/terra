@@ -299,7 +299,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("metadata", ["graphPeriod", "graphTrimesterPeriod"]),
+    ...mapGetters("metadata", [
+      "graphPeriod",
+      "graphTrimesterPeriod",
+      "graphExtraPeriod",
+      "graphExtraTrimesterPeriod"
+    ]),
     ...mapGetters("coreui", ["isItalian", "language"]),
     ...mapGetters("graph", ["nodes", "edges", "metrics", "metricsTable"]),
     ...mapGetters("classification", [
@@ -312,7 +317,13 @@ export default {
       return this.frequency == "Monthly" ? false : true
     },
     timeRange() {
-      return this.isTrimester ? this.graphTrimesterPeriod : this.graphPeriod
+      return this.isIntra
+        ? this.isTrimester
+          ? this.graphTrimesterPeriod
+          : this.graphPeriod
+        : this.isTrimester
+        ? this.graphExtraTrimesterPeriod
+        : this.graphExtraPeriod
     },
     title() {
       return this.isIntra
