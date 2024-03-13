@@ -17,6 +17,12 @@ URL_JSONDATA_SERVER   : str  = "https://api.cosmo.statlab.it/cls"
 URL_RDATA_SERVER      : str  = "https://api.cosmo.statlab.it/time-series"
 URL_PYTHONDATA_SERVER : str  = "https://api.cosmo.statlab.it/graph"
 
+SHARE_NAME : dict = {
+    "JSON": os.getenv("SHARENAME_PREFIX", "istat-cosmo-data-") + "json",
+    "PYTHON": os.getenv("SHARENAME_PREFIX", 'istat-cosmo-data-') + "python",
+    "R": os.getenv("SHARENAME_PREFIX", 'istat-cosmo-data-') + "r"
+}
+
 MAIL_SETTINGS         : str  = {
     "URL": os.getenv("LOGICAPP_URL"),
     "TO" : os.getenv("MAIL_RECIPIENTS"),
