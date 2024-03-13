@@ -70,6 +70,7 @@ def copyFileToAzure(storage, folder, path_file_source, logger):
 
     storage_account_key = os.getenv("STORAGE_ACCOUNT_KEY", "")
     if storage_account_key == "":
+        logger.info("Using managed identity.")
         kvclient = SecretClient(
             vault_url=f"https://{params.KEY_VAULT_NAME}.vault.azure.net",
             credential=DefaultAzureCredential(),
