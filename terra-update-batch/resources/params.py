@@ -10,7 +10,7 @@ RUN_UTILS             : bool = os.getenv("RUN_UTILS", "1") == "1"
 
 WORKING_FOLDER        : str  = os.environ['WORKING_FOLDER']
 
-KEY_VAULT_NAME        : str  = "statlab-key-vault"
+KEY_VAULT_NAME        : str  = os.getenv("KEY_VAULT_NAME", "")
 SECRETNAME_ACCOUNTKEY : str  = "cosmostoragekey"
 
 URL_JSONDATA_SERVER   : str  = "https://api.cosmo.statlab.it/cls"
