@@ -1,12 +1,21 @@
 # Version 1.2.0
 
 import os
+import re
 import sys
 from datetime import datetime
 from resources import params
 from execute import download, processing, output, misc
 
 logger = misc.get_logger()
+
+if os.getenv("AZ_BATCH_APP_PACKAGE_cosmoDataUpdate", "") != "":
+    text = os.getenv("AZ_BATCH_APP_PACKAGE_cosmoDataUpdate", "")
+    pattern = r"cosmodataupdate(.*)\d{4}-\d{2}-\d{2}-\d{2}-\d{2}$"
+    match = re.search(pattern, text)
+    if match:    
+        version = match.group(1)
+        logger.info(f"Package version: {version}")
 
 if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
     print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
@@ -15,6 +24,7 @@ if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
         os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
     )
     logger.info(f"symlink created: {params.DATA_FOLDER_PARENT} -> {os.environ['AZ_BATCH_TASK_WORKING_DIR'] + os.sep + 'data'}")
+
 
 def executeUpdate():
     start_time = datetime.now()
