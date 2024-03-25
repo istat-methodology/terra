@@ -8,6 +8,8 @@ import zipfile
 import urllib.request
 import time
 import shutil
+from sqlalchemy import create_engine, event
+import pyodbc
 
 try:
     from azure.storage.file import FileService
@@ -86,6 +88,56 @@ def copyFileToAzure(storage, folder, path_file_source, logger):
     logger.info("copyFileToAzure END: " + os.path.basename(path_file_source))
     return "copyFileToAzure END: " + os.path.basename(path_file_source)
 
+def copyFileToDb(table_mapping, db_settings, db_schemas, logger):
+    logger.info("copyFileToDb START")
+    engine = create_engine(f'{db_settings["DB_PROVIDER"]}://{db_settings["DB_USER"]}:{db_settings["DB_PASS"]}@{db_settings["DB_SERVER"]}/{db_settings["DB_NAME"]}?driver={db_settings["DB_DRIVER"]}')
+
+    @event.listens_for(engine, "before_cursor_execute")
+    def receive_before_cursor_execute(
+        conn, cursor, statement, params, context, executemany
+            ):
+                if executemany:
+                    cursor.fast_executemany = True 
+    try:
+        # TRUNCATE STAGING TABLE
+        con=pyodbc.connect(f'Driver={{{db_settings["DB_DRIVER"]}}};Server={db_settings["DB_SERVER"]};Database={db_settings["DB_NAME"]};Uid={db_settings["DB_USER"]};Pwd={db_settings["DB_PASS"]}')
+        cur=con.cursor()
+        for file, table in table_mapping.items():
+            logger.info(f'Truncating staging table {table}')
+            cur.execute(f'TRUNCATE TABLE {db_schemas["STAGING"]}.{table}')
+        con.commit()
+        con.close()
+    
+        # READ AND SEND TO DB
+        for file, table in table_mapping.items():
+            data = pd.read_csv(file)
+            logger.info(f'Copying {os.path.basename(file)} into staging table {table}')
+            data.to_sql(table, con=engine, if_exists='append', index=False, schema=db_schemas["STAGING"], chunksize=1000)
+    
+        # SWITCH TO PROD
+        con=pyodbc.connect(f'Driver={{{db_settings["DB_DRIVER"]}}};Server={db_settings["DB_SERVER"]};Database={db_settings["DB_NAME"]};Uid={db_settings["DB_USER"]};Pwd={db_settings["DB_PASS"]}')
+        cur=con.cursor()
+        for file, table in table_mapping.items():
+            logger.info(f'Switching prod to temp table: {table}')
+            cur.execute(f'ALTER SCHEMA {db_schemas["TEMP"]} TRANSFER {db_schemas["PROD"]}.{table}')
+        con.commit()
+
+        for file, table in table_mapping.items():
+            logger.info(f'Switching raw to prod table: {table}')
+            cur.execute(f'ALTER SCHEMA {db_schemas["PROD"]} TRANSFER {db_schemas["STAGING"]}.{table}')
+        con.commit()
+
+        for file, table in table_mapping.items():
+            logger.info(f'Switching temp to raw table: {table}')
+            cur.execute(f'ALTER SCHEMA {db_schemas["STAGING"]} TRANSFER {db_schemas["TEMP"]}.{table}')
+        con.commit()
+        logger.info("copyFileToDb END")
+    except BaseException as e:
+        logger.info(f'Error during copy file to DB: {e}')
+    finally:
+        engine.dispose()
+        con.close()
+        return
 
 def exportOutputs(logger):
     logger.info("exportOutputs START")
@@ -123,6 +175,9 @@ def exportOutputs(logger):
         copyFileToAzure(params.SHARE_NAME['PYTHON'], None, params.FILES["CPA_TRIM_CSV"] , logger)
         copyFileToAzure(params.SHARE_NAME['PYTHON'], None, params.FILES["TR_EXTRA_UE_CSV"] , logger)
         copyFileToAzure(params.SHARE_NAME['PYTHON'], None, params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"] , logger)
+
+        # DB EXPORT
+        copyFileToDb(params.DB_FILE_MAPPING, params.DB_SETTINGS, params.DB_SCHEMAS, logger)
 
         logger.info("exportOutputs END")
     

@@ -64,8 +64,6 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
         na_values=[""],
         encoding="latin-1",
     )
-    logger.info("cls_products.head() ")
-    logger.info(cls_products.head())
 
     logger.info("loading.. " + annual_pop_data)
     # ANNUAL_POPULATION_CSV
@@ -115,8 +113,6 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
 
     logger.info("previous_filename: " + previous_filename)
     logger.info("current_filename: " + current_filename)
-    logger.info("data.head() ")
-    logger.info(data_annual_current_year.head())
 
     countries = sorted(pd.unique(data_annual_current_year["DECLARANT_ISO"]))
     logger.info("countries: " + " ".join(countries))
@@ -979,7 +975,7 @@ def createOutputGraphCPAIntraUE(db, cpa_intra, cpa3_prod_code, logger):
     if conn:
         conn.close()
 
-    logger.info("createMonthlyOutput END")
+    logger.info("createOutputGraphCPAIntraUE END")
 
     time_range = list(result["PERIOD"].agg(['min', 'max']))
     return time_range
@@ -1025,12 +1021,12 @@ def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod
             listDataframes.append(appo)
 
     df = pd.concat(listDataframes, axis=0)
-    # df=df[df["PRODUCT_NST07"]!="TOT"]
+    # df=df[df["PRODUCT_NST07_NST07"]!="TOT"]
     df = df[df["DECLARANT_ISO"] != "EU"]
     df = df[df["PARTNER_ISO"] != "EU"]
     df = df[
         [
-            "PRODUCT_NST07",
+            "PRODUCT_NST07_NST07",
             "DECLARANT_ISO",
             "PARTNER_ISO",
             "PERIOD",
@@ -1040,7 +1036,7 @@ def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod
             "QUANTITY_IN_KG",
         ]
     ]
-    df.rename(columns={'PRODUCT_NST07': 'PRODUCT_NSTR'}, inplace=True)
+    df.rename(columns={'PRODUCT_NST07_NST07': 'PRODUCT_NSTR'}, inplace=True)
     df_tot = df.groupby([
         "DECLARANT_ISO",
         "PARTNER_ISO",

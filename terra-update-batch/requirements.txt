@@ -5,3 +5,5 @@ opencensus-ext-azure
 pandas
 datetime
 py7zr
+sqlalchemy
+pyodbc

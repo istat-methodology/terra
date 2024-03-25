@@ -70,4 +70,4 @@ def executeFinals(logger, start_time: datetime):
     logger.info(f'end time: {end_time.strftime("%H:%M:%S")}')
     logger.info(f'TOTAL time: {str(end_time - start_time)}')
 
-    cUtil.sendEmailRepo('[ Exectute Update Log ]', logger)
+    cUtil.sendEmailRepo(f'[Update batch: TOTAL time: {str(end_time - start_time)}]', logger)

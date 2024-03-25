@@ -23,6 +23,21 @@ SHARE_NAME : dict = {
     "R": os.getenv("SHARENAME_PREFIX", 'istat-cosmo-data-') + "r"
 }
 
+DB_SETTINGS : dict = {
+    "DB_PROVIDER" : "",
+    "DB_SERVER" : "",
+    "DB_NAME" : "",
+    "DB_DRIVER" : "",
+    "DB_USER" : "",
+    "DB_PASS" : ""
+}
+
+DB_SCHEMAS : dict = {
+    "STAGING" : "raw",
+    "TEMP" : "temp",
+    "PROD" : "dbo"
+}
+
 MAIL_SETTINGS         : str  = {
     "URL": os.getenv("LOGICAPP_URL"),
     "TO" : os.getenv("MAIL_RECIPIENTS"),
@@ -243,4 +258,13 @@ FILES: dict[str] = {
     "TR_EXTRA_UE_CSV" : DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["TR_EXTRA_UE_CSV"],
     "TR_PRODUCT_CODE_CSV" : DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["TR_PRODUCT_CODE_CSV"],
     "TR_EXTRA_UE_TRIMESTRALI_CSV" : DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["TR_EXTRA_UE_TRIMESTRALI_CSV"],
+}
+
+DB_FILE_MAPPING: dict[str] = {
+    FILES["COMEXT_IMP_CSV"] : "comext_imp",
+    FILES["COMEXT_EXP_CSV"] : "comext_exp",
+    FILES["CPA_INTRA_CSV"] : "cpa_intra",
+    FILES["CPA_TRIM_CSV"] : "cpa_trim",
+    FILES["TR_EXTRA_UE_CSV"] : "tr_extra_ue",
+    FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"] : "tr_extra_ue_trim"
 }
