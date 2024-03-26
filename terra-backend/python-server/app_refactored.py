@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
+import datetime
 import random
 import math
 from networkx.readwrite import json_graph
@@ -22,17 +23,8 @@ from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 RUN_LOCAL = True
-FILE_SEP = ","
-PROD_DIGITS = 3  # number of digits to classify transports
 MAX_NODES = 70
 CHUNCK_SIZE = 5
-
-# COMEXT DATASETS
-INTRA_FILE = "data" + os.sep + "cpa_intra.csv"
-EXTRA_FILE = "data" + os.sep + "tr_extra_ue.csv"
-INTRA_TRIM_FILE = "data" + os.sep + "cpa_trim.csv"
-EXTRA_TRIM_FILE = "data" + os.sep + "tr_extra_ue_trim.csv"
-
 CRITERION = "VALUE_IN_EUROS"  # VALUE_IN_EUROS QUANTITY_IN_KG
 
 logging.basicConfig(
@@ -76,54 +68,74 @@ engine = create_engine(f'{DB_SETTINGS["DB_PROVIDER"]}://{DB_SETTINGS["DB_USER"]}
 class CPAIntra(Base):
     __tablename__ = 'cpa_intra'
 
-    declarant_iso = Column(String, primary_key=True)
-    partner_iso = Column(String, primary_key=True)
-    flow = Column(Integer, primary_key=True)
-    product = Column(String, primary_key=True)
-    period = Column(Integer, primary_key=True)
-    value_in_euros = Column(Integer)
+    DECLARANT_ISO = Column(String, primary_key=True)
+    PARTNER_ISO = Column(String, primary_key=True)
+    FLOW = Column(Integer, primary_key=True)
+    PRODUCT = Column(String, primary_key=True)
+    PERIOD = Column(Integer, primary_key=True)
+    VALUE_IN_EUROS = Column(Integer)
 
 class CPATrim(Base):
     __tablename__ = 'cpa_trim'
 
-    declarant_iso = Column(String, primary_key=True)
-    partner_iso = Column(String, primary_key=True)
-    flow = Column(Integer, primary_key=True)
-    product = Column("cpa", String, primary_key=True)
-    period = Column("trimestre", String, primary_key=True)
-    value_in_euros = Column("val_cpa", Integer)
-    quantity_in_kg = Column("q_kg", Integer)
+    DECLARANT_ISO = Column(String, primary_key=True)
+    PARTNER_ISO = Column(String, primary_key=True)
+    FLOW = Column(Integer, primary_key=True)
+    PRODUCT = Column("cpa", String, primary_key=True)
+    PERIOD = Column("trimestre", String, primary_key=True)
+    VALUE_IN_EUROS = Column("val_cpa", Integer)
+    QUANTITY_IN_KG = Column("q_kg", Integer)
 
 class trExtraUE(Base):
     __tablename__ = 'tr_extra_ue'
 
-    product = Column("product_nstr", String, primary_key=True)
-    declarant_iso = Column(String, primary_key=True)
-    partner_iso = Column(String, primary_key=True)
-    period = Column(Integer, primary_key=True)
-    transport_mode = Column(Integer, primary_key=True)
-    flow = Column(Integer, primary_key=True)
-    value_in_euros = Column(Integer)
-    quantity_in_kg = Column(Integer)
+    PRODUCT = Column("product_nstr", String, primary_key=True)
+    DECLARANT_ISO = Column(String, primary_key=True)
+    PARTNER_ISO = Column(String, primary_key=True)
+    PERIOD = Column(Integer, primary_key=True)
+    TRANSPORT_MODE = Column(Integer, primary_key=True)
+    FLOW = Column(Integer, primary_key=True)
+    VALUE_IN_EUROS = Column(Integer)
+    QUANTITY_IN_KG = Column(Integer)
 
 class trExtraUETrim(Base):
     __tablename__ = 'tr_extra_ue_trim'
 
-    product = Column("product_nstr", String, primary_key=True)
-    declarant_iso = Column(String, primary_key=True)
-    partner_iso = Column(String, primary_key=True)
-    period = Column("trimestre", String, primary_key=True)
-    transport_mode = Column(String, primary_key=True)
-    flow = Column(Integer, primary_key=True)
-    value_in_euros = Column(Integer)
-    quantity_in_kg = Column(Integer)
+    PRODUCT = Column("product_nstr", String, primary_key=True)
+    DECLARANT_ISO = Column(String, primary_key=True)
+    PARTNER_ISO = Column(String, primary_key=True)
+    PERIOD = Column("trimestre", String, primary_key=True)
+    TRANSPORT_MODE = Column(String, primary_key=True)
+    FLOW = Column(Integer, primary_key=True)
+    VALUE_IN_EUROS = Column(Integer)
+    QUANTITY_IN_KG = Column(Integer)
+
+class comextImp(Base):
+    __tablename__ = 'comext_imp'
+
+    DECLARANT_ISO = Column(String, primary_key=True)
+    PARTNER_ISO = Column(String, primary_key=True)
+    FLOW = Column(Integer, primary_key=True)
+    PRODUCT = Column("cpa", String, primary_key=True)
+    PERIOD = Column(Integer, primary_key=True)
+    VALUE_IN_EUROS = Column("val_cpa", Integer)
+    QUANTITY_IN_KG = Column("q_kg", Integer)
+
+class comextExp(Base):
+    __tablename__ = 'comext_exp'
+
+    DECLARANT_ISO = Column(String, primary_key=True)
+    PARTNER_ISO = Column(String, primary_key=True)
+    FLOW = Column(Integer, primary_key=True)
+    PRODUCT = Column("cpa", String, primary_key=True)
+    PERIOD = Column(Integer, primary_key=True)
+    VALUE_IN_EUROS = Column("val_cpa", Integer)
+    QUANTITY_IN_KG = Column("q_kg", Integer)
 
 # Build a query to delete edges in the graph
 def build_edges_query(edges, flow):
-    
     # Empty query object
     query = []
-    
     for edge in edges:
         if flow == 1:
             PARTNER_ISO = edge["from"]
@@ -155,13 +167,11 @@ def build_edges_query(edges, flow):
             )
     return "not (" + ("|".join(query)) + ")"
 
-
 # Remove from the transport dataframe the subset NOT containing edges
 def remove_edges(df_comext, edges, flow):
     query = build_edges_query(edges, flow)
     df_comext = df_comext.query(query)
     return df_comext
-
 
 def build_metrics(graph):
     logger.info("[TERRA] Calculating graph metrics...")
@@ -195,16 +205,19 @@ def extract_graph_table(period,percentage,transports,flow,product,criterion,sele
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    query = session.query(db_table).filter(db_table.flow == flow)
+    query = session.query(db_table).filter(db_table.FLOW == flow)
     if period is not None:
-        query = query.filter(db_table.period == period)
-    if transports is not None:
-        query = query.filter(db_table.transport_mode.in_(transports))
+        query = query.filter(db_table.PERIOD == period)
+    if len(transports)>0:
+        query = query.filter(db_table.TRANSPORT_MODE.in_(transports))
     if product is not None:
-        query = query.filter(db_table.product == product)
+        query = query.filter(db_table.PRODUCT == product)
 
-    df_comext = pd.read_sql(query.statement, query.session.bind)
+    query_result = query.all()
     session.close()
+    columns_list = [i for i in db_table.__dict__.keys() if not i.startswith('_')]
+    data = [{attr: getattr(item, attr) for attr in columns_list} for item in query_result]
+    df_comext = pd.DataFrame(data)
 
     # Extract EDGES
     if selectedEdges is not None:
@@ -245,13 +258,9 @@ def extract_graph_table(period,percentage,transports,flow,product,criterion,sele
         ]
     
     logger.info("[TERRA] Graph table ready!")
-
     return df_comext
 
-
-
 def build_graph(tab4graph, pos_ini, weight_flag, flow, criterion):
-    
     logger.info("[TERRA] Building GRAPH...")
 
     # Create an empty graph
@@ -343,11 +352,8 @@ def build_graph(tab4graph, pos_ini, weight_flag, flow, criterion):
     }
 
     JSON = json.dumps(new_dict)
-
     logger.info("[TERRA] GRAPH built!")
-
     return coord, JSON, G
-
 
 def jsonpos2coord(jsonpos):
     logger.info("[TERRA] JSON2COORDINATES...")
@@ -358,6 +364,99 @@ def jsonpos2coord(jsonpos):
         coord[id] = np.array([x, y])
     logger.info("[TERRA] JSON2COORDINATES done!")
     return coord
+
+def ts_checks_and_preps(c_data, dataType):
+    # Format dates for sorting
+    c_data['year'] = c_data['PERIOD'].astype(str).str[:4].astype(int)
+    c_data['month'] = c_data['PERIOD'].astype(str).str[-2:].astype(int)
+
+    # Sort the dataset
+    c_data = c_data.sort_values(['year', 'month'])
+    # Create date column
+    c_data['date'] = pd.to_datetime(c_data['year'].astype(str) + '-' + c_data['month'].astype(str) + '-01')
+
+    # Create date range for comparison
+    start_date = datetime.datetime(c_data['year'].iloc[0], c_data['month'].iloc[0], 1)
+    end_date = datetime.datetime(c_data['year'].iloc[-1], c_data['month'].iloc[-1], 1)
+    date_full = pd.date_range(start=start_date, end=end_date, freq='MS')
+    
+    # Select necessary columns
+    c_data = c_data[['date', 'series']]
+
+    # Compare for missing months
+    if len(c_data['date']) < len(date_full):
+        db_full = pd.DataFrame({'date': date_full})
+        c_data = pd.merge(c_data, db_full, how='outer')
+
+    # Sort the dataset
+    c_data.sort_values('date', inplace=True)
+
+    # Calculate Yearly Variation Series if dataType is 1
+    if dataType == 1:
+        c_data['series_prev'] = c_data['series'].shift(12)
+        c_data['series'] = c_data['series'] - c_data['series_prev']
+        c_data = c_data.dropna(subset=['series'])
+        c_data = c_data[['date','series']]
+    
+    dict_c_data = { "date": list(c_data["date"].dt.strftime("%Y-%m-%d")), "series": list(c_data["series"].astype(float))}
+
+    return dict_c_data
+
+def ts(flow, var_cpa, country_code, partner_code, dataType, tipo_var):
+    logger.info("[TERRA] Calculating time series...")
+    try:
+        flow_table = []
+        column_selection = []
+        if flow == 1:
+            flow_table = comextImp
+        elif flow == 2:
+            flow_table = comextExp
+        
+        if tipo_var == 1:
+            column_selection = flow_table.VALUE_IN_EUROS
+        elif tipo_var == 2:
+            column_selection = flow_table.QUANTITY_IN_KG
+        
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        
+        # User selects a UE country, global partner, cpa
+        query = session.query(
+            flow_table.PERIOD, column_selection
+            ).filter(
+                flow_table.DECLARANT_ISO == country_code
+                ).filter(
+                    flow_table.PARTNER_ISO == partner_code
+                    ).filter(
+                        flow_table.PRODUCT == var_cpa
+                        )
+        c_data = pd.read_sql(query.statement, query.session.bind)
+        session.close()
+        c_data.columns = ['PERIOD', 'series']
+
+        data_result = []
+        if len(c_data['series']) > 0:
+            data_result = ts_checks_and_preps(c_data, dataType)
+        else:
+            data_result['series'] = []
+
+        status_main = "01" if len(data_result) > 0 and ~any(np.isnan(val) for val in data_result['series']) else "00"
+        
+        res_dict = {}
+        res_dict["statusMain"] = status_main
+        res_dict["diagMain"] = data_result
+        res_json = json.dumps(res_dict)
+        logger.info("[TERRA] Time series ready!")
+        return res_json
+
+    except Exception as e:
+        session.close()
+        res_dict = {
+            "statusMain": ["00"],
+            "error": str(e)
+        }
+        logger.info(f"[TERRA] Something went wrong with time series creation: {str(e)}")
+        return res_dict
 
 app = Flask(__name__)
 CORS(app, resources=r'/*')
@@ -370,8 +469,7 @@ if RUN_LOCAL is False:
             app,
             exporter=azure_exporter,
             sampler=ProbabilitySampler(rate=1.0),
-        ) 
-
+        )
 
 @app.route("/graphExtraMonth", methods=["POST", "GET"])
 def graphExtraMonth():
@@ -454,7 +552,6 @@ def graphExtraMonth():
         logger.info("[TERRA] Error in HTTP request method!")
         return str("only post")
     
-
 @app.route("/graphExtraTrim", methods=["POST", "GET"])
 def graphExtraTrim():
     if request.method == "POST":
@@ -581,7 +678,7 @@ def graphIntraMonth():
         tab4graph = extract_graph_table(
             period,
             percentage,
-            None,
+            [],
             flow,
             product,
             criterion,
@@ -613,7 +710,6 @@ def graphIntraMonth():
         logger.info("[TERRA] Error in HTTP request method!")
         return str("only post")
     
-
 @app.route('/graphIntraTrim', methods=['POST','GET'])
 def graphIntraTrim():
     if request.method == 'POST':
@@ -659,7 +755,7 @@ def graphIntraTrim():
         tab4graph = extract_graph_table(
             period,
             percentage,
-            None,
+            [],
             flow,
             product,
             criterion,
@@ -690,7 +786,21 @@ def graphIntraTrim():
     else:
         logger.info("[TERRA] Error in HTTP request method!")
         return str("only post")
-    
+
+@app.route('/itsa', methods=['GET','POST'])
+def itsa():
+    jsonRequest = dict(request.json)
+
+    flow = jsonRequest['flow']
+    var = jsonRequest['var']
+    country = jsonRequest['country']
+    partner = jsonRequest['partner']
+    dataType = jsonRequest['dataType']
+    tipovar = jsonRequest['tipovar'] # cambiare da tipovar a vartype
+
+    result = ts(flow, var, country, partner, dataType, tipovar)
+    response = Response(response=result, status=200, mimetype="application/json")
+    return response
 
 if __name__ == '__main__':
     IP='127.0.0.1'

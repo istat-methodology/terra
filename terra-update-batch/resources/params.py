@@ -1,6 +1,9 @@
 import os
 import datetime
 from dateutil.relativedelta import relativedelta
+from sqlalchemy.types import VARCHAR
+from sqlalchemy.types import INTEGER
+from sqlalchemy.types import BIGINT
 
 RUN_DOWNLOAD          : bool = os.getenv("RUN_DOWNLOAD", "1") == "1"
 RUN_ANNUAL_PROCESSING : bool = os.getenv("RUN_ANNUAL_PROCESSING", "1") == "1"
@@ -267,4 +270,62 @@ DB_FILE_MAPPING: dict[str] = {
     FILES["CPA_TRIM_CSV"] : "cpa_trim",
     FILES["TR_EXTRA_UE_CSV"] : "tr_extra_ue",
     FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"] : "tr_extra_ue_trim"
+}
+
+DB_COLUMN_TYPE: dict[dict[str]] = {
+    'comext_imp': {
+        'DECLARANT_ISO': VARCHAR,
+        'PARTNER_ISO': VARCHAR,
+        'FLOW': INTEGER,
+        'cpa': VARCHAR,
+        'PERIOD': BIGINT,
+        'val_cpa': BIGINT,
+        'q_kg': BIGINT
+        },
+    'comext_exp': {
+        'DECLARANT_ISO': VARCHAR,
+        'PARTNER_ISO': VARCHAR,
+        'FLOW': INTEGER,
+        'cpa': VARCHAR,
+        'PERIOD': BIGINT,
+        'val_cpa': BIGINT,
+        'q_kg': BIGINT
+        },
+    'cpa_intra': {
+        'DECLARANT_ISO': VARCHAR,
+        'PARTNER_ISO': VARCHAR,
+        'FLOW': INTEGER,
+        'PRODUCT': VARCHAR,
+        'PERIOD': BIGINT,
+        'VALUE_IN_EUROS': BIGINT
+        },
+    'cpa_trim': {
+        'DECLARANT_ISO': VARCHAR,
+        'PARTNER_ISO': VARCHAR,
+        'FLOW': INTEGER,
+        'cpa': VARCHAR,
+        'trimestre': VARCHAR,
+        'val_cpa': BIGINT,
+        'q_kg': BIGINT
+        },
+    'tr_extra_ue': {
+        'PRODUCT_NSTR': VARCHAR,
+        'DECLARANT_ISO': VARCHAR,
+        'PARTNER_ISO': VARCHAR,
+        'PERIOD': BIGINT,
+        'TRANSPORT_MODE': INTEGER,
+        'FLOW': INTEGER,
+        'VALUE_IN_EUROS': BIGINT,
+        'QUANTITY_IN_KG': BIGINT
+        },
+    'tr_extra_ue_trim': {
+        'PRODUCT_NSTR': VARCHAR,
+        'DECLARANT_ISO': VARCHAR,
+        'PARTNER_ISO': VARCHAR,
+        'TRIMESTRE': VARCHAR,
+        'TRANSPORT_MODE': INTEGER,
+        'FLOW': INTEGER,
+        'VALUE_IN_EUROS': BIGINT,
+        'QUANTITY_IN_KG': BIGINT
+        },
 }

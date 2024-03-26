@@ -88,7 +88,7 @@ def copyFileToAzure(storage, folder, path_file_source, logger):
     logger.info("copyFileToAzure END: " + os.path.basename(path_file_source))
     return "copyFileToAzure END: " + os.path.basename(path_file_source)
 
-def copyFileToDb(table_mapping, db_settings, db_schemas, logger):
+def copyFileToDb(table_mapping, db_settings, db_schemas, db_column_type, logger):
     logger.info("copyFileToDb START")
     engine = create_engine(f'{db_settings["DB_PROVIDER"]}://{db_settings["DB_USER"]}:{db_settings["DB_PASS"]}@{db_settings["DB_SERVER"]}/{db_settings["DB_NAME"]}?driver={db_settings["DB_DRIVER"]}')
 
@@ -112,7 +112,7 @@ def copyFileToDb(table_mapping, db_settings, db_schemas, logger):
         for file, table in table_mapping.items():
             data = pd.read_csv(file)
             logger.info(f'Copying {os.path.basename(file)} into staging table {table}')
-            data.to_sql(table, con=engine, if_exists='append', index=False, schema=db_schemas["STAGING"], chunksize=1000)
+            data.to_sql(table, con=engine, if_exists='append', dtype=db_column_type[table], index=False, schema=db_schemas["STAGING"], chunksize=1000)
     
         # SWITCH TO PROD
         con=pyodbc.connect(f'Driver={{{db_settings["DB_DRIVER"]}}};Server={db_settings["DB_SERVER"]};Database={db_settings["DB_NAME"]};Uid={db_settings["DB_USER"]};Pwd={db_settings["DB_PASS"]}')
@@ -177,7 +177,7 @@ def exportOutputs(logger):
         copyFileToAzure(params.SHARE_NAME['PYTHON'], None, params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"] , logger)
 
         # DB EXPORT
-        copyFileToDb(params.DB_FILE_MAPPING, params.DB_SETTINGS, params.DB_SCHEMAS, logger)
+        copyFileToDb(params.DB_FILE_MAPPING, params.DB_SETTINGS, params.DB_SCHEMAS, params.DB_COLUMN_TYPE, logger)
 
         logger.info("exportOutputs END")
     
@@ -256,7 +256,6 @@ def refreshMicroservicesDATA(logger):
         resultRefresh += "ERRROR Refresh " + str(e)
     return resultRefresh
 
-
 def checkUPMicroservices(logger):
     logger.info("checkUPMicroservices START")
     resultCall = ""
@@ -279,7 +278,6 @@ def checkUPMicroservices(logger):
     logger.info("checkUPMicroservices END")
 
     return resultCall
-
 
 def sendEmailRepo(report_text , logger):
     logger.info("sendEmailRepo START")
