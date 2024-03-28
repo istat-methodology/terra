@@ -110,9 +110,9 @@ def copyFileToDb(table_mapping, db_settings, db_schemas, db_column_type, logger)
     
         # READ AND SEND TO DB
         for file, table in table_mapping.items():
-            data = pd.read_csv(file)
+            data = pd.read_csv(file, dtype=db_column_type[table])
             logger.info(f'Copying {os.path.basename(file)} into staging table {table}')
-            data.to_sql(table, con=engine, if_exists='append', dtype=db_column_type[table], index=False, schema=db_schemas["STAGING"], chunksize=1000)
+            data.to_sql(table, con=engine, if_exists='append', index=False, schema=db_schemas["STAGING"], chunksize=1000)
     
         # SWITCH TO PROD
         con=pyodbc.connect(f'Driver={{{db_settings["DB_DRIVER"]}}};Server={db_settings["DB_SERVER"]};Database={db_settings["DB_NAME"]};Uid={db_settings["DB_USER"]};Pwd={db_settings["DB_PASS"]}')

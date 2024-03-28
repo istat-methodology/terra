@@ -1,9 +1,6 @@
 import os
 import datetime
 from dateutil.relativedelta import relativedelta
-from sqlalchemy.types import VARCHAR
-from sqlalchemy.types import INTEGER
-from sqlalchemy.types import BIGINT
 
 RUN_DOWNLOAD          : bool = os.getenv("RUN_DOWNLOAD", "1") == "1"
 RUN_ANNUAL_PROCESSING : bool = os.getenv("RUN_ANNUAL_PROCESSING", "1") == "1"
@@ -272,60 +269,60 @@ DB_FILE_MAPPING: dict[str] = {
     FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"] : "tr_extra_ue_trim"
 }
 
-DB_COLUMN_TYPE: dict[dict[str]] = {
+DB_COLUMN_TYPE = {
     'comext_imp': {
-        'DECLARANT_ISO': VARCHAR,
-        'PARTNER_ISO': VARCHAR,
-        'FLOW': INTEGER,
-        'cpa': VARCHAR,
-        'PERIOD': BIGINT,
-        'val_cpa': BIGINT,
-        'q_kg': BIGINT
+        'DECLARANT_ISO': str,
+        'PARTNER_ISO': str,
+        'FLOW': int,
+        'cpa': str,
+        'PERIOD': int,
+        'val_cpa': int,
+        'q_kg': int
         },
     'comext_exp': {
-        'DECLARANT_ISO': VARCHAR,
-        'PARTNER_ISO': VARCHAR,
-        'FLOW': INTEGER,
-        'cpa': VARCHAR,
-        'PERIOD': BIGINT,
-        'val_cpa': BIGINT,
-        'q_kg': BIGINT
+        'DECLARANT_ISO': str,
+        'PARTNER_ISO': str,
+        'FLOW': int,
+        'cpa': str,
+        'PERIOD': int,
+        'val_cpa': int,
+        'q_kg': int
         },
     'cpa_intra': {
-        'DECLARANT_ISO': VARCHAR,
-        'PARTNER_ISO': VARCHAR,
-        'FLOW': INTEGER,
-        'PRODUCT': VARCHAR,
-        'PERIOD': BIGINT,
-        'VALUE_IN_EUROS': BIGINT
+        'DECLARANT_ISO': str,
+        'PARTNER_ISO': str,
+        'FLOW': int,
+        'PRODUCT': str,
+        'PERIOD': int,
+        'VALUE_IN_EUROS': int
         },
     'cpa_trim': {
-        'DECLARANT_ISO': VARCHAR,
-        'PARTNER_ISO': VARCHAR,
-        'FLOW': INTEGER,
-        'cpa': VARCHAR,
-        'trimestre': VARCHAR,
-        'val_cpa': BIGINT,
-        'q_kg': BIGINT
+        'DECLARANT_ISO': str,
+        'PARTNER_ISO': str,
+        'FLOW': int,
+        'cpa': str,
+        'trimestre': str,
+        'val_cpa': int,
+        'q_kg': int
         },
     'tr_extra_ue': {
-        'PRODUCT_NSTR': VARCHAR,
-        'DECLARANT_ISO': VARCHAR,
-        'PARTNER_ISO': VARCHAR,
-        'PERIOD': BIGINT,
-        'TRANSPORT_MODE': INTEGER,
-        'FLOW': INTEGER,
-        'VALUE_IN_EUROS': BIGINT,
-        'QUANTITY_IN_KG': BIGINT
+        'PRODUCT_NSTR': str,
+        'DECLARANT_ISO': str,
+        'PARTNER_ISO': str,
+        'PERIOD': int,
+        'TRANSPORT_MODE': int,
+        'FLOW': int,
+        'VALUE_IN_EUROS': int,
+        'QUANTITY_IN_KG': int
         },
     'tr_extra_ue_trim': {
-        'PRODUCT_NSTR': VARCHAR,
-        'DECLARANT_ISO': VARCHAR,
-        'PARTNER_ISO': VARCHAR,
-        'TRIMESTRE': VARCHAR,
-        'TRANSPORT_MODE': INTEGER,
-        'FLOW': INTEGER,
-        'VALUE_IN_EUROS': BIGINT,
-        'QUANTITY_IN_KG': BIGINT
+        'PRODUCT_NSTR': str,
+        'DECLARANT_ISO': str,
+        'PARTNER_ISO': str,
+        'TRIMESTRE': str,
+        'TRANSPORT_MODE': int,
+        'FLOW': int,
+        'VALUE_IN_EUROS': int,
+        'QUANTITY_IN_KG': int
         },
 }
