@@ -232,6 +232,7 @@ def itsa():
          table_import=orm.comextImp,
          table_export=orm.comextExp,
          flow=flow,
+         var_cpa=var,
          country=country,
          partner=partner,
          dataType=dataType,
