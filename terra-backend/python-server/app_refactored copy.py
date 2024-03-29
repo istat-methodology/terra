@@ -60,7 +60,7 @@ def graphExtraMonth():
         
         pos, JSON, G = graphs.build_graph(
             tab4graph=tab4graph,
-            pos_ini=pos,
+            pos_ini=request_items["pos"],
             weight_flag=request_items["weight_flag"],
             flow=request_items["flow"],
             criterion=request_items["criterion"]
@@ -106,7 +106,7 @@ def graphExtraTrim():
         # Build graph
         pos, JSON, G = graphs.build_graph(
             tab4graph=tab4graph,
-            pos_ini=pos,
+            pos_ini=request_items["pos"],
             weight_flag=request_items["weight_flag"],
             flow=request_items["flow"],
             criterion=request_items["criterion"]
@@ -152,7 +152,7 @@ def graphIntraMonth():
         # Build graph
         pos, JSON, G = graphs.build_graph(
             tab4graph=tab4graph,
-            pos_ini=pos,
+            pos_ini=request_items["pos"],
             weight_flag=request_items["weight_flag"],
             flow=request_items["flow"],
             criterion=request_items["criterion"]
@@ -198,7 +198,7 @@ def graphIntraTrim():
         # Build graph
         pos, JSON, G = graphs.build_graph(
             tab4graph=tab4graph,
-            pos_ini=pos,
+            pos_ini=request_items["pos"],
             weight_flag=request_items["weight_flag"],
             flow=request_items["flow"],
             criterion=request_items["criterion"]
