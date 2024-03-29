@@ -233,9 +233,9 @@ def itsa():
          table_export=orm.comextExp,
          flow=flow,
          var_cpa=var,
-         country=country,
-         partner=partner,
-         dataType=dataType,
+         country_code=country,
+         partner_code=partner,
+         data_type=dataType,
          tipo_var=tipovar
     )
     response = Response(response=result, status=200, mimetype="application/json")

@@ -294,7 +294,7 @@ class TimeSeries():
         return dict_c_data
     
     # orm_table is comextImp
-    def ts(self, table_import, table_export, flow, var_cpa, country_code, partner_code, dataType, tipo_var):
+    def ts(self, table_import, table_export, flow, var_cpa, country_code, partner_code, data_type, tipo_var):
         self.logger.info("[TERRA] Calculating time series...")
         try:
             flow_table = []
@@ -328,7 +328,7 @@ class TimeSeries():
 
             data_result = []
             if len(c_data['series']) > 0:
-                data_result = self.ts_checks_and_preps(c_data, dataType)
+                data_result = self.ts_checks_and_preps(c_data, data_type)
             else:
                 data_result['series'] = []
 
