@@ -55,7 +55,7 @@ def graphExtraMonth():
         )
         logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]):
+        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
             return json.dumps({"STATUS": "05"})
         
         pos, JSON, G = graphs.build_graph(
@@ -100,7 +100,7 @@ def graphExtraTrim():
         )
         logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]):
+        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
                     return json.dumps({"STATUS": "05"})
         
         # Build graph
@@ -146,7 +146,7 @@ def graphIntraMonth():
         )
         logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]):
+        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
                     return json.dumps({"STATUS": "05"})
         
         # Build graph
@@ -192,7 +192,7 @@ def graphIntraTrim():
         )
         logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]):
+        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
                     return json.dumps({"STATUS": "05"})
         
         # Build graph
