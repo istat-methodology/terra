@@ -3,6 +3,27 @@ import numpy as np
 
 product_digits: int = 3
 
+######## ENVIRONMENT VARIABLES #########
+
+RUN_LOCAL = True
+
+DB_SETTINGS : dict = {
+    "DB_PROVIDER" : '',
+    "DB_SERVER" : '',
+    "DB_NAME" : '',
+    "DB_DRIVER" : '',
+    "DB_USER" : '',
+    "DB_PASS" : ''
+}
+
+########################################
+
+ENDPOINT_SETTINGS: dict = {
+    "CRITERION": "VALUE_IN_EUROS", # VALUE IN EUROS | QUANTITY_IN_KG
+    "MAX_NODES": 70,
+    "CHUNK_SIZE": 5
+}
+
 file_names = {
     "Intra File"           : "INTRA_FILE",
     "Intra Quarterly File" : "INTRA_QUARTERLY_FILE",
@@ -29,7 +50,7 @@ file_dtypes = {
 file_labels = {
     "Declarant"      : "DECLARANT_ISO",
     "Partner"        : "PARTNER_ISO",
-    "Transport Mode" : "TRANSPORT_MODE",
+    "Transport"      : "TRANSPORT_MODE",
     "Flow"           : "FLOW",
     "Date"           : "PERIOD",
     "Product"        : "PRODUCT",

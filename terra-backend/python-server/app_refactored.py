@@ -22,6 +22,8 @@ from opencensus.trace.samplers import ProbabilitySampler
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
+from resources import py_server_params
+
 RUN_LOCAL = True
 MAX_NODES = 70
 CHUNCK_SIZE = 5
@@ -53,14 +55,7 @@ if is_application_insight_configured():
 else:
     logger.warning("Application insights is not configured.")
 
-DB_SETTINGS : dict = {
-    "DB_PROVIDER" : "",
-    "DB_SERVER" : "",
-    "DB_NAME" : "",
-    "DB_DRIVER" : "",
-    "DB_USER" : "",
-    "DB_PASS" : ""
-}
+DB_SETTINGS = py_server_params.DB_SETTINGS
 
 Base = declarative_base()
 engine = create_engine(f'{DB_SETTINGS["DB_PROVIDER"]}://{DB_SETTINGS["DB_USER"]}:{DB_SETTINGS["DB_PASS"]}@{DB_SETTINGS["DB_SERVER"]}/{DB_SETTINGS["DB_NAME"]}?driver={DB_SETTINGS["DB_DRIVER"]}')

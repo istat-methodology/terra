@@ -1,0 +1,394 @@
+import pandas as pd
+import numpy as np
+import random
+import math
+import json
+import networkx as nx
+from networkx.readwrite import json_graph
+from datetime import datetime
+from sqlalchemy.orm import sessionmaker
+from resources import py_server_params
+
+class GraphEngine():
+
+    def __init__(self, engine, logger):
+        self.engine = engine
+        self.logger = logger
+
+
+    def build_edges_query(self, edges, flow):
+        query = []
+        for edge in edges:
+            if flow == 1:
+                partner_iso = edge["from"]
+                declarant_iso = edge["to"]
+            else:
+                partner_iso = edge["to"]
+                declarant_iso = edge["from"]
+            exclude = str(edge["exclude"])
+
+            if "-99" in exclude:
+                query.append(f"(DECLARANT_ISO == '{declarant_iso}' & PARTNER_ISO == '{partner_iso}')")
+            else:
+                query.append(f"((DECLARANT_ISO == '{declarant_iso}' & PARTNER_ISO == '{partner_iso}' & TRANSPORT_MODE in {exclude}))")
+        
+        return f"not ({('|'.join(query))})"
+
+
+    def remove_edges(self, df_comext, edges, flow):
+        query = self.build_edges_query(edges, flow)
+        df_comext = df_comext.query(query)
+        return df_comext
+
+
+    def build_metrics(self, graph):
+        self.logger.info("[TERRA] Calculating graph metrics...")
+
+        in_deg = nx.in_degree_centrality(graph)
+        graph_metrics = {}
+        vulnerability = {}
+
+        for k, v in in_deg.items():
+            if v != 0:
+                vulnerability[k] = 1 - v
+            else:
+                vulnerability[k] = 0
+            
+            graph_metrics = {
+                "degree_centrality": nx.degree_centrality(graph),
+                "density": nx.density(graph),
+                "vulnerability": vulnerability,
+                "exportation strenght": {
+                    a: b for a, b in graph.out_degree(weight="weight")
+                },
+                "hubness": nx.closeness_centrality(graph.to_undirected()),
+            }
+        
+        self.logger.info("[TERRA] Graph metrics ready!")
+        return graph_metrics
+
+
+    def extract_graph_table(self, chunksize, period, percentage, transports, flow, product, criterion, selectedEdges, db_table):
+        self.logger.info("[TERRA] Preparing graph table...")
+
+        Session = sessionmaker(bind=self.engine)
+        session = Session()
+
+        query = session.query(db_table).filter(db_table.FLOW == flow)
+        if period is not None:
+            query = query.filter(db_table.PERIOD == period)
+        if len(transports)>0:
+            query = query.filter(db_table.TRANSPORT_MODE.in_(transports))
+        if product is not None:
+            query = query.filter(db_table.PRODUCT == product)
+
+        query_result = query.all()
+        session.close()
+        columns_list = [i for i in db_table.__dict__.keys() if not i.startswith('_')]
+        data = [{attr: getattr(item, attr) for attr in columns_list} for item in query_result]
+        df_comext = pd.DataFrame(data)
+
+        # Extract EDGES
+        if selectedEdges is not None:
+            
+            NUMBER_OF_EDGES_CHUNKS = len(selectedEdges) // (chunksize)
+
+            for i in range(NUMBER_OF_EDGES_CHUNKS):
+                selectedEdges_i = selectedEdges[
+                    i * chunksize : (i + 1) * chunksize
+                ]
+                df_comext = self.remove_edges(
+                    df_comext, selectedEdges_i, flow
+                )
+            selectedEdges_i = selectedEdges[
+                NUMBER_OF_EDGES_CHUNKS * chunksize : len(selectedEdges)
+            ]
+            
+            if len(selectedEdges_i) > 0:
+                df_comext = self.remove_edges(
+                    df_comext, selectedEdges_i, flow
+                )
+
+        # Aggregate on DECLARANT_ISO and PARTNER_ISO and sort on criterion (VALUE or QUANTITY)
+        df_comext = (
+            df_comext.groupby(["DECLARANT_ISO", "PARTNER_ISO"])
+            .sum()
+            .reset_index()[["DECLARANT_ISO", "PARTNER_ISO", criterion]]
+        )
+        df_comext = df_comext.sort_values(
+            criterion, ascending=False
+        )
+        
+        # Cut graph on bottom percentile
+        if percentage is not None:
+            SUM = df_comext[criterion].sum()
+            df_comext = df_comext[
+                df_comext[criterion].cumsum(skipna=False) / SUM * 100 < percentage
+            ]
+        
+        self.logger.info("[TERRA] Graph table ready!")
+        return df_comext
+    
+
+    def build_graph(self, tab4graph, pos_ini, weight_flag, flow, criterion):
+        self.logger.info("[TERRA] Building GRAPH...")
+
+        # Create an empty graph
+        G = nx.DiGraph()
+
+        # Assign roles according to flow (IMPORT or EXPORT)
+        if flow == 1:
+            country_from = "PARTNER_ISO"
+            country_to = "DECLARANT_ISO"
+        else:
+            country_from = "DECLARANT_ISO"
+            country_to = "PARTNER_ISO"
+
+        # Build the Graph with edges and nodes, if the Graph is weighted
+        # assign the weight VALUE or QUANTITY depending on the criterion chosen to sort the market and perform the cut
+        if weight_flag == True:
+            weight = criterion
+            WEIGHT_SUM = tab4graph[weight].sum()
+            edges = [
+                (i, j, w / WEIGHT_SUM)
+                for i, j, w in tab4graph.loc[:, [country_from, country_to, weight]].values
+            ]
+        else:
+            edges = [
+                (i, j, 1) for i, j in tab4graph.loc[:, [country_from, country_to]].values
+            ]
+
+        # Add weigthed edges to the graph
+        G.add_weighted_edges_from(edges)
+
+        attribute = {}
+        for i, j, w in edges:
+            attribute[(i, j)] = {criterion: int(w * WEIGHT_SUM)}
+
+        nx.set_edge_attributes(G, attribute)
+
+        # Build metrics
+        graph_metrics = self.build_metrics(G)
+
+        # Json graph
+        GG = json_graph.node_link_data(G)
+        
+        k_layout = 5
+        pos_ini = {}
+        random.seed(88)
+        for node in GG["nodes"]:
+            x = random.uniform(0, 1)
+            y = random.uniform(0, 1)
+            pos_ini[node["id"]] = np.array([x, y])
+
+        try:
+            coord = nx.spring_layout(
+                G, k=k_layout / math.sqrt(G.order()), pos=pos_ini, iterations=200
+            )
+            coord = nx.spring_layout(
+                G, k=k_layout / math.sqrt(G.order()), pos=coord, iterations=50
+            )  # stable solution
+
+        except:
+            return None, None, None
+
+        # Create a dataframe with graph nodes coordinates
+        df_coord = pd.DataFrame.from_dict(coord, orient="index")
+        df_coord.columns = ["x", "y"]
+
+        df = pd.DataFrame(GG["nodes"])
+        df.columns = ["label"]
+        df["id"] = np.arange(df.shape[0])
+        df = df[["id", "label"]]
+        out = pd.merge(df, df_coord, left_on="label", right_index=True)
+        dict_nodes = out.T.to_dict().values()
+
+        dfe = pd.DataFrame(GG["links"])[["source", "target", "weight", criterion]]
+        res = dfe.set_index("source").join(
+            out[["label", "id"]].set_index("label"), on="source", how="left"
+        )
+        res.columns = ["target", "source_id", "weight", criterion]
+        res2 = res.set_index("target").join(
+            out[["label", "id"]].set_index("label"), on="target", how="left"
+        )
+        res2.columns = ["weight", criterion, "from", "to"]
+        res2.reset_index(drop=True, inplace=True)
+        dict_edges = res2.T.to_dict().values()
+
+        new_dict = {
+            "nodes": list(dict_nodes),
+            "edges": list(dict_edges),
+            "metriche": graph_metrics,
+        }
+
+        JSON = json.dumps(new_dict)
+        self.logger.info("[TERRA] GRAPH built!")
+        return coord, JSON, G
+    
+    def width_check(self, tab4graph, max_size):
+        node_size = len(set(tab4graph["DECLARANT_ISO"]).union(set(tab4graph["PARTNER_ISO"])))
+        if node_size > max_size:
+            self.logger.info(f"[TERRA] Graph is too wide!")
+            return False
+        else:
+            return True
+
+
+class Misc():
+
+    def __init__(self, logger):
+        self.logger = logger
+    
+    def jsonpos2coord(self, jsonpos):
+        self.logger.info("[TERRA] JSON2COORDINATES...")
+        coord = {}
+        for id, x, y in pd.DataFrame.from_dict(jsonpos["nodes"])[
+            ["label", "x", "y"]
+        ].values:
+            coord[id] = np.array([x, y])
+        self.logger.info("[TERRA] JSON2COORDINATES done!")
+        return coord
+
+
+class TimeSeries():
+
+    def __init__(self, engine, logger):
+        self.engine = engine
+        self.logger = logger
+
+    def ts_checks_and_preps(self, c_data, dataType):
+        # Format dates for sorting
+        c_data['year'] = c_data['PERIOD'].astype(str).str[:4].astype(int)
+        c_data['month'] = c_data['PERIOD'].astype(str).str[-2:].astype(int)
+
+        # Sort the dataset
+        c_data = c_data.sort_values(['year', 'month'])
+        # Create date column
+        c_data['date'] = pd.to_datetime(c_data['year'].astype(str) + '-' + c_data['month'].astype(str) + '-01')
+
+        # Create date range for comparison
+        start_date = datetime(c_data['year'].iloc[0], c_data['month'].iloc[0], 1)
+        end_date = datetime(c_data['year'].iloc[-1], c_data['month'].iloc[-1], 1)
+        date_full = pd.date_range(start=start_date, end=end_date, freq='MS')
+        
+        # Select necessary columns
+        c_data = c_data[['date', 'series']]
+
+        # Compare for missing months
+        if len(c_data['date']) < len(date_full):
+            db_full = pd.DataFrame({'date': date_full})
+            c_data = pd.merge(c_data, db_full, how='outer')
+
+        # Sort the dataset
+        c_data.sort_values('date', inplace=True)
+
+        # Calculate Yearly Variation Series if dataType is 1
+        if dataType == 1:
+            c_data['series_prev'] = c_data['series'].shift(12)
+            c_data['series'] = c_data['series'] - c_data['series_prev']
+            c_data = c_data.dropna(subset=['series'])
+            c_data = c_data[['date','series']]
+        
+        dict_c_data = { "date": list(c_data["date"].dt.strftime("%Y-%m-%d")), "series": list(c_data["series"].astype(float))}
+
+        return dict_c_data
+    
+    # orm_table is comextImp
+    def ts(self, orm_table, flow, var_cpa, country_code, partner_code, dataType, tipo_var):
+        self.logger.info("[TERRA] Calculating time series...")
+        try:
+            flow_table = []
+            column_selection = []
+            if flow == 1:
+                flow_table = orm_table
+            elif flow == 2:
+                flow_table = orm_table
+            
+            if tipo_var == 1:
+                column_selection = flow_table.VALUE_IN_EUROS
+            elif tipo_var == 2:
+                column_selection = flow_table.QUANTITY_IN_KG
+            
+            Session = sessionmaker(bind=self.engine)
+            session = Session()
+            
+            # User selects a UE country, global partner, cpa
+            query = session.query(
+                flow_table.PERIOD, column_selection
+                ).filter(
+                    flow_table.DECLARANT_ISO == country_code
+                    ).filter(
+                        flow_table.PARTNER_ISO == partner_code
+                        ).filter(
+                            flow_table.PRODUCT == var_cpa
+                            )
+            c_data = pd.read_sql(query.statement, query.session.bind)
+            session.close()
+            c_data.columns = ['PERIOD', 'series']
+
+            data_result = []
+            if len(c_data['series']) > 0:
+                data_result = self.ts_checks_and_preps(c_data, dataType)
+            else:
+                data_result['series'] = []
+
+            status_main = "01" if len(data_result) > 0 and ~any(np.isnan(val) for val in data_result['series']) else "00"
+            
+            res_dict = {}
+            res_dict["statusMain"] = status_main
+            res_dict["diagMain"] = data_result
+            res_json = json.dumps(res_dict)
+            self.logger.info("[TERRA] Time series ready!")
+            return res_json
+
+        except Exception as e:
+            session.close()
+            res_dict = {
+                "statusMain": ["00"],
+                "error": str(e)
+            }
+            self.logger.info(f"[TERRA] Something went wrong with time series creation: {str(e)}")
+            return res_dict
+    
+
+class RequestHandler():
+
+    def __init__(self, logger):
+        self.logger = logger
+
+    def get_items(self, request, time_freq):
+        criterion = py_server_params.ENDPOINT_SETTINGS["CRITERION"]
+        percentage = int(request["tg_perc"])
+        if time_freq == 'monthly':
+            period = int(request["tg_period"])
+        else:
+            period = str(request['tg_period'][:-2] + "T" + request['tg_period'][-1:])        
+        pos = request["pos"]
+        if pos == "None" or len(pos["nodes"]) == 0:
+            pos = None
+        else:
+            pos = Misc(self.logger).jsonpos2coord(pos)
+        transports = request["listaMezzi"] # 0:Unknown 1:Sea 2:Rail 3:Road 4Air 5:Post 7:Fixed Mechanism 8:Inland Waterway 9:Self Propulsion
+        flow = int(request["flow"])
+        product = str(request["product"])
+        weight_flag = bool(request["weight_flag"])
+
+        selected_transport_edges = request["selezioneMezziEdges"]
+        if selected_transport_edges == "None":
+            selected_transport_edges = None
+        else:
+            pass
+
+        results = {
+            'criterion': criterion,
+            'percentage': percentage,
+            'period': period,
+            'pos': pos,
+            'transport': transports,
+            'flow': flow,
+            'product': product,
+            'weight_flag': weight_flag,
+            'selected_transport_edges': selected_transport_edges
+        }
+
+        return results
