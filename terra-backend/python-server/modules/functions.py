@@ -294,15 +294,15 @@ class TimeSeries():
         return dict_c_data
     
     # orm_table is comextImp
-    def ts(self, orm_table, flow, var_cpa, country_code, partner_code, dataType, tipo_var):
+    def ts(self, table_import, table_export, flow, var_cpa, country_code, partner_code, dataType, tipo_var):
         self.logger.info("[TERRA] Calculating time series...")
         try:
             flow_table = []
             column_selection = []
             if flow == 1:
-                flow_table = orm_table
+                flow_table = table_import
             elif flow == 2:
-                flow_table = orm_table
+                flow_table = table_export
             
             if tipo_var == 1:
                 column_selection = flow_table.VALUE_IN_EUROS

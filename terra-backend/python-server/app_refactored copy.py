@@ -227,8 +227,16 @@ def itsa():
     partner = jsonRequest['partner']
     dataType = jsonRequest['dataType']
     tipovar = jsonRequest['tipovar'] # cambiare da tipovar a vartype
-
-    result = timeseries.ts(flow, var, country, partner, dataType, tipovar)
+    
+    result = timeseries.ts(
+         table_import=orm.comextImp,
+         table_export=orm.comextExp,
+         flow=flow,
+         country=country,
+         partner=partner,
+         dataType=dataType,
+         tipo_var=tipovar
+    )
     response = Response(response=result, status=200, mimetype="application/json")
     return response
     
