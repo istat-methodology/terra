@@ -5,8 +5,6 @@ product_digits: int = 3
 
 ######## ENVIRONMENT VARIABLES #########
 
-RUN_LOCAL: bool = bool(os.getenv('RUN_LOCAL', 'False'))
-
 DB_SETTINGS : dict[str, str] = {
     "DB_PROVIDER" : os.getenv('DB_PROVIDER', 'mssql+pyodbc'),
     "DB_SERVER" : os.getenv('DB_SERVER'),

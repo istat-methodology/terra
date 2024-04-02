@@ -53,6 +53,7 @@ jobs:
         images: 'istatcosmo.azurecr.io/cosmo-python-service:2.0.${{ github.run_number }}'
 
   deploy:
+    if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     needs: [build, deploy-dev]
     environment:

@@ -28,15 +28,14 @@ timeseries  = functions.TimeSeries(engine, logger)
 app = Flask(__name__)
 CORS(app, resources=r'/*')
 
-if py_server_params.RUN_LOCAL is False:
-    azure_exporter = AzureExporter()
-    azure_exporter.add_telemetry_processor(utils.ai_callback_function)
-    if utils.is_application_insight_configured():
-        middleware = FlaskMiddleware(
-            app,
-            exporter=azure_exporter,
-            sampler=ProbabilitySampler(rate=1.0),
-        )
+azure_exporter = AzureExporter()
+azure_exporter.add_telemetry_processor(utils.ai_callback_function)
+if utils.is_application_insight_configured():
+    middleware = FlaskMiddleware(
+        app,
+        exporter=azure_exporter,
+        sampler=ProbabilitySampler(rate=1.0),
+    )
 
 @app.route('/hello')
 def hello():
