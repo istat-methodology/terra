@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Version 0.2.0
+# Version 2.0.0
 
 echo "** NODE PREPARATION STARTED **"
 
