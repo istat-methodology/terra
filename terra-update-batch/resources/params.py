@@ -17,28 +17,29 @@ URL_JSONDATA_SERVER   : str  = "https://api.cosmo.statlab.it/cls"
 URL_RDATA_SERVER      : str  = "https://api.cosmo.statlab.it/time-series"
 URL_PYTHONDATA_SERVER : str  = "https://api.cosmo.statlab.it/graph"
 
-SHARE_NAME : dict = {
+SHARE_NAME : dict[str, str] = {
     "JSON": os.getenv("SHARENAME_PREFIX", "istat-cosmo-data-") + "json",
     "PYTHON": os.getenv("SHARENAME_PREFIX", 'istat-cosmo-data-') + "python",
     "R": os.getenv("SHARENAME_PREFIX", 'istat-cosmo-data-') + "r"
 }
 
-DB_SETTINGS : dict = {
-    "DB_PROVIDER" : "",
-    "DB_SERVER" : "",
-    "DB_NAME" : "",
-    "DB_DRIVER" : "",
-    "DB_USER" : "",
-    "DB_PASS" : ""
+DB_SETTINGS : dict[str, str] = {
+    "DB_PROVIDER" : os.getenv('DB_PROVIDER', 'mssql+pyodbc'),
+    "DB_SERVER" : os.getenv('DB_SERVER'),
+    "DB_NAME" : os.getenv('DB_NAME'),
+    "DB_DRIVER" : os.getenv('DB_DRIVER'),
+    "DB_USER" : os.getenv('DB_USER'),
+    "DB_PASS" : os.getenv('DB_PASS'),
+    "DB_CONNECTIONSTRING_SECRET": os.getenv('DB_CONNECTIONSTRING_SECRET', '')
 }
 
-DB_SCHEMAS : dict = {
+DB_SCHEMAS : dict[str, str] = {
     "STAGING" : "raw",
     "TEMP" : "temp",
     "PROD" : "dbo"
 }
 
-MAIL_SETTINGS         : str  = {
+MAIL_SETTINGS         : dict[str, str]  = {
     "URL": os.getenv("LOGICAPP_URL"),
     "TO" : os.getenv("MAIL_RECIPIENTS"),
     "SUBJECT" : os.getenv("MAIL_SUBJECT", "Repo from cosmo update")

@@ -4,8 +4,11 @@
 
 echo "** NODE PREPARATION STARTED **"
 
+curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc
+curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | tee /etc/apt/sources.list.d/mssql-release.list
+
 apt update
-apt install -y python3 python3-pip python-is-python3
+DEBIAN_FRONTEND=noninteractive ACCEPT_EULA=Y apt install -y python3 python3-pip python-is-python3 msodbcsql18 mssql-tools18 unixodbc-dev 
 
 if [ -z "$MOUNT_DIR" ]
 then

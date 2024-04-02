@@ -1,4 +1,5 @@
 import json
+import os
 
 from flask import Flask, request, Response
 from flask_cors import CORS
@@ -37,6 +38,9 @@ if py_server_params.RUN_LOCAL is False:
             sampler=ProbabilitySampler(rate=1.0),
         )
 
+@app.route('/hello')
+def hello():
+    return str('Version '+str(os.getenv('APP_VERSION')))
 
 @app.route("/graphExtraMonth", methods=["POST", "GET"])
 def graphExtraMonth():

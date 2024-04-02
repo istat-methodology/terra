@@ -1,4 +1,4 @@
-# Version 1.2.0
+# Version 2.0.0
 
 import os
 import re
@@ -6,6 +6,9 @@ import sys
 from datetime import datetime
 from resources import params
 from execute import download, processing, output, misc
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logger = misc.get_logger()
 
