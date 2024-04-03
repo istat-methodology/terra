@@ -40,6 +40,32 @@ def createFolder(folder_path):
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
+def sanityCheckAzureFolderStructure(logger):
+
+    logger.info("Checking Storage Account Folder Structure...")
+
+    storage_account_key = os.getenv("STORAGE_ACCOUNT_KEY", "")
+    if storage_account_key == "":
+        logger.info("Using managed identity.")
+        kvclient = SecretClient(
+            vault_url=f"https://{params.KEY_VAULT_NAME}.vault.azure.net",
+            credential=DefaultAzureCredential(),
+        )
+        storage_account_key = kvclient.get_secret(params.SECRETNAME_ACCOUNTKEY).value
+
+    fileService = FileService(
+        account_name=os.environ["STORAGE_ACCOUNT_NAME"], account_key=storage_account_key
+    )
+
+    for share_name, folders in params.STORAGE_ACCOUNT_FOLDER_LIST.items():
+        for folder in folders:
+            logger.info(f"{share_name}/{folder}")
+            if fileService.exists(share_name, folder) is False:
+                logger.info(f"Creating folder: [{folder}] in Azure storage: [{share_name}]")
+                fileService.create_directory(share_name, folder, fail_on_exist=False)
+            else:    
+                logger.info(f"Folder: [{folder}] in Azure storage: [{share_name}] already exists.")
+
 def createFolderStructure(folderDict):
     for key, value in folderDict.items():
         createFolder(value)

@@ -37,6 +37,9 @@ def executePreliminaries(logger, start_time: datetime):
     cUtil.createFolderStructure(params.DIRECTORIES)
     logger.info('Created folder structure')
 
+    cUtil.sanityCheckAzureFolderStructure(logger)
+    logger.info('Sanity check done!')
+
     return start_time
 
 

@@ -261,6 +261,10 @@ FILES: dict[str] = {
     "TR_EXTRA_UE_TRIMESTRALI_CSV" : DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["TR_EXTRA_UE_TRIMESTRALI_CSV"],
 }
 
+STORAGE_ACCOUNT_FOLDER_LIST: dict[str, list[str]] = {
+        f"{SHARE_NAME['JSON']}": ['map', 'trade', 'classification', 'general']
+    }
+
 DB_FILE_MAPPING: dict[str] = {
     FILES["COMEXT_IMP_CSV"] : "comext_imp",
     FILES["COMEXT_EXP_CSV"] : "comext_exp",
