@@ -132,9 +132,9 @@ def copyFileToDb(table_mapping, db_settings, db_schemas, db_column_type, logger)
     def receive_before_cursor_execute(conn, cursor, statement, params, context, executemany):
         if executemany:
             cursor.fast_executemany = True 
-
-    try:
-        with engine.connect() as con:
+    
+    with engine.connect() as con:
+        try:
             # TRUNCATE STAGING TABLE
             for file, table in table_mapping.items():
                 logger.info(f'Truncating staging table {table}')
@@ -166,12 +166,12 @@ def copyFileToDb(table_mapping, db_settings, db_schemas, db_column_type, logger)
 
             logger.info("copyFileToDb END")
 
-    except BaseException as e:
-        logger.info(f'Error during copy file to DB: {e}')
-    finally:
-        engine.dispose()
-        con.close()
-        return
+        except BaseException as e:
+            logger.info(f'Error during copy file to DB: {e}')
+        finally:
+            engine.dispose()
+            con.close()
+            return
 
 def exportOutputs(logger):
     logger.info("exportOutputs START")
