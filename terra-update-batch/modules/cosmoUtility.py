@@ -8,8 +8,7 @@ import zipfile
 import urllib.request
 import time
 import shutil
-from sqlalchemy import create_engine, event
-import pyodbc
+from sqlalchemy import create_engine, event, text
 
 try:
     from azure.storage.file import FileService
@@ -135,31 +134,35 @@ def copyFileToDb(table_mapping, db_settings, db_schemas, db_column_type, logger)
             cursor.fast_executemany = True 
 
     try:
-        with engine.connect as con:
+        with engine.connect() as con:
             # TRUNCATE STAGING TABLE
             for file, table in table_mapping.items():
                 logger.info(f'Truncating staging table {table}')
-                con.execute(f'TRUNCATE TABLE {db_schemas["STAGING"]}.{table}')
+                con.execute(text(f'TRUNCATE TABLE {db_schemas["STAGING"]}.{table}'))
+            con.commit()
         
             # READ AND SEND TO DB
             for file, table in table_mapping.items():
                 data = pd.read_csv(file, dtype=db_column_type[table])
                 logger.info(f'Copying {os.path.basename(file)} into staging table {table}')
-                data.to_sql(table, con=engine, if_exists='append', index=False, schema=db_schemas["STAGING"], chunksize=1000)
+                data.to_sql(table, con=con, if_exists='append', index=False, schema=db_schemas["STAGING"], chunksize=1000)
         
             # SWITCH TO PROD
             for file, table in table_mapping.items():
                 logger.info(f'Switching prod to temp table: {table}')
-                con.execute(f'ALTER SCHEMA {db_schemas["TEMP"]} TRANSFER {db_schemas["PROD"]}.{table}')
+                con.execute(text(f'ALTER SCHEMA {db_schemas["TEMP"]} TRANSFER {db_schemas["PROD"]}.{table}'))
+            con.commit()
 
             for file, table in table_mapping.items():
                 logger.info(f'Switching raw to prod table: {table}')
-                con.execute(f'ALTER SCHEMA {db_schemas["PROD"]} TRANSFER {db_schemas["STAGING"]}.{table}')
+                con.execute(text(f'ALTER SCHEMA {db_schemas["PROD"]} TRANSFER {db_schemas["STAGING"]}.{table}'))
+                con.execute(text(f'UPDATE STATISTICS {db_schemas["PROD"]}.{table}'))
+            con.commit()
 
             for file, table in table_mapping.items():
                 logger.info(f'Switching temp to raw table: {table}')
-                con.execute(f'ALTER SCHEMA {db_schemas["STAGING"]} TRANSFER {db_schemas["TEMP"]}.{table}')
-                con.execute(f'UPDATE STATISTICS {db_schemas["PROD"]}.{table}')
+                con.execute(text(f'ALTER SCHEMA {db_schemas["STAGING"]} TRANSFER {db_schemas["TEMP"]}.{table}'))
+            con.commit()
 
             logger.info("copyFileToDb END")
 
