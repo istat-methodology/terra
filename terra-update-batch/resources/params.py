@@ -1,6 +1,7 @@
 import os
 import datetime
 from dateutil.relativedelta import relativedelta
+import numpy as np
 
 RUN_DOWNLOAD          : bool = os.getenv("RUN_DOWNLOAD", "1") == "1"
 RUN_ANNUAL_PROCESSING : bool = os.getenv("RUN_ANNUAL_PROCESSING", "1") == "1"
@@ -281,8 +282,8 @@ DB_COLUMN_TYPE = {
         'FLOW': int,
         'cpa': str,
         'PERIOD': int,
-        'val_cpa': int,
-        'q_kg': int
+        'val_cpa': np.int64,
+        'q_kg': np.int64
         },
     'comext_exp': {
         'DECLARANT_ISO': str,
@@ -290,16 +291,16 @@ DB_COLUMN_TYPE = {
         'FLOW': int,
         'cpa': str,
         'PERIOD': int,
-        'val_cpa': int,
-        'q_kg': int
+        'val_cpa': np.int64,
+        'q_kg': np.int64
         },
     'cpa_intra': {
         'DECLARANT_ISO': str,
         'PARTNER_ISO': str,
         'FLOW': int,
         'PRODUCT': str,
-        'PERIOD': int,
-        'VALUE_IN_EUROS': int
+        'PERIOD': np.int64,
+        'VALUE_IN_EUROS': np.int64
         },
     'cpa_trim': {
         'DECLARANT_ISO': str,
@@ -307,8 +308,8 @@ DB_COLUMN_TYPE = {
         'FLOW': int,
         'cpa': str,
         'trimestre': str,
-        'val_cpa': int,
-        'q_kg': int
+        'val_cpa': np.int64,
+        'q_kg': np.int64
         },
     'tr_extra_ue': {
         'PRODUCT_NSTR': str,
@@ -317,8 +318,8 @@ DB_COLUMN_TYPE = {
         'PERIOD': int,
         'TRANSPORT_MODE': int,
         'FLOW': int,
-        'VALUE_IN_EUROS': int,
-        'QUANTITY_IN_KG': int
+        'VALUE_IN_EUROS': np.int64,
+        'QUANTITY_IN_KG': np.int64
         },
     'tr_extra_ue_trim': {
         'PRODUCT_NSTR': str,
@@ -327,7 +328,7 @@ DB_COLUMN_TYPE = {
         'TRIMESTRE': str,
         'TRANSPORT_MODE': int,
         'FLOW': int,
-        'VALUE_IN_EUROS': int,
-        'QUANTITY_IN_KG': int
+        'VALUE_IN_EUROS': np.int64,
+        'QUANTITY_IN_KG': np.int64
         },
 }
