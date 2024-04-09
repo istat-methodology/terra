@@ -30,7 +30,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:  
-      name: development
+      name: production
 
     steps:
       - uses: actions/checkout@v3
