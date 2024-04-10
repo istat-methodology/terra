@@ -8,3 +8,4 @@ numpy
 datetime
 py7zr
 sqlalchemy
+pyodbc
