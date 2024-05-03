@@ -166,17 +166,19 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
-import { Context, optionsTrade } from "@/common"
+//import { Context, optionsTrade } from "@/common"
+import { Context } from "@/common"
 import { metadataService } from "@/services"
 import { required } from "vuelidate/lib/validators"
 import paletteMixin from "@/components/mixins/palette.mixin"
+import tradeDiagMixin from "@/components/mixins/tradeDiag.mixin"
 import LineChart from "@/components/charts/LineChart"
 import spinnerMixin from "@/components/mixins/spinner.mixin"
 import exporter from "@/components/Exporter"
 export default {
   name: "Trade",
   components: { LineChart, exporter },
-  mixins: [paletteMixin, spinnerMixin],
+  mixins: [paletteMixin, spinnerMixin, tradeDiagMixin],
   data: () => ({
     //Form (default values)
 
@@ -190,7 +192,7 @@ export default {
     //Chart
     chartData: null,
     labelPeriod: [],
-    options: { ...optionsTrade },
+    //options: { ...optionsTrade },
 
     //Spinner
     spinner: false,
@@ -220,6 +222,9 @@ export default {
       return this.flow && this.country
         ? this.flow.descr + " - " + this.country.name
         : ""
+    },
+    options() {
+      return this.getOptions(true, this.$i18n.locale)
     }
   },
   validations: {
@@ -277,7 +282,7 @@ export default {
     buildChartObject(description, value) {
       const color = this.getColor()
       //reset options to default (to force update)
-      this.options = { ...optionsTrade }
+      //this.options = { ...optionsTrade }
 
       this.options.scales.yAxes[0].scaleLabel.labelString =
         this.seriesType.id == 1
@@ -295,21 +300,40 @@ export default {
     },
     getData(data, id) {
       if (data != null && this.product != null) {
+        let datacsv = []
+        data.forEach((products) => {
+          datacsv.push({
+            dataname: products.dataname,
+            productID: products.productID,
+            value: this.setValue(products.value)
+          })
+        })
         let selectedAll = false
         const selectedProds = this.product.map((prod) => {
           if (prod.id == "00") selectedAll = true
           return prod.dataname
         })
         //filter on selected products
-        if (selectedAll) return [data, id]
+        console.log(datacsv)
+        if (selectedAll) return [datacsv, id]
         else {
-          const selectedData = data.filter((series) => {
+          const selectedData = datacsv.filter((series) => {
             if (selectedProds.includes(series.dataname)) return series
           })
           return [selectedData, id]
         }
       }
       return null
+    },
+    setValue(values) {
+      let productValues = []
+      values.forEach((value) => {
+        productValues.push(this.formatNumber(value))
+      })
+      return productValues
+    },
+    formatNumber(num) {
+      return num ? num.toLocaleString(this.$i18n.locale) : "-"
     },
     loadData() {
       this.spinnerStart(true)

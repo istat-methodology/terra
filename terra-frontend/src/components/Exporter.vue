@@ -341,7 +341,7 @@ export default {
               row += obj[col][idx]
               row += columnDelimiter
             })
-            result += row.slice(0, -1).replaceAll(".", ",") //remove last column delimiter and change decimal separator
+            result += row.slice(0, -1) //.replaceAll(".", ",") //remove last column delimiter and change decimal separator
             result += rowDelimiter
           }
         } else {

@@ -13,7 +13,7 @@
         <span class="float-right">
           <exporter
             filename="terra_scenario"
-            :data="getData(csvTable, 'table')"
+            :data="getDataCSV(csvTable, 'table')"
             :options="['csv']"
             source="table"
             :header="csvHeader">
@@ -59,13 +59,15 @@
           </td>
         </template>
         <template #euro="{ item }">
-          <td headers="head_scenario_2">
-            {{ item.euro }}
+          <td headers="head_scenario_2" class="num">
+            {{ formatNumber(item.euro) }}
+
+            €
           </td>
         </template>
         <template #percentage="{ item }">
-          <td headers="head_scenario_3">
-            {{ item.percentage }}
+          <td headers="head_scenario_3" class="num">
+            {{ formatNumber(item.percentage) }} %
           </td>
         </template>
         <template #flow="{ item }">
@@ -323,6 +325,28 @@ export default {
       }
       return null
     },
+    getDataCSV(data, id) {
+      if (data != null || data.lenght > 0) {
+        let datacsv = []
+        data.forEach((field) => {
+          datacsv.push({
+            source: field.source,
+            destination: field.destination,
+            euro: this.formatNumber(field.euro),
+            percentage: this.formatNumber(field.percentage),
+            flow: field.flow
+          })
+        })
+        return [datacsv, id]
+      }
+      return null
+    },
+    formatNumber(num) {
+      if (num) {
+        let n = parseFloat(num)
+        return n ? n.toLocaleString(this.$i18n.locale) : "-"
+      }
+    },
     fixHeaderTableForAccessibility() {
       setTimeout(() => {
         var thead = document
@@ -421,7 +445,7 @@ export default {
           if (table.$el.children[0].children[0].children[1]) {
             const tBody = table.$el.children[0].children[0].children[1]
             tBody.ariaLive = "polite"
-            console.log(tBody)
+            //console.log(tBody)
           }
         }
       }
@@ -448,6 +472,7 @@ export default {
   font-size: 16px;
   font-weight: 600;
 }
+
 .scenario-analysis {
   font-weight: 500;
   font-size: 16px;
@@ -516,7 +541,11 @@ export default {
 .drag-el:nth-last-of-type(1) {
   margin-bottom: 0;
 }
+
 .no-visible {
   display: none;
+}
+.num {
+  text-align: right;
 }
 </style>

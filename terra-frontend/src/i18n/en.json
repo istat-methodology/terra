@@ -69,6 +69,7 @@
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
     "trade": "Basket of traded products",
+    "news": "News",
     "logo_istat": "Istat Logo",
     "goto_istat": "Go to www.istat.it",
     "opens_goto_istat": "Opens in a new window: ISTAT",
@@ -107,6 +108,11 @@
       "title": "Basket of traded products",
       "body": "This section provides, for each Member State, the <strong>monthly time series of basket composition for exported and imported goods</strong>, classified according to 2 digits CPA 2.1, together with year-over-year changes.",
       "link": "Go to Basket of traded products"
+    },
+    "news": {
+      "title": "News on Terra",
+      "body": "This section shows news on Terra, related to data updates, bug fixing and improvements in the dashboard",
+      "link": "Go to News"
     }
   },
   "map": {
@@ -130,6 +136,36 @@
         "body": "This section provides a map displaying for each country the total population, some macro-economic indicators, main imported and exported goods ,and main trade partner countries. Moreover, a time-lapse functionality to represent the international trade year-on-year monthly variations for the last three years is provided.",
         "keywords": ""
       }
+    },
+    "info": {
+      "tab":{
+        "main":"Main Information",
+        "import_partner": "Import partners",
+        "export_partner": "Export partners"
+      },
+      "table": {
+        "information":{
+          "population":"Population",
+          "industrial_production":"Industrial Production (%)",
+          "unemployment":"Unemployment (%)",
+          "import": "Import (euro)",
+          "export": "Export (euro)"
+        },
+        "partner": {
+          "2021": "Main partner 2021",
+          "2022": "Main partner 2022"
+        },
+        "total": {
+          "import": {
+            "2021": "Total import 2021",
+            "2022": "Total import 2022"
+          },
+          "export": {
+            "2021": "Total export 2021",
+            "2022": "Total export 2022"
+          }
+        }
+      }     
     }
   },
   "graph": {
@@ -300,6 +336,16 @@
     },
     "download": {
       "title": "Terra - Basket of Traded Products Filter"
+    }
+  },
+  "news": {
+    "card": {
+      "title": "News on Terra"
+    },
+    "table": {
+      "date": "date",
+      "text": "text",
+      "type": "type"
     }
   },
   "privacy": {

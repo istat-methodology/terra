@@ -37,12 +37,33 @@ const getters = {
         )
       : null
   },
+
   graphTrimesterPeriod: (state, getters, rootState, rootGetters) => {
     const lan = rootGetters["coreui/language"]
     return state.metadata
       ? getTrimesterPeriod(
           state.metadata.graph.timeStart,
           state.metadata.graph.timeEnd,
+          lan
+        )
+      : null
+  },
+  graphExtraPeriod: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
+    return state.metadata
+      ? getPeriod(
+          state.metadata.graphPlus.timeStart,
+          state.metadata.graphPlus.timeEnd,
+          lan
+        )
+      : null
+  },
+  graphExtraTrimesterPeriod: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
+    return state.metadata
+      ? getTrimesterPeriod(
+          state.metadata.graphPlus.timeStart,
+          state.metadata.graphPlus.timeEnd,
           lan
         )
       : null

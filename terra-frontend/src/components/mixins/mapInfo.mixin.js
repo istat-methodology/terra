@@ -1,93 +1,7 @@
 export default {
   data: () => ({
     isInfo: false,
-    infoTitle: "",
-    mainFields: [
-      {
-        key: "Year",
-        label: ""
-      },
-      {
-        key: "2021",
-        label: "2021"
-      },
-      {
-        key: "2022",
-        label: "2022"
-      }
-    ],
-    importFields_it: [
-      {
-        key: "Main partner 2021",
-        label: "Partner principale 2021"
-      },
-      {
-        key: "Total import 2021",
-        label: "Importazione totale 2021"
-      },
-      {
-        key: "Main partner 2022",
-        label: "Partner principale 2022"
-      },
-      {
-        key: "Total import 2022",
-        label: "Importazione totale 2021"
-      }
-    ],
-    importFields_en: [
-      {
-        key: "Main partner 2021",
-        label: "Main partner 2021"
-      },
-      {
-        key: "Total import 2021",
-        label: "Total import 2021"
-      },
-      {
-        key: "Main partner 2022",
-        label: "Main partner 2022"
-      },
-      {
-        key: "Total import 2022",
-        label: "Total import 2022"
-      }
-    ],
-    exportFields_it: [
-      {
-        key: "Main partner 2021",
-        label: "Partner principale 2021"
-      },
-      {
-        key: "Total export 2021",
-        label: "Esportazione totale 2021"
-      },
-      {
-        key: "Main partner 2022",
-        label: "Partner principale 2022"
-      },
-      {
-        key: "Total export 2022",
-        label: "Esportazione totale 2021"
-      }
-    ],
-    exportFields_en: [
-      {
-        key: "Main partner 2021",
-        label: "Main partner 2021"
-      },
-      {
-        key: "Total export 2021",
-        label: "Total export 2021"
-      },
-      {
-        key: "Main partner 2022",
-        label: "Main partner 2022"
-      },
-      {
-        key: "Total export 2022",
-        label: "Total export 2022"
-      }
-    ]
+    infoTitle: ""
   }),
   methods: {
     openInfo(marker) {
@@ -116,30 +30,29 @@ export default {
       this.isInfo = false
     },
     localizeMain(mainInfo, isItalian) {
-      let mainInfoItalian = []
+      console.log(isItalian)
       for (var info of mainInfo) {
         switch (info["Year"]) {
           case "Population.":
-            info["Year"] = isItalian ? "Popolazione" : "Population"
+            info["Year"] = this.$t("map.info.table.information.population")
             break
           case "Industrial Production.":
-            info["Year"] = isItalian
-              ? "Produzione industriale (%)"
-              : "Industrial production (%)"
+            info["Year"] = this.$t(
+              "map.info.table.information.industrial_production"
+            )
             break
           case "Unemployment.":
-            info["Year"] = isItalian ? "Disoccupazione (%)" : "Unemployment (%)"
+            info["Year"] = this.$t("map.info.table.information.unemployment")
             break
           case "Import.":
-            info["Year"] = isItalian ? "Importazioni (euro)" : "Import (euro)"
+            info["Year"] = this.$t("map.info.table.information.import")
             break
           case "Export.":
-            info["Year"] = isItalian ? "Esportazioni (euro)" : "Export (euro)"
+            info["Year"] = this.$t("map.info.information.export")
             break
         }
-        mainInfoItalian.push(info)
       }
-      return isItalian ? mainInfoItalian : mainInfo
+      return mainInfo
     }
   }
 }

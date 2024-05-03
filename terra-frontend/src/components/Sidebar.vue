@@ -45,6 +45,23 @@
             :title="$t('sidebar.home')" />{{ $t("sidebar.home") }}
         </a>
       </div>
+      <div class="c-sidebar-nav-item">
+        <a
+          @click="handleNews()"
+          @keypress="handleNews()"
+          class="c-sidebar-nav-link"
+          :class="{ 'c-active c-active-danger': isNews }"
+          :title="$t('sidebar.news')"
+          :aria-current="'false'"
+          tabindex="0">
+          <CIcon
+            name="cil-newspaper"
+            class="c-sidebar-nav-icon"
+            alt=""
+            :title="$t('sidebar.news')" />
+          {{ $t("sidebar.news") }}
+        </a>
+      </div>
       <div class="c-sidebar-nav-title pb-2">
         {{ $t("sidebar.analysis") }}
       </div>
@@ -162,7 +179,8 @@ export default {
       isGraphIntra: "isGraphIntra",
       isPolicy: "isPolicy",
       isTrade: "isTrade",
-      isMobility: "isMobility"
+      isMobility: "isMobility",
+      isNews: "isNews"
     }),
     ...mapGetters("metadata", ["appVersion"]),
     ...mapGetters("metadata", ["lastLoadedData"])
@@ -185,6 +203,9 @@ export default {
     },
     handleTrade() {
       this.$router.push({ name: "Trade" })
+    },
+    handleNews() {
+      this.$router.push({ name: "News" })
     }
   }
 }
@@ -215,6 +236,9 @@ a:hover {
 }
 .c-sidebar-nav-link:hover {
   cursor: pointer;
+}
+.c-sidebar-nav-title {
+  margin-top: 0;
 }
 .c-sidebar .c-sidebar-nav-dropdown-toggle .c-sidebar-nav-icon,
 .c-sidebar .c-sidebar-nav-link .c-sidebar-nav-icon {

@@ -68,6 +68,7 @@
     "graphWorld": "Grafi UE - Mondo",
     "timeseries": "Serie storiche",
     "trade": "Paniere dei prodotti",
+    "news": "News",
     "logo_istat": "Logo Istat",
     "goto_istat": "Vai a www.istat.it",
     "opens_goto_istat": "Si apre in un'altra finestra: ISTAT",
@@ -102,6 +103,11 @@
       "body": "<strong>Strumento di visualizzazione</strong> delle serie <strong>mensili</strong> di dati sul commercio estero <strong>COMEXT</strong>. Questa sezione consente una lettura facile e comprensibile nonostante la mole di dati sottostanti. Utile come strumento di divulgazione. Le serie sono fornite in valore ed il <strong>download è disponibile</strong> in vari formati.",
       "link": "Vai alle Serie storiche"
     },
+    "news": {
+      "title": "Le News di Terra",
+      "body": "Questa sezione fornisce le news di Terra, relative all'aggiornamento dei dataset, alla correzione di bug e all'implementazione di nuove funzionalità in TERRA.",
+      "link": "Vai alle News"
+    },
     "trade": {
       "title": "Paniere dei prodotti",
       "body": "Questa sezione fornisce, per ciascuno Stato membro, le <strong>serie storiche mensili delle quote di composizione del paniere delle merci esportate e importate</strong>, classificate secondo le CPA 2.1 a 2 cifre, insieme alle relative variazioni tendenziali.",
@@ -128,6 +134,36 @@
         "title": "Indicatori economici e del commercio internazionale",
         "body": "Questa sezione fornisce una mappa che mostra per ogni paese la <strong>popolazione totale</strong>, alcuni <strong>indicatori macroeconomici</strong>, i principali <strong>prodotti importati ed esportati </strong>e i principali <strong>paesi partner commerciali</strong>.<br><br>Inoltre, viene fornita una funzionalità <strong>time-lapse</strong> per rappresentare le variazioni mensili tendenziali del commercio internazionale per gli ultimi tre anni.",
         "keywords": ""
+      }
+    },
+    "info": {
+      "tab": {
+        "main": "Informazioni principali",
+        "import_partner": "Partner di importazione",
+        "export_partner": "Partner di esportazione"
+      },
+      "table": {
+        "information": {
+          "population": "Popolazione",
+          "industrial_production": "Produzione industriale (%)",
+          "unemployment": "Disoccupazione (%)",
+          "import": "Importazioni (euro)",
+          "export": "Esportazioni (euro)"
+        },
+        "partner": {
+          "2021": "Partner principale 2021",
+          "2022": "Partner principale 2022"
+        },
+        "total": {
+          "import": {
+            "2021": "Importazione totale 2021",
+            "2022": "Importazione totale 2022"
+          },
+          "export": {
+            "2021": "Esportazione totale 2021",
+            "2022": "Esportazione totale 2022"
+          }
+        }
       }
     }
   },
@@ -299,6 +335,16 @@
     },
     "download": {
       "title": "Terra - Paniere dei prodotti"
+    }
+  },
+  "news": {
+    "card": {
+      "title": "Le News di Terra"
+    },
+    "table": {
+      "date": "data",
+      "text": "testo",
+      "type": "tipo"
     }
   },
   "privacy": {

@@ -52,7 +52,7 @@
                 tabindex="0">
                 <span class="tooltip-span" tabindex="-1"
                   >{{ marker.name }} {{ ie }}
-                  {{ marker.series + "%" }}
+                  {{ formatNumber(marker.series) + "%" }}
                 </span>
               </l-tooltip>
             </l-circle-marker>
@@ -74,7 +74,10 @@
                 </div>
                 <CTabs v-if="infoData" variant="tabs" :active-tab="0">
                   <CTab :title="infoTabMain">
-                    <CDataTable :items="micro" :fields="mainFields" hover />
+                    <CDataTable
+                      :items="informationDataItems"
+                      :fields="informationFields"
+                      hover />
                   </CTab>
                   <CTab :title="infoTabImport">
                     <CDataTable
@@ -156,18 +159,6 @@
         </div>
       </div>
     </div>
-    <!-- Marker modal -->
-    <CModal
-      :title="$t('map.modal.main.title')"
-      :show.sync="isModalHelp"
-      size="lg">
-      <p v-html="$t('map.modal.main.body')"></p>
-      <template #footer>
-        <CButton color="outline-primary" square size="sm" @click="helpOn(false)"
-          >Close</CButton
-        >
-      </template>
-    </CModal>
   </div>
 </template>
 <script>
@@ -242,7 +233,6 @@ export default {
 
     ie: "Export",
 
-    isModalHelp: false,
     simpleMapScreenshoter: {}
   }),
   watch: {
@@ -266,7 +256,82 @@ export default {
       geoJson: "countriesBorders",
       jsonData: "jsonData"
     }),
-    micro() {
+    infoTabMain() {
+      return this.$t("map.info.tab.main")
+    },
+    infoTabImport() {
+      return this.$t("map.info.tab.import_partner")
+    },
+    infoTabExport() {
+      return this.$t("map.info.tab.export_partner")
+    },
+    informationFields() {
+      return [
+        {
+          key: "Year",
+          label: ""
+        },
+        {
+          key: "2021",
+          label: "2021"
+        },
+        {
+          key: "2022",
+          label: "2022"
+        }
+      ]
+    },
+    importFields() {
+      return [
+        {
+          key: "Main partner 2021",
+          label: this.$t("map.info.table.partner.2021")
+        },
+        {
+          key: "Total import 2021",
+          label: this.$t("map.info.table.total.import.2021")
+        },
+        {
+          key: "Main partner 2022",
+          label: this.$t("map.info.table.partner.2022")
+        },
+        {
+          key: "Total import 2022",
+          label: this.$t("map.info.table.total.import.2022")
+        }
+      ]
+    },
+    exportFields() {
+      return [
+        {
+          key: "Main partner 2021",
+          label: this.$t("map.info.table.partner.2021")
+        },
+        {
+          key: "Total export 2021",
+          label: this.$t("map.info.table.total.export.2021")
+        },
+        {
+          key: "Main partner 2022",
+          label: this.$t("map.info.table.partner.2022")
+        },
+        {
+          key: "Total export 2022",
+          label: this.$t("map.info.table.total.export.2022")
+        }
+      ]
+    },
+    informationDataItems() {
+      if (this.infoData[0]["Main information"]) {
+        for (var mainIformation of this.infoData[0]["Main information"]) {
+          mainIformation["2021"] = this.formatToLocaleString(
+            mainIformation["2021"]
+          )
+          mainIformation["2022"] = this.formatToLocaleString(
+            mainIformation["2022"]
+          )
+        }
+      }
       return this.infoData
         ? this.localizeMain(
             this.infoData[0]["Main information"],
@@ -274,32 +339,34 @@ export default {
           )
         : []
     },
-    infoTabMain() {
-      return this.isItalian ? "Dati macro" : "Main"
-    },
-    infoTabImport() {
-      return this.isItalian ? "Partner di importazione" : "Import partners"
-    },
-    infoTabExport() {
-      return this.isItalian ? "Partner di esportazione" : "Export partners"
-    },
-    importFields() {
-      return this.isItalian ? this.importFields_it : this.importFields_en
-    },
-    exportFields() {
-      return this.isItalian ? this.exportFields_it : this.exportFields_en
-    },
     importDataItems() {
+      if (this.infoData[0]["Main Import Partners"]) {
+        for (var mainImport of this.infoData[0]["Main Import Partners"]) {
+          mainImport["Total import 2021"] = this.formatToLocaleString(
+            mainImport["Total import 2021"]
+          )
+
+          mainImport["Total import 2022"] = this.formatToLocaleString(
+            mainImport["Total import 2022"]
+          )
+        }
+      }
       return this.infoData ? this.infoData[0]["Main Import Partners"] : []
     },
+
     exportDataItems() {
+      if (this.infoData[0]["Main Export Partners"]) {
+        for (var mainExport of this.infoData[0]["Main Export Partners"]) {
+          mainExport["Total export 2021"] = this.formatToLocaleString(
+            mainExport["Total export 2021"]
+          )
+
+          mainExport["Total export 2022"] = this.formatToLocaleString(
+            mainExport["Total export 2022"]
+          )
+        }
+      }
       return this.infoData ? this.infoData[0]["Main Export Partners"] : []
-    },
-    importGoods() {
-      return this.infoData ? this.infoData[0]["Main Import Goods"] : []
-    },
-    exportGoods() {
-      return this.infoData ? this.infoData[0]["Main Export Goods"] : []
     },
     options() {
       return {
@@ -338,7 +405,7 @@ export default {
               "<span> " +
               this.ie +
               "</span> " +
-              value +
+              this.formatNumber(value) +
               "%" +
               "</span>" +
               " </div>",
@@ -353,9 +420,17 @@ export default {
     }
   },
   methods: {
-    helpOn(showModal) {
-      this.isModalHelp = showModal
-      this.modalHelpTitle = "About map"
+    formatNumber(num) {
+      if (num) {
+        let n = parseFloat(num)
+        return n ? n.toLocaleString(this.$i18n.locale) : "0"
+      }
+    },
+    formatToLocaleString(num) {
+      if (num) {
+        let n = num
+        return n ? n.toLocaleString(this.$i18n.locale) : "0"
+      }
     },
     handleCounterChange(val) {
       this.seriesPeriod = val

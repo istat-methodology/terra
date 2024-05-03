@@ -299,7 +299,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("metadata", ["graphPeriod", "graphTrimesterPeriod"]),
+    ...mapGetters("metadata", [
+      "graphPeriod",
+      "graphTrimesterPeriod",
+      "graphExtraPeriod",
+      "graphExtraTrimesterPeriod"
+    ]),
     ...mapGetters("coreui", ["isItalian", "language"]),
     ...mapGetters("graph", ["nodes", "edges", "metrics", "metricsTable"]),
     ...mapGetters("classification", [
@@ -312,7 +317,13 @@ export default {
       return this.frequency == "Monthly" ? false : true
     },
     timeRange() {
-      return this.isTrimester ? this.graphTrimesterPeriod : this.graphPeriod
+      return this.isIntra
+        ? this.isTrimester
+          ? this.graphTrimesterPeriod
+          : this.graphPeriod
+        : this.isTrimester
+        ? this.graphExtraTrimesterPeriod
+        : this.graphExtraPeriod
     },
     title() {
       return this.isIntra
@@ -395,8 +406,8 @@ export default {
     handleTimeChange(time) {
       this.currentTime = time
       if (this.graphForm) {
-        this.graphForm.tg_period = this.currentTime.id
-        this.graphForm.pos = { nodes: this.nodes }
+        this.graphForm.period = this.currentTime.id
+        this.graphForm.position = { nodes: this.nodes }
         this.requestToServer()
       }
     },
@@ -404,8 +415,8 @@ export default {
       //console.log(constraints);
       this.$store.dispatch("message/info", this.$t("graph.message.scenario"))
       if (this.graphForm) {
-        this.graphForm.pos = { nodes: getScenarioNodes(this.nodes) }
-        this.graphForm.selezioneMezziEdges = constraints
+        this.graphForm.position = { nodes: getScenarioNodes(this.nodes) }
+        this.graphForm.edges = constraints
         this.requestToServer()
       }
     },
@@ -429,14 +440,14 @@ export default {
           cleanTransportIds = getTransportIds(cleanTransports)
         }
         this.graphForm = {
-          tg_period: this.currentTime.id,
-          tg_perc: this.percentage,
-          listaMezzi: cleanTransportIds,
+          period: this.currentTime.id,
+          percentage: this.percentage,
+          transport: cleanTransportIds,
           product: restoreAllProdId(this.product),
           flow: this.flow.id,
-          weight_flag: true,
-          pos: "None",
-          selezioneMezziEdges: "None"
+          weight: true,
+          position: "None",
+          edges: "None"
         }
         this.requestToServer()
       } else {
@@ -470,7 +481,9 @@ export default {
               "message/success",
               this.$t("common.data_updated")
             )
-            this.$refs.cosmograph.handleGraphFit()
+            if (this.$refs.cosmograph) {
+              this.$refs.cosmograph.handleGraphFit()
+            }
           }
           this.spinnerStart(false)
         })
@@ -552,10 +565,26 @@ export default {
       this.spinner = bool
     },
     getData(data, id) {
-      if (data != null) {
-        return [data, id]
+      if (data != null || data.lenght > 0) {
+        let datacsv = []
+        data.forEach((field) => {
+          datacsv.push({
+            label: field.label,
+            name: field.name,
+            vulnerability: this.formatNumber(field.vulnerability),
+            hubness: this.formatNumber(field.hubness),
+            exportStrenght: this.formatNumber(field.exportStrenght)
+          })
+        })
+        return [datacsv, id]
       }
       return null
+    },
+    formatNumber(num) {
+      if (num) {
+        let n = parseFloat(num)
+        return n ? n.toLocaleString(this.$i18n.locale) : "-"
+      }
     },
     fixSliderAccessibility() {
       setTimeout(() => {
@@ -634,7 +663,7 @@ export default {
       document.getElementById("vs1__combobox").focus()
     },
     fixTab() {
-      console.log(this.$refs.tablist)
+      //console.log(this.$refs.tablist)
       this.$refs.tablist.$children[0].$el.role = "tablist"
       this.$refs.tablist.$children[1].$children[0].$el.role = "tabpanel"
       this.$refs.tablist.$children[1].$children[1].$el.role = "tabpanel"
