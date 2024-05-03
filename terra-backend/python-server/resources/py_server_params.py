@@ -8,13 +8,16 @@ product_digits: int = 3
 
 ######## ENVIRONMENT VARIABLES #########
 
+KEY_VAULT_NAME : str  = os.getenv("KEY_VAULT_NAME", "")
+
 DB_SETTINGS : dict[str, str] = {
     "DB_PROVIDER" : os.getenv('DB_PROVIDER', 'mssql+pyodbc'),
     "DB_SERVER" : os.getenv('DB_SERVER'),
     "DB_NAME" : os.getenv('DB_NAME'),
     "DB_DRIVER" : os.getenv('DB_DRIVER'),
     "DB_USER" : os.getenv('DB_USER'),
-    "DB_PASS" : os.getenv('DB_PASS')
+    "DB_PASS" : os.getenv('DB_PASS'),
+    "DB_CONNECTIONSTRING_SECRET": os.getenv('DB_CONNECTIONSTRING_SECRET', '')
 }
 
 ########################################

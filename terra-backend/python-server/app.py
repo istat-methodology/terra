@@ -224,8 +224,8 @@ def graphIntraTrim():
         return str("only post")
 
 
-@app.route('/itsa', methods=['GET','POST'])
-def itsa():
+@app.route('/ts', methods=['GET','POST'])
+def ts():
     jsonRequest = dict(request.json)
 
     flow = jsonRequest['flow']

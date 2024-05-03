@@ -369,8 +369,6 @@ export default {
               this.timeseriesCharts,
               this.dataType.descr,
               this.statusMain,
-              this.statusNorm,
-              this.statusACF,
               this.$i18n.locale
             )
             this.optionsNorm.scales.yAxes[0].scaleLabel.labelString = this.$t(

@@ -43,6 +43,7 @@ class GraphEngine():
 
     def build_metrics(self, graph):
         self.logger.info("[TERRA] Calculating graph metrics...")
+        self.logger.info(f"Graph: {graph}")
 
         in_deg = nx.in_degree_centrality(graph)
         graph_metrics = {}
@@ -63,7 +64,6 @@ class GraphEngine():
                 },
                 "hubness": nx.closeness_centrality(graph.to_undirected()),
             }
-        
         self.logger.info("[TERRA] Graph metrics ready!")
         return graph_metrics
 
@@ -87,7 +87,7 @@ class GraphEngine():
         columns_list = [i for i in db_table.__dict__.keys() if not i.startswith('_')]
         data = [{attr: getattr(item, attr) for attr in columns_list} for item in query_result]
         df_comext = pd.DataFrame(data)
-
+        self.logger.info(f"Query length: {len(df_comext)}")
         # Extract EDGES
         if edges is not None:
             
@@ -118,6 +118,8 @@ class GraphEngine():
         df_comext = df_comext.sort_values(
             criterion, ascending=False
         )
+
+        self.logger.info(f"Aggregated query length: {len(df_comext)}")
         
         # Cut graph on bottom percentile
         if percentage is not None:
@@ -125,7 +127,7 @@ class GraphEngine():
             df_comext = df_comext[
                 df_comext[criterion].cumsum(skipna=False) / SUM * 100 < percentage
             ]
-        
+        self.logger.info(f"Final query length: {len(df_comext)}")
         self.logger.info("[TERRA] Graph table ready!")
         return df_comext
     
@@ -183,10 +185,10 @@ class GraphEngine():
 
         try:
             coord = nx.spring_layout(
-                G, k=k_layout / math.sqrt(G.order()), position=pos_ini, iterations=200
+                G, k=k_layout / math.sqrt(G.order()), pos=pos_ini, iterations=200
             )
             coord = nx.spring_layout(
-                G, k=k_layout / math.sqrt(G.order()), position=coord, iterations=50
+                G, k=k_layout / math.sqrt(G.order()), pos=coord, iterations=50
             )  # stable solution
 
         except:
