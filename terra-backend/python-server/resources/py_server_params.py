@@ -1,5 +1,8 @@
 import os
 import numpy as np
+from dotenv import load_dotenv
+
+load_dotenv()
 
 product_digits: int = 3
 

@@ -28,14 +28,14 @@ timeseries  = functions.TimeSeries(engine, logger)
 app = Flask(__name__)
 CORS(app, resources=r'/*')
 
-azure_exporter = AzureExporter()
-azure_exporter.add_telemetry_processor(utils.ai_callback_function)
-if utils.is_application_insight_configured():
-    middleware = FlaskMiddleware(
-        app,
-        exporter=azure_exporter,
-        sampler=ProbabilitySampler(rate=1.0),
-    )
+#azure_exporter = AzureExporter()
+#azure_exporter.add_telemetry_processor(utils.ai_callback_function)
+#if utils.is_application_insight_configured():
+#    middleware = FlaskMiddleware(
+#        app,
+#        exporter=azure_exporter,
+#        sampler=ProbabilitySampler(rate=1.0),
+#    )
 
 @app.route('/hello')
 def hello():
@@ -53,11 +53,11 @@ def graphExtraMonth():
             chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
             period=request_items["period"],
             percentage=request_items["percentage"],
-            transports=request_items["transport"],
+            transport=request_items["transport"],
             flow=request_items["flow"],
             product=request_items["product"],
             criterion=request_items["criterion"],
-            selectedEdges=request_items["selected_transport_edges"],
+            edges=request_items["edges"],
             db_table=orm.trExtraUE
         )
         logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
@@ -65,15 +65,15 @@ def graphExtraMonth():
         if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
             return json.dumps({"STATUS": "05"})
         
-        pos, JSON, G = graphs.build_graph(
+        position, JSON, G = graphs.build_graph(
             tab4graph=tab4graph,
-            pos_ini=request_items["pos"],
-            weight_flag=request_items["weight_flag"],
+            pos_ini=request_items["position"],
+            weight=request_items["weight"],
             flow=request_items["flow"],
             criterion=request_items["criterion"]
         )
 
-        if pos is None and JSON is None:
+        if position is None and JSON is None:
             logger.info(f"[TERRA] Graph is empty!")
             return json.dumps({"STATUS": "06"})
         
@@ -98,28 +98,28 @@ def graphExtraTrim():
             chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
             period=request_items["period"],
             percentage=request_items["percentage"],
-            transports=request_items["transport"],
+            transport=request_items["transport"],
             flow=request_items["flow"],
             product=request_items["product"],
             criterion=request_items["criterion"],
-            selectedEdges=request_items["selected_transport_edges"],
+            edges=request_items["edges"],
             db_table=orm.trExtraUETrim
         )
         logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
         if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
-                    return json.dumps({"STATUS": "05"})
+            return json.dumps({"STATUS": "05"})
         
         # Build graph
-        pos, JSON, G = graphs.build_graph(
+        position, JSON, G = graphs.build_graph(
             tab4graph=tab4graph,
-            pos_ini=request_items["pos"],
-            weight_flag=request_items["weight_flag"],
+            pos_ini=request_items["position"],
+            weight=request_items["weight"],
             flow=request_items["flow"],
             criterion=request_items["criterion"]
         )
 
-        if pos is None and JSON is None:
+        if position is None and JSON is None:
             logger.info(f"[TERRA] Graph is empty!")
             return json.dumps({"STATUS": "06"})
         
@@ -144,28 +144,28 @@ def graphIntraMonth():
             chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
             period=request_items["period"],
             percentage=request_items["percentage"],
-            transports=[],
+            transport=[],
             flow=request_items["flow"],
             product=request_items["product"],
             criterion=request_items["criterion"],
-            selectedEdges=request_items["selected_transport_edges"],
+            edges=request_items["edges"],
             db_table=orm.CPAIntra
         )
         logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
         if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
-                    return json.dumps({"STATUS": "05"})
+            return json.dumps({"STATUS": "05"})
         
         # Build graph
-        pos, JSON, G = graphs.build_graph(
+        position, JSON, G = graphs.build_graph(
             tab4graph=tab4graph,
-            pos_ini=request_items["pos"],
-            weight_flag=request_items["weight_flag"],
+            pos_ini=request_items["position"],
+            weight=request_items["weight"],
             flow=request_items["flow"],
             criterion=request_items["criterion"]
         )
 
-        if pos is None and JSON is None:
+        if position is None and JSON is None:
             logger.info(f"[TERRA] Graph is empty!")
             return json.dumps({"STATUS": "06"})
         
@@ -190,28 +190,28 @@ def graphIntraTrim():
             chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
             period=request_items["period"],
             percentage=request_items["percentage"],
-            transports=[],
+            transport=[],
             flow=request_items["flow"],
             product=request_items["product"],
             criterion=request_items["criterion"],
-            selectedEdges=request_items["selected_transport_edges"],
+            edges=request_items["edges"],
             db_table=orm.CPATrim
         )
         logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
         if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
-                    return json.dumps({"STATUS": "05"})
+            return json.dumps({"STATUS": "05"})
         
         # Build graph
-        pos, JSON, G = graphs.build_graph(
+        position, JSON, G = graphs.build_graph(
             tab4graph=tab4graph,
-            pos_ini=request_items["pos"],
-            weight_flag=request_items["weight_flag"],
+            pos_ini=request_items["position"],
+            weight=request_items["weight"],
             flow=request_items["flow"],
             criterion=request_items["criterion"]
         )
 
-        if pos is None and JSON is None:
+        if position is None and JSON is None:
             logger.info(f"[TERRA] Graph is empty!")
             return json.dumps({"STATUS": "06"})
         

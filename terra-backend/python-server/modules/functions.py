@@ -68,7 +68,7 @@ class GraphEngine():
         return graph_metrics
 
 
-    def extract_graph_table(self, chunksize, period, percentage, transports, flow, product, criterion, selectedEdges, db_table):
+    def extract_graph_table(self, chunksize, period, percentage, transport, flow, product, criterion, edges, db_table):
         self.logger.info("[TERRA] Preparing graph table...")
 
         Session = sessionmaker(bind=self.engine)
@@ -77,8 +77,8 @@ class GraphEngine():
         query = session.query(db_table).filter(db_table.FLOW == flow)
         if period is not None:
             query = query.filter(db_table.PERIOD == period)
-        if len(transports)>0:
-            query = query.filter(db_table.TRANSPORT_MODE.in_(transports))
+        if len(transport)>0:
+            query = query.filter(db_table.TRANSPORT_MODE.in_(transport))
         if product is not None:
             query = query.filter(db_table.PRODUCT == product)
 
@@ -89,24 +89,24 @@ class GraphEngine():
         df_comext = pd.DataFrame(data)
 
         # Extract EDGES
-        if selectedEdges is not None:
+        if edges is not None:
             
-            NUMBER_OF_EDGES_CHUNKS = len(selectedEdges) // (chunksize)
+            NUMBER_OF_EDGES_CHUNKS = len(edges) // (chunksize)
 
             for i in range(NUMBER_OF_EDGES_CHUNKS):
-                selectedEdges_i = selectedEdges[
+                edges_i = edges[
                     i * chunksize : (i + 1) * chunksize
                 ]
                 df_comext = self.remove_edges(
-                    df_comext, selectedEdges_i, flow
+                    df_comext, edges_i, flow
                 )
-            selectedEdges_i = selectedEdges[
-                NUMBER_OF_EDGES_CHUNKS * chunksize : len(selectedEdges)
+            edges_i = edges[
+                NUMBER_OF_EDGES_CHUNKS * chunksize : len(edges)
             ]
             
-            if len(selectedEdges_i) > 0:
+            if len(edges_i) > 0:
                 df_comext = self.remove_edges(
-                    df_comext, selectedEdges_i, flow
+                    df_comext, edges_i, flow
                 )
 
         # Aggregate on DECLARANT_ISO and PARTNER_ISO and sort on criterion (VALUE or QUANTITY)
@@ -130,7 +130,7 @@ class GraphEngine():
         return df_comext
     
 
-    def build_graph(self, tab4graph, pos_ini, weight_flag, flow, criterion):
+    def build_graph(self, tab4graph, pos_ini, weight, flow, criterion):
         self.logger.info("[TERRA] Building GRAPH...")
 
         # Create an empty graph
@@ -146,7 +146,7 @@ class GraphEngine():
 
         # Build the Graph with edges and nodes, if the Graph is weighted
         # assign the weight VALUE or QUANTITY depending on the criterion chosen to sort the market and perform the cut
-        if weight_flag == True:
+        if weight == True:
             weight = criterion
             WEIGHT_SUM = tab4graph[weight].sum()
             edges = [
@@ -183,10 +183,10 @@ class GraphEngine():
 
         try:
             coord = nx.spring_layout(
-                G, k=k_layout / math.sqrt(G.order()), pos=pos_ini, iterations=200
+                G, k=k_layout / math.sqrt(G.order()), position=pos_ini, iterations=200
             )
             coord = nx.spring_layout(
-                G, k=k_layout / math.sqrt(G.order()), pos=coord, iterations=50
+                G, k=k_layout / math.sqrt(G.order()), position=coord, iterations=50
             )  # stable solution
 
         except:
@@ -358,24 +358,24 @@ class RequestHandler():
 
     def get_items(self, request, time_freq):
         criterion = py_server_params.ENDPOINT_SETTINGS["CRITERION"]
-        percentage = int(request["tg_perc"])
+        percentage = int(request["percentage"])
         if time_freq == 'monthly':
-            period = int(request["tg_period"])
+            period = int(request["period"])
         else:
-            period = str(request['tg_period'][:-2] + "T" + request['tg_period'][-1:])        
-        pos = request["pos"]
-        if pos == "None" or len(pos["nodes"]) == 0:
-            pos = None
+            period = str(request['period'][:-2] + "T" + request['period'][-1:])        
+        position = request["position"]
+        if position == "None" or len(position["nodes"]) == 0:
+            position = None
         else:
-            pos = Misc(self.logger).jsonpos2coord(pos)
-        transports = request["listaMezzi"] # 0:Unknown 1:Sea 2:Rail 3:Road 4Air 5:Post 7:Fixed Mechanism 8:Inland Waterway 9:Self Propulsion
+            position = Misc(self.logger).jsonpos2coord(position)
+        transport = request["transport"] # 0:Unknown 1:Sea 2:Rail 3:Road 4Air 5:Post 7:Fixed Mechanism 8:Inland Waterway 9:Self Propulsion
         flow = int(request["flow"])
         product = str(request["product"])
-        weight_flag = bool(request["weight_flag"])
+        weight = bool(request["weight"])
 
-        selected_transport_edges = request["selezioneMezziEdges"]
-        if selected_transport_edges == "None":
-            selected_transport_edges = None
+        edges = request["edges"]
+        if edges == "None":
+            edges = None
         else:
             pass
 
@@ -383,12 +383,12 @@ class RequestHandler():
             'criterion': criterion,
             'percentage': percentage,
             'period': period,
-            'pos': pos,
-            'transport': transports,
+            'position': position,
+            'transport': transport,
             'flow': flow,
             'product': product,
-            'weight_flag': weight_flag,
-            'selected_transport_edges': selected_transport_edges
+            'weight': weight,
+            'edges': edges
         }
 
         return results
