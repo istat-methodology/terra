@@ -200,16 +200,6 @@ def exportOutputs(logger):
         copyFileToAzure(params.SHARE_NAME['JSON'],"classification", OUTPUT_CLASS_FOLDER + "clsProductsGraphExtraNSTR.json" , logger)
         copyFileToAzure(params.SHARE_NAME['JSON'],"classification", OUTPUT_CLASS_FOLDER + "clsProductsGraphIntra.json" , logger)
 
-        # R-SERVER
-        copyFileToAzure(params.SHARE_NAME['R'], None, params.FILES["COMEXT_IMP_CSV"] , logger)
-        copyFileToAzure(params.SHARE_NAME['R'], None, params.FILES["COMEXT_EXP_CSV"] , logger)
-
-        # Python-SERVER
-        copyFileToAzure(params.SHARE_NAME['PYTHON'], None, params.FILES["CPA_INTRA_CSV"] , logger)
-        copyFileToAzure(params.SHARE_NAME['PYTHON'], None, params.FILES["CPA_TRIM_CSV"] , logger)
-        copyFileToAzure(params.SHARE_NAME['PYTHON'], None, params.FILES["TR_EXTRA_UE_CSV"] , logger)
-        copyFileToAzure(params.SHARE_NAME['PYTHON'], None, params.FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"] , logger)
-
         # DB EXPORT
         copyFileToDb(params.DB_FILE_MAPPING, params.DB_SETTINGS, params.DB_SCHEMAS, params.DB_COLUMN_TYPE, logger)
 
@@ -262,7 +252,6 @@ def createAndSendBackupFiles(logger):
     else:
         logger.info("createAndSendBackupFiles: simulate only")
 
-
 def deleteFolder(folder , logger):
     logger.info("deleteFolder ... " + folder)
     shutil.rmtree(folder, ignore_errors=True)
@@ -286,17 +275,15 @@ def checkUPMicroservices(logger):
     logger.info("checkUPMicroservices START")
     resultCall = ""
     try:
-        call = urllib.request.urlopen(params.URL_RDATA_SERVER + "/hello", timeout=30).read()
-        logger.info(str(call))
-        resultCall += " Check UP R-SERVER OK<br/>\n"
         call = urllib.request.urlopen(params.URL_JSONDATA_SERVER + "/hello", timeout=30).read()
         logger.info(str(call))
         resultCall += " Check UP JSON-SERVER OK<br/>\n"
-        call = urllib.request.urlopen(
-            params.URL_PYTHONDATA_SERVER + "/hello", timeout=30
-        ).read()
+        call = urllib.request.urlopen(params.URL_PYTHON_SERVER_GRAPH + "/hello", timeout=30).read()
         logger.info(str(call))
-        resultCall += " Check UP PYTHON-SERVER OK<br/>\n"
+        resultCall += " Check UP GRAPH ENDPOINT OK<br/>\n"
+        call = urllib.request.urlopen(params.URL_PYTHON_SERVER_TS + "/hello", timeout=30).read()
+        logger.info(str(call))
+        resultCall += " Check UP TIME SERIES ENDPOINT OK<br/>\n"
     except BaseException as e:
         resultCall += " ERRROR Refresh: " + str(e) + "<br/>\n"
         logger.info(" ERRROR Refresh: " + str(e) + "<br/>\n")
