@@ -299,7 +299,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("metadata", ["graphPeriod", "graphTrimesterPeriod"]),
+    ...mapGetters("metadata", [
+      "graphPeriod",
+      "graphTrimesterPeriod",
+      "graphExtraPeriod",
+      "graphExtraTrimesterPeriod"
+    ]),
     ...mapGetters("coreui", ["isItalian", "language"]),
     ...mapGetters("graph", ["nodes", "edges", "metrics", "metricsTable"]),
     ...mapGetters("classification", [
@@ -312,7 +317,13 @@ export default {
       return this.frequency == "Monthly" ? false : true
     },
     timeRange() {
-      return this.isTrimester ? this.graphTrimesterPeriod : this.graphPeriod
+      return this.isIntra
+        ? this.isTrimester
+          ? this.graphTrimesterPeriod
+          : this.graphPeriod
+        : this.isTrimester
+        ? this.graphExtraTrimesterPeriod
+        : this.graphExtraPeriod
     },
     title() {
       return this.isIntra
@@ -395,8 +406,8 @@ export default {
     handleTimeChange(time) {
       this.currentTime = time
       if (this.graphForm) {
-        this.graphForm.tg_period = this.currentTime.id
-        this.graphForm.pos = { nodes: this.nodes }
+        this.graphForm.period = this.currentTime.id
+        this.graphForm.position = { nodes: this.nodes }
         this.requestToServer()
       }
     },
@@ -404,8 +415,8 @@ export default {
       //console.log(constraints);
       this.$store.dispatch("message/info", this.$t("graph.message.scenario"))
       if (this.graphForm) {
-        this.graphForm.pos = { nodes: getScenarioNodes(this.nodes) }
-        this.graphForm.selezioneMezziEdges = constraints
+        this.graphForm.position = { nodes: getScenarioNodes(this.nodes) }
+        this.graphForm.edges = constraints
         this.requestToServer()
       }
     },
@@ -429,14 +440,14 @@ export default {
           cleanTransportIds = getTransportIds(cleanTransports)
         }
         this.graphForm = {
-          tg_period: this.currentTime.id,
-          tg_perc: this.percentage,
-          listaMezzi: cleanTransportIds,
+          period: this.currentTime.id,
+          percentage: this.percentage,
+          transport: cleanTransportIds,
           product: restoreAllProdId(this.product),
           flow: this.flow.id,
-          weight_flag: true,
-          pos: "None",
-          selezioneMezziEdges: "None"
+          weight: true,
+          position: null,
+          edges: null
         }
         this.requestToServer()
       } else {

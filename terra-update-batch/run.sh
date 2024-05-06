@@ -13,7 +13,7 @@ if [ $FREESPACE_ON_WORKING_FOLDER -lt $MIN_WORKING_FOLDER_SPACE_GB ]; then
    echo "Insufficient disk space. Aborting." 1>&2
    exit 2
 fi
-if ! python cosmoDataUpdate.py
+if ! python main.py
 then
    exit 3
 fi

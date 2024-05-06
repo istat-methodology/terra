@@ -1,9 +1,13 @@
+python-dotenv
 flask
 flask_restful
 flask_cors
 networkx
 pandas
+pyodbc
 matplotlib
 openpyxl
 opencensus-ext-azure
 opencensus-ext-flask
+waitress
+sqlalchemy

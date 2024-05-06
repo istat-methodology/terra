@@ -17,9 +17,7 @@ function findByFilters(form) {
   const params = object
 
   return axiosR
-    .get("/itsa", {
-      params: params
-    })
+    .post("/ts", params)
     .then((res) => {
       var data = res.data ? res.data : {}
       //console.log(data);

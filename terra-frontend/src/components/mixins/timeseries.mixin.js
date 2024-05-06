@@ -4,14 +4,7 @@ export default {
     diagNormMag: ""
   }),
   methods: {
-    buildTimeseriesCharts(
-      data,
-      dataType,
-      statusMain,
-      statusNorm,
-      statusACF,
-      locale
-    ) {
+    buildTimeseriesCharts(data, dataType, statusMain, locale) {
       if (statusMain != "00") {
         const meanVal = this.getTimeseriesMean(data["diagMain"])
         const stdVal = this.getTimeseriesSTD(data["diagMain"])
@@ -28,18 +21,6 @@ export default {
         this.chartDataDiagMain = null
         this.mean = null
         this.std = null
-      }
-      this.diagNormTitle = this.$t("timeseries.plot.qqnorm")
-      if (statusNorm != "00") {
-        this.chartDataDiagNorm = this.getDiagNormChart(data["diagNorm"])
-      } else {
-        this.chartDataDiagNorm = null
-      }
-      this.diagACFTitle = this.$t("timeseries.plot.corr")
-      if (statusACF != "00") {
-        this.chartDataDiagACF = this.getDiagACFChart(data["diagACF"])
-      } else {
-        this.chartDataDiagACF = null
       }
     },
 
