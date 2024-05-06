@@ -14,14 +14,12 @@ WORKING_FOLDER        : str  = os.environ['WORKING_FOLDER']
 KEY_VAULT_NAME        : str  = os.getenv("KEY_VAULT_NAME", "")
 SECRETNAME_ACCOUNTKEY : str  = "cosmostoragekey"
 
-URL_JSONDATA_SERVER   : str  = "https://api.cosmo.statlab.it/cls"
-URL_RDATA_SERVER      : str  = "https://api.cosmo.statlab.it/time-series"
-URL_PYTHONDATA_SERVER : str  = "https://api.cosmo.statlab.it/graph"
+URL_JSONDATA_SERVER         : str  = "https://api.cosmo.statlab.it/cls"
+URL_PYTHON_SERVER_TS        : str  = "https://api.cosmo.statlab.it/time-series"
+URL_PYTHON_SERVER_GRAPH     : str  = "https://api.cosmo.statlab.it/graph"
 
 SHARE_NAME : dict[str, str] = {
-    "JSON": os.getenv("SHARENAME_PREFIX", "istat-cosmo-data-") + "json",
-    "PYTHON": os.getenv("SHARENAME_PREFIX", 'istat-cosmo-data-') + "python",
-    "R": os.getenv("SHARENAME_PREFIX", 'istat-cosmo-data-') + "r"
+    "JSON": os.getenv("SHARENAME_PREFIX", "istat-cosmo-data-") + "json"
 }
 
 DB_SETTINGS : dict[str, str] = {
