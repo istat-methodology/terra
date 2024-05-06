@@ -1,0 +1,23 @@
+POST http://localhost:5500/graphExtraMonth
+content-type: application/json
+
+{
+    "period": "202212",
+    "percentage": "80",
+    "transport": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8,
+        9
+    ],
+    "product": "TOT",
+    "flow": 1,
+    "weight": true,
+    "position": null,
+    "edges": null
+}

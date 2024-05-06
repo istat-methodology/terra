@@ -28,203 +28,182 @@ timeseries  = functions.TimeSeries(engine, logger)
 app = Flask(__name__)
 CORS(app, resources=r'/*')
 
-azure_exporter = AzureExporter()
-azure_exporter.add_telemetry_processor(utils.ai_callback_function)
-if utils.is_application_insight_configured():
+try:
+    azure_exporter = AzureExporter()
+    azure_exporter.add_telemetry_processor(utils.ai_callback_function)
     middleware = FlaskMiddleware(
         app,
         exporter=azure_exporter,
         sampler=ProbabilitySampler(rate=1.0),
     )
+except BaseException as e:
+    logger.warning(e)
 
 @app.route('/hello')
 def hello():
     return str('Version '+str(os.getenv('APP_VERSION')))
 
-@app.route("/graphExtraMonth", methods=["POST", "GET"])
+@app.route("/graphExtraMonth", methods=["POST"])
 def graphExtraMonth():
-    if request.method == "POST":
-        logger.info("[TERRA] Graph extra month...")
+    logger.info("[TERRA] Graph extra month...")
 
-        json_request = dict(request.json)
-        request_items = functions.RequestHandler(logger).get_items(json_request, "monthly")
+    json_request = dict(request.json)
+    request_items = functions.RequestHandler(logger).get_items(json_request, "monthly")
 
-        tab4graph = graphs.extract_graph_table(
-            chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
-            period=request_items["period"],
-            percentage=request_items["percentage"],
-            transport=request_items["transport"],
-            flow=request_items["flow"],
-            product=request_items["product"],
-            criterion=request_items["criterion"],
-            edges=request_items["edges"],
-            db_table=orm.trExtraUE
-        )
-        logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
+    tab4graph = graphs.extract_graph_table(
+        chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
+        period=request_items["period"],
+        percentage=request_items["percentage"],
+        transport=request_items["transport"],
+        flow=request_items["flow"],
+        product=request_items["product"],
+        criterion=request_items["criterion"],
+        edges=request_items["edges"],
+        db_table=orm.trExtraUE
+    )
+    logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
-            return json.dumps({"STATUS": "05"})
-        
-        position, JSON, G = graphs.build_graph(
-            tab4graph=tab4graph,
-            pos_ini=request_items["position"],
-            weight=request_items["weight"],
-            flow=request_items["flow"],
-            criterion=request_items["criterion"]
-        )
+    if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
+        return json.dumps({"STATUS": "05"})
+    
+    position, JSON, G = graphs.build_graph(
+        tab4graph=tab4graph,
+        pos_ini=request_items["position"],
+        weight=request_items["weight"],
+        flow=request_items["flow"],
+        criterion=request_items["criterion"]
+    )
 
-        if position is None and JSON is None:
-            logger.info(f"[TERRA] Graph is empty!")
-            return json.dumps({"STATUS": "06"})
-        
-        resp = Response(response=JSON, status=200, mimetype="application/json")
-        logger.info("[TERRA] Graph extra month done!")
-        return resp
+    if position is None and JSON is None:
+        logger.info(f"[TERRA] Graph is empty!")
+        return json.dumps({"STATUS": "06"})
+    
+    resp = Response(response=JSON, status=200, mimetype="application/json")
+    logger.info("[TERRA] Graph extra month done!")
+    return resp
 
-    else:
-        logger.info("[TERRA] Error in HTTP request method!")
-        return str("only post")
-
-
-@app.route("/graphExtraTrim", methods=["POST", "GET"])
+@app.route("/graphExtraTrim", methods=["POST"])
 def graphExtraTrim():
-    if request.method == "POST":
-        logger.info("[TERRA] Graph extra trimester...")
+    logger.info("[TERRA] Graph extra trimester...")
 
-        json_request = dict(request.json)
-        request_items = functions.RequestHandler(logger).get_items(json_request, "quarterly")
+    json_request = dict(request.json)
+    request_items = functions.RequestHandler(logger).get_items(json_request, "quarterly")
 
-        tab4graph = graphs.extract_graph_table(
-            chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
-            period=request_items["period"],
-            percentage=request_items["percentage"],
-            transport=request_items["transport"],
-            flow=request_items["flow"],
-            product=request_items["product"],
-            criterion=request_items["criterion"],
-            edges=request_items["edges"],
-            db_table=orm.trExtraUETrim
-        )
-        logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
+    tab4graph = graphs.extract_graph_table(
+        chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
+        period=request_items["period"],
+        percentage=request_items["percentage"],
+        transport=request_items["transport"],
+        flow=request_items["flow"],
+        product=request_items["product"],
+        criterion=request_items["criterion"],
+        edges=request_items["edges"],
+        db_table=orm.trExtraUETrim
+    )
+    logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
-            return json.dumps({"STATUS": "05"})
-        
-        # Build graph
-        position, JSON, G = graphs.build_graph(
-            tab4graph=tab4graph,
-            pos_ini=request_items["position"],
-            weight=request_items["weight"],
-            flow=request_items["flow"],
-            criterion=request_items["criterion"]
-        )
+    if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
+        return json.dumps({"STATUS": "05"})
+    
+    # Build graph
+    position, JSON, G = graphs.build_graph(
+        tab4graph=tab4graph,
+        pos_ini=request_items["position"],
+        weight=request_items["weight"],
+        flow=request_items["flow"],
+        criterion=request_items["criterion"]
+    )
 
-        if position is None and JSON is None:
-            logger.info(f"[TERRA] Graph is empty!")
-            return json.dumps({"STATUS": "06"})
-        
-        resp = Response(response=JSON, status=200, mimetype="application/json")
-        logger.info("[TERRA] Graph extra trimester done!")
-        return resp
+    if position is None and JSON is None:
+        logger.info(f"[TERRA] Graph is empty!")
+        return json.dumps({"STATUS": "06"})
+    
+    resp = Response(response=JSON, status=200, mimetype="application/json")
+    logger.info("[TERRA] Graph extra trimester done!")
+    return resp
 
-    else:
-        logger.info("[TERRA] Error in HTTP request method!")
-        return str("only post")
-
-
-@app.route('/graphIntraMonth', methods=['POST','GET'])
+@app.route('/graphIntraMonth', methods=['POST'])
 def graphIntraMonth():
-    if request.method == 'POST':
-        logger.info("[TERRA] Graph extra trimester...")
+    logger.info("[TERRA] Graph extra trimester...")
 
-        json_request = dict(request.json)
-        request_items = functions.RequestHandler(logger).get_items(json_request, "monthly")
+    json_request = dict(request.json)
+    request_items = functions.RequestHandler(logger).get_items(json_request, "monthly")
 
-        tab4graph = graphs.extract_graph_table(
-            chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
-            period=request_items["period"],
-            percentage=request_items["percentage"],
-            transport=[],
-            flow=request_items["flow"],
-            product=request_items["product"],
-            criterion=request_items["criterion"],
-            edges=request_items["edges"],
-            db_table=orm.CPAIntra
-        )
-        logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
+    tab4graph = graphs.extract_graph_table(
+        chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
+        period=request_items["period"],
+        percentage=request_items["percentage"],
+        transport=[],
+        flow=request_items["flow"],
+        product=request_items["product"],
+        criterion=request_items["criterion"],
+        edges=request_items["edges"],
+        db_table=orm.CPAIntra
+    )
+    logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
-            return json.dumps({"STATUS": "05"})
-        
-        # Build graph
-        position, JSON, G = graphs.build_graph(
-            tab4graph=tab4graph,
-            pos_ini=request_items["position"],
-            weight=request_items["weight"],
-            flow=request_items["flow"],
-            criterion=request_items["criterion"]
-        )
-
-        if position is None and JSON is None:
-            logger.info(f"[TERRA] Graph is empty!")
-            return json.dumps({"STATUS": "06"})
-        
-        resp = Response(response=JSON, status=200, mimetype="application/json")
-        logger.info("[TERRA] Graph intra month done!")
-        return resp
+    if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
+        return json.dumps({"STATUS": "05"})
     
-    else:
-        logger.info("[TERRA] Error in HTTP request method!")
-        return str("only post")
+    # Build graph
+    position, JSON, G = graphs.build_graph(
+        tab4graph=tab4graph,
+        pos_ini=request_items["position"],
+        weight=request_items["weight"],
+        flow=request_items["flow"],
+        criterion=request_items["criterion"]
+    )
 
+    if position is None and JSON is None:
+        logger.info(f"[TERRA] Graph is empty!")
+        return json.dumps({"STATUS": "06"})
+    
+    resp = Response(response=JSON, status=200, mimetype="application/json")
+    logger.info("[TERRA] Graph intra month done!")
+    return resp
 
-@app.route('/graphIntraTrim', methods=['POST','GET'])
+@app.route('/graphIntraTrim', methods=['POST'])
 def graphIntraTrim():
-    if request.method == 'POST':
-        logger.info("[TERRA] Graph extra trimester...")
+    logger.info("[TERRA] Graph extra trimester...")
 
-        json_request = dict(request.json)
-        request_items = functions.RequestHandler(logger).get_items(json_request, "quarterly")
+    json_request = dict(request.json)
+    request_items = functions.RequestHandler(logger).get_items(json_request, "quarterly")
 
-        tab4graph = graphs.extract_graph_table(
-            chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
-            period=request_items["period"],
-            percentage=request_items["percentage"],
-            transport=[],
-            flow=request_items["flow"],
-            product=request_items["product"],
-            criterion=request_items["criterion"],
-            edges=request_items["edges"],
-            db_table=orm.CPATrim
-        )
-        logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
+    tab4graph = graphs.extract_graph_table(
+        chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
+        period=request_items["period"],
+        percentage=request_items["percentage"],
+        transport=[],
+        flow=request_items["flow"],
+        product=request_items["product"],
+        criterion=request_items["criterion"],
+        edges=request_items["edges"],
+        db_table=orm.CPATrim
+    )
+    logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-        if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
-            return json.dumps({"STATUS": "05"})
-        
-        # Build graph
-        position, JSON, G = graphs.build_graph(
-            tab4graph=tab4graph,
-            pos_ini=request_items["position"],
-            weight=request_items["weight"],
-            flow=request_items["flow"],
-            criterion=request_items["criterion"]
-        )
-
-        if position is None and JSON is None:
-            logger.info(f"[TERRA] Graph is empty!")
-            return json.dumps({"STATUS": "06"})
-        
-        resp = Response(response=JSON, status=200, mimetype="application/json")
-        logger.info("[TERRA] Graph intra trimester done!")
-        return resp
+    if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
+        return json.dumps({"STATUS": "05"})
     
-    else:
-        logger.info("[TERRA] Error in HTTP request method!")
-        return str("only post")
+    # Build graph
+    position, JSON, G = graphs.build_graph(
+        tab4graph=tab4graph,
+        pos_ini=request_items["position"],
+        weight=request_items["weight"],
+        flow=request_items["flow"],
+        criterion=request_items["criterion"]
+    )
+
+    if position is None and JSON is None:
+        logger.info(f"[TERRA] Graph is empty!")
+        return json.dumps({"STATUS": "06"})
+    
+    resp = Response(response=JSON, status=200, mimetype="application/json")
+    logger.info("[TERRA] Graph intra trimester done!")
+    return resp
 
 
-@app.route('/ts', methods=['GET','POST'])
+@app.route('/ts', methods=['POST'])
 def ts():
     jsonRequest = dict(request.json)
 

@@ -1,8 +1,9 @@
 data
 *.bat
-.env
+.env*
 .gitignore
 *.ipynb
 .vscode
 __pycache__
 Dockerfile
+test-requests.txt

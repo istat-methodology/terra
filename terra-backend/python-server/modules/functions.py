@@ -366,7 +366,7 @@ class RequestHandler():
         else:
             period = str(request['period'][:-2] + "T" + request['period'][-1:])        
         position = request["position"]
-        if position == "None" or len(position["nodes"]) == 0:
+        if position == None or len(position["nodes"]) == 0:
             position = None
         else:
             position = Misc(self.logger).jsonpos2coord(position)
@@ -376,10 +376,6 @@ class RequestHandler():
         weight = bool(request["weight"])
 
         edges = request["edges"]
-        if edges == "None":
-            edges = None
-        else:
-            pass
 
         results = {
             'criterion': criterion,

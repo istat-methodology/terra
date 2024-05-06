@@ -446,8 +446,8 @@ export default {
           product: restoreAllProdId(this.product),
           flow: this.flow.id,
           weight: true,
-          position: "None",
-          edges: "None"
+          position: null,
+          edges: null
         }
         this.requestToServer()
       } else {

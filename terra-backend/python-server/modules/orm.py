@@ -1,25 +1,11 @@
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base
-from azure.keyvault.secrets import SecretClient
-from azure.identity import DefaultAzureCredential
-from resources import py_server_params
 
 Base = declarative_base()
 
 def orm_setup(db_settings: dict):
-
-    if db_settings['DB_CONNECTIONSTRING_SECRET'] != '':
-        kvclient = SecretClient(
-            vault_url=f"https://{py_server_params.KEY_VAULT_NAME}.vault.azure.net",
-            credential=DefaultAzureCredential(),
-        )
-        connection_string = kvclient.get_secret(db_settings['DB_CONNECTIONSTRING_SECRET']).value
-    else:
-        connection_string = f'{db_settings["DB_PROVIDER"]}://{db_settings["DB_USER"]}:{db_settings["DB_PASS"]}@{db_settings["DB_SERVER"]}/{db_settings["DB_NAME"]}?driver={db_settings["DB_DRIVER"]}'
-
+    connection_string = db_settings['CONNECTION_STRING']
     engine = create_engine(connection_string)
-    #Base.metadata.bind = engine
-    #Base.metadata.create_all(engine)
     return engine
 
 class CPAIntra(Base):
