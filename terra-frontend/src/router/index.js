@@ -3,12 +3,13 @@ import VueRouter from "vue-router"
 
 import Error from "@/views/error/Error"
 import Home from "@/views/Home"
+import Maintenance from "@/views/Maintenance"
 
 Vue.use(VueRouter)
 
 //Vue.http.headers.common['Access-Control-Allow-Origin'] ="*";
 
-const routes = [
+let routes = [
   {
     path: "/error",
     component: Error,
@@ -87,6 +88,17 @@ const routes = [
     redirect: "/"
   }
 ]
+
+if (window.Maintenance) {
+  routes[1] = {
+    path: "/",
+    name: "Main",
+    component: Maintenance,
+    meta: {
+      authorize: []
+    }
+  }
+}
 
 const router = new VueRouter({
   mode: "history",

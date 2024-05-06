@@ -1,7 +1,11 @@
+python-dotenv
 azure-identity
 azure-keyvault-secrets
 azure-storage-file
 opencensus-ext-azure
 pandas
+numpy
 datetime
 py7zr
+sqlalchemy
+pyodbc

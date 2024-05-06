@@ -5,6 +5,7 @@ const state = {
   sidebarMinimize: false,
   context: "",
   isHome: false,
+  isMaintenance: false,
   isLoading: false,
   isMap: false,
   isGraph: false,
@@ -48,6 +49,9 @@ const mutations = {
       case Context.Home:
         state.isHome = true
         break
+      case Context.Maintenance:
+        state.isMaintenance = true
+        break
       case Context.Map:
         state.isMap = true
         break
@@ -76,6 +80,7 @@ const mutations = {
   CLEAR_CONTEXT(state) {
     state.context = ""
     state.isHome = false
+    state.isMaintenance = false
     state.isMap = false
     state.isGraph = false
     state.isGraphIntra = false
@@ -160,6 +165,9 @@ const getters = {
   },
   isHome: (state) => {
     return state.isHome
+  },
+  isMaintenance: (state) => {
+    return state.isMaintenance
   },
   isMap: (state) => {
     return state.isMap
