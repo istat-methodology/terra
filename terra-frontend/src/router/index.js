@@ -92,7 +92,7 @@ let routes = [
 if (window.Maintenance) {
   routes[1] = {
     path: "/",
-    name: "Maintenance",
+    name: "Main",
     component: Maintenance,
     meta: {
       authorize: []
