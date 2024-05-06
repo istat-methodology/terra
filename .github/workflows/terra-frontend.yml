@@ -38,6 +38,7 @@ jobs:
           deployment_environment: "development"
 
   build_and_deploy_job_production:
+    if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     needs: build_and_deploy_job_development
     name: Build and Deploy Job - Production

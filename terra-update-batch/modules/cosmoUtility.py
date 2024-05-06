@@ -274,17 +274,9 @@ def refreshMicroservicesDATA(logger):
     resultRefresh = ""
     try:
         contents = urllib.request.urlopen(
-            params.URL_RDATA_SERVER + "/load-comext", timeout=300
-        ).read()
-        resultRefresh += "Refresh DATA R-SERVER OK<br/>\n"
-        contents = urllib.request.urlopen(
             params.URL_JSONDATA_SERVER + "/stop", timeout=300
         ).read()
         resultRefresh += "Refresh DATA JSON-SERVER OK<br/>\n"
-        contents = urllib.request.urlopen(
-            params.URL_PYTHONDATA_SERVER + "/refreshdata", timeout=500
-        ).read()
-        resultRefresh += "Refresh DATA PYTHON-SERVER OK<br/>\n"
         time.sleep(30)
     except BaseException as e:
         resultRefresh += "ERRROR Refresh " + str(e)
