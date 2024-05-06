@@ -1,9 +1,0 @@
-libcurl4-openssl-dev 
-
-r-cran-factoextra 
-r-cran-jsonlite 
-r-cran-data.table 
-r-cran-plyr 
-r-cran-sandwich 
-r-cran-zoo 
-r-cran-tidyverse
