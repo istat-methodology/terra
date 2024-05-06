@@ -4,3 +4,5 @@ data
 .gitignore
 *.ipynb
 .vscode
+__pycache__
+Dockerfile
