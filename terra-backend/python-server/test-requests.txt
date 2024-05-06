@@ -1,4 +1,4 @@
-POST http://localhost:5500/graphExtraMonth
+POST https://istat-cosmo-python-dev.azurewebsites.net/graphExtraMonth
 content-type: application/json
 
 {
