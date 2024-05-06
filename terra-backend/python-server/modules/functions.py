@@ -347,7 +347,7 @@ class TimeSeries():
             session.close()
             res_dict = {
                 "statusMain": ["00"],
-                "error": str(e)
+                "error": "Something went wrong with time series creation."
             }
             self.logger.info(f"[TERRA] Something went wrong with time series creation: {str(e)}")
             return res_dict
