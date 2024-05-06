@@ -1,8 +1,12 @@
 let appInsights = require('applicationinsights');
-appInsights.setup();
-if (process.env.CLOUD_ROLE)
-    appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] = process.env.CLOUD_ROLE;
-appInsights.start();
+try {
+  appInsights.setup();
+  if (process.env.CLOUD_ROLE)
+      appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] = process.env.CLOUD_ROLE;
+  appInsights.start();
+} catch (e) {
+  console.warn("Unable to configure Application Insights", e);
+}
 let client = appInsights.defaultClient;
 
 let jsonServer = require("json-server");
