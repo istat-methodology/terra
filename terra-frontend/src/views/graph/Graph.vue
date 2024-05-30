@@ -293,9 +293,13 @@ export default {
       })
     },
     frequency() {
+      let descr_key = `descr_${this.$i18n.locale}`
       this.currentTime = this.isTrimester
         ? { id: trimesterDefault.id, selectName: trimesterDefault.descr }
-        : { id: monthDefault.id, selectName: monthDefault.descr_it }
+        : {
+            id: monthDefault.id,
+            selectName: monthDefault[descr_key]
+          }
     }
   },
   computed: {
@@ -501,6 +505,7 @@ export default {
       metadataService
         .getGraphDefault(this.isIntra)
         .then(({ time, frequency, percentage, transport, product, flow }) => {
+          console.log(time)
           // Default state
           this.currentTime = time
           this.frequency = frequency

@@ -1,12 +1,12 @@
 // Dynamyc Time default
 export const monthDefault = {
-  id: "202212",
-  descr_en: "Dec 2022",
-  descr_it: "Dic 2022"
+  id: "202401",
+  descr_en: "Jan 2024",
+  descr_it: "gen 2024"
 }
 export const trimesterDefault = {
-  id: "202204",
-  descr: "T4 2022"
+  id: "202401",
+  descr: "T1 2024"
 }
 
 export const frequencyDefault = "Monthly"
@@ -91,7 +91,11 @@ export const transportDefault = {
 export const getDefaultForm = (lan) => {
   const descrKey = "descr_" + lan
   const nameKey = "name_" + lan
-  const time = { id: monthDefault.id, descr: monthDefault[descrKey] }
+  const time = {
+    id: monthDefault.id,
+    descr: monthDefault[descrKey],
+    selectName: monthDefault[descrKey]
+  }
   const dataType = { id: dataTypeDefault.id, descr: dataTypeDefault[descrKey] }
   const varType = { id: varTypeDefault.id, descr: varTypeDefault[descrKey] }
   const seriesType = {
@@ -153,7 +157,7 @@ export const defaultTimeSeriesForm = (lan) => {
 export const defaultGraphExtraForm = (lan) => {
   const defaultForm = getDefaultForm(lan)
   return {
-    time: monthDefault,
+    time: defaultForm.time,
     frequency: frequencyDefault,
     percentage: percentageDefault,
     transport: [defaultForm.transport],
@@ -165,7 +169,7 @@ export const defaultGraphExtraForm = (lan) => {
 export const defaultGraphIntraForm = (lan) => {
   const defaultForm = getDefaultForm(lan)
   return {
-    time: monthDefault,
+    time: defaultForm.time,
     frequency: frequencyDefault,
     percentage: percentageDefault,
     transport: [],

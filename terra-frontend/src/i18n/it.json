@@ -225,7 +225,7 @@
     "message": {
       "scenario": "Analisi di scenario effettuata con successo!",
       "graph_wide": "Attenzione: Grafo troppo ampio  \n Ridurre la soglia o cambiare i mezzi di trasporto",
-      "graph_empty": "Attenzione: Grafo vuoto \n Ridurre la soglia o cambiare i mezzi di trasporto"
+      "graph_empty": "Attenzione: Grafo vuoto \n Aumentare la soglia o cambiare i mezzi di trasporto"
     },
     "card": {
       "title": "Grafi"
