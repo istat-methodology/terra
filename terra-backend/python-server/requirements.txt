@@ -3,6 +3,7 @@ flask
 flask_restful
 flask_cors
 networkx
+distinctiveness
 pandas
 pyodbc
 matplotlib

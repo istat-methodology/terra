@@ -4,6 +4,7 @@ import random
 import math
 import json
 import networkx as nx
+from distinctiveness.dc import distinctiveness
 from networkx.readwrite import json_graph
 from datetime import datetime
 from sqlalchemy.orm import sessionmaker
@@ -45,25 +46,27 @@ class GraphEngine():
         self.logger.info("[TERRA] Calculating graph metrics...")
         self.logger.info(f"Graph: {graph}")
 
-        in_deg = nx.in_degree_centrality(graph)
-        graph_metrics = {}
         vulnerability = {}
-
+        in_deg = nx.in_degree_centrality(graph)
         for k, v in in_deg.items():
             if v != 0:
                 vulnerability[k] = 1 - v
             else:
                 vulnerability[k] = 0
-            
-            graph_metrics = {
-                "degree_centrality": nx.degree_centrality(graph),
-                "density": nx.density(graph),
-                "vulnerability": vulnerability,
-                "exportation strenght": {
-                    a: b for a, b in graph.out_degree(weight="weight")
-                },
-                "hubness": nx.closeness_centrality(graph.to_undirected()),
-            }
+        
+        graph_metrics = {}  
+        graph_metrics = {
+            "density": nx.density(graph),
+            "degree": nx.degree_centrality(graph),
+            "vulnerability": vulnerability,
+            "out_degree": {
+                a: b for a, b in graph.out_degree(weight="weight")
+            },
+            "closeness": nx.closeness_centrality(graph.to_undirected()),
+            "betweenness": nx.betweenness_centrality(graph, weight='inv_weight'),
+            "distinctiveness": distinctiveness(graph.to_undirected(), alpha = 1, normalize = True, measures = ["D1"])["D1"]
+        }
+
         self.logger.info("[TERRA] Graph metrics ready!")
         return graph_metrics
 
@@ -90,24 +93,14 @@ class GraphEngine():
         self.logger.info(f"Query length: {len(df_comext)}")
         # Extract EDGES
         if edges is not None:
-            
             NUMBER_OF_EDGES_CHUNKS = len(edges) // (chunksize)
-
             for i in range(NUMBER_OF_EDGES_CHUNKS):
-                edges_i = edges[
-                    i * chunksize : (i + 1) * chunksize
-                ]
-                df_comext = self.remove_edges(
-                    df_comext, edges_i, flow
-                )
-            edges_i = edges[
-                NUMBER_OF_EDGES_CHUNKS * chunksize : len(edges)
-            ]
+                edges_i = edges[i * chunksize : (i + 1) * chunksize]
+                df_comext = self.remove_edges(df_comext, edges_i, flow)
+            edges_i = edges[NUMBER_OF_EDGES_CHUNKS * chunksize : len(edges)]
             
             if len(edges_i) > 0:
-                df_comext = self.remove_edges(
-                    df_comext, edges_i, flow
-                )
+                df_comext = self.remove_edges(df_comext, edges_i, flow)
 
         # Aggregate on DECLARANT_ISO and PARTNER_ISO and sort on criterion (VALUE or QUANTITY)
         df_comext = (
@@ -122,17 +115,18 @@ class GraphEngine():
         self.logger.info(f"Aggregated query length: {len(df_comext)}")
         
         # Cut graph on bottom percentile
+        df_filtered = df_comext
         if percentage is not None:
-            SUM = df_comext[criterion].sum()
-            df_comext = df_comext[
-                df_comext[criterion].cumsum(skipna=False) / SUM * 100 < percentage
+            SUM = df_filtered[criterion].sum()
+            df_filtered = df_filtered[
+                df_filtered[criterion].cumsum(skipna=False) / SUM * 100 <= percentage
             ]
         self.logger.info(f"Final query length: {len(df_comext)}")
         self.logger.info("[TERRA] Graph table ready!")
-        return df_comext
+        return df_comext, df_filtered
     
 
-    def build_graph(self, tab4graph, pos_ini, weight, flow, criterion):
+    def build_graph(self, tab4graph,tab4graph_ui, pos_ini, weight, flow, criterion):
         self.logger.info("[TERRA] Building GRAPH...")
 
         # Create an empty graph
@@ -164,13 +158,24 @@ class GraphEngine():
         G.add_weighted_edges_from(edges)
 
         attribute = {}
+        inv_weight = {}
         for i, j, w in edges:
             attribute[(i, j)] = {criterion: int(w * WEIGHT_SUM)}
+            inv_weight[(i, j)] = {"inv_weight": int(1/w) if w!=0 else 99999999999}
 
         nx.set_edge_attributes(G, attribute)
+        nx.set_edge_attributes(G, inv_weight)
 
         # Build metrics
         graph_metrics = self.build_metrics(G)
+
+        # Keep edges for the UI, based on percentage
+        edges_to_keep = tab4graph_ui[[country_from, country_to]].apply(tuple, axis=1).tolist()
+        current_edges = list(G.edges())
+        edges_to_remove = [edge for edge in current_edges if edge not in edges_to_keep]
+        G.remove_edges_from(edges_to_remove)
+        nodes_to_remove = [node for node in G.nodes() if G.degree(node) == 0]
+        G.remove_nodes_from(nodes_to_remove)
 
         # Json graph
         GG = json_graph.node_link_data(G)
