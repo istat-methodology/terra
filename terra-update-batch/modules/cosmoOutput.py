@@ -12,7 +12,10 @@ from modules import cosmoUtility as cUtil
 def createGeneralInfoOutput(file, output_interval, logger):
     info_processing = {}
     info_processing["processingDay"] = params.processing_day.strftime("%d-%m-%Y")
+    info_processing["annualCurrentYear"] = params.annual_current_year
+    info_processing["annualPreviousYear"] = params.annual_previous_year
     info_processing["lastLoadedData"] = params.end_data_DOWNLOAD.strftime("%m, %Y")
+    info_processing["appVersion"] = "1.0.0"
 
     values = {}
     time_map_start = {}
