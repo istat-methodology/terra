@@ -177,11 +177,14 @@
     "metricIntra": "Metriche: UE - Mondo",
     "stats": {
       "country": "Paese:",
-      "density": "Diffusione delle merci:",
-      "centrality": "Centralità:",
-      "exportationstrength": "Out-degree centrality:",
-      "vulnerability": "Vulnerabilità:",
-      "hubness": "Closeness centrality:"
+      "density": "Density:",
+      "centrality": "Centrality:",
+      "degree": "Degree:",
+      "vulnerability": "Vulnerability:",
+      "out_degree": "Outdegree:",
+      "closeness": "Closeness:",
+      "betweenness": "Betweenness:",
+      "distinctiveness": "Distinctiveness:"
     },
     "form": {
       "title": "Filtri di ricerca",
@@ -241,6 +244,7 @@
         "fields": {
           "code": "Codice",
           "name": "Nome",
+          "degree": "Degree",
           "vulnerability": "Vulnerability",
           "hubness": "Closeness centrality",
           "export_strenght": "Outdegree centrality",

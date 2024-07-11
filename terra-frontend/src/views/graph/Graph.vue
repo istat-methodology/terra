@@ -350,6 +350,11 @@ export default {
           _style: "width:30%"
         },
         {
+          key: "degree",
+          label: this.$t("graph.metrics.table.fields.degree"),
+          _style: "width:12%"
+        },
+        {
           key: "vulnerability",
           label: this.$t("graph.metrics.table.fields.vulnerability"),
           _style: "width:12%"
@@ -381,9 +386,12 @@ export default {
         return {
           label: field.label,
           name: field.name,
+          degree: field.degree,
           vulnerability: field.vulnerability,
-          hubness: field.hubness,
-          exportStrenght: field.exportStrenght
+          out_degree: field.out_degree,
+          closeness: field.closeness,
+          betweenness: field.betweenness,
+          distinctiveness: field.distinctiveness
         }
       })
     },
@@ -586,9 +594,12 @@ export default {
           datacsv.push({
             label: field.label,
             name: field.name,
+            degree: this.formatNumber(field.degree),
             vulnerability: this.formatNumber(field.vulnerability),
-            hubness: this.formatNumber(field.hubness),
-            exportStrenght: this.formatNumber(field.exportStrenght)
+            out_degree: this.formatNumber(field.out_degree),
+            closeness: this.formatNumber(field.closeness),
+            betweenness: this.formatNumber(field.betweenness),
+            distinctiveness: this.formatNumber(field.distinctiveness)
           })
         })
         return [datacsv, id]

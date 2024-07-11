@@ -180,9 +180,12 @@
       "country": "Country:",
       "density": "Density:",
       "centrality": "Centrality:",
-      "exportationstrength": "Out-degree centrality:",
+      "degree": "Degree:",
       "vulnerability": "Vulnerability:",
-      "hubness": "Closeness centrality:"
+      "out_degree": "Outdegree:",
+      "closeness": "Closeness:",
+      "betweenness": "Betweenness:",
+      "distinctiveness": "Distinctiveness:"
     },
     "form": {
       "title": "Graph filter",
@@ -216,6 +219,7 @@
         "fields": {
           "code": "Code",
           "name": "Name",
+          "degree": "Degree",
           "vulnerability": "Vulnerability",
           "hubness": "Closeness centrality",
           "export_strenght": "Outdegree centrality",

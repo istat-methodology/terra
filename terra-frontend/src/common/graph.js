@@ -309,11 +309,12 @@ export function getCentrality(nodes, nodeId, metrics) {
   if (selectedNode) {
     nodeMetric = {
       country: selectedNode.label,
-      centrality: metrics.degree_centrality[selectedNode.label].toFixed(2),
+      degree: metrics.degree[selectedNode.label].toFixed(2),
       vulnerability: metrics.vulnerability[selectedNode.label].toFixed(2),
-      hubness: metrics.hubness[selectedNode.label].toFixed(2),
-      exportationstrength:
-        metrics["exportation strenght"][selectedNode.label].toFixed(2)
+      out_degree: metrics.out_degree[selectedNode.label].toFixed(2),
+      closeness: metrics.closeness[selectedNode.label].toFixed(2),
+      betweenness: metrics.betweenness[selectedNode.label].toFixed(2),
+      distinctiveness: metrics.distinctiveness[selectedNode.label].toFixed(2)
     }
   }
   return nodeMetric
@@ -325,11 +326,12 @@ export function buildMetrics(data, countries) {
       metrics.push({
         label: node.label,
         name: getCountryName(countries, node.label),
-        centrality: data.metriche.degree_centrality[node.label].toFixed(2),
+        degree: data.metriche.degree[node.label].toFixed(2),
         vulnerability: data.metriche.vulnerability[node.label].toFixed(2),
-        hubness: data.metriche.hubness[node.label].toFixed(2),
-        exportStrenght:
-          data.metriche["exportation strenght"][node.label].toFixed(2)
+        out_degree: data.metriche.out_degree[node.label].toFixed(2),
+        closeness: data.metriche.closeness[node.label].toFixed(2),
+        betweenness: data.metriche.betweenness[node.label].toFixed(2),
+        distinctiveness: data.metriche.distinctiveness[node.label].toFixed(2)
       })
     })
   return metrics

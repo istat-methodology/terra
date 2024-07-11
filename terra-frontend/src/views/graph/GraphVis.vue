@@ -33,13 +33,9 @@
             >{{ nodeMetric.country }}
             <span
               class="text-primary"
-              :title="
-                $t('graph.stats.exportationstrength') +
-                ' ' +
-                nodeMetric.exportationstrength
-              "
-              >, {{ $t("graph.stats.exportationstrength") }} </span
-            >{{ formatNumber(nodeMetric.exportationstrength) }}
+              :title="$t('graph.stats.degree') + ' ' + nodeMetric.degree"
+              >{{ $t("graph.stats.degree") }} </span
+            >{{ nodeMetric.degree }}
             <span
               class="text-primary"
               :title="
@@ -50,9 +46,32 @@
             {{ formatNumber(nodeMetric.vulnerability) }}
             <span
               class="text-primary"
-              :title="$t('graph.stats.hubness') + ' ' + nodeMetric.hubness"
-              >, {{ $t("graph.stats.hubness") }} </span
-            >{{ formatNumber(nodeMetric.hubness) }}</span
+              :title="
+                $t('graph.stats.out_degree') + ' ' + nodeMetric.out_degree
+              "
+              >{{ $t("graph.stats.out_degree") }} </span
+            >{{ nodeMetric.out_degree }}
+            <span
+              class="text-primary"
+              :title="$t('graph.stats.closeness') + ' ' + nodeMetric.closeness"
+              >, {{ $t("graph.stats.closeness") }} </span
+            >{{ formatNumber(nodeMetric.closeness) }}
+            <span
+              class="text-primary"
+              :title="
+                $t('graph.stats.betweenness') + ' ' + nodeMetric.betweenness
+              "
+              >, {{ $t("graph.stats.betweenness") }} </span
+            >{{ formatNumber(nodeMetric.betweenness) }}
+            <span
+              class="text-primary"
+              :title="
+                $t('graph.stats.distinctiveness') +
+                ' ' +
+                nodeMetric.distinctiveness
+              "
+              >, {{ $t("graph.stats.distinctiveness") }} </span
+            >{{ formatNumber(nodeMetric.distinctiveness) }}</span
           >
         </div>
       </CCardHeader>
