@@ -130,7 +130,7 @@ def get_graph_metrics(dataset, base_payload, start_date, end_date, frequency):
     # Loop through each period and make a POST request
     for period in periods:
         payload = base_payload.copy()
-        payload["tg_period"] = period
+        payload["period"] = period
 
         print(f"   Retrieving data for {frequency} {period}")
 
@@ -151,7 +151,7 @@ def get_graph_metrics(dataset, base_payload, start_date, end_date, frequency):
             # Add a delay before next request (to avoid server overload)
             time.sleep(0.5)
         else:
-            print(f"Failed with status code: {response.status_code}")
+            print(f"Failed with status code: {response.status_code}, {response.reason}")
     
     # Concatenate all DataFrames into a single DataFrame
     df_metrics = pd.concat(metrics_list)
