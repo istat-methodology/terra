@@ -70,9 +70,24 @@ const getters = {
   },
   tradePeriod: (state, getters, rootState, rootGetters) => {
     const lan = rootGetters["coreui/language"]
+
     return state.metadata
       ? getPeriod(
           state.metadata.trade.timeStart,
+          state.metadata.trade.timeEnd,
+          lan
+        )
+      : null
+  },
+  tradeVariationPeriod: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
+
+    const startYear = Number(state.metadata.trade.timeStart.year + 1) //shift start year to the right
+    const startMonth = Number(state.metadata.trade.timeStart.month)
+
+    return state.metadata
+      ? getPeriod(
+          { year: startYear, month: startMonth },
           state.metadata.trade.timeEnd,
           lan
         )

@@ -272,25 +272,17 @@ export default {
           label: ""
         },
         {
-          key: "2021",
-          label: "2021"
-        },
-        {
           key: "2022",
           label: "2022"
+        },
+        {
+          key: "2023",
+          label: "2023"
         }
       ]
     },
     importFields() {
       return [
-        {
-          key: "Main partner 2021",
-          label: this.$t("map.info.table.partner.2021")
-        },
-        {
-          key: "Total import 2021",
-          label: this.$t("map.info.table.total.import.2021")
-        },
         {
           key: "Main partner 2022",
           label: this.$t("map.info.table.partner.2022")
@@ -298,19 +290,19 @@ export default {
         {
           key: "Total import 2022",
           label: this.$t("map.info.table.total.import.2022")
+        },
+        {
+          key: "Main partner 2023",
+          label: this.$t("map.info.table.partner.2023")
+        },
+        {
+          key: "Total import 2023",
+          label: this.$t("map.info.table.total.import.2023")
         }
       ]
     },
     exportFields() {
       return [
-        {
-          key: "Main partner 2021",
-          label: this.$t("map.info.table.partner.2021")
-        },
-        {
-          key: "Total export 2021",
-          label: this.$t("map.info.table.total.export.2021")
-        },
         {
           key: "Main partner 2022",
           label: this.$t("map.info.table.partner.2022")
@@ -318,17 +310,25 @@ export default {
         {
           key: "Total export 2022",
           label: this.$t("map.info.table.total.export.2022")
+        },
+        {
+          key: "Main partner 2023",
+          label: this.$t("map.info.table.partner.2023")
+        },
+        {
+          key: "Total export 2023",
+          label: this.$t("map.info.table.total.export.2023")
         }
       ]
     },
     informationDataItems() {
       if (this.infoData[0]["Main information"]) {
         for (var mainIformation of this.infoData[0]["Main information"]) {
-          mainIformation["2021"] = this.formatToLocaleString(
-            mainIformation["2021"]
-          )
           mainIformation["2022"] = this.formatToLocaleString(
             mainIformation["2022"]
+          )
+          mainIformation["2023"] = this.formatToLocaleString(
+            mainIformation["2023"]
           )
         }
       }
@@ -342,12 +342,12 @@ export default {
     importDataItems() {
       if (this.infoData[0]["Main Import Partners"]) {
         for (var mainImport of this.infoData[0]["Main Import Partners"]) {
-          mainImport["Total import 2021"] = this.formatToLocaleString(
-            mainImport["Total import 2021"]
-          )
-
           mainImport["Total import 2022"] = this.formatToLocaleString(
             mainImport["Total import 2022"]
+          )
+
+          mainImport["Total import 2023"] = this.formatToLocaleString(
+            mainImport["Total import 2023"]
           )
         }
       }
@@ -357,12 +357,12 @@ export default {
     exportDataItems() {
       if (this.infoData[0]["Main Export Partners"]) {
         for (var mainExport of this.infoData[0]["Main Export Partners"]) {
-          mainExport["Total export 2021"] = this.formatToLocaleString(
-            mainExport["Total export 2021"]
-          )
-
           mainExport["Total export 2022"] = this.formatToLocaleString(
             mainExport["Total export 2022"]
+          )
+
+          mainExport["Total export 2023"] = this.formatToLocaleString(
+            mainExport["Total export 2023"]
           )
         }
       }

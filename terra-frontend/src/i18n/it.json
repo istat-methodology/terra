@@ -152,16 +152,19 @@
         },
         "partner": {
           "2021": "Partner principale 2021",
-          "2022": "Partner principale 2022"
+          "2022": "Partner principale 2022",
+          "2023": "Partner principale 2023"
         },
         "total": {
           "import": {
             "2021": "Importazione totale 2021",
-            "2022": "Importazione totale 2022"
+            "2022": "Importazione totale 2022",
+            "2023": "Importazione totale 2023"
           },
           "export": {
             "2021": "Esportazione totale 2021",
-            "2022": "Esportazione totale 2022"
+            "2022": "Esportazione totale 2022",
+            "2023": "Esportazione totale 2023"
           }
         }
       }
@@ -176,9 +179,9 @@
       "country": "Paese:",
       "density": "Diffusione delle merci:",
       "centrality": "Centralità:",
-      "exportationstrength": "Forza di esportazione:",
+      "exportationstrength": "Out-degree centrality:",
       "vulnerability": "Vulnerabilità:",
-      "hubness": "Hubness:"
+      "hubness": "Closeness centrality:"
     },
     "form": {
       "title": "Filtri di ricerca",
@@ -238,9 +241,9 @@
         "fields": {
           "code": "Codice",
           "name": "Nome",
-          "vulnerability": "Vulnerabilità",
-          "hubness": "Hubness",
-          "export_strenght": "Forza di esportazione"
+          "vulnerability": "Vulnerability",
+          "hubness": "Closeness centrality",
+          "export_strenght": "Out-degree centrality"
         }
       }
     },

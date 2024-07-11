@@ -9,12 +9,18 @@
           </span>
           <span class="btn-group float-right">
             <exporter
-              v-if="this.charts && this.tradePeriod"
+              v-if="
+                this.charts && this.tradePeriod && this.tradeVariationPeriod
+              "
               filename="terra_basket"
               :data="getData(this.charts.data, 'trade')"
               :filter="getSearchFilter()"
               source="matrix"
-              :timePeriod="this.tradePeriod"
+              :timePeriod="
+                this.seriesType.id == 1
+                  ? this.tradePeriod
+                  : this.tradeVariationPeriod
+              "
               :options="['jpeg', 'png', 'pdf', 'csv']">
             </exporter>
             <!--CButton
@@ -209,7 +215,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("metadata", ["tradePeriod"]),
+    ...mapGetters("metadata", ["tradePeriod", "tradeVariationPeriod"]),
     ...mapGetters("coreui", ["language"]),
     ...mapGetters("classification", [
       "seriesTypes",
@@ -257,6 +263,24 @@ export default {
             flow: this.flow.id
           })
           .then(() => {
+            // Build x axis
+            if (
+              this.tradePeriod !== null &&
+              this.tradeVariationPeriod !== null
+            ) {
+              this.labelPeriod = []
+
+              console.log("Series type: " + this.seriesType.id)
+
+              const tradePer =
+                this.seriesType.id == 1
+                  ? this.tradePeriod
+                  : this.tradeVariationPeriod
+              for (const period of tradePer) {
+                this.labelPeriod.push(period.name)
+              }
+            }
+
             this.chartData = {}
             this.chartData.datasets = []
             this.chartData.labels = this.labelPeriod
@@ -314,7 +338,7 @@ export default {
           return prod.dataname
         })
         //filter on selected products
-        console.log(datacsv)
+        //console.log(datacsv)
         if (selectedAll) return [datacsv, id]
         else {
           const selectedData = datacsv.filter((series) => {
@@ -337,12 +361,6 @@ export default {
     },
     loadData() {
       this.spinnerStart(true)
-      if (this.tradePeriod !== null) {
-        this.labelPeriod = []
-        for (const period of this.tradePeriod) {
-          this.labelPeriod.push(period.name)
-        }
-      }
       this.$store.dispatch("coreui/setContext", Context.Trade)
       //Set form default values
       metadataService
@@ -363,6 +381,23 @@ export default {
                 flow: this.flow.id
               })
               .then(() => {
+                // Build x axis
+                if (
+                  this.tradePeriod !== null &&
+                  this.tradeVariationPeriod !== null
+                ) {
+                  this.labelPeriod = []
+
+                  console.log("Series type: " + this.seriesType.id)
+
+                  const tradePer =
+                    this.seriesType.id == 1
+                      ? this.tradePeriod
+                      : this.tradeVariationPeriod
+                  for (const period of tradePer) {
+                    this.labelPeriod.push(period.name)
+                  }
+                }
                 this.chartData = {}
                 this.chartData.datasets = []
                 this.chartData.labels = this.labelPeriod

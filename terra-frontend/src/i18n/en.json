@@ -138,34 +138,37 @@
       }
     },
     "info": {
-      "tab":{
-        "main":"Main Information",
+      "tab": {
+        "main": "Main Information",
         "import_partner": "Import partners",
         "export_partner": "Export partners"
       },
       "table": {
-        "information":{
-          "population":"Population",
-          "industrial_production":"Industrial Production (%)",
-          "unemployment":"Unemployment (%)",
+        "information": {
+          "population": "Population",
+          "industrial_production": "Industrial Production (%)",
+          "unemployment": "Unemployment (%)",
           "import": "Import (euro)",
           "export": "Export (euro)"
         },
         "partner": {
           "2021": "Main partner 2021",
-          "2022": "Main partner 2022"
+          "2022": "Main partner 2022",
+          "2023": "Main partner 2023"
         },
         "total": {
           "import": {
             "2021": "Total import 2021",
-            "2022": "Total import 2022"
+            "2022": "Total import 2022",
+            "2023": "Total import 2023"
           },
           "export": {
             "2021": "Total export 2021",
-            "2022": "Total export 2022"
+            "2022": "Total export 2022",
+            "2023": "Total export 2023"
           }
         }
-      }     
+      }
     }
   },
   "graph": {
@@ -175,11 +178,11 @@
     "metricIntra": "Metrics: EU - World",
     "stats": {
       "country": "Country:",
-      "density": "Product spread:",
+      "density": "Density:",
       "centrality": "Centrality:",
-      "exportationstrength": "Export strength:",
+      "exportationstrength": "Out-degree centrality:",
       "vulnerability": "Vulnerability:",
-      "hubness": "Hubness:"
+      "hubness": "Closeness centrality:"
     },
     "form": {
       "title": "Graph filter",
@@ -214,8 +217,8 @@
           "code": "Code",
           "name": "Name",
           "vulnerability": "Vulnerability",
-          "hubness": "Hubness",
-          "export_strenght": "Export Strenght"
+          "hubness": "Closeness centrality",
+          "export_strenght": "Out-degree centrality"
         }
       }
     },
