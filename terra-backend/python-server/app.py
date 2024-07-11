@@ -50,7 +50,7 @@ def graphExtraMonth():
     json_request = dict(request.json)
     request_items = functions.RequestHandler(logger).get_items(json_request, "monthly")
 
-    tab4graph = graphs.extract_graph_table(
+    tab4graph, tab4graph_ui = graphs.extract_graph_table(
         chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
         period=request_items["period"],
         percentage=request_items["percentage"],
@@ -63,11 +63,12 @@ def graphExtraMonth():
     )
     logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-    if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
+    if graphs.width_check(tab4graph_ui, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
         return json.dumps({"STATUS": "05"})
     
     position, JSON, G = graphs.build_graph(
         tab4graph=tab4graph,
+        tab4graph_ui=tab4graph_ui,
         pos_ini=request_items["position"],
         weight=request_items["weight"],
         flow=request_items["flow"],
@@ -89,7 +90,7 @@ def graphExtraTrim():
     json_request = dict(request.json)
     request_items = functions.RequestHandler(logger).get_items(json_request, "quarterly")
 
-    tab4graph = graphs.extract_graph_table(
+    tab4graph, tab4graph_ui = graphs.extract_graph_table(
         chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
         period=request_items["period"],
         percentage=request_items["percentage"],
@@ -102,12 +103,13 @@ def graphExtraTrim():
     )
     logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-    if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
+    if graphs.width_check(tab4graph_ui, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
         return json.dumps({"STATUS": "05"})
     
     # Build graph
     position, JSON, G = graphs.build_graph(
         tab4graph=tab4graph,
+        tab4graph_ui=tab4graph_ui,
         pos_ini=request_items["position"],
         weight=request_items["weight"],
         flow=request_items["flow"],
@@ -129,7 +131,7 @@ def graphIntraMonth():
     json_request = dict(request.json)
     request_items = functions.RequestHandler(logger).get_items(json_request, "monthly")
 
-    tab4graph = graphs.extract_graph_table(
+    tab4graph, tab4graph_ui = graphs.extract_graph_table(
         chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
         period=request_items["period"],
         percentage=request_items["percentage"],
@@ -142,12 +144,13 @@ def graphIntraMonth():
     )
     logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-    if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
+    if graphs.width_check(tab4graph_ui, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
         return json.dumps({"STATUS": "05"})
     
     # Build graph
     position, JSON, G = graphs.build_graph(
         tab4graph=tab4graph,
+        tab4graph_ui=tab4graph_ui,
         pos_ini=request_items["position"],
         weight=request_items["weight"],
         flow=request_items["flow"],
@@ -169,7 +172,7 @@ def graphIntraTrim():
     json_request = dict(request.json)
     request_items = functions.RequestHandler(logger).get_items(json_request, "quarterly")
 
-    tab4graph = graphs.extract_graph_table(
+    tab4graph, tab4graph_ui = graphs.extract_graph_table(
         chunksize=py_server_params.ENDPOINT_SETTINGS["CHUNK_SIZE"],
         period=request_items["period"],
         percentage=request_items["percentage"],
@@ -182,12 +185,13 @@ def graphIntraTrim():
     )
     logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
-    if graphs.width_check(tab4graph, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
+    if graphs.width_check(tab4graph_ui, py_server_params.ENDPOINT_SETTINGS["MAX_NODES"]) is False:
         return json.dumps({"STATUS": "05"})
     
     # Build graph
     position, JSON, G = graphs.build_graph(
         tab4graph=tab4graph,
+        tab4graph_ui=tab4graph_ui,
         pos_ini=request_items["position"],
         weight=request_items["weight"],
         flow=request_items["flow"],

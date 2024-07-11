@@ -11,23 +11,51 @@ from modules import cosmoUtility as cUtil
 # [JSON] METADATA
 def createGeneralInfoOutput(file, output_interval, logger):
     info_processing = {}
-    info_processing["processingDay"] = params.processing_day.strftime("%d-%m-%Y, %H:%M:%S")
+    info_processing["processingDay"] = params.processing_day.strftime("%d-%m-%Y")
     info_processing["annualCurrentYear"] = params.annual_current_year
     info_processing["annualPreviousYear"] = params.annual_previous_year
     info_processing["lastLoadedData"] = params.end_data_DOWNLOAD.strftime("%m, %Y")
     info_processing["appVersion"] = "1.0.0"
 
-    time_map_start = {}
     values = {}
+    time_map_start = {}
+    time_map_end = {}    
+
     values["timeSelected"] = str(output_interval["timeSeries"][1])  
     time_map_start["year"] = int(str(output_interval["timeSeries"][0])[:4])
     time_map_start["month"] = int(str(output_interval["timeSeries"][0])[-2:])
     values["timeStart"] = time_map_start
-    time_map_end = {}
     time_map_end["year"] = int(str(output_interval["timeSeries"][1])[:4])
     time_map_end["month"] = int(str(output_interval["timeSeries"][1])[-2:])
     values["timeEnd"] = time_map_end
     info_processing["map"] = values
+
+    values["timeSelected"] = str(output_interval["graphIntra"][1])  
+    time_map_start["year"] = int(str(output_interval["graphIntra"][0])[:4])
+    time_map_start["month"] = int(str(output_interval["graphIntra"][0])[-2:])
+    values["timeStart"] = time_map_start
+    time_map_end["year"] = int(str(output_interval["graphIntra"][1])[:4])
+    time_map_end["month"] = int(str(output_interval["graphIntra"][1])[-2:])
+    values["timeEnd"] = time_map_end
+    info_processing["graph"] = values
+
+    values["timeSelected"] = str(output_interval["graphExtra"][1])  
+    time_map_start["year"] = int(str(output_interval["graphExtra"][0])[:4])
+    time_map_start["month"] = int(str(output_interval["graphExtra"][0])[-2:])
+    values["timeStart"] = time_map_start
+    time_map_end["year"] = int(str(output_interval["graphExtra"][1])[:4])
+    time_map_end["month"] = int(str(output_interval["graphExtra"][1])[-2:])
+    values["timeEnd"] = time_map_end
+    info_processing["graphPlus"] = values
+
+    values["timeSelected"] = str(output_interval["tradeValue"][1])  
+    time_map_start["year"] = int(str(output_interval["tradeValue"][0])[:4])
+    time_map_start["month"] = int(str(output_interval["tradeValue"][0])[-2:])
+    values["timeStart"] = time_map_start
+    time_map_end["year"] = int(str(output_interval["tradeValue"][1])[:4])
+    time_map_end["month"] = int(str(output_interval["tradeValue"][1])[-2:])
+    values["timeEnd"] = time_map_end
+    info_processing["trade"] = values
 
     with open(file, "w") as f:
         json.dump(info_processing, f, ensure_ascii=False, indent=1, cls=cUtil.NpEncoder)
