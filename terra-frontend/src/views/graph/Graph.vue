@@ -342,27 +342,37 @@ export default {
         {
           key: "label",
           label: this.$t("graph.metrics.table.fields.code"),
-          _style: "width:15%"
+          _style: "width:10%"
         },
         {
           key: "name",
           label: this.$t("graph.metrics.table.fields.name"),
-          _style: "width:25%"
+          _style: "width:30%"
         },
         {
           key: "vulnerability",
           label: this.$t("graph.metrics.table.fields.vulnerability"),
-          _style: "width:15%"
+          _style: "width:12%"
         },
         {
-          key: "hubness",
-          label: this.$t("graph.metrics.table.fields.hubness"),
-          _style: "width:15%"
+          key: "out_degree",
+          label: this.$t("graph.metrics.table.fields.out_degree"),
+          _style: "width:12%"
         },
         {
-          key: "exportStrenght",
-          label: this.$t("graph.metrics.table.fields.export_strenght"),
-          _style: "width:15%"
+          key: "closeness",
+          label: this.$t("graph.metrics.table.fields.closeness"),
+          _style: "width:12%"
+        },
+        {
+          key: "betweenness",
+          label: this.$t("graph.metrics.table.fields.betweenness"),
+          _style: "width:12%"
+        },
+        {
+          key: "distinctiveness",
+          label: this.$t("graph.metrics.table.fields.distinctiveness"),
+          _style: "width:12%"
         }
       ]
     },

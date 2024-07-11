@@ -218,7 +218,11 @@
           "name": "Name",
           "vulnerability": "Vulnerability",
           "hubness": "Closeness centrality",
-          "export_strenght": "Out-degree centrality"
+          "export_strenght": "Outdegree centrality",
+          "out_degree": "Outdegree",
+          "closeness": "Closeness",
+          "betweenness": "Betweenness",
+          "distinctiveness": "Distinctiveness"
         }
       }
     },
