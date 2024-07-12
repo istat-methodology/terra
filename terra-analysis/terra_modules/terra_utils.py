@@ -43,36 +43,10 @@ def generate_time_interval(start_date, end_date, frequency):
     print(f"Time points: {date_list}")
     return date_list
 
-
 ## Function that converts the metrics JSON in a dataframe
 def convert_to_dataframe(json_data, period):
-    
-    # Convert each key in the JSON data to a DataFrame
-    df_degree_centrality = pd.DataFrame(list(json_data["degree_centrality"].items()), columns=['country', 'degree_centrality'])
-    df_vulnerability = pd.DataFrame(list(json_data["vulnerability"].items()), columns=['country', 'vulnerability'])
-    df_exportation_strength = pd.DataFrame(list(json_data["exportation strenght"].items()), columns=['country', 'exportation_strength'])
-    df_hubness = pd.DataFrame(list(json_data["hubness"].items()), columns=['country', 'hubness'])
-
-    # Display the DataFrames
-    # print("Degree Centrality:\n", df_degree_centrality.head())
-    # print("\nVulnerability:\n", df_vulnerability.head())
-    # print("\nExportation Strength:\n", df_exportation_strength.head())
-    # print("\nHubness:\n", df_hubness.head())
-
-    # Merging the dataframes on 'country'
-    metrics = pd.merge(df_degree_centrality, df_vulnerability, on='country', how='outer')
-    metrics = pd.merge(metrics, df_exportation_strength, on='country', how='outer')
-    metrics = pd.merge(metrics, df_hubness, on='country', how='outer')
-    
-    # Round decimals
-    metrics['degree_centrality'] = metrics['degree_centrality'].round(2)
-    metrics['vulnerability'] = metrics['vulnerability'].round(2)
-    metrics['exportation_strength'] = metrics['exportation_strength'].round(2)
-    metrics['hubness'] = metrics['hubness'].round(2)
-
+    metrics = pd.DataFrame(json_data).reset_index(names='country')
     metrics['period'] = period  # Add the period to the DataFrame
-    
-    # print(metrics)
     return metrics
 
 # Get all countries
@@ -140,7 +114,6 @@ def get_graph_metrics(dataset, base_payload, start_date, end_date, frequency):
         if response.status_code == 200:
             # Access 'metriche' in the response
             data = response.json().get('metriche', {})  # using .get() to avoid KeyError if 'data' does not exist
-
             if len(data) == 0:
                 print("Empty payload in period: ", period )
             else:
