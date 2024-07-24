@@ -47,6 +47,11 @@ const state = {
   ],
   flows: [
     {
+      id: 0,
+      descr_en: "Average",
+      descr_it: "Media"
+    },
+    {
       id: 1,
       descr_en: "Import",
       descr_it: "Import"
@@ -65,6 +70,20 @@ const state = {
     {
       id: 2,
       descr: false
+    }
+  ],
+  collapse: [
+    {
+      id: 0,
+      descr_en: "Yes",
+      descr_it: "Si",
+      value: true
+    },
+    {
+      id: 1,
+      descr_en: "No",
+      descr_it: "No",
+      value: false
     }
   ]
 }
@@ -277,6 +296,17 @@ const getters = {
   },
   timeNext: (state) => {
     return state.timeNext
+  },
+  collapse: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
+    const descrKey = "descr_" + lan
+    return state.collapse.map((obj) => {
+      return {
+        id: obj.id,
+        descr: obj[descrKey],
+        value: obj.value
+      }
+    })
   }
 }
 export const classification = {

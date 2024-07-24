@@ -212,6 +212,20 @@
               }}</span>
             </strong>
           </div>
+          <label
+            class="card-label mt-3 col-12"
+            :title="$t('graph.form.fields.collapse')"
+            >{{ $t("graph.form.fields.collapse") }}
+            <v-select
+              label="descr"
+              :options="collapse"
+              :placeholder="$t('graph.form.fields.collapse_placeholder')"
+              v-model="selectedCollapse"
+              :class="{
+                'is-invalid': $v.selectedCollapse.$error
+              }"
+              :clearable="false" />
+          </label>
           <div class="col-12">
             <CButton
               color="primary"
@@ -276,6 +290,7 @@ export default {
     product: null,
     flow: null,
     submitStatus: "OK",
+    selectedCollapse: null,
     //Graph
     graphForm: null,
     sorterValue: { column: "vulnerability", asc: false },
@@ -315,7 +330,8 @@ export default {
       "transports",
       "productsIntra",
       "productsExtra",
-      "flows"
+      "flows",
+      "collapse"
     ]),
     isTrimester() {
       return this.frequency == "Monthly" ? false : true
@@ -422,6 +438,9 @@ export default {
     },
     flow: {
       required
+    },
+    selectedCollapse: {
+      required
     }
   },
   methods: {
@@ -451,7 +470,8 @@ export default {
         !this.$v.percentage.$invalid &&
         !this.$v.transport.$invalid &&
         !this.$v.product.$invalid &&
-        !this.$v.flow.$invalid
+        !this.$v.flow.$invalid &&
+        !this.$v.selectedCollapse.$invalid
       ) {
         this.submitStatus = "OK"
         //Manage "all" transports in the select (if select is displayed)
@@ -467,6 +487,7 @@ export default {
           transport: cleanTransportIds,
           product: restoreAllProdId(this.product),
           flow: this.flow.id,
+          collapse: this.selectedCollapse.value,
           weight: true,
           position: null,
           edges: null
@@ -522,18 +543,28 @@ export default {
       // Set form default values
       metadataService
         .getGraphDefault(this.isIntra)
-        .then(({ time, frequency, percentage, transport, product, flow }) => {
-          console.log(time)
-          // Default state
-          this.currentTime = time
-          this.frequency = frequency
-          this.percentage = percentage
-          this.transport = this.isIntra ? null : transport
-          this.product = product
-          this.flow = flow
-          //Sumit form
-          this.handleSubmit()
-        })
+        .then(
+          ({
+            time,
+            frequency,
+            percentage,
+            transport,
+            product,
+            flow,
+            collapse
+          }) => {
+            // Default state
+            this.currentTime = time
+            this.frequency = frequency
+            this.percentage = percentage
+            this.transport = this.isIntra ? null : transport
+            this.product = product
+            this.flow = flow
+            this.selectedCollapse = collapse
+            //Sumit form
+            this.handleSubmit()
+          }
+        )
     },
     getSearchFilter() {
       let data = []

@@ -204,7 +204,9 @@
         "flow": "Flusso",
         "flow_placeholder": "Seleziona un flusso",
         "weight": "Pesi",
-        "weight_placeholder": "Seleziona i pesi"
+        "weight_placeholder": "Seleziona i pesi",
+        "collapse": "Aggregazione nodi Extra EU",
+        "collapse_placeholder": "Aggrega nodi Extra EU"
       }
     },
     "scenario": {

@@ -41,6 +41,13 @@ export const flowDefault = {
   descr_it: "Import"
 }
 
+export const collapseDefault = {
+  id: 1,
+  descr_en: "No",
+  descr_it: "No",
+  value: false
+}
+
 export const countryDefault = {
   id: "IT",
   descr_en: "Italy",
@@ -103,6 +110,11 @@ export const getDefaultForm = (lan) => {
     descr: seriesTypeDefault[descrKey]
   }
   const flow = { id: flowDefault.id, descr: flowDefault[descrKey] }
+  const collapse = {
+    id: collapseDefault.id,
+    descr: collapseDefault[descrKey],
+    value: collapseDefault.value
+  }
   const country = { country: countryDefault.id, name: countryDefault[descrKey] }
   const partner = { id: partnerDefault.id, descr: partnerDefault[descrKey] }
   const transport = {
@@ -132,6 +144,7 @@ export const getDefaultForm = (lan) => {
     varType,
     seriesType,
     flow,
+    collapse,
     country,
     partner,
     transport,
@@ -162,7 +175,8 @@ export const defaultGraphExtraForm = (lan) => {
     percentage: percentageDefault,
     transport: [defaultForm.transport],
     product: defaultForm.productExtra,
-    flow: defaultForm.flow
+    flow: defaultForm.flow,
+    collapse: defaultForm.collapse
   }
 }
 
@@ -174,7 +188,8 @@ export const defaultGraphIntraForm = (lan) => {
     percentage: percentageDefault,
     transport: [],
     product: defaultForm.productIntra,
-    flow: defaultForm.flow
+    flow: defaultForm.flow,
+    collapse: defaultForm.collapse
   }
 }
 

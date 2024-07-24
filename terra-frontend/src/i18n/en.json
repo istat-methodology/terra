@@ -205,7 +205,9 @@
         "flow": "Flow",
         "flow_placeholder": "Select a flow",
         "weight": "Weight",
-        "weight_placeholder": "Select weights"
+        "weight_placeholder": "Select weights",
+        "collapse": "Group Extra UE nodes",
+        "collapse_placeholder": "Group Extra UE nodes"
       }
     },
     "card": {
