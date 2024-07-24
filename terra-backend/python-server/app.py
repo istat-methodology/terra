@@ -59,7 +59,8 @@ def graphExtraMonth():
         product=request_items["product"],
         criterion=request_items["criterion"],
         edges=request_items["edges"],
-        db_table=orm.trExtraUE
+        db_table=orm.trExtraUE,
+        collapse=request_items["collapse"]
     )
     logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
@@ -99,7 +100,8 @@ def graphExtraTrim():
         product=request_items["product"],
         criterion=request_items["criterion"],
         edges=request_items["edges"],
-        db_table=orm.trExtraUETrim
+        db_table=orm.trExtraUETrim,
+        collapse=request_items["collapse"]
     )
     logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
@@ -126,7 +128,7 @@ def graphExtraTrim():
 
 @app.route('/graphIntraMonth', methods=['POST'])
 def graphIntraMonth():
-    logger.info("[TERRA] Graph extra trimester...")
+    logger.info("[TERRA] Graph intra month...")
 
     json_request = dict(request.json)
     request_items = functions.RequestHandler(logger).get_items(json_request, "monthly")
@@ -140,7 +142,8 @@ def graphIntraMonth():
         product=request_items["product"],
         criterion=request_items["criterion"],
         edges=request_items["edges"],
-        db_table=orm.CPAIntra
+        db_table=orm.CPAIntra,
+        collapse=request_items["collapse"]
     )
     logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 
@@ -181,7 +184,8 @@ def graphIntraTrim():
         product=request_items["product"],
         criterion=request_items["criterion"],
         edges=request_items["edges"],
-        db_table=orm.CPATrim
+        db_table=orm.CPATrim,
+        collapse=request_items["collapse"]
     )
     logger.info(f"[TERRA] Graph shape {tab4graph.shape}")
 

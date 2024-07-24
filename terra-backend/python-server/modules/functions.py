@@ -8,7 +8,9 @@ from distinctiveness.dc import distinctiveness
 from networkx.readwrite import json_graph
 from datetime import datetime
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import func, union_all
 from resources import py_server_params
+from modules import orm
 
 class GraphEngine():
 
@@ -54,16 +56,16 @@ class GraphEngine():
             else:
                 vulnerability[k] = 0
         
-        graph_metrics = {}  
+        graph_metrics = {}
         graph_metrics = {
             "density": nx.density(graph),
-            "degree": nx.degree_centrality(graph),
+            "degree": {a: b for a, b in graph.degree(weight="weight")},
             "vulnerability": vulnerability,
             "out_degree": {
                 a: b for a, b in graph.out_degree(weight="weight")
             },
-            "closeness": nx.closeness_centrality(graph.to_undirected()),
-            "betweenness": nx.betweenness_centrality(graph, weight='inv_weight'),
+            "closeness": nx.closeness_centrality(graph, distance="inv_weight"),
+            "betweenness": nx.betweenness_centrality(graph, weight="inv_weight"),
             "distinctiveness": distinctiveness(graph.to_undirected(), alpha = 1, normalize = True, measures = ["D1"])["D1"]
         }
 
@@ -71,23 +73,54 @@ class GraphEngine():
         return graph_metrics
 
 
-    def extract_graph_table(self, chunksize, period, percentage, transport, flow, product, criterion, edges, db_table):
+    def extract_graph_table(self, chunksize, period, percentage, transport, flow, product, criterion, edges, db_table, collapse):
         self.logger.info("[TERRA] Preparing graph table...")
 
         Session = sessionmaker(bind=self.engine)
         session = Session()
+        query = ''
 
-        query = session.query(db_table).filter(db_table.FLOW == flow)
-        if period is not None:
-            query = query.filter(db_table.PERIOD == period)
-        if len(transport)>0:
-            query = query.filter(db_table.TRANSPORT_MODE.in_(transport))
-        if product is not None:
-            query = query.filter(db_table.PRODUCT == product)
+        if flow==0:
+            queries = []
+            for f in [1,2]:
+                q = session.query(
+                    db_table.DECLARANT_ISO if f==2 else db_table.PARTNER_ISO.label('DECLARANT_ISO'),
+                    db_table.PARTNER_ISO if f==2 else db_table.DECLARANT_ISO.label('PARTNER_ISO'),
+                    func.sum(db_table.VALUE_IN_EUROS).label(criterion)
+                ).filter(db_table.FLOW == f)
+                if period is not None:
+                    q = q.filter(db_table.PERIOD == period)
+                if len(transport)>0:
+                    q = q.filter(db_table.TRANSPORT_MODE.in_(transport))
+                if product is not None:
+                    q = q.filter(db_table.PRODUCT == product)
+                q = q.group_by(
+                    db_table.DECLARANT_ISO,
+                    db_table.PARTNER_ISO
+                )
+                queries.append(q)
+            combined_subquery = union_all(*queries).alias('A')
+
+            query = session.query(
+                combined_subquery.c.DECLARANT_ISO,
+                combined_subquery.c.PARTNER_ISO,
+                func.avg(combined_subquery.c.VALUE_IN_EUROS).label(criterion)
+            ).group_by(
+                combined_subquery.c.DECLARANT_ISO,
+                combined_subquery.c.PARTNER_ISO
+            )
+        else:
+            query = session.query(db_table).filter(db_table.FLOW == flow)
+            if period is not None:
+                query = query.filter(db_table.PERIOD == period)
+            if len(transport)>0:
+                query = query.filter(db_table.TRANSPORT_MODE.in_(transport))
+            if product is not None:
+                query = query.filter(db_table.PRODUCT == product)
 
         query_result = query.all()
         session.close()
-        columns_list = [i for i in db_table.__dict__.keys() if not i.startswith('_')]
+        columns_list = [desc['name'] for desc in query.column_descriptions] if flow==0 else [i for i in db_table.__dict__.keys() if not i.startswith('_')]
         data = [{attr: getattr(item, attr) for attr in columns_list} for item in query_result]
         df_comext = pd.DataFrame(data)
         self.logger.info(f"Query length: {len(df_comext)}")
@@ -121,12 +154,53 @@ class GraphEngine():
             df_filtered = df_filtered[
                 df_filtered[criterion].cumsum(skipna=False) / SUM * 100 <= percentage
             ]
+
+        # Collapse Extra EU
+        if collapse:
+            coutry_table = orm.countryEU
+            Session = sessionmaker(bind=self.engine)
+            session = Session()
+
+            query = session.query(coutry_table.CODE).filter(
+                coutry_table.DAT_INI <= period,
+                (coutry_table.DAT_FIN >= period) | (coutry_table.DAT_FIN.is_(None))
+            )
+            query_result = query.all()
+            session.close()
+            
+            columns_list = [desc['name'] for desc in query.column_descriptions]
+            data = [{attr: getattr(item, attr) for attr in columns_list} for item in query_result]
+            country_eu = pd.DataFrame(data)
+            
+            df_comext = df_comext.merge(country_eu, how="left", left_on="PARTNER_ISO", right_on="CODE")
+            df_filtered = df_filtered.merge(country_eu, how="left", left_on="PARTNER_ISO", right_on="CODE")
+            df_comext["PARTNER_ISO"] = df_comext["CODE"].fillna('extraeu')
+            df_filtered["PARTNER_ISO"] = df_filtered["CODE"].fillna('extraeu')
+            # for average
+            if flow==0:
+                country_eu.rename(columns={'CODE':'CODE_2'}, inplace=True)
+                df_comext = df_comext.merge(country_eu, how="left", left_on="DECLARANT_ISO", right_on="CODE_2")
+                df_filtered = df_filtered.merge(country_eu, how="left", left_on="DECLARANT_ISO", right_on="CODE_2")
+                df_comext["DECLARANT_ISO"] = df_comext["CODE_2"].fillna('extraeu')
+                df_filtered["DECLARANT_ISO"] = df_filtered["CODE_2"].fillna('extraeu')
+
+            df_comext = (
+                df_comext.groupby(["DECLARANT_ISO", "PARTNER_ISO"])
+                .sum()
+                .reset_index()[["DECLARANT_ISO", "PARTNER_ISO", criterion]]
+            )
+            df_filtered = (
+                df_filtered.groupby(["DECLARANT_ISO", "PARTNER_ISO"])
+                .sum()
+                .reset_index()[["DECLARANT_ISO", "PARTNER_ISO", criterion]]
+            )
+        
         self.logger.info(f"Final query length: {len(df_comext)}")
         self.logger.info("[TERRA] Graph table ready!")
         return df_comext, df_filtered
     
 
-    def build_graph(self, tab4graph,tab4graph_ui, pos_ini, weight, flow, criterion):
+    def build_graph(self, tab4graph, tab4graph_ui, pos_ini, weight, flow, criterion):
         self.logger.info("[TERRA] Building GRAPH...")
 
         # Create an empty graph
@@ -382,6 +456,8 @@ class RequestHandler():
 
         edges = request["edges"]
 
+        collapse = bool(request["collapse"])
+
         results = {
             'criterion': criterion,
             'percentage': percentage,
@@ -391,7 +467,8 @@ class RequestHandler():
             'flow': flow,
             'product': product,
             'weight': weight,
-            'edges': edges
+            'edges': edges,
+            'collapse': collapse
         }
 
         return results

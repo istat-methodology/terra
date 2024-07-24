@@ -8,6 +8,13 @@ def orm_setup(db_settings: dict):
     engine = create_engine(connection_string)
     return engine
 
+class countryEU(Base):
+    __tablename__ = 'z_eu_country'
+
+    CODE = Column(String, primary_key=True)
+    DAT_INI = Column(Integer)
+    DAT_FIN = Column(Integer)
+
 class CPAIntra(Base):
     __tablename__ = 'cpa_intra'
 

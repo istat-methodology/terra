@@ -107,7 +107,6 @@ def get_graph_metrics(dataset, base_payload, start_date, end_date, frequency):
         payload["period"] = period
 
         print(f"   Retrieving data for {frequency} {period}")
-
         response = requests.post(endpoint, json=payload)
 
         # Check if the request was successful
