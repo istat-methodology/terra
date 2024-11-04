@@ -66,6 +66,7 @@ class GraphEngine():
             },
             "closeness": nx.closeness_centrality(graph, distance="inv_weight"),
             "betweenness": nx.betweenness_centrality(graph, weight="inv_weight"),
+            "in_degree": graph.in_degree(weight="weight")},
             "distinctiveness": distinctiveness(graph.to_undirected(), alpha = 1, normalize = True, measures = ["D1"])["D1"]
         }
 
