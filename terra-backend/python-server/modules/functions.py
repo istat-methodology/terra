@@ -66,8 +66,10 @@ class GraphEngine():
             },
             "closeness": nx.closeness_centrality(graph, distance="inv_weight"),
             "betweenness": nx.betweenness_centrality(graph, weight="inv_weight"),
-            "in_degree": graph.in_degree(weight="weight"),
-            "distinctiveness": distinctiveness(graph.to_undirected(), alpha = 1, normalize = True, measures = ["D1"])["D1"]}
+            "in_degree": {
+                a: b for a, b in graph.in_degree(weight="weight")
+            },
+            "distinctiveness": distinctiveness(graph.to_undirected(), alpha = 1, normalize = True, measures = ["D1"])["D1"]
         }
 
         self.logger.info("[TERRA] Graph metrics ready!")
