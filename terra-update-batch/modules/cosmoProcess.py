@@ -20,7 +20,7 @@ def createMonthlyFULLtable(db, path_to_scan, logger):
     for filedat in os.scandir(path_to_scan):
         if filedat.is_file():
             comext_monthly_data = pd.read_csv(
-                filedat, sep=",", low_memory=True, keep_default_na=False, na_values=[""]
+                filedat, sep=",", names=params.PRODUCT_COLNAMES, header=0, low_memory=True, keep_default_na=False, na_values=[""]
             )
             length = len(comext_monthly_data.index)
             count += length

@@ -96,7 +96,7 @@ class DownloadAndExtractComextParallel():
             raise ValueError(f"Invalid file type: '{file_type}', admissible file types are: {list(params.PREFIX_MAP.keys())}")
 
         if frequency == 'monthly':
-            if file_type == 'full':
+            if file_type == 'full_v2_':
                 start_date = params.start_data_DOWNLOAD_PRODUCT
             else: 
                 start_date = params.start_data_DOWNLOAD_TRANSPORT

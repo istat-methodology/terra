@@ -71,6 +71,7 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
         annual_data_input_path
         + os.sep
         + params.PREFIX_PRODUCT
+        + "_"
         + str(params.annual_current_year)
         + "52.dat"
     )
@@ -78,6 +79,7 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
         annual_data_input_path
         + os.sep
         + params.PREFIX_PRODUCT
+        + "_"
         + str(params.annual_previous_year)
         + "52.dat"
     )
@@ -126,6 +128,8 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
     data_annual_previous_year = pd.read_csv(
         previous_filename,
         sep=",",
+        names=params.PRODUCT_COLNAMES,
+        header=0,
         low_memory=True,
         keep_default_na=False,
         na_values=[""],
@@ -134,6 +138,8 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
     data_annual_current_year = pd.read_csv(
         current_filename,
         sep=",",
+        names=params.PRODUCT_COLNAMES,
+        header=0,
         low_memory=True,
         keep_default_na=False,
         na_values=[""],

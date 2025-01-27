@@ -58,11 +58,11 @@ PAGE_GRAPH_EXTRA_UE_TIME_INTERVAL_M: int = int(os.getenv("PAGE_GRAPH_EXTRA_UE_TI
 PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M: int = int(os.getenv("PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M", "60"))
 PAGE_BASKET_TIME_INTERVAL_M        : int = int(os.getenv("PAGE_BASKET_TIME_INTERVAL_M", "60"))
 
-PREFIX_PRODUCT  : str = "full"
+PREFIX_PRODUCT  : str = "full_v2_"
 PREFIX_TRANSPORT: str = "nst07_extra"
 PREFIX_MAP      : dict[str, str] = {
   "nst07_extra": "transport",
-  "full": "product"
+  "full_v2_": "product"
 }
 
 FLOW_IMPORT        : int = 1
@@ -272,6 +272,26 @@ DB_FILE_MAPPING: dict[str] = {
     FILES["TR_EXTRA_UE_CSV"] : "tr_extra_ue",
     FILES["TR_EXTRA_UE_TRIMESTRALI_CSV"] : "tr_extra_ue_trim"
 }
+
+PRODUCT_COLNAMES = [
+    "DECLARANT_ISO",
+    "PARTNER_ISO",
+    "TRADE_TYPE",
+    "PRODUCT_NC",
+    "PRODUCT_SITC",
+    "PRODUCT_CPA2_1",
+    "PRODUCT_BEC",
+    "PRODUCT_BEC5",
+    "PRODUCT_SECTION",
+    "FLOW",
+    "STAT_REGIME",
+    "SUPP_UNIT",
+    "PERIOD",
+    "VALUE_IN_EUROS",
+    "VALUE_NAC",
+    "QUANTITY_IN_KG",
+    "SUP_QUANTITY"
+]
 
 DB_COLUMN_TYPE = {
     'comext_imp': {
