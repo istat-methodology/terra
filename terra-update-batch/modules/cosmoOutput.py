@@ -71,7 +71,6 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
         annual_data_input_path
         + os.sep
         + params.PREFIX_PRODUCT
-        + "_"
         + str(params.annual_current_year)
         + "52.dat"
     )
@@ -79,7 +78,6 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
         annual_data_input_path
         + os.sep
         + params.PREFIX_PRODUCT
-        + "_"
         + str(params.annual_previous_year)
         + "52.dat"
     )
