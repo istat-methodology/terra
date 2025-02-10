@@ -69,6 +69,7 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
     ieinfo = []
     annual_files = [file for file in os.listdir(annual_data_input_path) if file.endswith('52.dat')]
     annual_files.sort()
+    
     previous_filename = annual_files[0]
     current_filename = annual_files[1]
 
