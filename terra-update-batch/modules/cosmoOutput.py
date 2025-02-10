@@ -67,20 +67,9 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
     logger.info("annualProcessing()")
 
     ieinfo = []
-    current_filename = (
-        annual_data_input_path
-        + os.sep
-        + params.PREFIX_PRODUCT
-        + str(params.annual_current_year)
-        + "52.dat"
-    )
-    previous_filename = (
-        annual_data_input_path
-        + os.sep
-        + params.PREFIX_PRODUCT
-        + str(params.annual_previous_year)
-        + "52.dat"
-    )
+    annual_files = [file for file in os.listdir(annual_data_input_path) if file.endswith('52.dat')].sort()
+    previous_filename = annual_files[0]
+    current_filename = annual_files[1]
 
     logger.info("loading.. " + cls_product_data)
     cls_products = pd.read_csv(
