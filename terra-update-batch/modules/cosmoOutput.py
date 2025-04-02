@@ -1037,6 +1037,8 @@ def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod
             appo = pd.read_csv(
                 input_path + os.sep + f,
                 sep=params.SEP,
+                names=params.TRANSPORT_COLNAMES,
+                header=0,
                 low_memory=False,
                 keep_default_na=False,
                 na_values=[""],
@@ -1044,12 +1046,12 @@ def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod
             listDataframes.append(appo)
 
     df = pd.concat(listDataframes, axis=0)
-    # df=df[df["PRODUCT_NST07_NST07"]!="TOT"]
+    # df=df[df["PRODUCT_NSTR"]!="TOT"]
     df = df[df["DECLARANT_ISO"] != "EU"]
     df = df[df["PARTNER_ISO"] != "EU"]
     df = df[
         [
-            "PRODUCT_NST07_NST07",
+            "PRODUCT_NSTR",
             "DECLARANT_ISO",
             "PARTNER_ISO",
             "PERIOD",
@@ -1059,7 +1061,6 @@ def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod
             "QUANTITY_IN_KG",
         ]
     ]
-    df.rename(columns={'PRODUCT_NST07_NST07': 'PRODUCT_NSTR'}, inplace=True)
     df_tot = df.groupby([
         "DECLARANT_ISO",
         "PARTNER_ISO",

@@ -59,9 +59,9 @@ PAGE_GRAPH_INTRA_UE_TIME_INTERVAL_M: int = int(os.getenv("PAGE_GRAPH_INTRA_UE_TI
 PAGE_BASKET_TIME_INTERVAL_M        : int = int(os.getenv("PAGE_BASKET_TIME_INTERVAL_M", "60"))
 
 PREFIX_PRODUCT  : str = "full_v2_"
-PREFIX_TRANSPORT: str = "nst07_extra"
+PREFIX_TRANSPORT: str = "nst07_extra_v2_"
 PREFIX_MAP      : dict[str, str] = {
-  "nst07_extra": "transport",
+  "nst07_extra_v2_": "transport",
   "full_v2_": "product"
 }
 
@@ -291,6 +291,19 @@ PRODUCT_COLNAMES = [
     "VALUE_NAC",
     "QUANTITY_IN_KG",
     "SUP_QUANTITY"
+]
+
+TRANSPORT_COLNAMES = [
+    "DECLARANT_ISO",
+    "PARTNER_ISO",
+    "PRODUCT_NSTR",
+    "FLOW",
+    "TRANSPORT_MODE",
+    "CONTAINER",
+    "PERIOD",
+    "VALUE_IN_EUROS",
+    "VALUE_NAC",
+    "QUANTITY_IN_KG"
 ]
 
 DB_COLUMN_TYPE = {
