@@ -238,7 +238,7 @@ export default {
             result += Array(lenCols).fill("").join(columnDelimiter)
             result += rowDelimiter
           }
-          // Step 1: Collect all unique fields (date strings)
+          // (header date strings)
           const allFields = new Set()
           data.forEach((obj) => {
             obj.data.forEach((entry) => {
@@ -246,10 +246,10 @@ export default {
             })
           })
           const sortedFields = Array.from(allFields).sort() // Sorted list of all date fields
-          // Step 2: Write CSV header
+          // write CSV header
           result +=
             ["Partner", ...sortedFields].join(columnDelimiter) + rowDelimiter
-          // Step 3: Write data rows
+          // 3: write data rows
           data.forEach((obj) => {
             let row = obj.partner + columnDelimiter
             // Create a map of field to value for fast lookup

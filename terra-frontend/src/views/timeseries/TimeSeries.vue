@@ -570,13 +570,11 @@ export default {
         !this.chartDataDiagMain ||
         !Array.isArray(this.chartDataDiagMain.datasets)
       ) {
-        console.warn("getCombinedTabularData: No datasets found.")
         return []
       }
 
       this.chartDataDiagMain.datasets.forEach((element) => {
         if (!element || !element.data || !element.label) {
-          console.warn("Invalid dataset element", element)
           return
         }
         table = this.getTabularData(
