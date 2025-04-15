@@ -213,6 +213,55 @@ export default {
             result += row.slice(0, -1) //remove last column delimiter
             result += rowDelimiter
           })
+        } else if (this.source == "table2") {
+          //const cols = Object.keys(data[0])
+          const lenCols = Object.keys(data[0]).length
+
+          if (this.filter) {
+            this.filter.forEach((row) => {
+              let ln = ""
+              for (const col in row) {
+                if (row[col]) {
+                  ln += row[col]
+                  ln += columnDelimiter
+                }
+              }
+              result += ln.slice(0, -1) //remove last column delimiter
+              //add column delimiters
+              if (lenCols > 1)
+                result += Array(lenCols - 1)
+                  .fill("")
+                  .join(columnDelimiter)
+              result += rowDelimiter
+            })
+            //add empty row
+            result += Array(lenCols).fill("").join(columnDelimiter)
+            result += rowDelimiter
+          }
+          // Step 1: Collect all unique fields (date strings)
+          const allFields = new Set()
+          data.forEach((obj) => {
+            obj.data.forEach((entry) => {
+              allFields.add(entry.field)
+            })
+          })
+          const sortedFields = Array.from(allFields).sort() // Sorted list of all date fields
+          // Step 2: Write CSV header
+          result +=
+            ["Partner", ...sortedFields].join(columnDelimiter) + rowDelimiter
+          // Step 3: Write data rows
+          data.forEach((obj) => {
+            let row = obj.partner + columnDelimiter
+            // Create a map of field to value for fast lookup
+            const valueMap = {}
+            obj.data.forEach((entry) => {
+              valueMap[entry.field] = entry.value
+            })
+            sortedFields.forEach((field) => {
+              row += (valueMap[field] || "") + columnDelimiter
+            })
+            result += row.slice(0, -1) + rowDelimiter // remove trailing comma and add newline
+          })
         } else if (this.source == "map") {
           const cols = Object.keys(data[0]) //get keys from first element
           //header map data

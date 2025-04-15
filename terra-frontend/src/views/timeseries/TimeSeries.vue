@@ -22,8 +22,8 @@
         <CCardHeader>
           <span class="card-title" role="heading" aria-level="2">
             <span v-if="country && partner"
-              >{{ $t("timeseries.card.title") }}: {{ country.name }} -
-              {{ partner.descr }}</span
+              >{{ dataType.descr }}: {{ country.name }} -
+              {{ getPartners }}</span
             >
             <span v-else
               >{{ $t("timeseries.card.title") }} -
@@ -34,10 +34,10 @@
             <exporter
               v-if="timeseriesCharts"
               filename="terra_timeseries"
-              :data="getTabularData(timeseriesCharts.diagMain, 'timeseries')"
+              :data="csvTable"
               :filter="getSearchFilter()"
               :options="['jpeg', 'png', 'pdf', 'csv']"
-              source="table">
+              source="table2">
             </exporter>
           </span>
         </CCardHeader>
@@ -182,6 +182,7 @@
               id="selectPartner"
               name="selectPartner"
               label="descr"
+              multiple
               :options="partners"
               :placeholder="$t('timeseries.form.fields.partner_placeholder')"
               v-model="partner"
@@ -265,11 +266,15 @@ export default {
     partner: null,
     productCPA: null,
 
+    partnersArr: [],
+    chartData: [],
+    csvTable: [],
+
     //Charts
     chartDataDiagMain: null,
     chartDataDiagNorm: null,
     chartDataDiagACF: null,
-
+    labelPeriod: [],
     isMainChart: true,
     isDiagNorm: true,
     isDiagACF: true,
@@ -309,6 +314,12 @@ export default {
         this.statusMain != "00" ? true : false,
         this.$i18n.locale
       )
+    },
+    getPartners() {
+      if (Array.isArray(this.chartData)) {
+        return this.chartData.map((p) => p.descr).join(", ")
+      }
+      return ""
     }
   },
   validations: {
@@ -344,6 +355,11 @@ export default {
     handleDiagACF() {
       this.isDiagACF = !this.isDiagACF
     },
+    setPartners() {
+      this.partnersArr = Array.isArray(this.partner)
+        ? this.partner
+        : [this.partner]
+    },
     handleSubmit() {
       this.$v.$touch()
       if (
@@ -354,43 +370,91 @@ export default {
         !this.$v.country.$invalid &&
         !this.$v.partner.$invalid
       ) {
-        const form = {
-          flow: this.flow.id,
-          var: this.productCPA.id,
-          country: this.country.country,
-          partner: this.partner.id,
-          dataType: this.dataType.id,
-          varType: this.varType.id
-        }
         this.spinnerStart(true)
-        this.$store.dispatch("timeseries/findByFilters", form).then(() => {
-          if (this.statusMain == Status.success) {
-            this.buildTimeseriesCharts(
-              this.timeseriesCharts,
-              this.dataType.descr,
-              this.statusMain,
-              this.$i18n.locale
-            )
-            this.optionsNorm.scales.yAxes[0].scaleLabel.labelString = this.$t(
-              "timeseries.plot.qqnormy"
-            )
-            this.optionsNorm.scales.xAxes[0].scaleLabel.labelString = this.$t(
-              "timeseries.plot.qqnormx"
-            )
-          } else {
-            this.chartDataDiagMain = this.emptyChart()
-            this.mean = null
-            this.std = null
-            this.chartDataDiagNorm = null
-            this.chartDataDiagACF = null
-            this.$store.dispatch(
-              "message/warning",
-              this.$t("timeseries.message.empty")
-            )
+        this.setPartners()
+        this.chartData = []
+        // Use Promise.all to wait for all dispatches to finish
+        const requests = this.partnersArr.map((p) => {
+          const form = {
+            flow: this.flow.id,
+            var: this.productCPA.id,
+            country: this.country.country,
+            partner: p.id,
+            dataType: this.dataType.id,
+            varType: this.varType.id
           }
-          this.spinnerStart(false)
+          return this.$store
+            .dispatch("timeseries/findByFilters", form)
+            .then(() => {
+              if (this.statusMain === Status.success) {
+                this.labelPeriod = this.timeseriesCharts.diagMain.date
+                this.chartData.push({
+                  id: p.id,
+                  descr: p.descr,
+                  dataType: this.dataType.descr,
+                  status: this.statusMain,
+                  locale: this.$i18n.locale,
+                  date: this.timeseriesCharts.diagMain.date,
+                  series: this.timeseriesCharts.diagMain.series
+                })
+              }
+            })
         })
+        Promise.all(requests)
+          .then(() => {
+            if (this.chartData.length > 0) {
+              this.chartDataDiagMain = {}
+              this.chartDataDiagMain.datasets = []
+              this.chartDataDiagMain.labels = this.getDate(this.labelPeriod)
+              this.chartData.forEach((element) => {
+                this.buildChartObject(element.descr, element.series)
+              })
+            } else {
+              this.chartDataDiagMain = this.emptyChart()
+              this.std = null
+              this.chartDataDiagNorm = null
+              this.chartDataDiagACF = null
+              this.$store.dispatch(
+                "message/warning",
+                this.$t("timeseries.message.empty")
+              )
+            }
+          })
+          .finally(() => {
+            if (this.chartDataDiagMain.datasets.length > 0) {
+              this.csvTable = this.getCombinedTabularData()
+            }
+            this.spinnerStart(false)
+          })
       }
+    },
+    buildChartObject(description, value) {
+      const color = this.getColor()
+      this.chartDataDiagMain.datasets.push({
+        label: description,
+        fill: false,
+        backgroundColor: color.background,
+        /*
+        backgroundColor: function (context) {
+            var index = context.dataIndex
+            var value = context.dataset.data[index]
+            if (value) {
+              if (value.x > 0) {
+                return color.background
+                return "rgba(255,128,0,0.6)"
+              } else {
+                return "rgba(46,184,92,0.2)"
+              }
+            }
+          },
+        */
+        borderColor: color.border,
+        data: value,
+        showLine: true,
+        lineTension: 0,
+        pointRadius: 2,
+        borderDash: [0, 0]
+      })
     },
     loadData() {
       this.$store.dispatch("coreui/setContext", Context.Policy)
@@ -445,7 +509,7 @@ export default {
       })
       data.push({
         field: this.$t("timeseries.form.fields.partner"),
-        value: this.partner ? this.partner.descr : ""
+        value: this.getPartners
       })
       data.push({
         field: this.$t("timeseries.form.fields.productsCPA"),
@@ -467,24 +531,66 @@ export default {
       })
       return data
     },
-    getTabularData(data, id) {
-      if (data != null) {
-        const table = []
-        const timePoints = data.date
-        const values = data.series
-        if (timePoints)
-          timePoints.forEach((tp, index) => {
-            const dt = new Date(tp)
-            const year = dt.getFullYear()
-            const month = dt.getMonth() + 1
-            table.push({
-              field: year + "-" + month,
-              value: this.formatNumber(values[index])
-            })
-          })
-        return [table, id]
+
+    getTabularData(data, partner, date) {
+      if (!Array.isArray(data)) {
+        console.warn("getTabularData: 'data' is not an array", data)
+        return null
       }
-      return null
+
+      if (!Array.isArray(date)) {
+        console.warn("getTabularData: 'date' is not an array", date)
+        return null
+      }
+      console.log(partner)
+
+      const table = []
+
+      date.forEach((tp, index) => {
+        const dt = new Date(tp)
+        const year = dt.getFullYear()
+        const month = String(dt.getMonth() + 1).padStart(2, "0")
+        table.push({
+          field: `${year}-${month}`,
+          value: this.formatNumber(data[index])
+        })
+      })
+
+      return [
+        {
+          partner: partner,
+          data: table
+        }
+      ]
+    },
+    getCombinedTabularData() {
+      let final = []
+      let table = []
+      if (
+        !this.chartDataDiagMain ||
+        !Array.isArray(this.chartDataDiagMain.datasets)
+      ) {
+        console.warn("getCombinedTabularData: No datasets found.")
+        return []
+      }
+
+      this.chartDataDiagMain.datasets.forEach((element) => {
+        if (!element || !element.data || !element.label) {
+          console.warn("Invalid dataset element", element)
+          return
+        }
+        table = this.getTabularData(
+          element.data,
+          element.label,
+          this.chartDataDiagMain.labels
+        )
+        final = final.concat(table)
+        if (!Array.isArray(table) || !Array.isArray(table[0])) {
+          console.warn("Skipped invalid tabular result", table)
+          return
+        }
+      })
+      return [final]
     },
     formatNumber(num) {
       return num ? num.toLocaleString(this.$i18n.locale) : "-"
