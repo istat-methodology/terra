@@ -62,6 +62,40 @@
           {{ $t("sidebar.news") }}
         </a>
       </div>
+      <div class="c-sidebar-nav-item">
+        <a
+          @click="handleDownload()"
+          @keypress="handleDownload()"
+          class="c-sidebar-nav-link"
+          :class="{ 'c-active c-active-danger': isDownload }"
+          :title="$t('sidebar.download')"
+          :aria-current="'false'"
+          tabindex="0">
+          <CIcon
+            name="cil-cloud-download"
+            class="c-sidebar-nav-icon"
+            alt=""
+            :title="$t('sidebar.download')" />
+          {{ $t("sidebar.download") }}
+        </a>
+      </div>
+      <div class="c-sidebar-nav-item">
+        <a
+          @click="handleAPI()"
+          @keypress="handleAPI()"
+          class="c-sidebar-nav-link"
+          :class="{ 'c-active c-active-danger': isAPI }"
+          :title="$t('sidebar.api')"
+          :aria-current="'false'"
+          tabindex="0">
+          <CIcon
+            name="cil-star"
+            class="c-sidebar-nav-icon"
+            alt=""
+            :title="$t('sidebar.api')" />
+          {{ $t("sidebar.api") }}
+        </a>
+      </div>
       <div class="c-sidebar-nav-title pb-2">
         {{ $t("sidebar.analysis") }}
       </div>

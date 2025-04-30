@@ -31,10 +31,12 @@ const actions = {
       .then((data) => {
         commit("SET_TIMESERIES_STATUS_ACF", data["statusACF"])
         commit("SET_TIMESERIES_STATUS_NORM", data["statusNorm"])
+
         //var statusMain =
-        //data["diagMain"] && isArrayNull(data["diagMain"]["series"]) == false
+        //isArrayNull(data["diagMain"]["series"]) == false
+
         var statusMain =
-          isArrayNull(data["diagMain"]["series"]) == false
+          data["diagMain"] && isArrayNull(data["diagMain"]["series"]) == false
             ? data["statusMain"]
             : "00"
         commit("SET_TIMESERIES_STATUS_MAIN", statusMain)

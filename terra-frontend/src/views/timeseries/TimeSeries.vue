@@ -13,7 +13,7 @@
               ': ' +
               country.name +
               ' - ' +
-              partner.descr
+              getPartners
             : 'TERRA - ' +
               $t('timeseries.card.title') +
               ' - ' +
@@ -32,9 +32,9 @@
           </span>
           <span class="btn-group float-right">
             <exporter
-              v-if="timeseriesCharts"
+              v-if="getPartners"
               filename="terra_timeseries"
-              :data="csvTable"
+              :data="[csvTable, 'timeseries']"
               :filter="getSearchFilter()"
               :options="['jpeg', 'png', 'pdf', 'csv']"
               source="table2">
@@ -60,50 +60,6 @@
           </div>
         </CCardBody>
       </CCard>
-      <!--CCard v-if="chartDataDiagNorm">
-        <CCardHeader>
-          <span class="card-title">
-            {{ this.diagNormTitle }}
-          </span>
-          <span class="btn-help">
-            <CButton color="link" size="sm" @click="helpOn(true)">Info</CButton>
-          </span>
-          <span class="float-right">
-            <exporter
-              filename="Terra_diagnorm"
-              :data="getData(chartDataDiagNorm, 'diagnorm')">
-            </exporter>
-          </span>
-        </CCardHeader>
-        <CCardBody v-if="isDiagNorm">
-          <scatter-chart
-            :chartData="chartDataDiagNorm"
-            :options="optionsNorm"
-            id="diagnorm" />
-        </CCardBody>
-      </CCard-->
-      <!--CCard v-if="chartDataDiagACF">
-        <CCardHeader>
-          <span class="card-title">
-            {{ this.diagACFTitle }}
-          </span>
-          <span class="btn-help">
-            <CButton color="link" size="sm" @click="helpOn(true)">Info</CButton>
-          </span>
-          <span class="float-right">
-            <exporter
-              filename="Terra_diagacf"
-              :data="getData(chartDataDiagACF, 'diagacf')">
-            </exporter>
-          </span>
-        </CCardHeader>
-        <CCardBody v-if="isDiagACF">
-          <line-chart
-            :chartData="chartDataDiagACF"
-            :options="optionsACF"
-            id="diagacf" />
-        </CCardBody>
-      </CCard-->
     </div>
     <div class="col-sm-6 col-md-3">
       <CCard class="card-filter" :title="$t('timeseries.form.title')">
@@ -575,6 +531,10 @@ export default {
 
       this.chartDataDiagMain.datasets.forEach((element) => {
         if (!element || !element.data || !element.label) {
+          console.warn(
+            "Skipped invalid element - element.data element.label",
+            element
+          )
           return
         }
         table = this.getTabularData(
@@ -584,7 +544,7 @@ export default {
         )
         final = final.concat(table)
         if (!Array.isArray(table) || !Array.isArray(table[0])) {
-          console.warn("Skipped invalid tabular result", table)
+          console.warn("Skipped invalid table", table)
           return
         }
       })

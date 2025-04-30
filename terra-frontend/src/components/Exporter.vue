@@ -240,7 +240,7 @@ export default {
           }
           // (header date strings)
           const allFields = new Set()
-          data.forEach((obj) => {
+          data[0].forEach((obj) => {
             obj.data.forEach((entry) => {
               allFields.add(entry.field)
             })
@@ -250,7 +250,7 @@ export default {
           result +=
             ["Partner", ...sortedFields].join(columnDelimiter) + rowDelimiter
           // 3: write data rows
-          data.forEach((obj) => {
+          data[0].forEach((obj) => {
             let row = obj.partner + columnDelimiter
             // Create a map of field to value for fast lookup
             const valueMap = {}

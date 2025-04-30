@@ -46,11 +46,12 @@ const state = {
     }
   ],
   flows: [
-    {
+    /*{
       id: 0,
       descr_en: "Average",
       descr_it: "Media"
     },
+    */
     {
       id: 1,
       descr_en: "Import",
