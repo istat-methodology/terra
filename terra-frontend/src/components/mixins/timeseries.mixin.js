@@ -151,7 +151,8 @@ export default {
       ]
       chartData.options = {
         legend: {
-          display: false
+          display: true,
+          position: "top"
         }
       }
       return chartData

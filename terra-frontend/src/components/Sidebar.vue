@@ -67,7 +67,7 @@
           @click="handleDownload()"
           @keypress="handleDownload()"
           class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-danger': isDownload }"
+          :class="{ 'c-active c-active-danger': false }"
           :title="$t('sidebar.download')"
           :aria-current="'false'"
           tabindex="0">
@@ -84,7 +84,7 @@
           @click="handleAPI()"
           @keypress="handleAPI()"
           class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-danger': isAPI }"
+          :class="{ 'c-active c-active-danger': false }"
           :title="$t('sidebar.api')"
           :aria-current="'false'"
           tabindex="0">

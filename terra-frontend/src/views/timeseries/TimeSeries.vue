@@ -13,7 +13,7 @@
               ': ' +
               country.name +
               ' - ' +
-              getPartners
+              partner.descr
             : 'TERRA - ' +
               $t('timeseries.card.title') +
               ' - ' +
@@ -32,9 +32,9 @@
           </span>
           <span class="btn-group float-right">
             <exporter
-              v-if="getPartners"
+              v-if="timeseriesCharts"
               filename="terra_timeseries"
-              :data="[csvTable, 'timeseries']"
+              :data="csvTable"
               :filter="getSearchFilter()"
               :options="['jpeg', 'png', 'pdf', 'csv']"
               source="table2">
@@ -47,17 +47,9 @@
             aria-hidden="true"
             :chartData="chartDataDiagMain"
             :options="options"
+            :key="chartKey"
             id="timeseries" />
-          <div class="timeseries-info">
-            <span>
-              <span class="text-primary" v-if="mean">
-                {{ $t("common.mean") }}: </span
-              >{{ mean }}
-              <span class="text-primary" v-if="std"
-                >{{ $t("common.std") }}: </span
-              >{{ std }}
-            </span>
-          </div>
+          <div class="timeseries-info"></div>
         </CCardBody>
       </CCard>
     </div>
@@ -196,7 +188,6 @@ import { metadataService } from "@/services"
 import paletteMixin from "@/components/mixins/palette.mixin"
 import timeseriesDiagMixin from "@/components/mixins/timeseriesDiag.mixin"
 import timeseriesMixin from "@/components/mixins/timeseries.mixin"
-//import ScatterChart from "@/components/charts/ScatterChart"
 import LineChart from "@/components/charts/LineChart"
 import { required } from "vuelidate/lib/validators"
 import spinnerMixin from "@/components/mixins/spinner.mixin"
@@ -211,6 +202,7 @@ export default {
   },
   mixins: [paletteMixin, timeseriesDiagMixin, timeseriesMixin, spinnerMixin],
   data: () => ({
+    chartKey: 0,
     //Spinner
     spinner: false,
 
@@ -228,15 +220,9 @@ export default {
 
     //Charts
     chartDataDiagMain: null,
-    chartDataDiagNorm: null,
-    chartDataDiagACF: null,
     labelPeriod: [],
     isMainChart: true,
-    isDiagNorm: true,
-    isDiagACF: true,
-    isModalHelp: false,
-    mean: null,
-    std: null
+    isModalHelp: false
   }),
   watch: {
     language() {
@@ -344,66 +330,61 @@ export default {
             .then(() => {
               if (this.statusMain === Status.success) {
                 this.labelPeriod = this.timeseriesCharts.diagMain.date
-                this.chartData.push({
-                  id: p.id,
-                  descr: p.descr,
-                  dataType: this.dataType.descr,
-                  status: this.statusMain,
-                  locale: this.$i18n.locale,
-                  date: this.timeseriesCharts.diagMain.date,
-                  series: this.timeseriesCharts.diagMain.series
-                })
+                if (
+                  this.timeseriesCharts.diagMain.series &&
+                  this.timeseriesCharts.diagMain.series.length > 0
+                ) {
+                  this.chartData.push({
+                    id: p.id,
+                    descr: p.descr,
+                    dataType: this.dataType.descr,
+                    status: this.statusMain,
+                    locale: this.$i18n.locale,
+                    date: this.labelPeriod,
+                    series: this.timeseriesCharts.diagMain.series
+                  })
+                }
               }
             })
         })
         Promise.all(requests)
           .then(() => {
             if (this.chartData.length > 0) {
-              this.chartDataDiagMain = {}
-              this.chartDataDiagMain.datasets = []
-              this.chartDataDiagMain.labels = this.getDate(this.labelPeriod)
+              this.chartDataDiagMain = {
+                labels: this.getDate(this.labelPeriod),
+                datasets: []
+              }
               this.chartData.forEach((element) => {
                 this.buildChartObject(element.descr, element.series)
               })
+              this.chartKey += 1
+              if (this.chartDataDiagMain.datasets.length > 0) {
+                this.csvTable = this.getCombinedTabularData()
+              }
             } else {
               this.chartDataDiagMain = this.emptyChart()
-              this.std = null
-              this.chartDataDiagNorm = null
-              this.chartDataDiagACF = null
               this.$store.dispatch(
                 "message/warning",
                 this.$t("timeseries.message.empty")
               )
+              this.chartKey += 1
             }
           })
           .finally(() => {
-            if (this.chartDataDiagMain.datasets.length > 0) {
-              this.csvTable = this.getCombinedTabularData()
-            }
             this.spinnerStart(false)
           })
       }
     },
     buildChartObject(description, value) {
+      if (!Array.isArray(value) || value.length === 0) {
+        console.warn("Skipped dataset due to empty series:", description)
+        return
+      }
       const color = this.getColor()
       this.chartDataDiagMain.datasets.push({
         label: description,
         fill: false,
         backgroundColor: color.background,
-        /*
-        backgroundColor: function (context) {
-            var index = context.dataIndex
-            var value = context.dataset.data[index]
-            if (value) {
-              if (value.x > 0) {
-                return color.background
-                return "rgba(255,128,0,0.6)"
-              } else {
-                return "rgba(46,184,92,0.2)"
-              }
-            }
-          },
-        */
         borderColor: color.border,
         data: value,
         showLine: true,
@@ -531,10 +512,6 @@ export default {
 
       this.chartDataDiagMain.datasets.forEach((element) => {
         if (!element || !element.data || !element.label) {
-          console.warn(
-            "Skipped invalid element - element.data element.label",
-            element
-          )
           return
         }
         table = this.getTabularData(
@@ -543,8 +520,8 @@ export default {
           this.chartDataDiagMain.labels
         )
         final = final.concat(table)
-        if (!Array.isArray(table) || !Array.isArray(table[0])) {
-          console.warn("Skipped invalid table", table)
+        if (!Array.isArray(table) || !Array.isArray(table[0].data)) {
+          console.warn("Skipped invalid tabular result", table)
           return
         }
       })
