@@ -62,6 +62,9 @@
   },
   "sidebar": {
     "home": "Home",
+    "api": "Api",
+    "download":"Download",
+
     "analysis": "COMEXT data analysis",
     "map": "Interactive map",
     "graphExtra": "Graph EU - Extra EU",

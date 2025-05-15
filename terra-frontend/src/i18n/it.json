@@ -63,6 +63,8 @@
   "sidebar": {
     "home": "Home",
     "analysis": "Analisi dati COMEXT",
+    "api": "Api",
+    "download":"Download",
     "map": "Mappa Interattiva",
     "graphExtra": "Grafi UE - Extra UE",
     "graphWorld": "Grafi UE - Mondo",

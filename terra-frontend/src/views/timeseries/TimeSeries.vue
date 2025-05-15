@@ -32,9 +32,9 @@
           </span>
           <span class="btn-group float-right">
             <exporter
-              v-if="timeseriesCharts"
+              v-if="getPartners"
               filename="terra_timeseries"
-              :data="csvTable"
+              :data="[csvTable, 'timeseries']"
               :filter="getSearchFilter()"
               :options="['jpeg', 'png', 'pdf', 'csv']"
               source="table2">
@@ -329,11 +329,11 @@ export default {
             .dispatch("timeseries/findByFilters", form)
             .then(() => {
               if (this.statusMain === Status.success) {
-                this.labelPeriod = this.timeseriesCharts.diagMain.date
                 if (
                   this.timeseriesCharts.diagMain.series &&
                   this.timeseriesCharts.diagMain.series.length > 0
                 ) {
+                  this.labelPeriod = this.timeseriesCharts.diagMain.date
                   this.chartData.push({
                     id: p.id,
                     descr: p.descr,
@@ -362,12 +362,29 @@ export default {
                 this.csvTable = this.getCombinedTabularData()
               }
             } else {
-              this.chartDataDiagMain = this.emptyChart()
+              //this.chartDataDiagMain = this.emptyChart()
+              this.chartDataDiagMain = {
+                labels: this.getDate(this.labelPeriod),
+                datasets: [
+                  {
+                    label: "",
+                    fill: false,
+                    backgroundColor: null,
+                    borderColor: null,
+                    data: [],
+                    showLine: true,
+                    lineTension: 0,
+                    pointRadius: 2,
+                    borderDash: [0, 0]
+                  }
+                ]
+              }
               this.$store.dispatch(
                 "message/warning",
                 this.$t("timeseries.message.empty")
               )
               this.chartKey += 1
+              this.spinnerStart(false)
             }
           })
           .finally(() => {
@@ -452,23 +469,29 @@ export default {
         field: this.$t("timeseries.form.fields.productsCPA"),
         value: this.productCPA ? this.productCPA.descr : ""
       })
+
       data.push({
         field: this.$t("common.start_date"),
-        value: this.timeseriesCharts
-          ? this.timeseriesCharts.diagMain.date[0]
-          : ""
+        //value: this.timeseriesCharts
+        //  ? this.timeseriesCharts.diagMain.date[0]
+        //  : ""
+        value: this.timeseriesCharts?.diagMain?.date?.[0] ?? "-"
       })
       data.push({
         field: this.$t("common.end_date"),
-        value: this.timeseriesCharts
-          ? this.timeseriesCharts.diagMain.date[
-              this.timeseriesCharts.diagMain.date.length - 1
-            ]
-          : ""
+        //value: this.timeseriesCharts
+        //  ? this.timeseriesCharts.diagMain.date[
+        //     this.timeseriesCharts.diagMain.date.length - 1
+        //    ]
+        //  : ""
+        value:
+          this.timeseriesCharts?.diagMain?.date?.[
+            this.timeseriesCharts?.diagMain?.date?.length - 1
+          ] ?? "-"
       })
+
       return data
     },
-
     getTabularData(data, partner, date) {
       if (!Array.isArray(data)) {
         console.warn("getTabularData: 'data' is not an array", data)

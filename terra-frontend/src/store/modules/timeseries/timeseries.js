@@ -43,7 +43,7 @@ const actions = {
         if (statusMain == "01") {
           commit("SET_TIMESERIES_CHARTS", data)
         } else {
-          commit("SET_TIMESERIES_CHARTS", null)
+          commit("SET_TIMESERIES_CHARTS", [])
         }
       })
       .catch((err) => {
