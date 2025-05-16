@@ -233,7 +233,9 @@ export default {
       this.$router.push({ name: "GraphIntraUe" })
     },
     handleTimeSeries() {
-      this.$router.push({ name: "TimeSeries" })
+      if (this.$route.path !== "/timeseries") {
+        this.$router.push({ name: "TimeSeries" })
+      }
     },
     handleTrade() {
       this.$router.push({ name: "Trade" })

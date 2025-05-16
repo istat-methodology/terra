@@ -29,12 +29,6 @@ const actions = {
     return timeseriesService
       .findByFilters(form)
       .then((data) => {
-        commit("SET_TIMESERIES_STATUS_ACF", data["statusACF"])
-        commit("SET_TIMESERIES_STATUS_NORM", data["statusNorm"])
-
-        //var statusMain =
-        //isArrayNull(data["diagMain"]["series"]) == false
-
         var statusMain =
           data["diagMain"] && isArrayNull(data["diagMain"]["series"]) == false
             ? data["statusMain"]
@@ -49,17 +43,57 @@ const actions = {
       .catch((err) => {
         console.log(err)
       })
+  },
+  async findByFiltersMultiPartners({ commit }, form) {
+    const partners = Array.isArray(form.partner) ? form.partner : [form.partner]
+
+    const byPartner = {}
+    let statusMain = "00"
+    let commonDate = null
+
+    for (const p of partners) {
+      const singleForm = {
+        ...form,
+        partner: p
+      }
+      try {
+        const data = await timeseriesService.findByFilters(singleForm)
+        const hasSeries =
+          data?.diagMain &&
+          Array.isArray(data.diagMain.series) &&
+          data.diagMain.series.length > 0
+        if (hasSeries) {
+          if (!commonDate && Array.isArray(data.diagMain.date)) {
+            commonDate = data.diagMain.date
+          }
+          byPartner[p] = {
+            series: data.diagMain.series
+          }
+          statusMain = "01" // partner return valid data
+        }
+      } catch (error) {
+        console.error(`Error for partner ${p}:`, error)
+      }
+    }
+    const result = {
+      statusMain,
+      diagMain: {
+        date: commonDate || [],
+        byPartner
+      }
+    }
+    commit("SET_TIMESERIES_STATUS_MAIN", result.statusMain)
+    if (statusMain === "01") {
+      commit("SET_TIMESERIES_CHARTS", result)
+    } else {
+      commit("SET_TIMESERIES_CHARTS", [])
+    }
+    return result
   }
 }
 const getters = {
   statusMain: (state) => {
     return state.statusMain
-  },
-  statusACF: (state) => {
-    return state.statusACF
-  },
-  statusNorm: (state) => {
-    return state.statusNorm
   },
   timeseriesChart: (state) => {
     return state.timeseriesChart ? state.timeseriesChart : null

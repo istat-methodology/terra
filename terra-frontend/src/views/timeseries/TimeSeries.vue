@@ -304,6 +304,7 @@ export default {
     },
     handleSubmit() {
       this.$v.$touch()
+
       if (
         !this.$v.dataType.$invalid &&
         !this.$v.varType.$invalid &&
@@ -313,78 +314,62 @@ export default {
         !this.$v.partner.$invalid
       ) {
         this.spinnerStart(true)
-        this.setPartners()
+        this.setPartners() // fills this.partnersArr
         this.chartData = []
-        // Use Promise.all to wait for all dispatches to finish
-        const requests = this.partnersArr.map((p) => {
-          const form = {
-            flow: this.flow.id,
-            var: this.productCPA.id,
-            country: this.country.country,
-            partner: p.id,
-            dataType: this.dataType.id,
-            varType: this.varType.id
-          }
-          return this.$store
-            .dispatch("timeseries/findByFilters", form)
-            .then(() => {
-              if (this.statusMain === Status.success) {
-                if (
-                  this.timeseriesCharts.diagMain.series &&
-                  this.timeseriesCharts.diagMain.series.length > 0
-                ) {
-                  this.labelPeriod = this.timeseriesCharts.diagMain.date
+
+        const form = {
+          flow: this.flow.id,
+          var: this.productCPA.id,
+          country: this.country.country,
+          partner: this.partnersArr.map((p) => p.id), // send array of partner ids
+          dataType: this.dataType.id,
+          varType: this.varType.id
+        }
+
+        this.$store
+          .dispatch("timeseries/findByFiltersMultiPartners", form)
+          .then((response) => {
+            if (response.statusMain === "01" && response.diagMain?.byPartner) {
+              const byPartner = response.diagMain.byPartner
+              const date = response.diagMain.date
+              this.labelPeriod = date
+
+              this.chartDataDiagMain = {
+                labels: this.getDate(date),
+                datasets: []
+              }
+
+              this.partnersArr.forEach((p) => {
+                const partnerData = byPartner[p.id]
+                if (partnerData && partnerData.series) {
+                  this.buildChartObject(p.descr, partnerData.series)
                   this.chartData.push({
                     id: p.id,
                     descr: p.descr,
-                    dataType: this.dataType.descr,
-                    status: this.statusMain,
-                    locale: this.$i18n.locale,
-                    date: this.labelPeriod,
-                    series: this.timeseriesCharts.diagMain.series
+                    series: partnerData.series,
+                    date: date
                   })
                 }
-              }
-            })
-        })
-        Promise.all(requests)
-          .then(() => {
-            if (this.chartData.length > 0) {
-              this.chartDataDiagMain = {
-                labels: this.getDate(this.labelPeriod),
-                datasets: []
-              }
-              this.chartData.forEach((element) => {
-                this.buildChartObject(element.descr, element.series)
               })
-              this.chartKey += 1
+
               if (this.chartDataDiagMain.datasets.length > 0) {
                 this.csvTable = this.getCombinedTabularData()
+              } else {
+                this.chartDataDiagMain = this.emptyChart()
+                this.$store.dispatch(
+                  "message/warning",
+                  this.$t("timeseries.message.empty")
+                )
               }
+
+              this.chartKey += 1 // force re-render
             } else {
-              //this.chartDataDiagMain = this.emptyChart()
-              this.chartDataDiagMain = {
-                labels: this.getDate(this.labelPeriod),
-                datasets: [
-                  {
-                    label: "",
-                    fill: false,
-                    backgroundColor: null,
-                    borderColor: null,
-                    data: [],
-                    showLine: true,
-                    lineTension: 0,
-                    pointRadius: 2,
-                    borderDash: [0, 0]
-                  }
-                ]
-              }
+              this.chartDataDiagMain = this.emptyChart()
               this.$store.dispatch(
                 "message/warning",
                 this.$t("timeseries.message.empty")
               )
               this.chartKey += 1
-              this.spinnerStart(false)
             }
           })
           .finally(() => {
@@ -422,7 +407,7 @@ export default {
           this.country = country
           this.partner = partner
           this.productCPA = productCPA
-          //Sumit form
+          //Submit form
           this.handleSubmit()
         })
     },
@@ -475,7 +460,7 @@ export default {
         //value: this.timeseriesCharts
         //  ? this.timeseriesCharts.diagMain.date[0]
         //  : ""
-        value: this.timeseriesCharts?.diagMain?.date?.[0] ?? "-"
+        value: this.timeseriesCharts?.diagMain?.date?.[0] ?? ""
       })
       data.push({
         field: this.$t("common.end_date"),
@@ -487,7 +472,7 @@ export default {
         value:
           this.timeseriesCharts?.diagMain?.date?.[
             this.timeseriesCharts?.diagMain?.date?.length - 1
-          ] ?? "-"
+          ] ?? ""
       })
 
       return data

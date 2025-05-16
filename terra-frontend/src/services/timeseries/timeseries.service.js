@@ -2,7 +2,6 @@ import { axiosR } from "@/http"
 export const timeseriesService = {
   findByFilters
 }
-
 function findByFilters(form) {
   var object = {}
   object = {
