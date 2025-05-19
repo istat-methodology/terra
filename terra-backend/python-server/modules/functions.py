@@ -408,20 +408,20 @@ class TimeSeries():
                                 flow_table.PRODUCT == var_cpa
                                 )
             else :
-                coutry_table = orm.countryEU
+                country_table = orm.countryEU
                 query = session.query(
-                    flow_table.PERIOD, func.sum(column_selection).label(column_selection)
+                    flow_table.PERIOD, func.sum(column_selection)
                     ).filter(
                         flow_table.DECLARANT_ISO == country_code
                         ).filter(
                             flow_table.PRODUCT == var_cpa
                             ).outerjoin(
-                                coutry_table, 
-                                (flow_table.PARTNER_ISO == coutry_table.CODE) &
-                                (coutry_table.DAT_INI <= flow_table.PERIOD) &
-                                (or_(coutry_table.DAT_FIN >= flow_table.PERIOD, coutry_table.DAT_FIN.is_(None)))
+                                country_table, 
+                                (flow_table.PARTNER_ISO == country_table.CODE) &
+                                (country_table.DAT_INI <= flow_table.PERIOD) &
+                                (or_(country_table.DAT_FIN >= flow_table.PERIOD, country_table.DAT_FIN.is_(None)))
                                 ).filter(
-                                    coutry_table.CODE.is_(None) 
+                                    country_table.CODE.is_(None) 
                                     ).group_by(
                                         flow_table.PERIOD
                                         )
