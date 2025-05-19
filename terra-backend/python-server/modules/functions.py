@@ -8,7 +8,7 @@ from distinctiveness.dc import distinctiveness
 from networkx.readwrite import json_graph
 from datetime import datetime
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import func, union_all
+from sqlalchemy import func, union_all, or_
 from resources import py_server_params
 from modules import orm
 
@@ -381,8 +381,8 @@ class TimeSeries():
     def ts(self, table_import, table_export, flow, var_cpa, country_code, partner_code, data_type, tipo_var):
         self.logger.info("[TERRA] Calculating time series...")
         try:
-            flow_table = []
-            column_selection = []
+            flow_table, column_selection, query = [], [], ""
+
             if flow == 1:
                 flow_table = table_import
             elif flow == 2:
@@ -397,15 +397,34 @@ class TimeSeries():
             session = Session()
             
             # User selects a UE country, global partner, cpa
-            query = session.query(
-                flow_table.PERIOD, column_selection
-                ).filter(
-                    flow_table.DECLARANT_ISO == country_code
+            if partner_code!="extraeu":
+                query = session.query(
+                    flow_table.PERIOD, column_selection
                     ).filter(
-                        flow_table.PARTNER_ISO == partner_code
+                        flow_table.DECLARANT_ISO == country_code
+                        ).filter(
+                            flow_table.PARTNER_ISO == partner_code
+                            ).filter(
+                                flow_table.PRODUCT == var_cpa
+                                )
+            else :
+                coutry_table = orm.countryEU
+                query = session.query(
+                    flow_table.PERIOD, func.sum(column_selection).label(column_selection)
+                    ).filter(
+                        flow_table.DECLARANT_ISO == country_code
                         ).filter(
                             flow_table.PRODUCT == var_cpa
-                            )
+                            ).outerjoin(
+                                coutry_table, 
+                                (flow_table.PARTNER_ISO == coutry_table.CODE) &
+                                (coutry_table.DAT_INI <= flow_table.PERIOD) &
+                                (or_(coutry_table.DAT_FIN >= flow_table.PERIOD, coutry_table.DAT_FIN.is_(None)))
+                                ).filter(
+                                    coutry_table.CODE.is_(None) 
+                                    ).group_by(
+                                        flow_table.PERIOD
+                                        )
             c_data = pd.read_sql(query.statement, query.session.bind)
             session.close()
             c_data.columns = ['PERIOD', 'series']
