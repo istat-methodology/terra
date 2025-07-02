@@ -101,9 +101,7 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
         na_values=[""],
     )
     # FIX Greece code EL in GR
-    annual_industrial_production["geo"] = annual_industrial_production["geo"].replace(
-        ["EL"], "GR"
-    )
+    annual_industrial_production["geo"] = annual_industrial_production["geo"].replace(["EL"], "GR")
 
     logger.info("loading.. " + annual_unemp_data)
     # ANNUAL_UNEMPLOYEMENT_FILE_CSV
