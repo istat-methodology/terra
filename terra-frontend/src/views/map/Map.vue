@@ -27,7 +27,6 @@
               :geojson="geoJson"
               :options="options"
               :options-style="styleFunction"
-              @click="openInfoOnFeature"
               tabindex="0"></l-geo-json>
 
             <l-circle-marker
@@ -43,7 +42,6 @@
               :radius="getRadius(marker.series)"
               :color="getColor(marker.series, markerMin, markerMax)"
               :fillColor="getColor(marker.series, markerMin, markerMax)"
-              @click="openInfo(marker)"
               tabindex="0">
               <l-tooltip
                 aria-hidden="true"
@@ -67,7 +65,7 @@
                 }}
               </div>
             </l-control>
-            <l-control position="bottomleft" tabindex="0">
+            <!--l-control position="bottomleft" tabindex="0">
               <div class="info" v-if="isInfo" aria-hidden="true">
                 <div class="font-class pl-2 pt-2 pb-2" :title="infoTitle">
                   <strong>{{ infoTitle }}</strong>
@@ -93,7 +91,7 @@
                   </CTab>
                 </CTabs>
               </div>
-            </l-control>
+            </l-control-->
             <l-control position="topleft">
               <div class="leaflet-bar">
                 <a
@@ -222,7 +220,6 @@ export default {
       }
     },
     btnFeatureMarker: "M",
-
     isMarker: false,
     isFeature: false,
     seriesName: "exportseries",
@@ -256,6 +253,7 @@ export default {
       geoJson: "countriesBorders",
       jsonData: "jsonData"
     }),
+    /*
     infoTabMain() {
       return this.$t("map.info.tab.main")
     },
@@ -368,6 +366,7 @@ export default {
       }
       return this.infoData ? this.infoData[0]["Main Export Partners"] : []
     },
+    */
     options() {
       return {
         onEachFeature: this.onEachFeatureFunction

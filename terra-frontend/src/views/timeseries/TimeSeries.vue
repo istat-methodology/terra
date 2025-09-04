@@ -329,7 +329,10 @@ export default {
         this.$store
           .dispatch("timeseries/findByFiltersMultiPartners", form)
           .then((response) => {
-            if (response.statusMain === "01" && response.diagMain?.byPartner) {
+            if (
+              response.statusMain === Status.success &&
+              response.diagMain?.byPartner
+            ) {
               const byPartner = response.diagMain.byPartner
               const date = response.diagMain.date
               this.labelPeriod = date
