@@ -214,7 +214,8 @@ export default {
       isPolicy: "isPolicy",
       isTrade: "isTrade",
       isMobility: "isMobility",
-      isNews: "isNews"
+      isNews: "isNews",
+      isDownload: "isDownload"
     }),
     ...mapGetters("metadata", ["appVersion"]),
     ...mapGetters("metadata", ["lastLoadedData"])
@@ -242,6 +243,9 @@ export default {
     },
     handleNews() {
       this.$router.push({ name: "News" })
+    },
+    handleDownload() {
+      this.$router.push({ name: "Download" })
     }
   }
 }

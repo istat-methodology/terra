@@ -362,6 +362,16 @@
       "type": "tipo"
     }
   },
+  "download": {
+    "card": {
+      "title": "Download da Terra"
+    },
+    "table": {
+      "date": "data",
+      "text": "testo",
+      "type": "tipo"
+    }
+  },
   "privacy": {
     "title": "Privacy",
     "title_1": "Privacy e trattamento dei dati personali",

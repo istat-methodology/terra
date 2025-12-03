@@ -64,15 +64,14 @@
     "home": "Home",
     "api": "Api",
     "download":"Download",
-
+    "news": "News",
     "analysis": "COMEXT data analysis",
     "map": "Interactive map",
     "graphExtra": "Graph EU - Extra EU",
     "graphWorld": "Graph EU - World",
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
-    "trade": "Basket of traded products",
-    "news": "News",
+    "trade": "Basket of traded products",       
     "logo_istat": "Istat Logo",
     "goto_istat": "Go to www.istat.it",
     "opens_goto_istat": "Opens in a new window: ISTAT",
@@ -364,6 +363,17 @@
       "type": "type"
     }
   },
+ "download": {
+    "card": {
+      "title": "Download from Terra"
+    },
+    "table": {
+      "date": "date",
+      "text": "text",
+      "type": "type"
+    }
+  },
+
   "privacy": {
     "title": "Privacy",
     "title_1": "Privacy and protection of personal data",

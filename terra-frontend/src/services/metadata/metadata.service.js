@@ -7,6 +7,7 @@ import {
   defaultGraphIntraForm,
   defaultTradeForm
 } from "@/common"
+
 export const metadataService = {
   getMetadata,
   getClassification,

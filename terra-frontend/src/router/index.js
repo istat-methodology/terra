@@ -84,6 +84,14 @@ let routes = [
     }
   },
   {
+    path: "/download",
+    name: "Download",
+    component: () => import("../views/download/Download"),
+    meta: {
+      authorize: []
+    }
+  },
+  {
     path: "*",
     redirect: "/"
   }
