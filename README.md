@@ -1,3 +1,5 @@
+<img src="docs/LogoTerraFull.png" alt="Logo">
+
 # TERRA - imporT ExpoRt netwoRk Analysis
 
 TERRA has been implemented by Istat's Team in the context of the **European Big Data Hackathon 2021** organized by Eurostat. 
