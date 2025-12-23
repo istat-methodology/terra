@@ -1,5 +1,5 @@
-<img src="docs/LogoTerraFull.png" alt="Logo">
-
+<img src="docs/LogoTerraFull.png" width=800 alt="Logo">
+<br>
 TERRA has been implemented by Istat's Team in the context of the **European Big Data Hackathon 2021** organized by Eurostat. 
 
 It is an open source dashboard implemented using modern javascript frameworks ([Vue.js](https://vuejs.org/ "Vue.js")) and microservice architecture for the server components (currently we use Docker Containers). The implemented architecture is scalable and allows to integrate Python and R languages in a data processing pipeline.
