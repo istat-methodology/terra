@@ -107,9 +107,9 @@ export const options = {
     arrowStrikethrough: true,
     chosen: true,
     color: {
-      color: "#b1b7c1",
+      color: "#C7C6C1", //change this color to customize edge color #808080
       highlight: "#768192",
-      hover: "#FE0000", //"#768192",
+      hover: "#ab263c", //"#768192",
       inherit: "from",
       opacity: 1.0
     },
@@ -154,7 +154,7 @@ export const options = {
       }
     },
     hidden: false,
-    hoverWidth: 1.5,
+    hoverWidth: 2,
     label: undefined,
     labelHighlightBold: true,
     length: undefined,
@@ -197,7 +197,7 @@ export const options = {
     },
     title: undefined,
     value: undefined,
-    width: 1,
+    width: 2,
     widthConstraint: false
   },
   physics: {
@@ -382,4 +382,58 @@ export function containsAllTransports(transports) {
     allTransports = transports.filter((tr) => tr.id == 99)
   }
   return allTransports.length > 0
+}
+
+/**
+ * Edge styling utilities
+ *
+ * This module defines a set of helper functions and constants used to
+ * control the visual encoding of edges in network graphs.
+ *
+ * The styling logic is intentionally adaptive:
+ * - when the number of edges exceeds a given threshold, the network is
+ *   considered too dense for fine-grained visual encodings and all edges
+ *   are rendered using a uniform color and width;
+ * - when the network is sufficiently sparse, edge color and width encode
+ *   relative edge strength using a quantile-based classification.
+ *
+ * This approach balances visual clarity and information content, ensuring
+ * that network structure remains readable while still conveying meaningful
+ * differences in edge strength when possible.
+ */
+
+export const MAX_EDGES_FOR_DETAIL = 30
+
+export const GRAY_PALETTE = [
+  "#d6d6d6",
+  "#bcbcbc",
+  "#9a9a9a",
+  "#787878",
+  "#4f4f4f"
+]
+
+export const DENSE_EDGE_STYLE = {
+  color: "#bcbcbc",
+  width: 1.5
+}
+
+export function getWeightClassQuantile(weight, sortedWeights) {
+  const idx = sortedWeights.findIndex((w) => w >= weight)
+  const rank = idx / sortedWeights.length
+
+  if (rank < 0.2) return 0
+  if (rank < 0.4) return 1
+  if (rank < 0.6) return 2
+  if (rank < 0.8) return 3
+  return 4
+}
+
+export function getEdgeWidthQuantile(cls) {
+  return 1.0 + cls * 0.4
+}
+
+// eslint-disable-next-line no-unused-vars
+export function getEdgeTooltip(e, cls) {
+  //return "Weight: " + e.weight.toFixed(3) + ", Quantile: Q" + (cls + 1)
+  return "Weight: " + e.weight.toFixed(3)
 }
