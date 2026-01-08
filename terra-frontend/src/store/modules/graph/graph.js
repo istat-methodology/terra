@@ -87,7 +87,10 @@ const getters = {
         color: {
           color: DENSE_EDGE_STYLE.color
         },
-        width: DENSE_EDGE_STYLE.width
+        width: DENSE_EDGE_STYLE.width,
+        title: getEdgeTooltip(e),
+        weight: e.weight,
+        value_in_euro: e.VALUE_IN_EUROS
       }))
     }
 
@@ -105,7 +108,9 @@ const getters = {
           color: GRAY_PALETTE[cls]
         },
         width: getEdgeWidthQuantile(cls),
-        title: getEdgeTooltip(e, cls)
+        title: getEdgeTooltip(e),
+        weight: e.weight,
+        value_in_euro: e.VALUE_IN_EUROS
       }
     })
   },

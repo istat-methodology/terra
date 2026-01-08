@@ -307,6 +307,10 @@ export default {
           row += columnDelimiter
           row += "to"
           row += columnDelimiter
+          row += "weight"
+          row += columnDelimiter
+          row += "value_in_euro"
+          row += columnDelimiter
           result += row.slice(0, -1) //remove last column delimiter
           result += rowDelimiter
 
@@ -315,6 +319,10 @@ export default {
             row += this.edges[edgeId].from
             row += columnDelimiter
             row += this.edges[edgeId].to
+            row += columnDelimiter
+            row += this.edges[edgeId].weight.toFixed(4)
+            row += columnDelimiter
+            row += this.edges[edgeId].value_in_euro
 
             row += columnDelimiter
             result += row.slice(0, -1) //remove last column delimiter

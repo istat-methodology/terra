@@ -28,13 +28,13 @@
           <span class="pl-2" v-if="nodeMetric">
             <span
               class="text-primary"
-              :title="$t('graph.stats.country') + ' ' + nodeMetric.country"
+              :title="$t('graph.stats.country') + ' ' + countryDescription"
               >{{ $t("graph.stats.country") }} </span
-            >{{ nodeMetric.country }}
+            >{{ countryDescription }}
             <span
               class="text-primary"
               :title="$t('graph.stats.degree') + ' ' + nodeMetric.degree"
-              >{{ $t("graph.stats.degree") }} </span
+              >, {{ $t("graph.stats.degree") }} </span
             >{{ nodeMetric.degree }}
             <span
               class="text-primary"
@@ -49,7 +49,7 @@
               :title="
                 $t('graph.stats.out_degree') + ' ' + nodeMetric.out_degree
               "
-              >{{ $t("graph.stats.out_degree") }} </span
+              >, {{ $t("graph.stats.out_degree") }} </span
             >{{ nodeMetric.out_degree }}
             <span
               class="text-primary"
@@ -144,7 +144,10 @@ export default {
   }),
   computed: {
     ...mapGetters("coreui", ["isItalian"]),
-    ...mapGetters("classification", { transportCls: "transports" }),
+    ...mapGetters("classification", {
+      transportCls: "transports",
+      partners: "partners"
+    }),
     title() {
       return this.isIntra
         ? this.$t("graph.titleIntra")
@@ -188,6 +191,13 @@ export default {
     },
     graphDensity() {
       return this.metrics ? this.metrics.density.toFixed(2) : 0
+    },
+    countryDescription() {
+      if (!this.nodeMetric?.country) return ""
+
+      const match = this.partners.find((p) => p.id === this.nodeMetric.country)
+
+      return match ? match.descr : this.nodeMetric.country
     }
   },
 
@@ -402,7 +412,9 @@ export default {
       for (var edgeId in this.edges) {
         edges.push({
           from: this.edges[edgeId].from,
-          to: this.edges[edgeId].to
+          to: this.edges[edgeId].to,
+          weight: this.edges[edgeId].weight.toFixed(4),
+          value_in_euro: this.edges[edgeId].value_in_euro
         })
       }
       for (var nodeId in this.nodes) {

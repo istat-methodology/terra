@@ -98,7 +98,7 @@
             {{ $t("timeseries.form.fields.flow") }}
             <v-select
               label="descr"
-              :options="flows"
+              :options="flowsTs"
               :placeholder="$t('timeseries.form.fields.flow_placeholder')"
               v-model="flow"
               :class="{
@@ -240,7 +240,7 @@ export default {
       "loaded",
       "countries",
       "partners",
-      "flows",
+      "flowsTs",
       "dataTypes",
       "varTypes",
       "productsCPA"

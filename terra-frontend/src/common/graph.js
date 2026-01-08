@@ -402,7 +402,7 @@ export function containsAllTransports(transports) {
  * differences in edge strength when possible.
  */
 
-export const MAX_EDGES_FOR_DETAIL = 30
+export const MAX_EDGES_FOR_DETAIL = 50
 
 export const GRAY_PALETTE = [
   "#d6d6d6",
@@ -433,7 +433,7 @@ export function getEdgeWidthQuantile(cls) {
 }
 
 // eslint-disable-next-line no-unused-vars
-export function getEdgeTooltip(e, cls) {
+export function getEdgeTooltip(e) {
   //return "Weight: " + e.weight.toFixed(3) + ", Quantile: Q" + (cls + 1)
   return "Weight: " + e.weight.toFixed(3)
 }

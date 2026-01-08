@@ -62,7 +62,7 @@
           {{ $t("sidebar.news") }}
         </a>
       </div>
-      <div class="c-sidebar-nav-item">
+      <!--div class="c-sidebar-nav-item">
         <a
           @click="handleDownload()"
           @keypress="handleDownload()"
@@ -78,8 +78,8 @@
             :title="$t('sidebar.download')" />
           {{ $t("sidebar.download") }}
         </a>
-      </div>
-      <div class="c-sidebar-nav-item">
+      </div-->
+      <!--div class="c-sidebar-nav-item">
         <a
           @click="handleAPI()"
           @keypress="handleAPI()"
@@ -95,7 +95,7 @@
             :title="$t('sidebar.api')" />
           {{ $t("sidebar.api") }}
         </a>
-      </div>
+      </div-->
       <div class="c-sidebar-nav-title pb-2">
         {{ $t("sidebar.analysis") }}
       </div>

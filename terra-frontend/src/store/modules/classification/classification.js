@@ -46,12 +46,23 @@ const state = {
     }
   ],
   flows: [
-    /*{
+    {
       id: 0,
       descr_en: "Average",
       descr_it: "Media"
     },
-    */
+    {
+      id: 1,
+      descr_en: "Import",
+      descr_it: "Import"
+    },
+    {
+      id: 2,
+      descr_en: "Export",
+      descr_it: "Export"
+    }
+  ],
+  flowsTs: [
     {
       id: 1,
       descr_en: "Import",
@@ -256,6 +267,16 @@ const getters = {
     const lan = rootGetters["coreui/language"]
     const descrKey = "descr_" + lan
     return state.flows.map((obj) => {
+      return {
+        id: obj.id,
+        descr: obj[descrKey]
+      }
+    })
+  },
+  flowsTs: (state, getters, rootState, rootGetters) => {
+    const lan = rootGetters["coreui/language"]
+    const descrKey = "descr_" + lan
+    return state.flowsTs.map((obj) => {
       return {
         id: obj.id,
         descr: obj[descrKey]
