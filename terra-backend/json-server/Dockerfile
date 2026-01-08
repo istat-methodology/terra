@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:18-alpine
 
 ARG DOCKER_TAG
 ENV APP_VERSION=$DOCKER_TAG
