@@ -19,7 +19,7 @@ load_dotenv()
 logger = utils.get_logger()
 utils.execute_preliminaries(logger)
 engine = orm.orm_setup(py_server_params.DB_SETTINGS)
-misc = functions.Misc(logger)
+misc = functions.Misc(engine,logger)
 graphs = functions.GraphEngine(engine, logger)
 timeseries  = functions.TimeSeries(engine, logger)
 
@@ -234,6 +234,28 @@ def ts():
     )
     response = Response(response=result, status=200, mimetype="application/json")
     return response
+
+@app.route("/downloadData", methods=["POST"])
+def downloadData():
+    logger.info("[TERRA] Data download...")
+
+    json_request = dict(request.json)
+
+    data_json = misc.extract_data_table(
+        product_class=json_request["product_class"],
+        period=json_request["period"],
+        country=json_request['country'],
+        partner=json_request['partner'],
+        product=json_request["product"],
+        flow=json_request["flow"],
+        criterion=json_request["criterion"],
+        transport=json_request["transport"],
+        limit=py_server_params.ENDPOINT_SETTINGS["DOWNLOAD_LIMIT"]
+    )
+    logger.info(f"[TERRA] Data download done!")
+
+    resp = Response(response=data_json, status=200, mimetype="application/json")
+    return resp
     
 if __name__ == '__main__':
     IP='0.0.0.0'

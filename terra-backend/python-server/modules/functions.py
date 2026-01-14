@@ -320,7 +320,8 @@ class GraphEngine():
 
 class Misc():
 
-    def __init__(self, logger):
+    def __init__(self, engine, logger):
+        self.engine = engine
         self.logger = logger
     
     def jsonpos2coord(self, jsonpos):
@@ -332,7 +333,63 @@ class Misc():
             coord[id] = np.array([x, y])
         self.logger.info("[TERRA] JSON2COORDINATES done!")
         return coord
+    
+    def extract_data_table(self, product_class, period, country, partner, product, flow, criterion, transport, limit):
+        self.logger.info("[TERRA] Preparing data table...")
 
+        table, column_selected, column_excluded, query = [], [], [], ""
+        
+        if product_class == "cpa" and flow == 1:
+            table = orm.comextImp
+        elif product_class == "cpa" and flow == 2:
+            table = orm.comextExp
+        elif product_class == "nstr":
+            table = orm.trExtraUE
+        
+        if criterion == 1:
+            column_selected = table.VALUE_IN_EUROS
+            column_excluded = table.QUANTITY_IN_KG
+        elif criterion == 2:
+            column_selected = table.QUANTITY_IN_KG
+            column_excluded = table.VALUE_IN_EUROS
+        
+        columns = [
+            getattr(table, attr.key)
+            for attr in table.__mapper__.column_attrs
+            if attr.key != column_excluded.key
+        ]
+
+        if column_selected not in columns:
+            columns.append(column_selected)
+
+        Session = sessionmaker(bind=self.engine)
+        session = Session()
+        query = session.query(*columns).filter(table.PERIOD == period)
+        if flow is not None and product_class == "nstr":
+            query = query.filter(table.FLOW == flow)
+        if country is not None:
+            query = query.filter(table.DECLARANT_ISO == country)
+        if partner is not None:
+            query = query.filter(table.PARTNER_ISO == partner)
+        if product is not None:
+            query = query.filter(table.PRODUCT == product)
+        if transport is not None and len(transport) > 0 and product_class == "nstr":
+            query = query.filter(table.TRANSPORT_MODE.in_(transport))
+        query = query.limit(limit)
+
+        query_result = query.all()
+        session.close()
+        
+        column_names = [c.key for c in columns]
+
+        data = [
+            dict(zip(column_names, row))
+            for row in query_result
+        ]
+
+        self.logger.info(f"Query length: {len(data)}")
+        self.logger.info("[TERRA] Data table ready!")
+        return json.dumps(data, default=str)
 
 class TimeSeries():
 

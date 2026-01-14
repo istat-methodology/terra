@@ -19,7 +19,8 @@ DB_SETTINGS : dict[str, str] = {
 ENDPOINT_SETTINGS: dict[str, str] = {
     "CRITERION": "VALUE_IN_EUROS", # VALUE IN EUROS | QUANTITY_IN_KG
     "MAX_NODES": 70,
-    "CHUNK_SIZE": 5
+    "CHUNK_SIZE": 5,
+    "DOWNLOAD_LIMIT": 100000
 }
 
 file_names: dict[str, str] = {
