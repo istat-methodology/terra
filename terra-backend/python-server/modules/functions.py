@@ -334,7 +334,7 @@ class Misc():
         self.logger.info("[TERRA] JSON2COORDINATES done!")
         return coord
     
-    def extract_data_table(self, product_class, period, country, partner, product, flow, criterion, transport, limit):
+    def extract_data_table(self, product_class, period, country, flow, criterion, product=None, partner=None, transport=None):
         self.logger.info("[TERRA] Preparing data table...")
 
         table, column_selected, column_excluded, query = [], [], [], ""
@@ -375,7 +375,7 @@ class Misc():
             query = query.filter(table.PRODUCT == product)
         if transport is not None and len(transport) > 0 and product_class == "nstr":
             query = query.filter(table.TRANSPORT_MODE.in_(transport))
-        query = query.limit(limit)
+        query = query.limit(py_server_params.ENDPOINT_SETTINGS["DOWNLOAD_LIMIT"])
 
         query_result = query.all()
         session.close()

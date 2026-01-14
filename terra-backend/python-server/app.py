@@ -249,8 +249,7 @@ def downloadData():
         product=json_request["product"],
         flow=json_request["flow"],
         criterion=json_request["criterion"],
-        transport=json_request["transport"],
-        limit=py_server_params.ENDPOINT_SETTINGS["DOWNLOAD_LIMIT"]
+        transport=json_request["transport"]
     )
     logger.info(f"[TERRA] Data download done!")
 
