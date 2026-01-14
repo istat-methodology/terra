@@ -245,11 +245,11 @@ def downloadData():
         product_class=json_request["product_class"],
         period=json_request["period"],
         country=json_request['country'],
-        partner=json_request['partner'],
-        product=json_request["product"],
+        partner=json_request.get('partner', None),
+        product=json_request.get("product", None),
         flow=json_request["flow"],
         criterion=json_request["criterion"],
-        transport=json_request["transport"]
+        transport=json_request.get("transport", None)
     )
     logger.info(f"[TERRA] Data download done!")
 
