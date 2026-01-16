@@ -59,6 +59,7 @@ class DownloadAndExtractComextParallel():
                 with py7zr.SevenZipFile(zip_file_url) as z:
                     z.extractall(path=extract_path)
                     n_extracted += 1
+                os.remove(zip_file_url)
             except Exception as e:
                 self.logger.error(f'{filename}: Attempt {n_attempts}/{params.MAX_RETRY} failed. Unexpected {str(e)}; type: {str(type(e))}')
                 if attempt == params.MAX_RETRY - 1:

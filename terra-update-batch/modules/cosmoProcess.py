@@ -51,6 +51,7 @@ def createMonthlyFULLtable(db, path_to_scan, logger):
             ].to_sql(
                 "comext_full", conn, if_exists="append", index=False, chunksize=10000
             )
+            os.remove(filedat.path)
 
     for row in cur.execute("SELECT count(*) FROM comext_full "):
         logger.info("from count:" + str(count))
