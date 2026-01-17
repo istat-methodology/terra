@@ -85,11 +85,17 @@ def monthlyProcessing(db, logger):
         + filter_yyymm
         + " group by declarant_iso, period,flow;"
     )
+    conn.commit()
+    
     cur.execute("DROP TABLE IF EXISTS serie_per_mappa;")
     cur.execute(
         "Create table serie_per_mappa as select a.declarant_iso, a.period, a.flow, round(100.00*( (a.value_in_euros-b.value_in_euros)*1.0  / b.value_in_euros ),2) as TENDENZIALE from serie_per_mappa0 a, serie_per_mappa0 b where a.flow=b.flow and a.declarant_iso=b.declarant_iso and a.period=(b.period+100);"
     )
     conn.commit()
+
+    logger.info("Dropping table serie_per_mappa0 to free space ")
+    cur.execute("DROP TABLE IF EXISTS serie_per_mappa0;")
+    conn.commit()    
 
     # /* calcolo i valori per cpa */
 
@@ -104,7 +110,6 @@ def monthlyProcessing(db, logger):
         + filter_yyymm
         + " group by declarant_iso, flow, cpa2, period order by declarant_iso, flow, cpa2, period;"
     )
-
     conn.commit()
 
     # /* calcolo il valore totale */
@@ -121,6 +126,12 @@ def monthlyProcessing(db, logger):
     cur.execute(
         "create table quote_cpa as select a.declarant_iso, a.flow, a.cpa2, a.period, a.val_cpa, b.val_tot, a.q_cpa, b.q_tot, 100.0*a.val_cpa/b.val_tot as q_val_cpa, 100.0*a.q_cpa/b.q_tot as q_qua_cpa  from aggr_cpa a, aggr_tot b where a.declarant_iso=b.declarant_iso and a.flow=b.flow and a.period=b.period;"
     )
+    conn.commit()
+
+    logger.info("Dropping table aggr_cpa and aggr_tot to free space")
+    cur.execute("DROP TABLE IF EXISTS aggr_cpa;")
+    cur.execute("DROP TABLE IF EXISTS aggr_tot;")
+    conn.commit()
 
     # /* calcolo le variazioni */
     logger.info("Creating variazioni table ")
@@ -128,6 +139,7 @@ def monthlyProcessing(db, logger):
     cur.execute(
         "create table variazioni as select a.declarant_iso, a.flow, a.cpa2, a.period, a.val_cpa, round(100.0*(a.val_cpa-b.val_cpa)/b.val_cpa,2) as var_val_cpa, round(100.0*(a.q_val_cpa-b.q_val_cpa)/b.q_val_cpa,2) as var_val_basket, a.q_cpa, round(100.0*(a.q_cpa-b.q_cpa)/b.q_cpa,2) as var_q_cpa, round(100.0*(a.q_qua_cpa-b.q_qua_cpa)/b.q_qua_cpa,2) as var_qua_basket from quote_cpa a, quote_cpa b where a.declarant_iso=b.declarant_iso and a.flow=b.flow and a.cpa2=b.cpa2 and a.period=(b.period+100);"
     )
+    conn.commit()
 
     ## grafi in classificazione CPA e scambi tra paesi intra-UE
 
@@ -137,6 +149,7 @@ def monthlyProcessing(db, logger):
     cur.execute(
         "create table aggr_cpa2 as select declarant_iso, partner_iso, flow, cpa23 as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg from comext_full  WHERE IS_PRODUCT==1 group by declarant_iso, partner_iso, flow, cpa23, period order by declarant_iso, partner_iso, flow, cpa23, period;"
     )
+    conn.commit()
 
     # /* aggrego per cpa3 */
     logger.info("Creating table aggr_cpa3 ")
@@ -144,6 +157,7 @@ def monthlyProcessing(db, logger):
     cur.execute(
         "create table aggr_cpa3 as select declarant_iso, partner_iso, flow, cpa3 as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg from comext_full  WHERE IS_PRODUCT==1 group by declarant_iso, partner_iso, flow, cpa3, period order by declarant_iso, partner_iso, flow, cpa3, period;"
     )
+    conn.commit()
 
     # /* aggrego per cpa TOTAL 00 */
     logger.info("Creating table aggr_cpa_tot ")
@@ -151,6 +165,11 @@ def monthlyProcessing(db, logger):
     cur.execute(
         "create table aggr_cpa_tot as select declarant_iso, partner_iso, flow, '00' as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg from comext_full WHERE product_nc= 'TOTAL' group by declarant_iso, partner_iso, flow,  cpa, period;"
     )
+    conn.commit()
+
+    logger.info("Dropping table comext_full to free space ")
+    cur.execute("DROP TABLE IF EXISTS comext_full;")
+    conn.commit()
 
     # /*  view */
     logger.info("Creating table base_grafi_cpa ")
@@ -158,6 +177,13 @@ def monthlyProcessing(db, logger):
     cur.execute(
         "create table base_grafi_cpa as select * from  aggr_cpa2 where (1* substr(cpa,1,2) >0 and 1* substr(cpa,1,2) <37) union select * from  aggr_cpa3 where (1* substr(cpa,1,3) >0 and 1* substr(cpa,1,3) <370) union  select * from aggr_cpa_tot;"
     )
+    conn.commit()
+
+    logger.info("Dropping table aggr_cpa2, aggr_cpa3, aggr_cpa_tot to free space ")
+    cur.execute("DROP TABLE IF EXISTS aggr_cpa2;")
+    cur.execute("DROP TABLE IF EXISTS aggr_cpa3;")
+    cur.execute("DROP TABLE IF EXISTS aggr_cpa_tot;")
+    conn.commit()
 
     # /*  create table WORLD for all partners * add ALL COUNTRIES AC
     logger.info("Creating table base_grafi_cpa_wo ")
@@ -165,6 +191,7 @@ def monthlyProcessing(db, logger):
     cur.execute(
         "create table base_grafi_cpa_wo as select declarant_iso, 'AC' as partner_iso, flow, cpa, period, sum(val_cpa) as val_cpa,sum(q_kg) as q_kg from base_grafi_cpa group by declarant_iso, flow, cpa, period order by declarant_iso, flow, cpa, period; "
     )
+    conn.commit()
 
     # /*  view */
     logger.info("Creating table variazioni_cpa ")
@@ -172,6 +199,11 @@ def monthlyProcessing(db, logger):
     cur.execute(
         "create table variazioni_cpa as select a.declarant_iso, a.partner_iso, a.flow, a.cpa, a.period, a.val_cpa, round(100.00*((a.val_cpa-b.val_cpa)*1.00/b.val_cpa),2) as var_cpa, a.q_kg, round(100.00*(a.q_kg-b.q_kg)/b.q_kg,2)  as var_q_cpa  from base_grafi_cpa a, base_grafi_cpa b where a.declarant_iso=b.declarant_iso and a.partner_iso=b.partner_iso and a.flow=b.flow and a.cpa=b.cpa and a.period=(b.period+100) union all select a.declarant_iso, a.partner_iso,a.flow, a.cpa, a.period, a.val_cpa, 100*(a.val_cpa-b.val_cpa)/b.val_cpa as var_cpa, a.q_kg, 100*(a.q_kg-b.q_kg)/b.q_kg  as var_q_cpa from base_grafi_cpa_wo a, base_grafi_cpa_wo b where a.declarant_iso = b.declarant_iso 	and a.flow = b.flow and a.cpa = b.cpa and a.period =(b.period + 100) ; "
     )
+    conn.commit()
+
+    logger.info("Dropping table base_grafi_cpa_wo to free space ")
+    cur.execute("DROP TABLE IF EXISTS base_grafi_cpa_wo;")
+    conn.commit()
 
     filter_yyymm = str(params.start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(
         "%02d" % params.start_data_PAGE_GRAPH_INTRA_UE.month
@@ -190,6 +222,7 @@ def monthlyProcessing(db, logger):
         + filter_yyymm
         + ""
     )
+    conn.commit()
 
     # /*  basi trimestrali */
     logger.info("Creating table base_grafi_cpa_trim  ")
@@ -197,6 +230,11 @@ def monthlyProcessing(db, logger):
     cur.execute(
         "create table base_grafi_cpa_trim as select declarant_iso, partner_iso, flow,  cpa, trimestre, sum(val_cpa) as val_cpa, sum(q_kg) as q_kg from per_trimestri group by declarant_iso, partner_iso, flow, cpa, trimestre;"
     )
+    conn.commit()
+
+    logger.info("Dropping table per_trimestri to free space ")
+    cur.execute("DROP TABLE IF EXISTS per_trimestri;")
+    conn.commit()
 
     logger.info("Creating END ")
     if conn:
