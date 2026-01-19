@@ -46,7 +46,7 @@ MAIL_SETTINGS         : dict[str, str]  = {
 
 # SET TIME INTERVAL (IN MONTHS) FOR DOWNLOAD
 OFFSET_M                          : int = int(os.getenv("OFFSET_M", "3"))
-DOWNLOAD_TIME_INTERVAL_PRODUCT_M  : int = int(os.getenv("DOWNLOAD_TIME_INTERVAL_PRODUCT_M", "60"))
+DOWNLOAD_TIME_INTERVAL_PRODUCT_M  : int = int(os.getenv("DOWNLOAD_TIME_INTERVAL_PRODUCT_M", "144"))
 DOWNLOAD_TIME_INTERVAL_TRANSPORT_M: int = int(os.getenv("DOWNLOAD_TIME_INTERVAL_TRANSPORT_M", "60"))
 MAX_RETRY                         : int = int(os.getenv("MAX_RETRY", "5"))
 RETRY_WAIT                        : int = int(os.getenv("RETRY_WAIT", "5"))
@@ -77,7 +77,7 @@ DATA_FOLDER_PARENT = (
     WORKING_FOLDER + os.sep + "data" + (("__" + job_id) if (job_id != "") else "")
 )
 
-processing_day = datetime.datetime.today()
+processing_day = datetime.datetime.today()  - relativedelta(years=4)
 #this_year = processing_day.year
 #this_month = "%02d" % processing_day.month
 this_year_month = processing_day.year * 100 + processing_day.month
