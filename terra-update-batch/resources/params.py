@@ -77,7 +77,7 @@ DATA_FOLDER_PARENT = (
     WORKING_FOLDER + os.sep + "data" + (("__" + job_id) if (job_id != "") else "")
 )
 
-processing_day = datetime.datetime.today()  - relativedelta(years=4)
+processing_day = datetime.datetime.today()
 #this_year = processing_day.year
 #this_month = "%02d" % processing_day.month
 this_year_month = processing_day.year * 100 + processing_day.month
