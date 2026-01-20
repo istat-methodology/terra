@@ -233,6 +233,15 @@ export default {
     simpleMapScreenshoter: {}
   }),
   watch: {
+    mapPeriod(newPeriod) {
+      if (
+        !this.seriesPeriod ||
+        !newPeriod ||
+        !newPeriod.some((item) => item.id === this.seriesPeriod)
+      ) {
+        this.seriesPeriod = this.getCenteredPeriod(newPeriod, this.seriesPeriod)
+      }
+    },
     language() {
       this.$store.dispatch("message/success", this.$t("common.update_cls"))
       this.$store.dispatch("classification/getClassifications").then(() => {
@@ -419,6 +428,13 @@ export default {
     }
   },
   methods: {
+    getCenteredPeriod(range, fallback = null) {
+      if (Array.isArray(range) && range.length > 0) {
+        const midIndex = Math.floor(range.length / 2)
+        return range[midIndex].id
+      }
+      return fallback
+    },
     formatNumber(num) {
       if (num) {
         let n = parseFloat(num)
@@ -483,7 +499,7 @@ export default {
     },
     loadData() {
       this.$store.dispatch("coreui/setContext", Context.Map)
-      this.seriesPeriod = sliderDefault
+      this.seriesPeriod = this.getCenteredPeriod(this.mapPeriod, sliderDefault)
       this.getDataSeries("exportseries")
     },
     getMax() {

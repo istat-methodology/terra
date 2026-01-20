@@ -251,8 +251,6 @@ import {
   Context,
   Status,
   getScenarioNodes,
-  monthDefault,
-  trimesterDefault,
   getCleanTransports,
   getTransportIds,
   restoreAllProdId
@@ -307,13 +305,8 @@ export default {
       })
     },
     frequency() {
-      let descr_key = `descr_${this.$i18n.locale}`
-      this.currentTime = this.isTrimester
-        ? { id: trimesterDefault.id, selectName: trimesterDefault.descr }
-        : {
-            id: monthDefault.id,
-            selectName: monthDefault[descr_key]
-          }
+      this.currentTime =
+        this.getCenteredTime(this.timeRange) || this.currentTime
     }
   },
   computed: {
@@ -443,6 +436,13 @@ export default {
     }
   },
   methods: {
+    getCenteredTime(range, fallback = null) {
+      if (Array.isArray(range) && range.length > 0) {
+        const midIndex = Math.floor(range.length / 2)
+        return range[midIndex]
+      }
+      return fallback
+    },
     handleTimeChange(time) {
       this.currentTime = time
       if (this.graphForm) {
@@ -553,8 +553,8 @@ export default {
             collapse
           }) => {
             // Default state
-            this.currentTime = time
             this.frequency = frequency
+            this.currentTime = this.getCenteredTime(this.timeRange, time)
             this.percentage = percentage
             this.transport = this.isIntra ? null : transport
             this.product = product
