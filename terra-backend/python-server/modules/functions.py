@@ -48,27 +48,25 @@ class GraphEngine():
         self.logger.info("[TERRA] Calculating graph metrics...")
         self.logger.info(f"Graph: {graph}")
 
-        vulnerability = {}
-        in_deg = nx.in_degree_centrality(graph)
-        for k, v in in_deg.items():
-            if v != 0:
-                vulnerability[k] = 1 - v
-            else:
-                vulnerability[k] = 0
-        
         graph_metrics = {}
         graph_metrics = {
             "density": nx.density(graph),
-            "degree": {a: b for a, b in graph.degree(weight="weight")},
-            "vulnerability": vulnerability,
+            "degree": {a: b for a, b in graph.degree()},
+            "degree_weighted": {a: b for a, b in graph.degree(weight="weight")},
             "out_degree": {
+                a: b for a, b in graph.out_degree()
+            },
+            "out_degree_weighted": {
                 a: b for a, b in graph.out_degree(weight="weight")
             },
-            "closeness": nx.closeness_centrality(graph, distance="inv_weight"),
-            "betweenness": nx.betweenness_centrality(graph, weight="inv_weight"),
             "in_degree": {
+                a: b for a, b in graph.in_degree()
+            },
+            "in_degree_weighted": {
                 a: b for a, b in graph.in_degree(weight="weight")
             },
+            "closeness_weighted": nx.closeness_centrality(graph, distance="inv_weight"),
+            "betweenness_weighted": nx.betweenness_centrality(graph, weight="inv_weight"),
             "distinctiveness": distinctiveness(graph.to_undirected(), alpha = 1, normalize = True, measures = ["D1"])["D1"]
         }
 
@@ -435,7 +433,7 @@ class TimeSeries():
         return dict_c_data
     
     # orm_table is comextImp
-    def ts(self, table_import, table_export, flow, var_cpa, country_code, partner_code, data_type, tipo_var):
+    def ts(self, table_import, table_export, flow, var_cpa, country_code, partner_code, data_type, var_type):
         self.logger.info("[TERRA] Calculating time series...")
         try:
             flow_table, column_selection, query = [], [], ""
@@ -445,9 +443,9 @@ class TimeSeries():
             elif flow == 2:
                 flow_table = table_export
             
-            if tipo_var == 1:
+            if var_type == 1:
                 column_selection = flow_table.VALUE_IN_EUROS
-            elif tipo_var == 2:
+            elif var_type == 2:
                 column_selection = flow_table.QUANTITY_IN_KG
             
             Session = sessionmaker(bind=self.engine)

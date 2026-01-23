@@ -220,7 +220,7 @@ def ts():
     country = jsonRequest['country']
     partner = jsonRequest['partner']
     dataType = jsonRequest['dataType']
-    tipovar = jsonRequest['tipovar'] # cambiare da tipovar a vartype
+    vartype = jsonRequest['vartype']
     
     result = timeseries.ts(
          table_import=orm.comextImp,
@@ -230,7 +230,7 @@ def ts():
          country_code=country,
          partner_code=partner,
          data_type=dataType,
-         tipo_var=tipovar
+         var_type=vartype
     )
     response = Response(response=result, status=200, mimetype="application/json")
     return response
