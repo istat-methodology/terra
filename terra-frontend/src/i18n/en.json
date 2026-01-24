@@ -63,7 +63,7 @@
   "sidebar": {
     "home": "Home",
     "api": "Api",
-    "download":"Download",
+    "download": "Download",
     "news": "News",
     "analysis": "COMEXT data analysis",
     "map": "Interactive map",
@@ -71,7 +71,7 @@
     "graphWorld": "Graph EU - World",
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
-    "trade": "Basket of traded products",       
+    "trade": "Basket of traded products",
     "logo_istat": "Istat Logo",
     "goto_istat": "Go to www.istat.it",
     "opens_goto_istat": "Opens in a new window: ISTAT",
@@ -181,12 +181,15 @@
     "stats": {
       "country": "Country:",
       "density": "Density:",
-      "centrality": "Centrality:",
       "degree": "Degree:",
+      "degree_weighted": "Degree (weighted):",
       "vulnerability": "Vulnerability:",
       "out_degree": "Outdegree:",
-      "closeness": "Closeness:",
-      "betweenness": "Betweenness:",
+      "out_degree_weighted": "Outdegree (weighted):",
+      "in_degree": "Indegree:",
+      "in_degree_weighted": "Indegree (weighted):",
+      "closeness_weighted": "Closeness (weighted):",
+      "betweenness_weighted": "Betweenness (weighted):",
       "distinctiveness": "Distinctiveness:"
     },
     "form": {
@@ -224,12 +227,14 @@
           "code": "Code",
           "name": "Name",
           "degree": "Degree",
+          "degree_weighted": "Degree (weighted)",
           "vulnerability": "Vulnerability",
-          "hubness": "Closeness centrality",
-          "export_strenght": "Outdegree centrality",
           "out_degree": "Outdegree",
-          "closeness": "Closeness",
-          "betweenness": "Betweenness",
+          "out_degree_weighted": "Outdegree (weighted)",
+          "in_degree": "Indegree",
+          "in_degree_weighted": "Indegree (weighted)",
+          "closeness_weighted": "Closeness (weighted)",
+          "betweenness_weighted": "Betweenness (weighted)",
           "distinctiveness": "Distinctiveness"
         }
       }
@@ -363,7 +368,7 @@
       "type": "type"
     }
   },
- "download": {
+  "download": {
     "card": {
       "title": "Download from Terra"
     },
@@ -373,7 +378,6 @@
       "type": "type"
     }
   },
-
   "privacy": {
     "title": "Privacy",
     "title_1": "Privacy and protection of personal data",

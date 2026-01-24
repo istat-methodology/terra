@@ -11,7 +11,7 @@ function findByFilters(form) {
     country: form.country,
     partner: form.partner,
     dataType: form.dataType,
-    tipovar: form.varType
+    varType: form.varType
   }
   const params = object
 

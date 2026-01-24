@@ -39,11 +39,12 @@
             <span
               class="text-primary"
               :title="
-                $t('graph.stats.vulnerability') + '' + nodeMetric.vulnerability
+                $t('graph.stats.degree_weighted') +
+                ' ' +
+                nodeMetric.degree_weighted
               "
-              >, {{ $t("graph.stats.vulnerability") }}
-            </span>
-            {{ formatNumber(nodeMetric.vulnerability) }}
+              >, {{ $t("graph.stats.degree_weighted") }} </span
+            >{{ nodeMetric.degree_weighted }}
             <span
               class="text-primary"
               :title="
@@ -53,16 +54,45 @@
             >{{ nodeMetric.out_degree }}
             <span
               class="text-primary"
-              :title="$t('graph.stats.closeness') + ' ' + nodeMetric.closeness"
-              >, {{ $t("graph.stats.closeness") }} </span
-            >{{ formatNumber(nodeMetric.closeness) }}
+              :title="
+                $t('graph.stats.out_degree_weighted') +
+                ' ' +
+                nodeMetric.out_degree_weighted
+              "
+              >, {{ $t("graph.stats.out_degree_weighted") }} </span
+            >{{ nodeMetric.out_degree_weighted }}
+            <span
+              class="text-primary"
+              :title="$t('graph.stats.in_degree') + ' ' + nodeMetric.in_degree"
+              >, {{ $t("graph.stats.in_degree") }} </span
+            >{{ nodeMetric.in_degree }}
             <span
               class="text-primary"
               :title="
-                $t('graph.stats.betweenness') + ' ' + nodeMetric.betweenness
+                $t('graph.stats.in_degree_weighted') +
+                ' ' +
+                nodeMetric.in_degree_weighted
               "
-              >, {{ $t("graph.stats.betweenness") }} </span
-            >{{ formatNumber(nodeMetric.betweenness) }}
+              >, {{ $t("graph.stats.in_degree_weighted") }} </span
+            >{{ nodeMetric.in_degree_weighted }}
+            <span
+              class="text-primary"
+              :title="
+                $t('graph.stats.closeness_weighted') +
+                ' ' +
+                nodeMetric.closeness_weighted
+              "
+              >, {{ $t("graph.stats.closeness_weighted") }} </span
+            >{{ formatNumber(nodeMetric.closeness_weighted) }}
+            <span
+              class="text-primary"
+              :title="
+                $t('graph.stats.betweenness_weighted') +
+                ' ' +
+                nodeMetric.betweenness_weighted
+              "
+              >, {{ $t("graph.stats.betweenness_weighted") }} </span
+            >{{ formatNumber(nodeMetric.betweenness_weighted) }}
             <span
               class="text-primary"
               :title="

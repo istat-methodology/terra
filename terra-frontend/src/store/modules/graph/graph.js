@@ -64,7 +64,7 @@ const actions = {
         getUInodes(data.nodes, rootGetters["classification/partners"])
       )
       commit("SET_EDGES", data.edges)
-      commit("SET_METRICS", data.metriche)
+      commit("SET_METRICS", data.metrics)
       commit(
         "SET_METRICS_TABLE",
         buildMetrics(data, rootGetters["classification/partners"])

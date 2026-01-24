@@ -1,6 +1,7 @@
 import os
 import numpy as np
 from dotenv import load_dotenv
+from urllib.parse import quote_plus
 
 load_dotenv()
 
@@ -8,10 +9,29 @@ product_digits: int = 3
 
 ######## ENVIRONMENT VARIABLES #########
 
-KEY_VAULT_NAME : str  = os.getenv("KEY_VAULT_NAME", "")
+KEY_VAULT_NAME: str = os.getenv("KEY_VAULT_NAME", "")
 
-DB_SETTINGS : dict[str, str] = {
-    "CONNECTION_STRING": os.getenv("DB_CONNECTION_STRING", "")
+DB_PROVIDER: str = os.getenv("DB_PROVIDER", "mssql+pyodbc")
+DB_SERVER: str   = os.getenv("DB_SERVER", "")
+DB_NAME: str     = os.getenv("DB_NAME", "")
+DB_DRIVER: str   = os.getenv("DB_DRIVER", "ODBC Driver 17 for SQL Server")
+DB_USER: str     = os.getenv("DB_USER", "")
+DB_PASS: str     = os.getenv("DB_PASS", "")
+
+# ---- SAFE URL ENCODING ----
+db_user_enc   = quote_plus(DB_USER)
+db_pass_enc   = quote_plus(DB_PASS)
+db_driver_enc = quote_plus(DB_DRIVER)
+
+DB_CONNECTION_STRING: str = (
+    f"{DB_PROVIDER}://{db_user_enc}:{db_pass_enc}"
+    f"@{DB_SERVER}/{DB_NAME}"
+    f"?driver={db_driver_enc}"
+    f"&Encrypt=yes&TrustServerCertificate=no"
+)
+
+DB_SETTINGS: dict[str, str] = {
+    "CONNECTION_STRING": DB_CONNECTION_STRING
 }
 
 ########################################

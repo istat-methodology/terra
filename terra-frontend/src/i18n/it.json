@@ -64,7 +64,7 @@
     "home": "Home",
     "analysis": "Analisi dati COMEXT",
     "api": "Api",
-    "download":"Download",
+    "download": "Download",
     "map": "Mappa Interattiva",
     "graphExtra": "Grafi UE - Extra UE",
     "graphWorld": "Grafi UE - Mondo",
@@ -180,12 +180,15 @@
     "stats": {
       "country": "Paese:",
       "density": "Density:",
-      "centrality": "Centrality:",
       "degree": "Degree:",
+      "degree_weighted": "Degree (weighted):",
       "vulnerability": "Vulnerability:",
       "out_degree": "Outdegree:",
-      "closeness": "Closeness:",
-      "betweenness": "Betweenness:",
+      "out_degree_weighted": "Outdegree (weighted):",
+      "in_degree": "Indegree:",
+      "in_degree_weighted": "Indegree (weighted):",
+      "closeness_weighted": "Closeness (weighted):",
+      "betweenness_weighted": "Betweenness (weighted):",
       "distinctiveness": "Distinctiveness:"
     },
     "form": {
@@ -249,12 +252,14 @@
           "code": "Codice",
           "name": "Nome",
           "degree": "Degree",
+          "degree_weighted": "Degree (weighted)",
           "vulnerability": "Vulnerability",
-          "hubness": "Closeness centrality",
-          "export_strenght": "Outdegree centrality",
           "out_degree": "Outdegree",
-          "closeness": "Closeness",
-          "betweenness": "Betweenness",
+          "out_degree_weighted": "Outdegree (weighted)",
+          "in_degree": "Indegree",
+          "in_degree_weighted": "Indegree (weighted)",
+          "closeness_weighted": "Closeness (weighted)",
+          "betweenness_weighted": "Betweenness (weighted)",
           "distinctiveness": "Distinctiveness"
         }
       }

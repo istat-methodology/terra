@@ -309,11 +309,18 @@ export function getCentrality(nodes, nodeId, metrics) {
   if (selectedNode) {
     nodeMetric = {
       country: selectedNode.label,
-      degree: metrics.degree[selectedNode.label].toFixed(2),
-      vulnerability: metrics.vulnerability[selectedNode.label].toFixed(2),
-      out_degree: metrics.out_degree[selectedNode.label].toFixed(2),
-      closeness: metrics.closeness[selectedNode.label].toFixed(2),
-      betweenness: metrics.betweenness[selectedNode.label].toFixed(2),
+      degree: metrics.degree[selectedNode.label],
+      degree_weighted: metrics.degree_weighted[selectedNode.label].toFixed(2),
+      out_degree: metrics.out_degree[selectedNode.label],
+      out_degree_weighted:
+        metrics.out_degree_weighted[selectedNode.label].toFixed(2),
+      in_degree: metrics.in_degree[selectedNode.label],
+      in_degree_weighted:
+        metrics.in_degree_weighted[selectedNode.label].toFixed(2),
+      closeness_weighted:
+        metrics.closeness_weighted[selectedNode.label].toFixed(2),
+      betweenness_weighted:
+        metrics.betweenness_weighted[selectedNode.label].toFixed(2),
       distinctiveness: metrics.distinctiveness[selectedNode.label].toFixed(2)
     }
   }
@@ -326,12 +333,17 @@ export function buildMetrics(data, countries) {
       metrics.push({
         label: node.label,
         name: getCountryName(countries, node.label),
-        degree: data.metriche.degree[node.label].toFixed(2),
-        vulnerability: data.metriche.vulnerability[node.label].toFixed(2),
-        out_degree: data.metriche.out_degree[node.label].toFixed(2),
-        closeness: data.metriche.closeness[node.label].toFixed(2),
-        betweenness: data.metriche.betweenness[node.label].toFixed(2),
-        distinctiveness: data.metriche.distinctiveness[node.label].toFixed(2)
+        degree: data.metrics.degree[node.label].toFixed(2),
+        degree_weighted: data.metrics.degree_weighted[node.label],
+        out_degree: data.metrics.out_degree[node.label].toFixed(2),
+        out_degree_weighted: data.metrics.out_degree_weighted[node.label],
+        in_degree: data.metrics.in_degree[node.label].toFixed(2),
+        in_degree_weighted: data.metrics.in_degree_weighted[node.label],
+        closeness_weighted:
+          data.metrics.closeness_weighted[node.label].toFixed(2),
+        betweenness_weighted:
+          data.metrics.betweenness_weighted[node.label].toFixed(2),
+        distinctiveness: data.metrics.distinctiveness[node.label].toFixed(2)
       })
     })
   return metrics

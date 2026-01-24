@@ -290,7 +290,7 @@ export default {
     selectedCollapse: null,
     //Graph
     graphForm: null,
-    sorterValue: { column: "vulnerability", asc: false },
+    sorterValue: { column: "degree", asc: false },
     //Spinner
     spinner: false,
     //Modal
@@ -363,8 +363,8 @@ export default {
           _style: "width:12%"
         },
         {
-          key: "vulnerability",
-          label: this.$t("graph.metrics.table.fields.vulnerability"),
+          key: "degree_weighted",
+          label: this.$t("graph.metrics.table.fields.degree_weighted"),
           _style: "width:12%"
         },
         {
@@ -373,13 +373,28 @@ export default {
           _style: "width:12%"
         },
         {
-          key: "closeness",
-          label: this.$t("graph.metrics.table.fields.closeness"),
+          key: "out_degree_weighted",
+          label: this.$t("graph.metrics.table.fields.out_degree_weighted"),
           _style: "width:12%"
         },
         {
-          key: "betweenness",
-          label: this.$t("graph.metrics.table.fields.betweenness"),
+          key: "in_degree",
+          label: this.$t("graph.metrics.table.fields.in_degree"),
+          _style: "width:12%"
+        },
+        {
+          key: "in_degree_weighted",
+          label: this.$t("graph.metrics.table.fields.in_degree_weighted"),
+          _style: "width:12%"
+        },
+        {
+          key: "closeness_weighted",
+          label: this.$t("graph.metrics.table.fields.closeness_weighted"),
+          _style: "width:12%"
+        },
+        {
+          key: "betweenness_weighted",
+          label: this.$t("graph.metrics.table.fields.betweenness_weighted"),
           _style: "width:12%"
         },
         {
@@ -395,10 +410,13 @@ export default {
           label: field.label,
           name: field.name,
           degree: field.degree,
-          vulnerability: field.vulnerability,
+          degree_weighted: field.degree_weighted,
           out_degree: field.out_degree,
-          closeness: field.closeness,
-          betweenness: field.betweenness,
+          out_degree_weighted: field.out_degree_weighted,
+          in_degree: field.in_degree,
+          in_degree_weighted: field.in_degree_weighted,
+          closeness_weighted: field.closeness_weighted,
+          betweenness_weighted: field.betweenness_weighted,
           distinctiveness: field.distinctiveness
         }
       })
@@ -624,23 +642,36 @@ export default {
           datacsv.push({
             label: field.label,
             name: field.name,
-            degree: this.formatNumber(field.degree),
-            vulnerability: this.formatNumber(field.vulnerability),
-            out_degree: this.formatNumber(field.out_degree),
-            closeness: this.formatNumber(field.closeness),
-            betweenness: this.formatNumber(field.betweenness),
-            distinctiveness: this.formatNumber(field.distinctiveness)
+            degree: this.formatInteger(field.degree),
+            degree_weighted: this.formatFloat(field.degree_weighted),
+            out_degree: this.formatInteger(field.out_degree),
+            out_degree_weighted: this.formatFloat(field.out_degree_weighted),
+            in_degree: this.formatInteger(field.in_degree),
+            in_degree_weighted: this.formatFloat(field.in_degree_weighted),
+            closeness_weighted: this.formatFloat(field.closeness_weighted),
+            betweenness_weighted: this.formatFloat(field.betweenness_weighted),
+            distinctiveness: this.formatFloat(field.distinctiveness)
           })
         })
         return [datacsv, id]
       }
       return null
     },
-    formatNumber(num) {
-      if (num) {
-        let n = parseFloat(num)
-        return n ? n.toLocaleString(this.$i18n.locale) : "-"
+    formatFloat(num, decimals = 2) {
+      if (num !== null && num !== undefined) {
+        const n = Number(num)
+        return Number.isFinite(n)
+          ? n.toLocaleString(this.$i18n.locale, {
+              minimumFractionDigits: decimals,
+              maximumFractionDigits: decimals
+            })
+          : "0"
       }
+      return "0"
+    },
+    formatInteger(num) {
+      const n = Number.parseInt(num, 10)
+      return Number.isFinite(n) ? n.toLocaleString(this.$i18n.locale) : "0"
     },
     fixSliderAccessibility() {
       setTimeout(() => {

@@ -28,19 +28,44 @@
           {{ item.name }}
         </td>
       </template>
-      <template #vulnerability="{ item }">
+      <template #degree="{ item }">
+        <td headers="head_1" class="col-right">
+          {{ formatInteger(item.degree) }}
+        </td>
+      </template>
+      <template #degree_weighted="{ item }">
         <td headers="head_2" class="col-right">
-          {{ formatNumber(item.vulnerability) }}
+          {{ formatFloat(item.degree_weighted) }}
         </td>
       </template>
-      <template #hubness="{ item }">
+      <template #out_degree="{ item }">
         <td headers="head_3" class="col-right">
-          {{ formatNumber(item.hubness) }}
+          {{ formatInteger(item.out_degree) }}
         </td>
       </template>
-      <template #exportStrenght="{ item }">
+      <template #out_degree_weighted="{ item }">
         <td headers="head_4" class="col-right">
-          {{ formatNumber(item.exportStrenght) }}
+          {{ formatFloat(item.out_degree_weighted) }}
+        </td>
+      </template>
+      <template #in_degree="{ item }">
+        <td headers="head_5" class="col-right">
+          {{ formatInteger(item.in_degree) }}
+        </td>
+      </template>
+      <template #in_degree_weighted="{ item }">
+        <td headers="head_6" class="col-right">
+          {{ formatFloat(item.in_degree_weighted) }}
+        </td>
+      </template>
+      <template #betweenness_weighted="{ item }">
+        <td headers="head_5" class="col-right">
+          {{ formatFloat(item.betweenness_weighted) }}
+        </td>
+      </template>
+      <template #distinctiveness="{ item }">
+        <td headers="head_5" class="col-right">
+          {{ formatFloat(item.distinctiveness) }}
         </td>
       </template>
     </CDataTable>
@@ -68,11 +93,21 @@ export default {
     }
   },
   methods: {
-    formatNumber(num) {
-      if (num) {
-        let n = parseFloat(num)
-        return n ? n.toLocaleString(this.$i18n.locale) : "0"
+    formatFloat(num, decimals = 2) {
+      if (num !== null && num !== undefined) {
+        const n = Number(num)
+        return Number.isFinite(n)
+          ? n.toLocaleString(this.$i18n.locale, {
+              minimumFractionDigits: decimals,
+              maximumFractionDigits: decimals
+            })
+          : "0"
       }
+      return "0"
+    },
+    formatInteger(num) {
+      const n = Number.parseInt(num, 10)
+      return Number.isFinite(n) ? n.toLocaleString(this.$i18n.locale) : "0"
     },
     fixSortingTable() {
       if (this.$refs.metricsTable) {
