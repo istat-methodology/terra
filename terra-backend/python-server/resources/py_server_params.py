@@ -23,12 +23,15 @@ db_user_enc   = quote_plus(DB_USER)
 db_pass_enc   = quote_plus(DB_PASS)
 db_driver_enc = quote_plus(DB_DRIVER)
 
-DB_CONNECTION_STRING: str = (
+DB_CONNECTION_STRING_LOCAL: str = (
     f"{DB_PROVIDER}://{db_user_enc}:{db_pass_enc}"
     f"@{DB_SERVER}/{DB_NAME}"
     f"?driver={db_driver_enc}"
     f"&Encrypt=yes&TrustServerCertificate=no"
 )
+
+DB_CONNECTION_STRING: str = os.getenv("DB_CONNECTION_STRING", DB_CONNECTION_STRING_LOCAL)
+
 
 DB_SETTINGS: dict[str, str] = {
     "CONNECTION_STRING": DB_CONNECTION_STRING
