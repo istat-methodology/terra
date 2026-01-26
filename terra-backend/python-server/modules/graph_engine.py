@@ -334,7 +334,7 @@ class GraphEngine:
         out = pd.merge(df_nodes, df_coord, left_on="label", right_index=True)
         dict_nodes = out.T.to_dict().values()
 
-        dfe = pd.DataFrame(GG["links"])[["source", "target", "weight", criterion]]
+        dfe = pd.DataFrame(GG["edges"])[["source", "target", "weight", criterion]]
         res = dfe.set_index("source").join(out[["label", "id"]].set_index("label"), on="source", how="left")
         res.columns = ["target", "source_id", "weight", criterion]
         res2 = res.set_index("target").join(out[["label", "id"]].set_index("label"), on="target", how="left")
