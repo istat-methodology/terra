@@ -188,8 +188,8 @@
       "out_degree_weighted": "Outdegree (weighted):",
       "in_degree": "Indegree:",
       "in_degree_weighted": "Indegree (weighted):",
-      "closeness_weighted": "Closeness (weighted):",
-      "betweenness_weighted": "Betweenness (weighted):",
+      "closeness_weighted": "Closeness:",
+      "betweenness_weighted": "Betweenness:",
       "distinctiveness": "Distinctiveness:"
     },
     "form": {
@@ -233,8 +233,8 @@
           "out_degree_weighted": "Outdegree (weighted)",
           "in_degree": "Indegree",
           "in_degree_weighted": "Indegree (weighted)",
-          "closeness_weighted": "Closeness (weighted)",
-          "betweenness_weighted": "Betweenness (weighted)",
+          "closeness_weighted": "Closeness",
+          "betweenness_weighted": "Betweenness",
           "distinctiveness": "Distinctiveness"
         }
       }

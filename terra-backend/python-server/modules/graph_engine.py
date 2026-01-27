@@ -142,7 +142,7 @@ class GraphEngine:
 
         with self.Session() as session:
             if flow == 0:
-                # average across import/export (legacy behavior), keep TRANSPORT_MODE only if available
+                # average across import/export (legacy behavior)
                 queries = []
                 for f in (1, 2):
                     cols = [
@@ -150,8 +150,6 @@ class GraphEngine:
                         db_table.PARTNER_ISO if f == 2 else db_table.DECLARANT_ISO.label("PARTNER_ISO"),
                         func.sum(getattr(db_table, criterion)).label("VAL"),
                     ]
-                    if has_tm:
-                        cols.append(db_table.TRANSPORT_MODE.label("TRANSPORT_MODE"))
 
                     q = session.query(*cols).filter(db_table.FLOW == f)
 
@@ -161,28 +159,32 @@ class GraphEngine:
                         q = q.filter(db_table.TRANSPORT_MODE.in_(transport))
                     if product is not None and hasattr(db_table, "PRODUCT"):
                         q = q.filter(db_table.PRODUCT == product)
-                    if product is not None and hasattr(db_table, "PRODUCT_NSTR"):
-                        q = q.filter(db_table.PRODUCT_NSTR == product)
-
+                    
                     group_cols = [db_table.DECLARANT_ISO, db_table.PARTNER_ISO]
-                    if has_tm:
-                        group_cols.append(db_table.TRANSPORT_MODE)
+                    
                     q = q.group_by(*group_cols)
 
                     queries.append(q)
 
                 combined = union_all(*queries).alias("A")
 
+                # --- CORREZIONE QUI SOTTO ---
+                
+                # 1. Definiamo le colonne su cui raggruppare (quelle NON aggregate)
+                outer_group_cols = [
+                    combined.c.DECLARANT_ISO,
+                    combined.c.PARTNER_ISO
+                ]
+                
+                # 2. Definiamo le colonne da selezionare
                 select_cols = [
                     combined.c.DECLARANT_ISO,
                     combined.c.PARTNER_ISO,
                     func.avg(combined.c.VAL).label(criterion),
                 ]
-                if has_tm and hasattr(combined.c, "TRANSPORT_MODE"):
-                    select_cols.append(combined.c.TRANSPORT_MODE)
-
-                query = session.query(*select_cols)
-
+                
+                # 4. Aggiungiamo .group_by(*outer_group_cols) alla query finale
+                query = session.query(*select_cols).group_by(*outer_group_cols)
             else:
                 # select only what we need
                 select_cols = [
