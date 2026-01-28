@@ -490,7 +490,7 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
         logger.info("annual file ...")
         ieinfo.append(ieinfo_country)
 
-    with open(output_file, "w") as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         json.dump(ieinfo, f, ensure_ascii=False, indent=4, cls=cUtil.NpEncoder)
 
     return "Annual processing ok: file created " + output_file
