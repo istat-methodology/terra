@@ -5,6 +5,8 @@ import duckdb
 def monthlyProcessing(path_to_scan, logger):
     logger.info("SCANNED PATH: " + path_to_scan)
     with duckdb.connect() as con:
+        con.execute("SET threads=1")
+        con.execute("SET memory_limit='8GB'") 
         con.execute(
             f"""
             CREATE TEMP TABLE comext_full AS
