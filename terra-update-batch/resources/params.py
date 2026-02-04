@@ -215,7 +215,14 @@ FILENAMES: dict[str] = {
 
     "ANNUAL_POPULATION_CSV" : "annual_population.csv",
     "ANNUAL_INDUSTRIAL_PRODUCTION_CSV" : "annual_industrial_production.csv",
-    "ANNUAL_UNEMPLOYEMENT_CSV" : "annual_unemployment.csv"
+    "ANNUAL_UNEMPLOYEMENT_CSV" : "annual_unemployment.csv",
+
+    "DB_MAP_SERIES": "map_series.parquet",
+    "DB_VARIATIONS": "variations.parquet",
+    "DB_CPA_QUOTES": "cpa_quotes.parquet",
+    "DB_CPA_VARIATIONS": "cpa_variations.parquet",
+    "DB_BASE_GRAPH_CPA": "base_graph_cpa.parquet",
+    "DB_BASE_GRAPH_CPA_TRIM": "base_graph_cpa_trim.parquet"
 }
 
 FILES: dict[str] = {
@@ -258,6 +265,13 @@ FILES: dict[str] = {
     "TR_EXTRA_UE_CSV" : DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["TR_EXTRA_UE_CSV"],
     "TR_PRODUCT_CODE_CSV" : DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["TR_PRODUCT_CODE_CSV"],
     "TR_EXTRA_UE_TRIMESTRALI_CSV" : DIRECTORIES["TRANSPORT_MONTHLY_OUTPUT"] + os.sep + FILENAMES["TR_EXTRA_UE_TRIMESTRALI_CSV"],
+
+    "PROCESS_MAP_SERIES" : DIRECTORIES["PRODUCT"] + os.sep + FILENAMES["DB_MAP_SERIES"],
+    "PROCESS_VARIATIONS" : DIRECTORIES["PRODUCT"] + os.sep + FILENAMES["DB_VARIATIONS"],
+    "PROCESS_CPA_QUOTES" : DIRECTORIES["PRODUCT"] + os.sep + FILENAMES["DB_CPA_QUOTES"],
+    "PROCESS_CPA_VARIATIONS" : DIRECTORIES["PRODUCT"] + os.sep + FILENAMES["DB_CPA_VARIATIONS"],
+    "PROCESS_BASE_GRAPH_CPA" : DIRECTORIES["PRODUCT"] + os.sep + FILENAMES["DB_BASE_GRAPH_CPA"],
+    "PROCESS_BASE_GRAPH_CPA_TRIM" : DIRECTORIES["PRODUCT"] + os.sep + FILENAMES["DB_BASE_GRAPH_CPA_TRIM"]
 }
 
 STORAGE_ACCOUNT_FOLDER_LIST: dict[str, list[str]] = {
@@ -292,6 +306,27 @@ PRODUCT_COLNAMES = [
     "VALUE_NAC",
     "QUANTITY_IN_KG",
     "SUP_QUANTITY"
+]
+
+PRODUCT_COLTYPES = [
+    "VARCHAR",
+    "VARCHAR",
+    "VARCHAR",
+    "VARCHAR",
+    "VARCHAR",
+    "VARCHAR",
+    "VARCHAR",
+    "VARCHAR",
+    "VARCHAR",
+    "VARCHAR",
+    "INTEGER",
+    "VARCHAR",
+    "VARCHAR",
+    "INTEGER",
+    "BIGINT",
+    "BIGINT",
+    "BIGINT",
+    "BIGINT"
 ]
 
 TRANSPORT_COLNAMES = [

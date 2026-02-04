@@ -22,22 +22,9 @@ def executeAnnualProcessing(logger):
 
 def executeMonthlyProcessing(logger):
     logger.info('<-- Processing (Monthly) -->')
-
-    # [DB] Database Creation
-    try:
-        cProc.createMonthlyFULLtable(
-            db = params.FILES["SQLLITE_DB"],
-            path_to_scan = params.DIRECTORIES["PRODUCT_MONTHLY_FILE"],
-            logger = logger
-        )
-        logger.info(f'Created DB table (Monthly)')
-    except Exception as e:
-        logger.error(f'Error creating DB table (Monthly): {str(e)}')
-
-    #[DB] Creazione tabelle per serie mappa
     try:
         cProc.monthlyProcessing(
-            db = params.FILES["SQLLITE_DB"],
+            path_to_scan = params.DIRECTORIES["PRODUCT_MONTHLY_FILE"],
             logger = logger
         )
         logger.info(f'Processed Monthly Data')

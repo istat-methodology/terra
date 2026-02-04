@@ -8,7 +8,6 @@ def exectuteOutput(logger):
     #[JSON-SERVER/MAP] Creazione file JSON per serie import/export
     try:
         output_interval["timeSeries"] = cOut.createMonthlyOutputTimeSeries(
-            db = params.FILES["SQLLITE_DB"],
             import_ts = params.FILES["IMPORT_SERIES_JSON"],
             export_ts = params.FILES["EXPORT_SERIES_JSON"],
             logger = logger
@@ -20,7 +19,6 @@ def exectuteOutput(logger):
     #[JSON-SERVER/TRADE] Creazione file JSON per serie import/export value
     try:
         output_interval["tradeValue"] = cOut.createMonthlyOutputVQSTradeValue(
-            db = params.FILES["SQLLITE_DB"],
             import_value = params.FILES["IMPORT_VALUE_JSON"],
             export_value = params.FILES["EXPORT_VALUE_JSON"],
             cls_product_data = params.FILES["CLS_CPA"],
@@ -34,7 +32,6 @@ def exectuteOutput(logger):
     #[JSON-SERVER/TRADE] Creazione file JSON per serie import/export quantity
     try:
         output_interval["tradeQty"] = cOut.createMonthlyOutputVQSTradeQuantity(
-            db = params.FILES["SQLLITE_DB"],
             import_qty = params.FILES["IMPORT_QUANTITY_JSON"],
             export_qty = params.FILES["EXPORT_QUANTITY_JSON"],
             cls_product_data = params.FILES["CLS_CPA"],
@@ -48,7 +45,6 @@ def exectuteOutput(logger):
     #[JSON-SERVER/TRADE] Creazione file JSON per serie import/export quote value
     try:
         output_interval["tradeQuoteValue"] = cOut.createMonthlyOutputQuoteSTradeValue(
-            db = params.FILES["SQLLITE_DB"],
             import_quote_value = params.FILES["IMPORT_QUOTE_VALUE_JSON"],
             export_quote_value = params.FILES["EXPORT_QUOTE_VALUE_JSON"],
             cls_product_data = params.FILES["CLS_CPA"],
@@ -62,7 +58,6 @@ def exectuteOutput(logger):
     #[JSON-SERVER/TRADE] Creazione file JSON per serie import/export quote quantity
     try:
         output_interval["tradeQuoteQty"] = cOut.createMonthlyOutputQuoteSTradeQuantity(
-            db = params.FILES["SQLLITE_DB"],
             import_quote_qty = params.FILES["IMPORT_QUOTE_QUANTITY_JSON"],
             export_quote_qty = params.FILES["EXPORT_QUOTE_QUANTITY_JSON"],
             cls_product_data = params.FILES["CLS_CPA"],
@@ -71,12 +66,11 @@ def exectuteOutput(logger):
         )
         logger.info(f'Created JSON of import/export quote quantity time series')
     except Exception as e:
-        logger.error(f'Error creating JSON of import/export quote value time series: {str(e)}')
+        logger.error(f'Error creating JSON of import/export quote qty time series: {str(e)}')
 
     #[PYTHON-SERVER] Creazione file CPA intra e CPA product code
     try:
         output_interval["graphIntra"] = cOut.createOutputGraphCPAIntraUE(
-            db = params.FILES["SQLLITE_DB"],
             cpa_intra = params.FILES["CPA_INTRA_CSV"],
             cpa3_prod_code = params.FILES["CPA3_PRODUCT_CODE_CSV"],
             logger = logger
@@ -101,7 +95,6 @@ def exectuteOutput(logger):
     #[PYTHON-SERVER] Creazione file CPA trim
     try:
         output_interval["graphIntraTrim"] = cOut.createOutputGraphTrimestre(
-            db = params.FILES["SQLLITE_DB"],
             output_cpa_trim = params.FILES["CPA_TRIM_CSV"],
             logger = logger
         )
@@ -112,7 +105,6 @@ def exectuteOutput(logger):
     #[R-SERVER] Creazione file Comext IMP/EXP e CPA2 product code
     try:
         output_interval["variazioniCPA"] = cOut.createOutputVariazioniQuoteCPA(
-            db = params.FILES["SQLLITE_DB"],
             comext_imp = params.FILES["COMEXT_IMP_CSV"],
             comext_exp = params.FILES["COMEXT_EXP_CSV"],
             cpa2_prod_code =  params.FILES["CPA2_PRODUCT_CODE_CSV"],
