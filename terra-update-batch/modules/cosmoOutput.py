@@ -944,7 +944,7 @@ def createOutputGraphCPAIntraUE(cpa_intra, cpa3_prod_code, logger):
     if con:
         con.close()
     result.sort_values(by=["DECLARANT_ISO", "PARTNER_ISO", "FLOW", "PRODUCT", "PERIOD"], inplace=True)
-    result.to_csv(cpa_intra[["DECLARANT_ISO", "PARTNER_ISO", "FLOW", "PRODUCT", "PERIOD","VALUE_IN_EUROS"]], sep=",", index=False)
+    result[["DECLARANT_ISO", "PARTNER_ISO", "FLOW", "PRODUCT", "PERIOD","VALUE_IN_EUROS"]].to_csv(cpa_intra, sep=",", index=False)
     result[result.IS_PRODUCT == 1]["PRODUCT"].drop_duplicates().to_csv(cpa3_prod_code, sep=",", index=False)
 
     logger.info("createOutputGraphCPAIntraUE END")
