@@ -906,7 +906,7 @@ def createOutputVariazioniQuoteCPA(comext_imp, comext_exp, cpa2_prod_code, logge
 
     con = duckdb.connect()
     variazioni = con.execute(f"""
-        SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, PRODUCT, PERIOD, val_cpa, q_kg FROM read_parquet('{params.FILES["PROCESS_CPA_VARIATIONS"]}')
+        SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, PRODUCT as cpa, PERIOD, val_cpa, q_kg FROM read_parquet('{params.FILES["PROCESS_CPA_VARIATIONS"]}')
     """).df()
     
     if con:
@@ -915,11 +915,11 @@ def createOutputVariazioniQuoteCPA(comext_imp, comext_exp, cpa2_prod_code, logge
     time_range = []
 
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        variazioni_temp = variazioni[variazioni.FLOW == flow].sort_values(by=["DECLARANT_ISO", "PARTNER_ISO", "PRODUCT", "PERIOD"])
+        variazioni_temp = variazioni[variazioni.FLOW == flow].sort_values(by=["DECLARANT_ISO", "PARTNER_ISO", "cpa", "PERIOD"])
         variazioni_temp.to_csv(iesVQSFiles[flow], sep=",", index=False)
         time_range.append(variazioni_temp["PERIOD"].min())
         time_range.append(variazioni_temp["PERIOD"].max())
-
+    variazioni.rename(columns={"cpa":"PRODUCT"}, inplace=True)
     variazioni["PRODUCT"].drop_duplicates().to_csv(cpa2_prod_code, sep=",", index=False)
 
     logger.info("createMonthlyOutput END")
