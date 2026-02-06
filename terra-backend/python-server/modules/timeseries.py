@@ -85,7 +85,7 @@ class TimeSeries:
             raise ValueError("Invalid flow (expected 1=import, 2=export)")
         if var_type not in (1, 2):
             raise ValueError("Invalid var_type (expected 1=VALUE, 2=QUANTITY)")
-        if data_type not in (0, 1):
+        if data_type not in (1, 2):
             # 0 = level, 1 = YoY difference (as per your current logic)
             raise ValueError("Invalid data_type (expected 0 or 1)")
 
