@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 import json
-import sqlite3
+import duckdb
 
 # TERRA MODULES
 from resources import params
@@ -496,7 +496,7 @@ def annualProcessing(annual_data_input_path, cls_product_data, annual_pop_data, 
     return "Annual processing ok: file created " + output_file
 
 
-def createMonthlyOutputTimeSeries(db, import_ts, export_ts, logger):
+def createMonthlyOutputTimeSeries(import_ts, export_ts, logger):
     logger.info("createMonthlyOutputTimeSeries START")
 
     # import export series
@@ -505,10 +505,15 @@ def createMonthlyOutputTimeSeries(db, import_ts, export_ts, logger):
     iesFiles[params.FLOW_IMPORT] = import_ts
     iesFiles[params.FLOW_EXPORT] = export_ts
     ieFlows = {}
-
-    conn = sqlite3.connect(db)
-
-    serie = pd.read_sql_query("SELECT * from serie_per_mappa", conn)
+    
+    con = duckdb.connect()
+    serie = con.execute(f"""
+        SELECT * FROM read_parquet('{params.FILES["PROCESS_MAP_SERIES"]}')
+    """).df()
+    
+    if con:
+        con.close()
+    
     countries = sorted(pd.unique(serie["DECLARANT_ISO"]))
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         ieSeries = []
@@ -519,14 +524,11 @@ def createMonthlyOutputTimeSeries(db, import_ts, export_ts, logger):
             serie_country = serie[
                 (serie["DECLARANT_ISO"] == country) & (serie["FLOW"] == flow)
             ]
-
+            serie_country.sort_values(by="PERIOD", inplace=True)
             for index, row in serie_country.iterrows():
                 ieIseries_country[str(row["PERIOD"])] = row["TENDENZIALE"]
             ieSeries.append(ieIseries_country)
         ieFlows[flow] = ieSeries
-
-    if conn:
-        conn.close()
 
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("File " + iesFiles[flow])
@@ -535,15 +537,8 @@ def createMonthlyOutputTimeSeries(db, import_ts, export_ts, logger):
     
     time_range = list(serie[serie["FLOW"].isin([params.FLOW_IMPORT, params.FLOW_EXPORT])]["PERIOD"].agg(['min', 'max']))
     return time_range
-    #return (
-    #    "TIME SERIES processing OK; files created: "
-    #    + import_ts
-    #    + " and "
-    #    + export_ts
-    #)
 
-
-def createMonthlyOutputVQSTradeValue(db, import_value, export_value, cls_product_data, cls_product_2d_data, logger):
+def createMonthlyOutputVQSTradeValue(import_value, export_value, cls_product_data, cls_product_2d_data, logger):
     logger.info("createMonthlyOutputVQSTrade START")
     iesVQSFiles = {}
     iesVQSFiles[params.FLOW_IMPORT] = import_value
@@ -572,11 +567,14 @@ def createMonthlyOutputVQSTradeValue(db, import_value, export_value, cls_product
     cls_products_cpa_langs["en"] = cls_products_cpa_en
     logger.info("cls_products: " + cls_product_data)
 
-    conn = sqlite3.connect(db)
-    variazioni = pd.read_sql_query(
-        "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, var_val_basket var_basket FROM variazioni where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
-        conn,
-    )
+    con = duckdb.connect()
+    variazioni = con.execute(f"""
+        SELECT DECLARANT_ISO, FLOW, PRODUCT, PERIOD, var_val_basket FROM read_parquet('{params.FILES["PROCESS_VARIATIONS"]}')
+    """).df()
+    
+    if con:
+        con.close()
+    
     countries = sorted(pd.unique(variazioni["DECLARANT_ISO"]))
 
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
@@ -607,8 +605,9 @@ def createMonthlyOutputVQSTradeValue(db, import_value, export_value, cls_product
                     )
                     valuesVQS = []
                     vqs = vqs_country[vqs_country["PRODUCT"] == product].fillna("NA")
+                    vqs.sort_values(by="PERIOD", inplace=True)
                     for indexp, row_vqs in vqs.iterrows():
-                        valuesVQS.append(row_vqs["var_basket"])
+                        valuesVQS.append(row_vqs["var_val_basket"])
 
                     dataVQS["value"] = valuesVQS
                     dataVQSs.append(dataVQS)
@@ -617,9 +616,6 @@ def createMonthlyOutputVQSTradeValue(db, import_value, export_value, cls_product
                 ieVQS.append(ieVQS_country)
         ieVQSFlows[flow] = ieVQS
 
-    if conn:
-        conn.close()
-
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("File " + iesVQSFiles[flow])
         with open(iesVQSFiles[flow], "w") as f:
@@ -627,15 +623,8 @@ def createMonthlyOutputVQSTradeValue(db, import_value, export_value, cls_product
 
     time_range = list(variazioni[variazioni["FLOW"].isin([params.FLOW_IMPORT, params.FLOW_EXPORT])]["PERIOD"].agg(['min', 'max']))
     return time_range
-    #return (
-    #    "VQS VALUE TRADE processing OK; files created: "
-    #    + import_value
-    #    + " and "
-    #    + export_value
-    #)
 
-
-def createMonthlyOutputVQSTradeQuantity(db, import_qty, export_qty, cls_product_data, cls_product_2d_data, logger):
+def createMonthlyOutputVQSTradeQuantity(import_qty, export_qty, cls_product_data, cls_product_2d_data, logger):
     logger.info("createMonthlyOutputVQSTrade START")
     iesVQSFiles = {}
     iesVQSFiles[params.FLOW_IMPORT] = import_qty
@@ -664,11 +653,14 @@ def createMonthlyOutputVQSTradeQuantity(db, import_qty, export_qty, cls_product_
     cls_products_cpa_langs["en"] = cls_products_cpa_en
     logger.info("cls_products: " + cls_product_data)
 
-    conn = sqlite3.connect(db)
-    variazioni = pd.read_sql_query(
-        "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, var_qua_basket as var_basket FROM variazioni where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
-        conn,
-    )
+    con = duckdb.connect()
+    variazioni = con.execute(f"""
+        SELECT DECLARANT_ISO, FLOW, PRODUCT, PERIOD, var_qua_basket FROM read_parquet('{params.FILES["PROCESS_VARIATIONS"]}')
+    """).df()
+    
+    if con:
+        con.close()
+    
     countries = sorted(pd.unique(variazioni["DECLARANT_ISO"]))
 
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
@@ -699,8 +691,9 @@ def createMonthlyOutputVQSTradeQuantity(db, import_qty, export_qty, cls_product_
                     )
                     valuesVQS = []
                     vqs = vqs_country[vqs_country["PRODUCT"] == product].fillna("NA")
+                    vqs.sort_values(by="PERIOD", inplace=True)
                     for indexp, row_vqs in vqs.iterrows():
-                        valuesVQS.append(row_vqs["var_basket"])
+                        valuesVQS.append(row_vqs["var_qua_basket"])
 
                     dataVQS["value"] = valuesVQS
                     dataVQSs.append(dataVQS)
@@ -709,9 +702,6 @@ def createMonthlyOutputVQSTradeQuantity(db, import_qty, export_qty, cls_product_
                 ieVQS.append(ieVQS_country)
         ieVQSFlows[flow] = ieVQS
 
-    if conn:
-        conn.close()
-
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("File " + iesVQSFiles[flow])
         with open(iesVQSFiles[flow], "w") as f:
@@ -719,31 +709,24 @@ def createMonthlyOutputVQSTradeQuantity(db, import_qty, export_qty, cls_product_
 
     time_range = list(variazioni[variazioni["FLOW"].isin([params.FLOW_IMPORT, params.FLOW_EXPORT])]["PERIOD"].agg(['min', 'max']))
     return time_range
-    #return (
-    #    "VQS QUANTITY TRADE processing OK; files created: "
-    #    + import_qty
-    #    + " and "
-    #    + export_qty
-    #)
 
-
-def createMonthlyOutputQuoteSTrade(db, quote_trade, logger):
+def createMonthlyOutputQuoteSTrade(quote_trade, logger):
     logger.info("createMonthlyOutputQuoteSTrade quote START")
-    conn = sqlite3.connect(db)
-    quote = pd.read_sql_query(
-        "SELECT DECLARANT_ISO as id, FLOW,cpa2 as PRODUCT, PERIOD, q_val_cpa as quote_valore, q_qua_cpa as quote_quantita FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
-        conn,
-    )
 
-    if conn:
-        conn.close()
-
+    con = duckdb.connect()
+    quote = con.execute(f"""
+        SELECT DECLARANT_ISO as id, FLOW, PRODUCT, PERIOD, q_val_cpa as quote_valore, q_qua_cpa as quote_quantita FROM read_parquet('{params.FILES["PROCESS_CPA_QUOTES"]}')
+    """).df()
+    
+    if con:
+        con.close()
+    quote.sort_values(by=["id", "FLOW", "PRODUCT", "PERIOD"], inplace=True)
     quote.to_json(quote_trade, orient="records")
 
-    return "Quote  TRADE processing OK; files created: " + quote_trade
+    return "Quote TRADE processing OK; files created: " + quote_trade
 
 
-def createMonthlyOutputQuoteSTradeValue(db, import_quote_value, export_quote_value, cls_product_data, cls_product_2d_data, logger):
+def createMonthlyOutputQuoteSTradeValue(import_quote_value, export_quote_value, cls_product_data, cls_product_2d_data, logger):
     logger.info("createMonthlyOutputQuoteSTrade START")
     iesVQSFiles = {}
     iesVQSFiles[params.FLOW_IMPORT] = import_quote_value
@@ -772,11 +755,14 @@ def createMonthlyOutputQuoteSTradeValue(db, import_quote_value, export_quote_val
     cls_products_cpa_langs["en"] = cls_products_cpa_en
     logger.info("cls_products: " + cls_product_data)
 
-    conn = sqlite3.connect(db)
-    quote = pd.read_sql_query(
-        "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, q_val_cpa as q_val_basket FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
-        conn,
-    )
+    con = duckdb.connect()
+    quote = con.execute(f"""
+        SELECT DECLARANT_ISO, FLOW, PRODUCT, PERIOD, q_val_cpa FROM read_parquet('{params.FILES["PROCESS_CPA_QUOTES"]}')
+    """).df()
+    
+    if con:
+        con.close()
+    
     countries = sorted(pd.unique(quote["DECLARANT_ISO"]))
 
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
@@ -806,8 +792,9 @@ def createMonthlyOutputQuoteSTradeValue(db, import_quote_value, export_quote_val
                     )
                     valuesVQS = []
                     vqs = vqs_country[vqs_country["PRODUCT"] == product].fillna("NA")
+                    vqs.sort_values(by="PERIOD", inplace=True)
                     for indexp, row_vqs in vqs.iterrows():
-                        valuesVQS.append(row_vqs["q_val_basket"])
+                        valuesVQS.append(row_vqs["q_val_cpa"])
 
                     dataVQS["value"] = valuesVQS
                     dataVQSs.append(dataVQS)
@@ -816,9 +803,6 @@ def createMonthlyOutputQuoteSTradeValue(db, import_quote_value, export_quote_val
                 ieVQS.append(ieVQS_country)
         ieVQSFlows[flow] = ieVQS
 
-    if conn:
-        conn.close()
-
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("File " + iesVQSFiles[flow])
         with open(iesVQSFiles[flow], "w") as f:
@@ -826,15 +810,8 @@ def createMonthlyOutputQuoteSTradeValue(db, import_quote_value, export_quote_val
 
     time_range = list(quote[quote["FLOW"].isin([params.FLOW_IMPORT, params.FLOW_EXPORT])]["PERIOD"].agg(['min', 'max']))
     return time_range
-    #return (
-    #    "Quote VALUE TRADE processing OK; files created: "
-    #    + import_quote_value
-    #    + " and "
-    #    + export_quote_value
-    #)
 
-
-def createMonthlyOutputQuoteSTradeQuantity(db, import_quote_qty, export_quote_qty, cls_product_data, cls_product_2d_data, logger):
+def createMonthlyOutputQuoteSTradeQuantity(import_quote_qty, export_quote_qty, cls_product_data, cls_product_2d_data, logger):
     logger.info("createMonthlyOutputQuoteSTrade START")
     iesVQSFiles = {}
     iesVQSFiles[params.FLOW_IMPORT] = import_quote_qty
@@ -863,11 +840,14 @@ def createMonthlyOutputQuoteSTradeQuantity(db, import_quote_qty, export_quote_qt
     cls_products_cpa_langs["en"] = cls_products_cpa_en
     logger.info("cls_products: " + cls_product_data)
 
-    conn = sqlite3.connect(db)
-    quote = pd.read_sql_query(
-        "SELECT DECLARANT_ISO, FLOW,cpa2 as PRODUCT, PERIOD, q_qua_cpa as q_qua_basket FROM quote_cpa where (1* cpa2 >0 and 1* cpa2 <37)  order by PERIOD ASC;",
-        conn,
-    )
+    con = duckdb.connect()
+    quote = con.execute(f"""
+        SELECT DECLARANT_ISO, FLOW, PRODUCT, PERIOD, q_qua_cpa FROM read_parquet('{params.FILES["PROCESS_CPA_QUOTES"]}')
+    """).df()
+    
+    if con:
+        con.close()
+    
     countries = sorted(pd.unique(quote["DECLARANT_ISO"]))
 
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
@@ -897,8 +877,9 @@ def createMonthlyOutputQuoteSTradeQuantity(db, import_quote_qty, export_quote_qt
                     )
                     valuesVQS = []
                     vqs = vqs_country[vqs_country["PRODUCT"] == product].fillna("NA")
+                    vqs.sort_values(by="PERIOD", inplace=True)
                     for indexp, row_vqs in vqs.iterrows():
-                        valuesVQS.append(row_vqs["q_qua_basket"])
+                        valuesVQS.append(row_vqs["q_qua_cpa"])
 
                     dataVQS["value"] = valuesVQS
                     dataVQSs.append(dataVQS)
@@ -907,9 +888,6 @@ def createMonthlyOutputQuoteSTradeQuantity(db, import_quote_qty, export_quote_qt
                 ieVQS.append(ieVQS_country)
         ieVQSFlows[flow] = ieVQS
 
-    if conn:
-        conn.close()
-
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
         logger.info("File " + iesVQSFiles[flow])
         with open(iesVQSFiles[flow], "w") as f:
@@ -917,15 +895,8 @@ def createMonthlyOutputQuoteSTradeQuantity(db, import_quote_qty, export_quote_qt
 
     time_range = list(quote[quote["FLOW"].isin([params.FLOW_IMPORT, params.FLOW_EXPORT])]["PERIOD"].agg(['min', 'max']))
     return time_range
-    #return (
-    #    "QUOTE S QUANTITY TRADE processing OK; files created: "
-    #    + import_quote_qty
-    #    + " and "
-    #    + export_quote_qty
-    #)
 
-
-def createOutputVariazioniQuoteCPA(db, comext_imp, comext_exp, cpa2_prod_code, logger):
+def createOutputVariazioniQuoteCPA(comext_imp, comext_exp, cpa2_prod_code, logger):
     # import export variazioni quote CPA
     logger.info("createOutputVariazioniQuoteCPA START")
     logger.info("import export variazioni quote CPA")
@@ -933,97 +904,74 @@ def createOutputVariazioniQuoteCPA(db, comext_imp, comext_exp, cpa2_prod_code, l
     iesVQSFiles[params.FLOW_IMPORT] = comext_imp
     iesVQSFiles[params.FLOW_EXPORT] = comext_exp
 
-    conn = sqlite3.connect(db)
+    con = duckdb.connect()
+    variazioni = con.execute(f"""
+        SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, PRODUCT as cpa, PERIOD, val_cpa, q_kg FROM read_parquet('{params.FILES["PROCESS_CPA_VARIATIONS"]}')
+    """).df()
+    
+    if con:
+        con.close()
+    
     time_range = []
 
     for flow in [params.FLOW_IMPORT, params.FLOW_EXPORT]:
-        variazioni = pd.read_sql_query(
-            "SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, trim(cpa) as cpa, PERIOD, val_cpa, q_kg  FROM variazioni_cpa WHERE FLOW="
-            + str(flow)
-            + " and (length(trim(cpa))==2 or trim(cpa) in ('061','062') ) order by PERIOD ASC;",
-            conn,
-        )
-        variazioni.to_csv(iesVQSFiles[flow], sep=",", index=False)
-        time_range.append(variazioni["PERIOD"].min())
-        time_range.append(variazioni["PERIOD"].max())
-
-    pd.read_sql_query(
-        "SELECT distinct trim(cpa) as PRODUCT FROM variazioni_cpa WHERE (length(trim(cpa))==2 or trim(cpa) in ('061','062') );",
-        conn,
-    ).to_csv(cpa2_prod_code, sep=",", index=False)
-
-    if conn:
-        conn.close()
+        variazioni_temp = variazioni[variazioni.FLOW == flow].sort_values(by=["DECLARANT_ISO", "PARTNER_ISO", "cpa", "PERIOD"])
+        variazioni_temp.to_csv(iesVQSFiles[flow], sep=",", index=False)
+        time_range.append(variazioni_temp["PERIOD"].min())
+        time_range.append(variazioni_temp["PERIOD"].max())
+    variazioni.rename(columns={"cpa":"PRODUCT"}, inplace=True)
+    variazioni["PRODUCT"].drop_duplicates().to_csv(cpa2_prod_code, sep=",", index=False)
 
     logger.info("createMonthlyOutput END")
     return [min(time_range),max(time_range)]
-    #return (
-    #    "Variazioni quote CPA processing OK; files created: "
-    #    + comext_imp
-    #    + " and "
-    #    + comext_exp
-    #)
 
-
-def createOutputGraphCPAIntraUE(db, cpa_intra, cpa3_prod_code, logger):
+def createOutputGraphCPAIntraUE(cpa_intra, cpa3_prod_code, logger):
     logger.info("createOutputGraphCPAIntraUE START")
     # import export variazioni quote CPA
     logger.info("import export variazioni quote CPA INTRA")
-
-    #  end_data_lclearoad=datetime.datetime.strptime(str(this_year_month), "%Y%m")- relativedelta(months=offset_m)
-    # last_12_months=datetime.datetime.strptime(( str(end_data_load.year)+"-"+str(end_data_load.month)- relativedelta(months=12)), "%Y%m")
 
     filter_yyymm = str(params.start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(
         "%02d" % params.start_data_PAGE_GRAPH_INTRA_UE.month
     )
     logger.info("last_months: " + filter_yyymm)
-    conn = sqlite3.connect(db)
-    result = pd.read_sql_query(
-        "SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, PRODUCT, PERIOD, VALUE_IN_EUROS  FROM (SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, cpa as PRODUCT, PERIOD, val_cpa as VALUE_IN_EUROS  FROM base_grafi_cpa WHERE PERIOD>"
-        + filter_yyymm
-        + " and length(trim(cpa))==3 union SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, 'TOT' as PRODUCT, PERIOD, val_cpa as VALUE_IN_EUROS  FROM base_grafi_cpa WHERE PERIOD>"
-        + filter_yyymm
-        + " and  trim(cpa)=='00')   order by PERIOD ASC;",
-        conn,
-    )
-    result.to_csv(cpa_intra, sep=",", index=False)
-    pd.read_sql_query(
-        "SELECT distinct cpa as PRODUCT  FROM base_grafi_cpa WHERE PERIOD>"
-        + filter_yyymm
-        + " and length(trim(cpa))==3;",
-        conn,
-    ).to_csv(cpa3_prod_code, sep=",", index=False)
-    if conn:
-        conn.close()
+    
+    con = duckdb.connect()
+    result = con.execute(f"""
+        SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, IS_PRODUCT, PRODUCT, PERIOD, VALUE_IN_EUROS --, QUANTITY_IN_KG
+        FROM read_parquet('{params.FILES["PROCESS_BASE_GRAPH_CPA"]}')
+    """).df()
+    
+    if con:
+        con.close()
+    result.sort_values(by=["DECLARANT_ISO", "PARTNER_ISO", "FLOW", "PRODUCT", "PERIOD"], inplace=True)
+    result[["DECLARANT_ISO", "PARTNER_ISO", "FLOW", "PRODUCT", "PERIOD","VALUE_IN_EUROS"]].to_csv(cpa_intra, sep=",", index=False)
+    result[result.IS_PRODUCT == 1]["PRODUCT"].drop_duplicates().to_csv(cpa3_prod_code, sep=",", index=False)
 
     logger.info("createOutputGraphCPAIntraUE END")
 
     time_range = list(result["PERIOD"].agg(['min', 'max']))
     return time_range
-    #return "CPA Graphic INTRA UE OK; files created: " + cpa_intra
 
-
-def createOutputGraphTrimestre(db, output_cpa_trim, logger):
+def createOutputGraphTrimestre(output_cpa_trim, logger):
     logger.info("createOutputGraphicTrimestre START")
     # import export variazioni quote CPA
     logger.info("import export variazioni quote CPA INTRA TRim")
-
-    conn = sqlite3.connect(db)
-    result = pd.read_sql_query(
-        "SELECT declarant_iso, partner_iso, flow,  cpa, trimestre,   val_cpa,   q_kg  FROM base_grafi_cpa_trim WHERE length(trim(cpa))==3 union SELECT declarant_iso, partner_iso, flow,  'TOT' as cpa, trimestre,   val_cpa,   q_kg  FROM base_grafi_cpa_trim WHERE trim(cpa)=='00' order by trimestre ASC;",
-        conn,
-    )
+    
+    con = duckdb.connect()
+    result = con.execute(f"""
+        SELECT declarant_iso, partner_iso, flow, cpa, trimestre, val_cpa, q_kg
+        FROM read_parquet('{params.FILES["PROCESS_BASE_GRAPH_CPA_TRIM"]}')
+    """).df()
+    
+    if con:
+        con.close()
+    
     result.to_csv(output_cpa_trim, sep=",", index=False)
-
-    if conn:
-        conn.close()
 
     logger.info("createOutputGraphicTrimestre END")
 
     time_range = list(result["trimestre"].agg(['min', 'max']))
     return time_range
-    #return "CPA Graphic INTRA TRIMESTRE UE OK; files created: " + output_cpa_trim
-
 
 def createOutputGraphExtraUE(input_path, output_tr_extra_ue_file, output_tr_prod_code_file, output_tr_extra_ue_trim, logger):
     logger.info("createOutputGraphExtraUE START")

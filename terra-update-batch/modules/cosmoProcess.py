@@ -1,243 +1,251 @@
-import os
-import sqlite3
-import pandas as pd
-import numpy as np
 from resources import params
+import duckdb
 
-def createMonthlyFULLtable(db, path_to_scan, logger):
-    logger.info(db)
-    conn = sqlite3.connect(db)
-    cur = conn.cursor()
-    logger.info("Creating table  comext_full ")
-    cur.execute("DROP TABLE IF EXISTS comext_full;")
-    cur.execute(
-        "CREATE TABLE comext_full (DECLARANT_ISO TEXT,PARTNER_ISO TEXT,PRODUCT_NC TEXT,PRODUCT_CPA2_1 TEXT,PRODUCT_BEC TEXT,FLOW INTEGER,PERIOD INTEGER, VALUE_IN_EUROS INTEGER, QUANTITY_IN_KG INTEGER,CPA2 TEXT,CPA23 TEXT,CPA3 TEXT,IS_PRODUCT INTEGER DEFAULT 0)"
-    )
 
+def monthlyProcessing(path_to_scan, logger):
     logger.info("SCANNED PATH: " + path_to_scan)
-    count = 0
-    index = 0
-    for filedat in os.scandir(path_to_scan):
-        if filedat.is_file():
-            comext_monthly_data = pd.read_csv(
-                filedat, sep=",", names=params.PRODUCT_COLNAMES, header=0, low_memory=True, keep_default_na=False, na_values=[""]
+    with duckdb.connect() as con:
+        con.execute("SET threads=1")
+        con.execute("SET memory_limit='8GB'") 
+        con.execute(
+            f"""
+            CREATE TEMP TABLE comext_full AS
+            select DECLARANT_ISO, PARTNER_ISO, FLOW, PERIOD, VALUE_IN_EUROS, QUANTITY_IN_KG,
+                CASE
+                    WHEN length(CAST(PRODUCT_NC AS VARCHAR)) = 8
+                    THEN SUBSTR(CAST(PRODUCT_CPA2_1 AS VARCHAR), 1, 2)
+                    ELSE ''
+                END AS CPA2,
+                CASE
+                    WHEN length(CAST(PRODUCT_NC AS VARCHAR)) = 8
+                    THEN SUBSTR(CAST(PRODUCT_CPA2_1 AS VARCHAR), 1, 2) || ' '
+                    ELSE ''
+                END AS CPA23,
+                CASE
+                    WHEN length(CAST(PRODUCT_NC AS VARCHAR)) = 8
+                    THEN SUBSTR(CAST(PRODUCT_CPA2_1 AS VARCHAR), 1, 3)
+                    ELSE ''
+                END AS CPA3,
+                CASE
+                    WHEN length(CAST(PRODUCT_NC AS VARCHAR)) = 8 AND TRY_CAST(SUBSTR(REPLACE(PRODUCT_CPA2_1, 'X', ''), 1, 2) AS INTEGER) BETWEEN 1 AND 36
+                    THEN 1
+                    ELSE 0
+                END AS IS_CPA_1_36,
+                CASE
+                    WHEN length(CAST(PRODUCT_NC AS VARCHAR)) = 8 AND TRY_CAST(SUBSTR(REPLACE(PRODUCT_CPA2_1, 'X', ''), 1, 3) AS INTEGER) BETWEEN 1 AND 369
+                    THEN 1
+                    ELSE 0
+                END AS IS_CPA_1_369,
+                CASE
+                    WHEN length(CAST(PRODUCT_NC AS VARCHAR)) = 8
+                    THEN 'CPA'
+                    WHEN product_nc= 'TOTAL'
+                    THEN 'TOTAL'
+                    ELSE 'OTHER'
+                END AS PRODUCT_TYPE
+            from read_csv('{path_to_scan}/*.dat', sep=',', header=False, skip=1, column_names={params.PRODUCT_COLNAMES}, column_types={params.PRODUCT_COLTYPES}, nullstr=['']) as comext_monthly_data
+            WHERE length(TRY_CAST(PRODUCT_NC AS VARCHAR)) = 8 OR product_nc= 'TOTAL'
+        """
+        )
+        rows = con.execute("SELECT count(DECLARANT_ISO) FROM comext_full").fetchall()
+        logger.info("Monthly data rows: " + str(rows[0][0]))
+        # Create table Series
+        ## considero un 1 anno prima es 48 per 36 mesi
+        filter_yyymm = str(params.start_data_PAGE_MAP.year - 1) + str(
+            "%02d" % params.start_data_PAGE_MAP.month
+        )
+
+        logger.info("Creating series file")
+        con.execute(
+            f"""
+            COPY (
+            WITH base AS (
+                SELECT declarant_iso, period, flow, SUM(value_in_euros) AS value_in_euros
+                FROM comext_full
+                WHERE PRODUCT_TYPE = 'TOTAL'
+                AND period >= {filter_yyymm}
+                GROUP BY declarant_iso, period, flow
             )
-            length = len(comext_monthly_data.index)
-            count += length
-            index += 1
-            logger.info(f'{str(index)}) loaded rows:{str(length)} count:{str(count)} file:{filedat.name}')
-            
-            comext_monthly_data["CPA2"] = np.where(comext_monthly_data["PRODUCT_NC"].astype("str").str.len()==8, comext_monthly_data["PRODUCT_CPA2_1"].astype("str").str[:2], "")
-            comext_monthly_data["CPA23"] = np.where(comext_monthly_data["PRODUCT_NC"].astype("str").str.len()==8, comext_monthly_data["PRODUCT_CPA2_1"].astype("str").str[:2]+" ", "")
-            comext_monthly_data["CPA3"] = np.where(comext_monthly_data["PRODUCT_NC"].astype("str").str.len()==8, comext_monthly_data["PRODUCT_CPA2_1"].astype("str").str[:3], "")
-            comext_monthly_data["IS_PRODUCT"] = np.where(comext_monthly_data["PRODUCT_NC"].astype("str").str.len()==8, 1, 0)
-            
-            comext_monthly_data[
-                [
-                    "DECLARANT_ISO",
-                    "PARTNER_ISO",
-                    "PRODUCT_NC",
-                    "PRODUCT_CPA2_1",
-                    "PRODUCT_BEC",
-                    "FLOW",
-                    "PERIOD",
-                    "VALUE_IN_EUROS",
-                    "QUANTITY_IN_KG",
-                    "CPA2",
-                    "CPA23",
-                    "CPA3",
-                    "IS_PRODUCT"
-                ]
-            ].to_sql(
-                "comext_full", conn, if_exists="append", index=False, chunksize=10000
+            SELECT a.declarant_iso, a.period, a.flow,
+            ROUND(100.0 * ((a.value_in_euros - b.value_in_euros) / NULLIF(b.value_in_euros, 0)), 2) AS TENDENZIALE
+            FROM base a JOIN base b
+            ON a.declarant_iso = b.declarant_iso
+            AND a.flow = b.flow
+            AND a.period = b.period + 100
             )
-            os.remove(filedat.path)
-
-    for row in cur.execute("SELECT count(*) FROM comext_full "):
-        logger.info("from count:" + str(count))
-        logger.info("from DB:" + str(row))
-
-    #logger.info("UPDATE TABLE comext_full A CPA2, CPA23 CPA3 TEXT")
-    #cur.execute(
-    #    """UPDATE comext_full SET CPA2=substr(product_cpa2_1,1,2), CPA23=substr(product_cpa2_1,1,2)||' ', CPA3=substr(product_cpa2_1,1,3),IS_PRODUCT=1  WHERE length(product_nc)==8;"""
-    #)
-    conn.commit()
-    if conn:
-        conn.close()
-
-    return "TABLE comext_full created!"
-
-
-def monthlyProcessing(db, logger):
-    conn = sqlite3.connect(db)
-
-    cur = conn.cursor()
-
-    # Create table Series
-    ## considero un 1 anno prima es 48 per 36 mesi
-    filter_yyymm = str(params.start_data_PAGE_MAP.year - 1) + str(
-        "%02d" % params.start_data_PAGE_MAP.month
-    )
-    logger.info("Creating Series table ")
-    cur.execute("DROP TABLE IF EXISTS serie_per_mappa0;")
-    cur.execute(
-        "Create table serie_per_mappa0 as select declarant_iso, period, flow, sum(value_in_euros) as value_in_euros from comext_full where product_nc= 'TOTAL' and period>="
-        + filter_yyymm
-        + " group by declarant_iso, period,flow;"
-    )
-    conn.commit()
-    
-    cur.execute("DROP TABLE IF EXISTS serie_per_mappa;")
-    cur.execute(
-        "Create table serie_per_mappa as select a.declarant_iso, a.period, a.flow, round(100.00*( (a.value_in_euros-b.value_in_euros)*1.0  / b.value_in_euros ),2) as TENDENZIALE from serie_per_mappa0 a, serie_per_mappa0 b where a.flow=b.flow and a.declarant_iso=b.declarant_iso and a.period=(b.period+100);"
-    )
-    conn.commit()
-
-    logger.info("Dropping table serie_per_mappa0 to free space ")
-    cur.execute("DROP TABLE IF EXISTS serie_per_mappa0;")
-    conn.commit()    
-
-    # /* calcolo i valori per cpa */
-
-    ## considero un 1 anno prima es 48 per 36 mesi
-    filter_yyymm = str(params.start_data_PAGE_BASKET.year - 1) + str(
-        "%02d" % params.start_data_PAGE_BASKET.month
-    )
-    logger.info("Creating aggr_cpa table ")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa;")
-    cur.execute(
-        "create table aggr_cpa as select declarant_iso, flow, cpa2, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_cpa  from comext_full  WHERE IS_PRODUCT==1 and period>="
-        + filter_yyymm
-        + " group by declarant_iso, flow, cpa2, period order by declarant_iso, flow, cpa2, period;"
-    )
-    conn.commit()
-
-    # /* calcolo il valore totale */
-    logger.info("Creating aggr_tot table ")
-    cur.execute("DROP TABLE IF EXISTS aggr_tot;")
-    cur.execute(
-        "create table aggr_tot as select declarant_iso, flow, period, sum(val_cpa) as val_tot, sum(q_cpa) as q_tot from aggr_cpa group by declarant_iso, flow, period order by declarant_iso, flow, period;"
-    )
-    conn.commit()
-
-    # /* calcolo le quote */
-    logger.info("Creating quote_cpa table ")
-    cur.execute("DROP TABLE IF EXISTS quote_cpa;")
-    cur.execute(
-        "create table quote_cpa as select a.declarant_iso, a.flow, a.cpa2, a.period, a.val_cpa, b.val_tot, a.q_cpa, b.q_tot, 100.0*a.val_cpa/b.val_tot as q_val_cpa, 100.0*a.q_cpa/b.q_tot as q_qua_cpa  from aggr_cpa a, aggr_tot b where a.declarant_iso=b.declarant_iso and a.flow=b.flow and a.period=b.period;"
-    )
-    conn.commit()
-
-    logger.info("Dropping table aggr_cpa and aggr_tot to free space")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa;")
-    cur.execute("DROP TABLE IF EXISTS aggr_tot;")
-    conn.commit()
-
-    # /* calcolo le variazioni */
-    logger.info("Creating variazioni table ")
-    cur.execute("DROP TABLE IF EXISTS variazioni;")
-    cur.execute(
-        "create table variazioni as select a.declarant_iso, a.flow, a.cpa2, a.period, a.val_cpa, round(100.0*(a.val_cpa-b.val_cpa)/b.val_cpa,2) as var_val_cpa, round(100.0*(a.q_val_cpa-b.q_val_cpa)/b.q_val_cpa,2) as var_val_basket, a.q_cpa, round(100.0*(a.q_cpa-b.q_cpa)/b.q_cpa,2) as var_q_cpa, round(100.0*(a.q_qua_cpa-b.q_qua_cpa)/b.q_qua_cpa,2) as var_qua_basket from quote_cpa a, quote_cpa b where a.declarant_iso=b.declarant_iso and a.flow=b.flow and a.cpa2=b.cpa2 and a.period=(b.period+100);"
-    )
-    conn.commit()
-
-    ## grafi in classificazione CPA e scambi tra paesi intra-UE
-
-    # /* aggrego per cpa2 */
-    logger.info("Creating table aggr_cpa2 ")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa2;")
-    cur.execute(
-        "create table aggr_cpa2 as select declarant_iso, partner_iso, flow, cpa23 as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg from comext_full  WHERE IS_PRODUCT==1 group by declarant_iso, partner_iso, flow, cpa23, period order by declarant_iso, partner_iso, flow, cpa23, period;"
-    )
-    conn.commit()
-
-    # /* aggrego per cpa3 */
-    logger.info("Creating table aggr_cpa3 ")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa3;")
-    cur.execute(
-        "create table aggr_cpa3 as select declarant_iso, partner_iso, flow, cpa3 as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg from comext_full  WHERE IS_PRODUCT==1 group by declarant_iso, partner_iso, flow, cpa3, period order by declarant_iso, partner_iso, flow, cpa3, period;"
-    )
-    conn.commit()
-
-    # /* aggrego per cpa TOTAL 00 */
-    logger.info("Creating table aggr_cpa_tot ")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa_tot;")
-    cur.execute(
-        "create table aggr_cpa_tot as select declarant_iso, partner_iso, flow, '00' as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg from comext_full WHERE product_nc= 'TOTAL' group by declarant_iso, partner_iso, flow,  cpa, period;"
-    )
-    conn.commit()
-
-    logger.info("Dropping table comext_full to free space ")
-    cur.execute("DROP TABLE IF EXISTS comext_full;")
-    conn.commit()
-
-    # /*  view */
-    logger.info("Creating table base_grafi_cpa ")
-    cur.execute("DROP TABLE IF EXISTS base_grafi_cpa;")
-    cur.execute(
-        "create table base_grafi_cpa as select * from  aggr_cpa2 where (1* substr(cpa,1,2) >0 and 1* substr(cpa,1,2) <37) union select * from  aggr_cpa3 where (1* substr(cpa,1,3) >0 and 1* substr(cpa,1,3) <370) union  select * from aggr_cpa_tot;"
-    )
-    conn.commit()
-
-    logger.info("Dropping table aggr_cpa2, aggr_cpa3, aggr_cpa_tot to free space ")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa2;")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa3;")
-    cur.execute("DROP TABLE IF EXISTS aggr_cpa_tot;")
-    conn.commit()
-
-    # /*  create table WORLD for all partners * add ALL COUNTRIES AC
-    logger.info("Creating table base_grafi_cpa_wo ")
-    cur.execute("DROP TABLE IF EXISTS base_grafi_cpa_wo;")
-    cur.execute(
-        "create table base_grafi_cpa_wo as select declarant_iso, 'AC' as partner_iso, flow, cpa, period, sum(val_cpa) as val_cpa,sum(q_kg) as q_kg from base_grafi_cpa group by declarant_iso, flow, cpa, period order by declarant_iso, flow, cpa, period; "
-    )
-    conn.commit()
-
-    # /*  view */
-    logger.info("Creating table variazioni_cpa ")
-    cur.execute("DROP TABLE IF EXISTS variazioni_cpa;")
-    cur.execute(
-        "create table variazioni_cpa as select a.declarant_iso, a.partner_iso, a.flow, a.cpa, a.period, a.val_cpa, round(100.00*((a.val_cpa-b.val_cpa)*1.00/b.val_cpa),2) as var_cpa, a.q_kg, round(100.00*(a.q_kg-b.q_kg)/b.q_kg,2)  as var_q_cpa  from base_grafi_cpa a, base_grafi_cpa b where a.declarant_iso=b.declarant_iso and a.partner_iso=b.partner_iso and a.flow=b.flow and a.cpa=b.cpa and a.period=(b.period+100) union all select a.declarant_iso, a.partner_iso,a.flow, a.cpa, a.period, a.val_cpa, 100*(a.val_cpa-b.val_cpa)/b.val_cpa as var_cpa, a.q_kg, 100*(a.q_kg-b.q_kg)/b.q_kg  as var_q_cpa from base_grafi_cpa_wo a, base_grafi_cpa_wo b where a.declarant_iso = b.declarant_iso 	and a.flow = b.flow and a.cpa = b.cpa and a.period =(b.period + 100) ; "
-    )
-    conn.commit()
-
-    logger.info("Dropping table base_grafi_cpa_wo to free space ")
-    cur.execute("DROP TABLE IF EXISTS base_grafi_cpa_wo;")
-    conn.commit()
-
-    filter_yyymm = str(params.start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(
-        "%02d" % params.start_data_PAGE_GRAPH_INTRA_UE.month
-    )
-    # /*  basi trimestrali */
-    logger.info("Creating table per_trimestri  ")
-    cur.execute("DROP TABLE IF EXISTS per_trimestri;")
-    cur.execute(
-        "create table per_trimestri as select *, substr(period,1,4)||'T1' as trimestre from base_grafi_cpa where substr(period,5,2) in ('01', '02','03') and period >= "
-        + filter_yyymm
-        + " union select *, substr(period,1,4)||'T2' as trimestre from base_grafi_cpa where substr(period,5,2) in ('04', '05','06') and period >= "
-        + filter_yyymm
-        + " union select *, substr(period,1,4)||'T3' as trimestre from base_grafi_cpa where substr(period,5,2) in ('07', '08','09') and period > "
-        + filter_yyymm
-        + " union select *, substr(period,1,4)||'T4' as trimestre from base_grafi_cpa where substr(period,5,2) in ('10', '11','12') and period > "
-        + filter_yyymm
-        + ""
-    )
-    conn.commit()
-
-    # /*  basi trimestrali */
-    logger.info("Creating table base_grafi_cpa_trim  ")
-    cur.execute("DROP TABLE IF EXISTS base_grafi_cpa_trim;")
-    cur.execute(
-        "create table base_grafi_cpa_trim as select declarant_iso, partner_iso, flow,  cpa, trimestre, sum(val_cpa) as val_cpa, sum(q_kg) as q_kg from per_trimestri group by declarant_iso, partner_iso, flow, cpa, trimestre;"
-    )
-    conn.commit()
-
-    logger.info("Dropping table per_trimestri to free space ")
-    cur.execute("DROP TABLE IF EXISTS per_trimestri;")
-    conn.commit()
-
-    logger.info("Creating END ")
-    if conn:
-        conn.close()
-
+            TO '{params.FILES["PROCESS_MAP_SERIES"]}'
+            (FORMAT PARQUET)
+            """
+        )
+        # /* calcolo i valori per cpa */
+        ## considero un 1 anno prima es 48 per 36 mesi
+        filter_yyymm = str(params.start_data_PAGE_BASKET.year - 1) + str(
+            "%02d" % params.start_data_PAGE_BASKET.month
+        )
+        con.execute(
+            f"""
+            CREATE TEMP VIEW quote_cpa AS
+            SELECT declarant_iso, flow, cpa2, IS_CPA_1_36, period, val_cpa,
+                SUM(val_cpa) OVER (PARTITION BY declarant_iso, flow, period) AS val_tot,
+                q_cpa,
+                SUM(q_cpa) OVER (PARTITION BY declarant_iso, flow, period) AS q_tot,
+                ROUND(100.0 * val_cpa / SUM(val_cpa) OVER (PARTITION BY declarant_iso, flow, period), 2) AS q_val_cpa,
+                ROUND(100.0 * q_cpa / SUM(q_cpa) OVER (PARTITION BY declarant_iso, flow, period), 2) AS q_qua_cpa
+            FROM (
+                SELECT declarant_iso, flow, cpa2, period, IS_CPA_1_36, SUM(value_in_euros) AS val_cpa, SUM(quantity_in_kg) AS q_cpa
+                FROM comext_full
+                WHERE PRODUCT_TYPE = 'CPA'
+                AND period >= {filter_yyymm}
+                GROUP BY declarant_iso, flow, cpa2, period, IS_CPA_1_36
+            ) as aggr_cpa
+        """
+        )
+        logger.info("Creating cpa quotes file")
+        con.execute(
+            f"""
+            COPY (
+                SELECT DECLARANT_ISO, FLOW, cpa2 as PRODUCT, PERIOD, q_val_cpa, q_qua_cpa FROM quote_cpa WHERE IS_CPA_1_36 = 1
+            )
+            TO '{params.FILES["PROCESS_CPA_QUOTES"]}'
+            (FORMAT PARQUET)
+        """
+        )
+        # /* calcolo le variazioni */
+        logger.info("Creating variations file")
+        con.execute(
+            f"""
+            COPY (
+                SELECT a.DECLARANT_ISO, a.FLOW, a.cpa2 as PRODUCT, a.PERIOD,
+                ROUND(100.0 * (a.q_val_cpa - b.q_val_cpa) / NULLIF(b.q_val_cpa, 0), 2) AS var_val_basket,
+                ROUND(100.0 * (a.q_qua_cpa - b.q_qua_cpa) / NULLIF(b.q_qua_cpa, 0), 2) AS var_qua_basket
+                FROM quote_cpa a JOIN quote_cpa b
+                ON a.declarant_iso = b.declarant_iso
+                AND a.flow = b.flow
+                AND a.cpa2 = b.cpa2
+                AND a.period = b.period + 100
+                AND a.IS_CPA_1_36 = 1
+            )
+            TO '{params.FILES["PROCESS_VARIATIONS"]}'
+            (FORMAT PARQUET)
+        """
+        )
+        ## grafi in classificazione CPA e scambi tra paesi intra-UE
+        # /* aggrego per cpa2 */
+        con.execute(
+            f"""
+            create TEMP TABLE base_grafi_cpa as
+            select declarant_iso, partner_iso, flow, cpa23 as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg
+            from comext_full
+            WHERE IS_CPA_1_36 = 1
+            group by declarant_iso, partner_iso, flow, cpa23, period
+            UNION ALL
+            select declarant_iso, partner_iso, flow, cpa3 as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg
+            from comext_full
+            WHERE IS_CPA_1_369 = 1
+            group by declarant_iso, partner_iso, flow, cpa3, period
+            UNION ALL
+            select declarant_iso, partner_iso, flow, '00' as cpa, period, sum(value_in_euros) as val_cpa, sum(quantity_in_kg) as q_kg
+            from comext_full
+            WHERE PRODUCT_TYPE = 'TOTAL'
+            group by declarant_iso, partner_iso, flow, cpa, period
+        """
+        )
+        # /*  create table WORLD for all partners * add ALL COUNTRIES AC
+        con.execute(
+            f"""
+            create TEMP VIEW base_grafi_cpa_wo as 
+            select declarant_iso, 'AC' as partner_iso, flow, cpa, period, sum(val_cpa) as val_cpa,sum(q_kg) as q_kg
+            from base_grafi_cpa
+            group by declarant_iso, flow, cpa, period
+        """
+        )
+        con.execute(
+            f"""
+            create TEMP VIEW variazioni_cpa as
+            SELECT a.declarant_iso, a.partner_iso, a.flow, a.cpa, a.period, a.val_cpa,
+            ROUND(100.0 * (a.val_cpa - b.val_cpa) / NULLIF(b.val_cpa, 0), 2) AS var_cpa,
+            a.q_kg,
+            ROUND(100.0 * (a.q_kg - b.q_kg) / NULLIF(b.q_kg, 0), 2) AS var_q_cpa
+            FROM base_grafi_cpa a JOIN base_grafi_cpa b
+            ON a.declarant_iso = b.declarant_iso
+            AND a.partner_iso = b.partner_iso
+            AND a.flow = b.flow
+            AND a.cpa = b.cpa
+            AND a.period = b.period + 100
+            union all
+            SELECT a.declarant_iso, a.partner_iso, a.flow, a.cpa, a.period, a.val_cpa,
+            ROUND(100.0 * (a.val_cpa - b.val_cpa) / NULLIF(b.val_cpa, 0), 2) AS var_cpa,
+            a.q_kg,
+            ROUND(100.0 * (a.q_kg - b.q_kg) / NULLIF(b.q_kg, 0), 2) AS var_q_cpa
+            FROM base_grafi_cpa_wo a JOIN base_grafi_cpa_wo b
+            ON a.declarant_iso = b.declarant_iso
+            AND a.partner_iso = b.partner_iso
+            AND a.flow = b.flow
+            AND a.cpa = b.cpa
+            AND a.period = b.period + 100
+        """
+        )
+        logger.info("Creating cpa_variations file")
+        con.execute(
+            f"""
+            COPY (
+                SELECT DECLARANT_ISO, PARTNER_ISO, FLOW, trim(cpa) as PRODUCT, PERIOD, val_cpa, q_kg FROM variazioni_cpa WHERE (length(trim(cpa))==2 or trim(cpa) in ('061','062') )
+            )
+            TO '{params.FILES["PROCESS_CPA_VARIATIONS"]}'
+            (FORMAT PARQUET)
+        """
+        )
+        filter_yyymm = str(params.start_data_PAGE_GRAPH_INTRA_UE.year - 1) + str(
+            "%02d" % params.start_data_PAGE_GRAPH_INTRA_UE.month
+        )
+        logger.info("Creating base_graph_cpa file")
+        con.execute(
+            f"""
+            COPY (
+                SELECT DECLARANT_ISO, PARTNER_ISO, FLOW,
+                CASE
+                    WHEN length(trim(cpa)) = 3 THEN 1
+                    WHEN trim(cpa) = '00' THEN 0
+                    ELSE -1
+                END as IS_PRODUCT,
+                CASE
+                    WHEN length(trim(cpa)) = 3 THEN cpa
+                    WHEN trim(cpa) = '00' THEN 'TOT'
+                    ELSE '---'
+                END as PRODUCT,
+                PERIOD, val_cpa as VALUE_IN_EUROS, q_kg as QUANTITY_IN_KG
+                FROM base_grafi_cpa
+                WHERE PERIOD>{filter_yyymm}
+                and (length(trim(cpa)) = 3 or trim(cpa) = '00')
+            )
+            TO '{params.FILES["PROCESS_BASE_GRAPH_CPA"]}'
+            (FORMAT PARQUET)
+        """
+        )
+        # /*  basi trimestrali */
+        logger.info("Creating base_graph_cpa_trim file")
+        con.execute(
+            f"""
+            COPY (
+                select declarant_iso, partner_iso, flow, cpa, trimestre, sum(val_cpa) as val_cpa, sum(q_kg) as q_kg
+                from (
+                    select declarant_iso, partner_iso, flow, val_cpa, q_kg,
+                    CASE
+                        WHEN length(trim(cpa)) = 3 THEN cpa
+                        WHEN trim(cpa) = '00' THEN 'TOT'
+                        ELSE '---'
+                    END as cpa,
+                    CAST(period / 100 AS INT) || 'T' || CAST(FLOOR(((period % 100 -1) / 3) + 1) AS INT) AS trimestre
+                    from base_grafi_cpa
+                    where period > {filter_yyymm}
+                    and (length(trim(cpa)) = 3 or trim(cpa) = '00')
+                ) as per_trimestri
+                group by declarant_iso, partner_iso, flow, cpa, trimestre
+            )
+            TO '{params.FILES["PROCESS_BASE_GRAPH_CPA_TRIM"]}'
+            (FORMAT PARQUET)
+        """
+        )
+        con.close()
+        logger.info("END Creating monthly processing done")
     return "Monthly processing on DB OK!"
