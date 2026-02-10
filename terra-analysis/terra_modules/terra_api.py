@@ -157,6 +157,7 @@ def fetch_graph_metrics(
         print(f"Endpoint: {endpoint}")
 
     periods = generate_time_interval(start_date, end_date, frequency)
+
     metrics_list = []
 
     for period in periods:
@@ -169,7 +170,8 @@ def fetch_graph_metrics(
         response = requests.post(endpoint, json=payload, timeout=30)
 
         if response.ok:
-            data = response.json().get("metriche", {})
+            data = response.json().get("metrics", {})
+            print(f"Data retrieved for {period}: {data}")
             if data:
                 df = metrics_to_dataframe(data, period)
                 metrics_list.append(df)
