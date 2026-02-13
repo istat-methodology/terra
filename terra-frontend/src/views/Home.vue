@@ -165,17 +165,19 @@
                   :clearable="false" />
               </label>
             </div>
-            <div class="actions">
+            <div class="actions mt-2 mb-2">
               <button type="button" class="btn secondary" @click="resetFilters">
-                Reset filtri
+                {{ $t("common.reset_filters") }}
               </button>
               <button
                 type="button"
                 class="btn primary"
                 :disabled="isDownloading"
                 @click="submitDataDownload">
-                <span v-if="!isDownloading">Scarica dati</span>
-                <span v-else>Preparazione download...</span>
+                <span v-if="!isDownloading">
+                  {{ $t("common.download_data") }}</span
+                >
+                <span v-else>{{ $t("common.preparing_download") }}</span>
               </button>
             </div>
           </form>
@@ -717,6 +719,7 @@ export default {
       })
       return data
     },
+    /*
     getTabularData(data, partner, date) {
       if (!Array.isArray(data)) {
         console.warn("getTabularData: 'data' is not an array", data)
@@ -748,7 +751,7 @@ export default {
         }
       ]
     },
-
+    */
     formatNumber(num) {
       return num ? num.toLocaleString(this.$i18n.locale) : "-"
     },

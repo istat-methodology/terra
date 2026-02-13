@@ -1,6 +1,9 @@
 {
   "common": {
-    "acronym": "TERRA - imporT ExpoRt netwoRk Analysis",
+    "acronym": "TERRA - imporT ExpoRt netwoRk Analysis",   
+    "reset_filters":"Reset dei filtri",
+    "download_data":"Download dei dati",
+    "preparing_download":"Peparazione del Download...",
     "submit": "Esegui",
     "data_updated": "Dati aggiornati",
     "exporter": "Download",
