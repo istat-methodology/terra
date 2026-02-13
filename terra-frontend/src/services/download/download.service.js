@@ -1,18 +1,16 @@
-import { axiosHack } from "@/http"
+//import { axiosHack } from "@/http"
+import { axiosPython } from "@/http"
 import store from "@/store"
 
-export const downloadService = {
-  findAll
-}
+export function fetchData(payload) {
+  const lang = store.getters["coreui/language"]
 
-function findAll() {
-  const lan = store.getters["coreui/language"]
-  return axiosHack
-    .get("/download", { params: { lang: lan } })
+  return axiosPython
+    .post("/downloadData", payload, {
+      params: { lang }
+    })
     .then((res) => {
-      var data = res.data ? res.data : {}
-      //console.log(data);
-      return data
+      return res.data ? res.data : {}
     })
     .catch((err) => {
       throw err

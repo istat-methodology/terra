@@ -83,6 +83,41 @@
   },
   "landing": {
     "disclaimer": "*Le classificazioni Eurostat CPA 2.1 e NSTR possono differire dalle corrispondenti versioni nazionali",
+    "download": {
+      "title": "Download Dati COMEXT",
+      "body": "Impostare i filtri per scaricare i dati COMEXT.",
+      "link": "esegui il download",
+      "form": {
+        "title": "Filtri di ricerca",
+        "body": "Filtri di ricerca",
+        "fields": {
+          "seriesData": "Serie di dati",
+          "seriesData_placeholder": "Seleziona la serie di dati",
+          "dataType": "Serie",
+          "dataType_placeholder": "Seleziona la serie",
+          "varType": "Tipo dati",
+          "varType_placeholder": "Seleziona il tipo dati",
+          "flow": "Flusso",
+          "flow_placeholder": "Seleziona il flusso",
+          "country": "Paese",
+          "country_placeholder": "Seleziona un paese",
+          "partner": "Partner",
+          "partner_placeholder": "Seleziona un partner",
+          "productsClass": "Classi di prodotti",
+          "productsClass_placeholder": "Seleziona una classe di prodotti",
+          "productsCPA": "Prodotti CPA 2.1",
+          "productsCPA_placeholder": "Seleziona un prodotto",
+          "products": "Prodotti",
+          "products_placeholder": "Seleziona un prodotto",
+          "criterion": "Criterio",
+          "criterion_placeholder": "Seleziona un criterio",
+          "transports": "Modalità di trasporto",
+          "transports_placeholder": "Seleziona una modalità di trasporto",
+          "period": "Periodo",
+          "period_placeholder": "Seleziona un periodo"
+        }
+      }     
+    },  
     "map": {
       "title": "Mappa Interattiva",
       "body": "Questa sezione fornisce una mappa che mostra per ogni paese la <strong>popolazione totale</strong>, alcuni <strong>indicatori macroeconomici</strong>, i principali <strong>prodotti importati ed esportati </strong>e i principali <strong>paesi partner commerciali</strong>.<br><br>Inoltre, viene fornita una funzionalità <strong>time-lapse</strong> per rappresentare le variazioni mensili tendenziali del commercio internazionale per gli ultimi tre anni.",

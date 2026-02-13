@@ -16,6 +16,8 @@ import { metadata } from "./modules/metadata/metadata"
 
 import { news } from "./modules/news/news"
 
+import download from "./modules/download/download"
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -30,6 +32,7 @@ export default new Vuex.Store({
     timeseries,
     countries,
     metadata,
-    news
+    news,
+    download
   }
 })

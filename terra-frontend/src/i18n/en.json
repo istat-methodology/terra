@@ -84,6 +84,40 @@
   },
   "landing": {
     "disclaimer": "*Eurostat and National CPA 2.1 and NSTR classifications may differ",
+    "download": {
+      "title": "Download COMEXT Data",
+      "body": "Set the filters to download the COMEXT data.",
+      "link": "start downloading",
+      "form": {
+        "title": "Search filters",
+        "fields": {
+          "seriesData": "Series of data",
+          "seriesData_placeholder": "Select the series of data",
+          "dataType": "Series type",
+          "dataType_placeholder": "Select series type",
+          "varType": "Data type",
+          "varType_placeholder": "Select data type",
+          "flow": "Flow",
+          "flow_placeholder": "Select a flow",
+          "country": "Country",
+          "country_placeholder": "Select a country",
+          "partner": "Partner",
+          "partner_placeholder": "Select a partner",
+          "productsClass": "Products class",
+          "productsClass_placeholder": "Select a products class",
+          "productsCPA": "Products CPA 2.1",
+          "productsCPA_placeholder": "Select a product",
+          "products": "Products",
+          "products_placeholder": "Select a product",
+          "criterion": "Criterion",
+          "criterion_placeholder": "Select a criterion",
+          "transports": "Transport mode",
+          "transports_placeholder": "Select a transport mode",
+          "period": "Period",
+          "period_placeholder": "Select a period"
+        }
+      }
+    },        
     "map": {
       "title": "Interactive map",
       "body": "This section provides a map displaying for each country the <strong>total population</strong>, <strong>some macro-economic indicators</strong>, main <strong>imported and exported goods</strong> ,and main <strong>trade partner countries</strong>. <br><br>Moreover, a <strong>time-lapse</strong> functionality to represent the international trade year-on-year monthly variations for the last three years is provided.",
@@ -115,7 +149,7 @@
       "title": "News on Terra",
       "body": "This section shows news on Terra, related to data updates, bug fixing and improvements in the dashboard",
       "link": "Go to News"
-    }
+    }   
   },
   "map": {
     "legend": {
