@@ -9,10 +9,10 @@ module.exports = {
 
   productionSourceMap: true,
 
-  configureWebpack: config => {
+  configureWebpack: (config) => {
     // source map più leggibili in sviluppo
     if (process.env.NODE_ENV === "development") {
-      config.devtool = "source-map"      // oppure "eval-source-map"
+      config.devtool = "source-map" // oppure "eval-source-map"
     }
 
     config.resolve = config.resolve || {}
@@ -23,4 +23,3 @@ module.exports = {
     config.resolve.extensions = [".vue", ...(config.resolve.extensions || [])]
   }
 }
-

@@ -41,7 +41,9 @@
                   type="month"
                   v-model="period"
                   class="p-1"
-                  :class="{ 'is-invalid': $v.period.$error }" />
+                  :class="{ 'is-invalid': $v.period.$error }"
+                  :min="minPeriod"
+                  :max="maxPeriod" />
               </label>
             </div>
             <div class="row">
@@ -340,8 +342,8 @@ export default {
     /* Form fields */
     seriesData: null,
     period: null,
-    minPeriod: "2010-01",
-    maxPeriod: "2035-12",
+    minPeriod: "2015-01",
+    maxPeriod: "2030-12",
     flow: null,
     criterion: null,
     productClass: null,
@@ -505,7 +507,7 @@ export default {
   },
 
   // Parametri obbligatori :
-  // seriesData,
+  // seriesData ? ,
   // period,
   // flow,
   // criterion,
@@ -579,7 +581,6 @@ export default {
     submitDataDownload() {
       return this.download()
     },
-
     resetFilters() {
       this.seriesData = null
       this.period = null
@@ -780,9 +781,6 @@ export default {
     spinnerStart(bool) {
       this.spinner = bool
     },
-    clearChart() {
-      document.getElementById("timeseries").removeChild("canvas")
-    },
     fixASidebarMenu() {
       setTimeout(() => {
         document.querySelectorAll(".c-sidebar-nav-link").forEach((element) => {
@@ -804,7 +802,6 @@ export default {
         })
       }, 300)
     },
-
     onSubmit() {
       this.handleSubmit()
     },
@@ -855,7 +852,6 @@ export default {
     }
    */
   },
-
   created() {
     this.$store.dispatch("coreui/setContext", Context.Home)
     this.fixMetaTitle()
@@ -866,6 +862,9 @@ export default {
     this.fixLanguageAccessibility()
     this.fixSelectAccessibility()
     this.fixASidebarMenu()
+  },
+  mounted() {
+    this.resetFilters()
   }
 }
 </script>
