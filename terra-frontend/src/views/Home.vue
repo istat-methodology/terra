@@ -40,7 +40,7 @@
                 <input
                   type="month"
                   v-model="period"
-                  class="p-1"
+                  class="pb-0 pt-1"
                   :class="{ 'is-invalid': $v.period.$error }"
                   :min="minPeriod"
                   :max="maxPeriod" />
