@@ -13,7 +13,7 @@
             alt="Download" />{{ $t("landing.download.body") }}
         </header>
         <div class="card-body col-sm-12 col-md-12 mt-1">
-          <form class="form" @submit.prevent="onSubmit">
+          <form class="form ml-1 mr-1" @submit.prevent="onSubmit">
             <div class="row">
               <label
                 id="label__seriesData"
@@ -165,13 +165,17 @@
                   :clearable="false" />
               </label>
             </div>
-            <div class="actions mt-2 mb-2">
-              <button type="button" class="btn secondary" @click="resetFilters">
+            <!--hr /-->
+            <div class="actions mt-3 mb-2">
+              <button
+                type="button"
+                class="btn btn-light btn-sm"
+                @click="resetFilters">
                 {{ $t("common.reset_filters") }}
               </button>
               <button
                 type="button"
-                class="btn primary"
+                class="btn btn-light btn-sm ml-2"
                 :disabled="isDownloading"
                 @click="submitDataDownload">
                 <span v-if="!isDownloading">
@@ -181,8 +185,6 @@
               </button>
             </div>
           </form>
-          <!--p>Result: {{ getPeriod }}</p>
-          <p v-if="result">{{ result }}</p-->
         </div>
       </div>
     </div>
