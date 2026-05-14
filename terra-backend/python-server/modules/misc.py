@@ -26,33 +26,50 @@ class Misc:
     ) -> str:
         """
         Returns a JSON string containing rows from the selected table, limited by DOWNLOAD_LIMIT.
-        product_class:
-          - 'cpa' uses comextImp/comextExp based on flow (1=import, 2=export)
-          - 'nstr' uses trExtraUE (flow can be None or 1/2)
-        criterion:
-          - 1 => VALUE_IN_EUROS
-          - 2 => QUANTITY_IN_KG
         """
         self.logger.info("[TERRA] Preparing data table...")
 
         table = self._select_table(product_class, flow)
 
-        if criterion == 1:
-            column_selected = table.VALUE_IN_EUROS
-            column_excluded = table.QUANTITY_IN_KG
+        if criterion == 0:
+            column_selected = [
+                table.VALUE_IN_EUROS,
+                table.QUANTITY_IN_KG,
+            ]
+            column_excluded = []
+            
+            #TO REMOVE WHEN CPA QTY IS FIXED
+            if product_class == "cpa":
+                column_selected = [table.VALUE_IN_EUROS]
+                column_excluded = [table.QUANTITY_IN_KG]
+        
+        elif criterion == 1:
+            column_selected = [table.VALUE_IN_EUROS]
+            column_excluded = [table.QUANTITY_IN_KG]
+
         elif criterion == 2:
-            column_selected = table.QUANTITY_IN_KG
-            column_excluded = table.VALUE_IN_EUROS
+            column_selected = [table.QUANTITY_IN_KG]
+            column_excluded = [table.VALUE_IN_EUROS]
+            
+            #TO REMOVE WHEN CPA QTY IS FIXED
+            if product_class == "cpa":
+                raise ValueError(
+                    "Invalid criterion for CPA data (expected 0=ALL, 1=VALUE)"
+                )
         else:
-            raise ValueError("Invalid criterion (expected 1=VALUE, 2=QUANTITY)")
+            raise ValueError(
+                "Invalid criterion (expected 0=ALL, 1=VALUE, 2=QUANTITY)"
+            )
 
         columns = [
             getattr(table, attr.key)
             for attr in table.__mapper__.column_attrs
-            if attr.key != column_excluded.key
+            if attr.key not in {col.key for col in column_excluded}
         ]
-        if column_selected not in columns:
-            columns.append(column_selected)
+
+        for col in column_selected:
+            if col not in columns:
+                columns.append(col)
 
         with self.Session() as session:
             q = session.query(*columns).filter(table.PERIOD == period)
