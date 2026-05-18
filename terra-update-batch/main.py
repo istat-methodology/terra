@@ -12,6 +12,7 @@ load_dotenv()
 
 logger = misc.get_logger()
 
+# togliere
 if os.getenv("AZ_BATCH_APP_PACKAGE_cosmoDataUpdate", "") != "":
     text = os.getenv("AZ_BATCH_APP_PACKAGE_cosmoDataUpdate", "")
     pattern = r"cosmodataupdate(.*)\d{4}-\d{2}-\d{2}-\d{2}-\d{2}$"
@@ -20,13 +21,14 @@ if os.getenv("AZ_BATCH_APP_PACKAGE_cosmoDataUpdate", "") != "":
         version = match.group(1)
         logger.info(f"Package version: {version}")
 
+# togliere
 if os.getenv("AZ_BATCH_TASK_WORKING_DIR", "") != "":
     print("AZ_BATCH_TASK_WORKING_DIR: "+os.getenv("AZ_BATCH_TASK_WORKING_DIR", ""))
     os.symlink(
         params.DATA_FOLDER_PARENT,
-        os.environ["AZ_BATCH_TASK_WORKING_DIR"] + os.sep + "data",
+        os.getenv("AZ_BATCH_TASK_WORKING_DIR") + os.sep + "data",
     )
-    logger.info(f"symlink created: {params.DATA_FOLDER_PARENT} -> {os.environ['AZ_BATCH_TASK_WORKING_DIR'] + os.sep + 'data'}")
+    logger.info(f"symlink created: {params.DATA_FOLDER_PARENT} -> {os.getenv('AZ_BATCH_TASK_WORKING_DIR') + os.sep + 'data'}")
 
 
 def executeUpdate():

@@ -9,7 +9,7 @@ RUN_MONTHLY_PROCESSING: bool = os.getenv("RUN_MONTHLY_PROCESSING", "1") == "1"
 RUN_OUTPUT            : bool = os.getenv("RUN_OUTPUT", "1") == "1"
 RUN_UTILS             : bool = os.getenv("RUN_UTILS", "1") == "1"
 
-WORKING_FOLDER        : str  = os.environ['WORKING_FOLDER']
+WORKING_FOLDER        : str  = os.getenv("WORKING_FOLDER", "")
 
 KEY_VAULT_NAME        : str  = os.getenv("KEY_VAULT_NAME", "")
 SECRETNAME_ACCOUNTKEY : str  = "cosmostoragekey"

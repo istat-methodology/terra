@@ -53,7 +53,7 @@ def sanityCheckAzureFolderStructure(logger):
         storage_account_key = kvclient.get_secret(params.SECRETNAME_ACCOUNTKEY).value
 
     fileService = FileService(
-        account_name=os.environ["STORAGE_ACCOUNT_NAME"], account_key=storage_account_key
+        account_name=os.getenv("STORAGE_ACCOUNT_NAME"), account_key=storage_account_key
     )
 
     for share_name, folders in params.STORAGE_ACCOUNT_FOLDER_LIST.items():
@@ -105,7 +105,7 @@ def copyFileToAzure(storage, folder, path_file_source, logger):
         storage_account_key = kvclient.get_secret(params.SECRETNAME_ACCOUNTKEY).value
 
     fileService = FileService(
-        account_name=os.environ["STORAGE_ACCOUNT_NAME"], account_key=storage_account_key
+        account_name=os.getenv("STORAGE_ACCOUNT_NAME"), account_key=storage_account_key
     )
     fileService.create_file_from_path(
         storage, folder, os.path.basename(path_file_source), path_file_source
