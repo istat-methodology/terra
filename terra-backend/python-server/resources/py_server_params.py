@@ -9,8 +9,6 @@ product_digits: int = 3
 
 ######## ENVIRONMENT VARIABLES #########
 
-KEY_VAULT_NAME: str = os.getenv("KEY_VAULT_NAME", "")
-
 DB_PROVIDER: str = os.getenv("DB_PROVIDER", "mssql+pyodbc")
 DB_SERVER: str   = os.getenv("DB_SERVER", "")
 DB_NAME: str     = os.getenv("DB_NAME", "")
