@@ -5,4 +5,4 @@ resource la 'Microsoft.Logic/workflows@2019-05-01' existing = {
 }
 
 @secure()
-output triggerUrl string = listCallbackURL('${la.id}/triggers/manual','2019-05-01')
+output triggerUrl string = listCallbackURL('${la.id}/triggers/manual','2019-05-01').value

@@ -26,8 +26,8 @@
       "jobNotificationsRecipients": {
         "value": "${JOBNOTIFICATIONS_RECIPIENTS}"
       },
-      "customResourceNames": {
-        "value": "${CUSTOM_RESOURCE_NAMES}"
+      "sqlAdminPassword": {
+        "value": "${SQL_ADMIN_PASSWORD}"
       }
     }
 }

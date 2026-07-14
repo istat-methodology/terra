@@ -10,6 +10,7 @@ param pythonServerExists bool
 param terraUpdateBatchExists bool
 param sendEmailLogicAppUrl string
 param jobNotificationsRecipients string
+param sqlAdminPassword string
 
 @description('Id of the user or app to assign application roles')
 param principalId string
@@ -214,6 +215,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.32.0' = {
   name: 'terraJobStorage'
   params: {
     name: resName.storageAccount ?? '${abbrs.storageStorageAccounts}${resourceToken}'
+    skuName: 'Standard_LRS'
     fileServices: {
       shares: [
         {
@@ -234,6 +236,7 @@ module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
   params: {
     name: resName.sqlServer ?? 'statlab'
     administratorLogin: sqlAdminUser
+    administratorLoginPassword: sqlAdminPassword
     databases: [
       {
         availabilityZone: -1
@@ -242,6 +245,13 @@ module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
           name: 'Standard'
           tier: 'Standard'
           capacity: 100
+        }
+        maxSizeBytes: 53687091200
+        zoneRedundant: false
+        managedIdentities: {
+          userAssignedResourceIds: [
+            appsIdentity.outputs.resourceId
+          ]
         }
       }
     ]
@@ -310,7 +320,7 @@ module terraUpdateBatch 'br/public:avm/res/app/job:0.7.1' = {
         image: terraUpdateBatchFetchLatestImage.outputs.?containers[?0].?image ?? 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
         name: 'main'
         resources: {
-          cpu: json('4.0')
+          cpu: '4'
           memory: '16.0Gi'
         }
         volumeMounts: [
@@ -436,6 +446,7 @@ module terraFrontend 'br/public:avm/res/web/static-site:0.9.5' = {
   params: {
     name: resName.staticWebApp ?? 'xxxxxxxxxxxxxxxxxx'
     sku: 'Standard'
+    location: 'westeurope'
   }
 }
 

@@ -9,14 +9,13 @@ param environmentName string
 @description('Primary location for all resources')
 param location string
 
-param customResourceNames string = '{}'
-
 param jsonServerExists bool
 param pythonServerExists bool
 param terraUpdateBatchExists bool
 param jobNotificationsRecipients string
 param sendEmailLogicAppName string = 'LASendMailGmail'
 param sendEmailLogicAppResourceGroup string = 'RG-Cosmo'
+param sqlAdminPassword string
 
 @description('Id of the user or app to assign application roles')
 param principalId string
@@ -33,7 +32,7 @@ var tags = {
   'azd-env-name': environmentName
 }
 
-var resName = json(customResourceNames)
+var resName = loadJsonContent('../.azure/test01/resnames.json')
 
 module laUrl 'logicapp-sendmail.bicep' = {
   scope: resourceGroup(sendEmailLogicAppResourceGroup)
@@ -63,6 +62,7 @@ module resources 'resources.bicep' = {
     jobNotificationsRecipients: jobNotificationsRecipients
     sendEmailLogicAppUrl: laUrl.outputs.triggerUrl
     resName: resName
+    sqlAdminPassword: sqlAdminPassword
   }
 }
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = resources.outputs.AZURE_CONTAINER_REGISTRY_ENDPOINT
