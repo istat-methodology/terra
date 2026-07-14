@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "environmentName": {
+        "value": "${AZURE_ENV_NAME}"
+      },
+      "location": {
+        "value": "${AZURE_LOCATION}"
+      },
+      "jsonServerExists": {
+        "value": "${SERVICE_JSON_SERVER_RESOURCE_EXISTS=false}"
+      },
+      "pythonServerExists": {
+        "value": "${SERVICE_PYTHON_SERVER_RESOURCE_EXISTS=false}"
+      },
+      "terraUpdateBatchExists": {
+        "value": "${SERVICE_TERRA_UPDATE_BATCH_RESOURCE_EXISTS=false}"
+      },
+      "principalId": {
+        "value": "${AZURE_PRINCIPAL_ID}"
+      },
+      "principalType": {
+        "value": "${AZURE_PRINCIPAL_TYPE}"
+      },
+      "jobNotificationsRecipients": {
+        "value": "${JOBNOTIFICATIONS_RECIPIENTS}"
+      },
+      "customResourceNames": {
+        "value": "${CUSTOM_RESOURCE_NAMES}"
+      }
+    }
+}
