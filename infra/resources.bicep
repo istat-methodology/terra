@@ -10,6 +10,7 @@ param pythonServerExists bool
 param terraUpdateBatchExists bool
 param sendEmailLogicAppUrl string
 param jobNotificationsRecipients string
+@secure()
 param sqlAdminPassword string
 
 @description('Id of the user or app to assign application roles')
@@ -234,7 +235,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.32.0' = {
 module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
   name: 'sqlServer'
   params: {
-    name: resName.sqlServer ?? 'statlab'
+    name: resName.sqlServer ?? '${abbrs.sqlServers}${resourceToken}'
     administratorLogin: sqlAdminUser
     administratorLoginPassword: sqlAdminPassword
     databases: [
@@ -265,7 +266,7 @@ module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
 module keyVault 'br/public:avm/res/key-vault/vault:0.13.3' = {
   name: 'keyVault'
   params: {
-    name: resName.keyVault ?? 'statlab-key-vault'
+    name: resName.keyVault ?? '${abbrs.keyVaultVaults}${resourceToken}'
     roleAssignments: [
       {
         principalId: appsIdentity.outputs.principalId
@@ -291,7 +292,7 @@ module terraUpdateBatchFetchLatestImage './modules/fetch-containerjob-image.bice
 module terraUpdateBatch 'br/public:avm/res/app/job:0.7.1' = {
   name: 'terraUpdateBatch'
   params: {
-    replicaTimeout: 14400
+    replicaTimeout: 28800
     triggerType: 'Schedule'
     scheduleTriggerConfig: {
       cronExpression: '0 3 1 * *'
@@ -308,11 +309,13 @@ module terraUpdateBatch 'br/public:avm/res/app/job:0.7.1' = {
     secrets: [
       {
         name: 'sa-key'
-        keyVaultUrl: '${keyVault.outputs.uri}/secrets/${storageAccountKeySecretName}'
+        keyVaultUrl: 'https://${keyVault.outputs.name}${environment().suffixes.keyvaultDns}/secrets/${storageAccountKeySecretName}'
+        identity: appsIdentity.outputs.resourceId
       }
       {
         name: 'db-password'
-        keyVaultUrl: '${keyVault.outputs.uri}/secrets/${dbPasswordSecretName}'
+        keyVaultUrl: 'https://${keyVault.outputs.name}${environment().suffixes.keyvaultDns}/secrets/${dbPasswordSecretName}'
+        identity: appsIdentity.outputs.resourceId
       }
     ]
     containers: [
@@ -444,9 +447,10 @@ module terraUpdateBatch 'br/public:avm/res/app/job:0.7.1' = {
 module terraFrontend 'br/public:avm/res/web/static-site:0.9.5' = {
   name: 'terraFrontend'
   params: {
-    name: resName.staticWebApp ?? 'xxxxxxxxxxxxxxxxxx'
+    name: resName.staticWebApp ?? '${abbrs.webStaticSites}${resourceToken}'
     sku: 'Standard'
     location: 'westeurope'
+    tags: union(tags, { 'azd-service-name': 'frontend' })
   }
 }
 

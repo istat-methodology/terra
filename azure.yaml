@@ -22,6 +22,11 @@ services:
         language: python
         docker:
             path: Dockerfile
+    frontend:
+        project: terra-frontend
+        host: staticwebapp
+        language: js
+
 resources:
     json-server:
         type: host.containerapp
@@ -32,3 +37,15 @@ resources:
     terra-update-batch:
         type: host.containerapp
         port: 80
+hooks:
+    preprovision:
+        windows:
+            shell: pwsh
+            continueOnError: false
+            interactive: false
+            run: if (test-path .azure/$env:AZURE_ENV_NAME/resnames.json) { cp .azure/$env:AZURE_ENV_NAME/resnames.json .azure/.resnames.json } else { '{}' > .azure/.resnames.json }
+        posix:
+            shell: sh
+            continueOnError: false
+            interactive: false
+            run: if [ -n .azure/${AZURE_ENV_NAME}/resnames.json ] ; then cp .azure/${AZURE_ENV_NAME}/resnames.json .azure/.resnames.json ; else '{}' > .azure/.resnames.json ; fi

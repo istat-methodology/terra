@@ -45,7 +45,7 @@ def executeUpdate():
             processing.executeMonthlyProcessing(logger)
         
         if params.RUN_OUTPUT:
-            output.exectuteOutput(logger)
+            output.executeOutput(logger)
 
         if params.RUN_UTILS:
             misc.executeUtils(logger)

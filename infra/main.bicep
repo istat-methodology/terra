@@ -15,6 +15,7 @@ param terraUpdateBatchExists bool
 param jobNotificationsRecipients string
 param sendEmailLogicAppName string = 'LASendMailGmail'
 param sendEmailLogicAppResourceGroup string = 'RG-Cosmo'
+@secure()
 param sqlAdminPassword string
 
 @description('Id of the user or app to assign application roles')
@@ -22,6 +23,20 @@ param principalId string
 
 @description('Principal type of user or app')
 param principalType string
+
+type resNamesType = {
+  resourceGroup: string?
+  logAnalytics: string?
+  applicationInsights: string?
+  applicationInsightsDashboard: string?
+  acr: string?
+  containerAppsEnvironment: string?
+  userAssignedManagedIdentity: string?
+  storageAccount: string?
+  sqlServer: string?
+  keyVault: string?
+  staticWebApp: string?
+}
 
 // Tags that should be applied to all resources.
 // 
@@ -32,7 +47,7 @@ var tags = {
   'azd-env-name': environmentName
 }
 
-var resName = loadJsonContent('../.azure/test01/resnames.json')
+param resName resNamesType = loadJsonContent('../.azure/.resnames.json')
 
 module laUrl 'logicapp-sendmail.bicep' = {
   scope: resourceGroup(sendEmailLogicAppResourceGroup)
@@ -43,7 +58,7 @@ module laUrl 'logicapp-sendmail.bicep' = {
 
 // Organize resources in a resource group
 resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: resName.resourceGroup ?? 'rg-${environmentName}'
+  name: resName.?resourceGroup ?? 'rg-${environmentName}'
   location: location
   tags: tags
 }
@@ -70,3 +85,4 @@ output AZURE_RESOURCE_JSON_SERVER_ID string = resources.outputs.AZURE_RESOURCE_J
 output AZURE_RESOURCE_PYTHON_SERVER_ID string = resources.outputs.AZURE_RESOURCE_PYTHON_SERVER_ID
 output AZURE_RESOURCE_TERRA_FRONTEND_ID string = resources.outputs.AZURE_RESOURCE_TERRA_FRONTEND_ID
 output AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID string = resources.outputs.AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID
+output AZURE_RESOURCE_GROUP string = rg.name

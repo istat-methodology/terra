@@ -1,7 +1,7 @@
 from resources import params
 from modules import cosmoOutput as cOut
 
-def exectuteOutput(logger):
+def executeOutput(logger):
     logger.info('<-- Output -->')
     output_interval = {}
 
