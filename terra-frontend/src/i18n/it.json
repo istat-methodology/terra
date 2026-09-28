@@ -169,6 +169,9 @@
       "export": "visualizza dati export",
       "shot": "screen shot della mappa"
     },
+    "configuration": {
+      "unavailable": "La mappa non è attualmente disponibile."
+    },
     "modal": {
       "main": {
         "title": "Indicatori economici e del commercio internazionale",

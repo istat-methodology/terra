@@ -7,8 +7,7 @@
       <div class="card card-map" :title="'TERRA - ' + $t('landing.map.title')">
         <CCardBody tabindex="-1">
           <div v-if="!url" class="alert alert-warning mb-0" role="alert">
-            Azure Maps is not configured. Set
-            VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY to display base map tiles.
+            {{ $t("map.configuration.unavailable") }}
           </div>
           <l-map
             ref="map"
@@ -202,7 +201,7 @@ export default {
   mixins: [mapMixin, mapInfoMixin, sliderMixin],
   data: () => ({
     attribution:
-      '&copy; <a href="https://www.microsoft.com/maps/product/terms.html">TomTom, Microsoft</a>',
+      '&copy; <a href="https://www.microsoft.com/maps/product/terms.html">Microsoft, TomTom</a>',
     url: azureMapsSubscriptionKey
       ? "https://atlas.microsoft.com/map/tile?api-version=2022-08-01&tilesetId=microsoft.base.road&zoom={z}&x={x}&y={y}&subscription-key=" +
         encodeURIComponent(azureMapsSubscriptionKey)
