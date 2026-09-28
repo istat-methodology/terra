@@ -192,8 +192,11 @@ export default {
   },
   mixins: [mapMixin, mapInfoMixin, sliderMixin],
   data: () => ({
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    attribution:
+      '&copy; <a href="https://www.microsoft.com/maps/product/terms.html">Microsoft</a>',
+    url:
+      "https://atlas.microsoft.com/map/tile?api-version=2022-08-01&tilesetId=microsoft.base.road&zoom={z}&x={x}&y={y}&subscription-key=" +
+      process.env.VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY,
     center: [51.16423, 1.45412],
     zoom: 4,
     seriesPeriod: "",
