@@ -24,6 +24,9 @@ param principalId string
 @description('Principal type of user or app')
 param principalType string
 
+@description('Principal OID')
+param principalSid string
+
 type resNamesType = {
   resourceGroup: string?
   logAnalytics: string?
@@ -71,6 +74,7 @@ module resources 'resources.bicep' = {
     tags: tags
     principalId: principalId
     principalType: principalType
+    principalSid: principalSid
     jsonServerExists: jsonServerExists
     pythonServerExists: pythonServerExists
     terraUpdateBatchExists: terraUpdateBatchExists
@@ -86,3 +90,4 @@ output AZURE_RESOURCE_PYTHON_SERVER_ID string = resources.outputs.AZURE_RESOURCE
 output AZURE_RESOURCE_TERRA_FRONTEND_ID string = resources.outputs.AZURE_RESOURCE_TERRA_FRONTEND_ID
 output AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID string = resources.outputs.AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID
 output AZURE_RESOURCE_GROUP string = rg.name
+output AZURE_RESOURCE_TERRA_FRONTEND_NAME string = resources.outputs.AZURE_RESOURCE_TERRA_FRONTEND_NAME

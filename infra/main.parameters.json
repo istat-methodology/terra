@@ -23,6 +23,9 @@
       "principalType": {
         "value": "${AZURE_PRINCIPAL_TYPE}"
       },
+      "principalSid": {
+        "value": "${AZURE_PRINCIPAL_SID}"
+      },
       "jobNotificationsRecipients": {
         "value": "${JOBNOTIFICATIONS_RECIPIENTS}"
       },

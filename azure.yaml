@@ -22,10 +22,12 @@ services:
         language: python
         docker:
             path: Dockerfile
-    frontend:
-        project: terra-frontend
-        host: staticwebapp
-        language: js
+#    frontend:
+#        project: terra-frontend
+#        host: staticwebapp
+#        language: js
+#        dist: dist
+
 
 resources:
     json-server:
@@ -43,9 +45,35 @@ hooks:
             shell: pwsh
             continueOnError: false
             interactive: false
-            run: if (test-path .azure/$env:AZURE_ENV_NAME/resnames.json) { cp .azure/$env:AZURE_ENV_NAME/resnames.json .azure/.resnames.json } else { '{}' > .azure/.resnames.json }
+            run: | 
+              if (test-path .azure/$env:AZURE_ENV_NAME/resnames.json) { 
+                 cp .azure/$env:AZURE_ENV_NAME/resnames.json .azure/.resnames.json 
+              } else { 
+                 '{}' > .azure/.resnames.json 
+              }
+
+              $token = azd auth token
+              $claimsb64url = $token.Split('.')[1]
+              $claimsJsonBinary = [System.Buffers.Text.Base64Url]::DecodeFromChars($claimsB64url)
+              $claimsJson = [Text.Encoding]::UTF8.GetString($claimsJsonBinary)
+              $claims = $claimsjson | ConvertFrom-Json
+              azd env set AZURE_PRINCIPAL_SID $($claims.oid)
         posix:
             shell: sh
             continueOnError: false
             interactive: false
             run: if [ -n .azure/${AZURE_ENV_NAME}/resnames.json ] ; then cp .azure/${AZURE_ENV_NAME}/resnames.json .azure/.resnames.json ; else '{}' > .azure/.resnames.json ; fi
+    postprovision:
+        shell: pwsh
+        run: |
+          scripts/add-entrauser.ps1 -SqlServerHostName -SqlDbName -ManagedIdentityName -DbRole 
+    prepackage:
+        run: cd terra-frontend ; npm run build
+    predeploy:
+        posix: 
+            run: npx -y @azure/static-web-apps-cli@latest deploy terra-frontend/dist --verbose silly -R ${AZURE_RESOURCE_GROUP} -n ${AZURE_RESOURCE_TERRA_FRONTEND_NAME}
+        windows: 
+            run: npx -y @azure/static-web-apps-cli@latest deploy terra-frontend/dist --verbose silly -R $env:AZURE_RESOURCE_GROUP -n $env:AZURE_RESOURCE_TERRA_FRONTEND_NAME
+            interactive: true
+
+

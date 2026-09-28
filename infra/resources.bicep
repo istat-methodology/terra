@@ -19,6 +19,9 @@ param principalId string
 @description('Principal type of user or app')
 param principalType string
 
+@description('Principal OID')
+param principalSid string
+
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = uniqueString(subscription().id, resourceGroup().id, location)
 var jobWorkloadProfile = 'worker-16GB'
@@ -90,6 +93,14 @@ module appsIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0
   name: 'appsidentity'
   params: {
     name: resName.userAssignedManagedIdentity ?? '${abbrs.managedIdentityUserAssignedIdentities}-${resourceToken}'
+    location: location
+  }
+}
+
+module jobsIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.2.1' = {
+  name: 'jobsidentity'
+  params: {
+    name: resName.userAssignedManagedIdentityJobs ?? '${abbrs.managedIdentityUserAssignedIdentities}Jobs-${resourceToken}'
     location: location
   }
 }
@@ -236,6 +247,12 @@ module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
   name: 'sqlServer'
   params: {
     name: resName.sqlServer ?? '${abbrs.sqlServers}${resourceToken}'
+    administrators: {
+      azureADOnlyAuthentication: false
+      login: principalId
+      principalType: principalType
+      sid: principalSid
+    }
     administratorLogin: sqlAdminUser
     administratorLoginPassword: sqlAdminPassword
     databases: [
@@ -339,7 +356,7 @@ module terraUpdateBatch 'br/public:avm/res/app/job:0.7.1' = {
           }
           {
             name: 'AZURE_CLIENT_ID'
-            value: appsIdentity.outputs.clientId
+            value: jobsIdentity.outputs.clientId
           }
           {
             name: 'WORKING_FOLDER'
@@ -430,7 +447,10 @@ module terraUpdateBatch 'br/public:avm/res/app/job:0.7.1' = {
     ]
     managedIdentities:{
       systemAssigned: false
-      userAssignedResourceIds: [appsIdentity.outputs.resourceId]
+      userAssignedResourceIds: [
+        appsIdentity.outputs.resourceId
+        jobsIdentity.outputs.resourceId
+      ]
     }
     registries:[
       {
@@ -459,3 +479,5 @@ output AZURE_RESOURCE_JSON_SERVER_ID string = jsonServer.outputs.resourceId
 output AZURE_RESOURCE_PYTHON_SERVER_ID string = pythonServer.outputs.resourceId
 output AZURE_RESOURCE_TERRA_FRONTEND_ID string = terraFrontend.outputs.resourceId
 output AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID string = terraUpdateBatch.outputs.resourceId
+output AZURE_RESOURCE_TERRA_FRONTEND_NAME string = terraFrontend.outputs.name
+
