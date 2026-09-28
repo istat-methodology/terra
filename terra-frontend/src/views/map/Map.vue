@@ -179,6 +179,10 @@ import VueSlider from "vue-slider-component"
 import exporter from "@/components/Exporter"
 import { saveAs } from "file-saver"
 
+const azureMapsSubscriptionKey = (
+  process.env.VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY || ""
+).trim()
+
 export default {
   name: "Map",
   components: {
@@ -194,10 +198,10 @@ export default {
   mixins: [mapMixin, mapInfoMixin, sliderMixin],
   data: () => ({
     attribution:
-      '&copy; <a href="https://www.microsoft.com/maps/product/terms.html">Microsoft</a>',
-    url: process.env.VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY
+      '&copy; <a href="https://www.microsoft.com/maps/product/terms.html">TomTom, Microsoft</a>',
+    url: azureMapsSubscriptionKey
       ? "https://atlas.microsoft.com/map/tile?api-version=2022-08-01&tilesetId=microsoft.base.road&zoom={z}&x={x}&y={y}&subscription-key=" +
-        encodeURIComponent(process.env.VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY)
+        encodeURIComponent(azureMapsSubscriptionKey)
       : null,
     center: [51.16423, 1.45412],
     zoom: 4,
