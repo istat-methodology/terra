@@ -6,6 +6,10 @@
     <div class="col-sm-12 col-md-12">
       <div class="card card-map" :title="'TERRA - ' + $t('landing.map.title')">
         <CCardBody tabindex="-1">
+          <div v-if="!url" class="alert alert-warning mb-0" role="alert">
+            Azure Maps is not configured. Set
+            VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY to display base map tiles.
+          </div>
           <l-map
             ref="map"
             id="map"
@@ -646,6 +650,9 @@ export default {
 }
 .card-body {
   padding: 0;
+}
+.alert {
+  border-radius: 0;
 }
 .card-footer {
   background-color: #ebedef;
