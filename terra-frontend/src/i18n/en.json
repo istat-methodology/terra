@@ -169,6 +169,9 @@
       "export": "view export data",
       "shot": "screen shot map"
     },
+    "configuration": {
+      "unavailable": "The map is not currently available."
+    },
     "modal": {
       "main": {
         "title": "Economic and International Trade Indicators",

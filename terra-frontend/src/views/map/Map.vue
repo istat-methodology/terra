@@ -6,6 +6,9 @@
     <div class="col-sm-12 col-md-12">
       <div class="card card-map" :title="'TERRA - ' + $t('landing.map.title')">
         <CCardBody tabindex="-1">
+          <div v-if="!url" class="alert alert-warning mb-0" role="alert">
+            {{ $t("map.configuration.unavailable") }}
+          </div>
           <l-map
             ref="map"
             id="map"
@@ -17,6 +20,7 @@
             @click="closeInfo()"
             tabindex="-1">
             <l-tile-layer
+              v-if="url"
               :url="url"
               :attribution="attribution"
               aria-hidden="true" />
@@ -178,6 +182,10 @@ import VueSlider from "vue-slider-component"
 import exporter from "@/components/Exporter"
 import { saveAs } from "file-saver"
 
+const azureMapsSubscriptionKey = (
+  process.env.VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY || ""
+).trim()
+
 export default {
   name: "Map",
   components: {
@@ -192,8 +200,12 @@ export default {
   },
   mixins: [mapMixin, mapInfoMixin, sliderMixin],
   data: () => ({
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>',
-    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    attribution:
+      '&copy; <a href="https://www.microsoft.com/maps/product/terms.html">Microsoft, TomTom</a>',
+    url: azureMapsSubscriptionKey
+      ? "https://atlas.microsoft.com/map/tile?api-version=2022-08-01&tilesetId=microsoft.base.road&zoom={z}&x={x}&y={y}&subscription-key=" +
+        encodeURIComponent(azureMapsSubscriptionKey)
+      : null,
     center: [51.16423, 1.45412],
     zoom: 4,
     seriesPeriod: "",
@@ -609,6 +621,11 @@ export default {
     }
   },
   created() {
+    if (!this.url) {
+      console.warn(
+        "VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY is not set; base map tiles will not be displayed."
+      )
+    }
     this.loadData()
   },
   mounted() {
@@ -632,6 +649,9 @@ export default {
 }
 .card-body {
   padding: 0;
+}
+.alert {
+  border-radius: 0;
 }
 .card-footer {
   background-color: #ebedef;
