@@ -197,7 +197,7 @@ export default {
       '&copy; <a href="https://www.microsoft.com/maps/product/terms.html">Microsoft</a>',
     url: process.env.VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY
       ? "https://atlas.microsoft.com/map/tile?api-version=2022-08-01&tilesetId=microsoft.base.road&zoom={z}&x={x}&y={y}&subscription-key=" +
-        process.env.VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY
+        encodeURIComponent(process.env.VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY)
       : null,
     center: [51.16423, 1.45412],
     zoom: 4,
