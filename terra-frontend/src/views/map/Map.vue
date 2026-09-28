@@ -615,7 +615,9 @@ export default {
   },
   created() {
     if (!this.url) {
-      console.warn("Azure Maps subscription key is not configured.")
+      console.warn(
+        "VUE_APP_AZURE_MAPS_SUBSCRIPTION_KEY is not set; base map tiles will not be displayed."
+      )
     }
     this.loadData()
   },
