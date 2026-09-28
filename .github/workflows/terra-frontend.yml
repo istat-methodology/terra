@@ -2,6 +2,12 @@ name: Terra Frontend CI/CD
 
 on:
   workflow_dispatch:
+    inputs:
+      allow_deploy_in_production:
+        description: "Allow deploy in production even if the branch is not main"
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   build_and_deploy_job_development:
@@ -40,7 +46,7 @@ jobs:
           deployment_environment: "development"
 
   build_and_deploy_job_production:
-    if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.ref_name == 'main' || inputs.allow_deploy_in_production }}
     runs-on: ubuntu-latest
     needs: build_and_deploy_job_development
     name: Build and Deploy Job - Production
