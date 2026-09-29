@@ -1,0 +1,15 @@
+{
+  "resourceGroup": null,
+  "logAnalytics": null,
+  "applicationInsights": null,
+  "applicationInsightsDashboard": null,
+  "acr": null,
+  "containerAppsEnvironment": null,
+  "userAssignedManagedIdentity": null,
+  "userAssignedManagedIdentityJobs": null,
+  "storageAccount": null,
+  "sqlServer": null,
+  "keyVault": null,
+  "staticWebApp": null,
+  "mapsAccount": null
+}

@@ -10,24 +10,29 @@ services:
         language: js
         docker:
             path: Dockerfile
+            buildArgs:
+            - NPM_REPO_URL=${CUSTOM_NPM_REPO_URL}
     python-server:
         project: terra-backend/python-server
         host: containerapp
         language: python
         docker:
             path: Dockerfile
+            buildArgs:
+            - PIP_REPO_URL=${CUSTOM_PIP_REPO_URL}
     terra-update-batch:
         project: terra-update-batch
         host: containerapp
         language: python
         docker:
             path: Dockerfile
-#    frontend:
-#        project: terra-frontend
-#        host: staticwebapp
-#        language: js
+            buildArgs:
+            - PIP_REPO_URL=${CUSTOM_PIP_REPO_URL}
+    frontend:
+        project: terra-frontend
+        host: staticwebapp
+        language: js
 #        dist: dist
-
 
 resources:
     json-server:
@@ -39,41 +44,57 @@ resources:
     terra-update-batch:
         type: host.containerapp
         port: 80
+
 hooks:
     preprovision:
-        windows:
-            shell: pwsh
-            continueOnError: false
-            interactive: false
-            run: | 
-              if (test-path .azure/$env:AZURE_ENV_NAME/resnames.json) { 
-                 cp .azure/$env:AZURE_ENV_NAME/resnames.json .azure/.resnames.json 
-              } else { 
-                 '{}' > .azure/.resnames.json 
-              }
+        shell: pwsh
+        continueOnError: false
+        interactive: false
+        run: | 
+            # Resnames
+            if (test-path .azure/$env:AZURE_ENV_NAME/resnames.json) { 
+                cp .azure/$env:AZURE_ENV_NAME/resnames.json .azure/.resnames.json 
+            } else { 
+                cp resnames.empty.json .azure/.resnames.json 
+            }
 
-              $token = azd auth token
-              $claimsb64url = $token.Split('.')[1]
-              $claimsJsonBinary = [System.Buffers.Text.Base64Url]::DecodeFromChars($claimsB64url)
-              $claimsJson = [Text.Encoding]::UTF8.GetString($claimsJsonBinary)
-              $claims = $claimsjson | ConvertFrom-Json
-              azd env set AZURE_PRINCIPAL_SID $($claims.oid)
-        posix:
-            shell: sh
-            continueOnError: false
-            interactive: false
-            run: if [ -n .azure/${AZURE_ENV_NAME}/resnames.json ] ; then cp .azure/${AZURE_ENV_NAME}/resnames.json .azure/.resnames.json ; else '{}' > .azure/.resnames.json ; fi
+            # Create a random secure password
+            $PasswordLength = 20
+            if ([string]::IsNullOrWhitespace($Env:AZURE_PRINCIPAL_SID)) {
+                do {
+                    $securePassword = (1..$PasswordLength | ForEach-Object { [char]((64..90) + (97..122) + (48..57) + ('#', '!', '$', '%') | Get-Random) }) -join ''
+                    $complexityCount = 0
+                    if ($securePassword -match '[A-Z]') { $complexityCount++ }
+                    if ($securePassword -match '[a-z]') { $complexityCount++ }
+                    if ($securePassword -match '[0-9]') { $complexityCount++ }
+                    if ($securePassword -match '[!$#%]') { $complexityCount++ }
+                    if ($securePassword -match '^[!$#%]|[!$#%]$') { $complexityCount = 0 }
+                } while ($complexityCount -lt 3)
+
+                azd env set SQL_ADMIN_PASSWORD $securePassword
+            }
+
+            # Obtain current principal OID
+            $token = azd auth token
+            $claimsb64url = $token.Split('.')[1]
+            $claimsJsonBinary = [System.Buffers.Text.Base64Url]::DecodeFromChars($claimsB64url)
+            $claimsJson = [Text.Encoding]::UTF8.GetString($claimsJsonBinary)
+            $claims = $claimsjson | ConvertFrom-Json
+            azd env set AZURE_PRINCIPAL_SID $($claims.oid)
+
     postprovision:
         shell: pwsh
         run: |
-          scripts/add-entrauser.ps1 -SqlServerHostName -SqlDbName -ManagedIdentityName -DbRole 
-    prepackage:
-        run: cd terra-frontend ; npm run build
-    predeploy:
-        posix: 
-            run: npx -y @azure/static-web-apps-cli@latest deploy terra-frontend/dist --verbose silly -R ${AZURE_RESOURCE_GROUP} -n ${AZURE_RESOURCE_TERRA_FRONTEND_NAME}
-        windows: 
-            run: npx -y @azure/static-web-apps-cli@latest deploy terra-frontend/dist --verbose silly -R $env:AZURE_RESOURCE_GROUP -n $env:AZURE_RESOURCE_TERRA_FRONTEND_NAME
-            interactive: true
+            scripts/add-entrauser.ps1 -SqlServerHostName -SqlDbName -ManagedIdentityName -DbRole 
+
+    #prepackage:
+    #    run: |
+    #        cd terra-frontend
+    #        npm run build
+    #
+    #predeploy:
+    #    shell: pwsh
+    #    run: |
+    #        npx -y @azure/static-web-apps-cli@latest deploy terra-frontend/dist --verbose silly -R $env:AZURE_RESOURCE_GROUP -n $env:AZURE_RESOURCE_TERRA_FRONTEND_NAME
 
 

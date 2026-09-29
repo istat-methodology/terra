@@ -24,13 +24,19 @@
         "value": "${AZURE_PRINCIPAL_TYPE}"
       },
       "principalSid": {
-        "value": "${AZURE_PRINCIPAL_SID}"
+        "value": "${AZURE_PRINCIPAL_SID:-null}"
       },
       "jobNotificationsRecipients": {
         "value": "${JOBNOTIFICATIONS_RECIPIENTS}"
       },
       "sqlAdminPassword": {
-        "value": "${SQL_ADMIN_PASSWORD}"
+        "value": "${SQL_ADMIN_PASSWORD:-null}"
+      },
+      "sendEmailLogicAppName": {
+        "value": "${SENDEMAIL_LOGICAPP_NAME:-LASendMailGmail}"
+      },
+      "sendEmailLogicAppResourceGroup": {
+        "value": "${SENDEMAIL_LOGICAPP_RESOURCEGROUP_NAME:-RG-Cosmo}"
       }
     }
 }

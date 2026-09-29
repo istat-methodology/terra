@@ -35,10 +35,12 @@ type resNamesType = {
   acr: string?
   containerAppsEnvironment: string?
   userAssignedManagedIdentity: string?
+  userAssignedManagedIdentityJobs: string?
   storageAccount: string?
   sqlServer: string?
   keyVault: string?
   staticWebApp: string?
+  mapsAccount: string?
 }
 
 // Tags that should be applied to all resources.
@@ -89,5 +91,10 @@ output AZURE_RESOURCE_JSON_SERVER_ID string = resources.outputs.AZURE_RESOURCE_J
 output AZURE_RESOURCE_PYTHON_SERVER_ID string = resources.outputs.AZURE_RESOURCE_PYTHON_SERVER_ID
 output AZURE_RESOURCE_TERRA_FRONTEND_ID string = resources.outputs.AZURE_RESOURCE_TERRA_FRONTEND_ID
 output AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID string = resources.outputs.AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID
+output AZURE_RESOURCE_AZURE_MAPS_ID string = resources.outputs.AZURE_RESOURCE_AZURE_MAPS_ID
+output AZURE_RESOURCE_AZURE_MAPS_NAME string = resources.outputs.AZURE_RESOURCE_AZURE_MAPS_NAME
+output AZURE_MAPS_ENDPOINT string = resources.outputs.AZURE_MAPS_ENDPOINT
+@secure()
+output AZURE_MAPS_KEY string = resources.outputs.AZURE_MAPS_KEY
 output AZURE_RESOURCE_GROUP string = rg.name
 output AZURE_RESOURCE_TERRA_FRONTEND_NAME string = resources.outputs.AZURE_RESOURCE_TERRA_FRONTEND_NAME

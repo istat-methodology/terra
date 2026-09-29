@@ -41,6 +41,17 @@ module monitoring 'br/public:avm/ptn/azd/monitoring:0.1.0' = {
     tags: tags
   }
 }
+
+resource mapsAccount 'Microsoft.Maps/accounts@2023-06-01' = {
+  name: resName.mapsAccount ?? '${abbrs.mapsAccounts}${resourceToken}'
+  location: location
+  kind: 'Gen2'
+  sku: {
+    name: 'G2'
+  }
+  tags: tags
+}
+
 // Container registry
 module containerRegistry 'br/public:avm/res/container-registry/registry:0.1.1' = {
   name: 'registry'
@@ -480,4 +491,8 @@ output AZURE_RESOURCE_PYTHON_SERVER_ID string = pythonServer.outputs.resourceId
 output AZURE_RESOURCE_TERRA_FRONTEND_ID string = terraFrontend.outputs.resourceId
 output AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID string = terraUpdateBatch.outputs.resourceId
 output AZURE_RESOURCE_TERRA_FRONTEND_NAME string = terraFrontend.outputs.name
-
+output AZURE_RESOURCE_AZURE_MAPS_ID string = mapsAccount.id
+output AZURE_RESOURCE_AZURE_MAPS_NAME string = mapsAccount.name
+output AZURE_MAPS_ENDPOINT string = 'https://atlas.microsoft.com'
+@secure()
+output AZURE_MAPS_KEY string = mapsAccount.listKeys().primaryKey

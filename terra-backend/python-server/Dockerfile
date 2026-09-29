@@ -1,8 +1,13 @@
 FROM python:3.12
 
 ARG DOCKER_TAG
-ENV APP_VERSION=$DOCKER_TAG
+ARG PIP_REPO_URL
+
+ENV APP_VERSION=${DOCKER_TAG}
+ENV PIP_REPO_URL=${PIP_REPO_URL}
+
 EXPOSE 5500
+
 RUN echo "Bulding Docker image version: $APP_VERSION"
 
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | tee /etc/apt/trusted.gpg.d/microsoft.asc
@@ -13,7 +18,7 @@ RUN DEBIAN_FRONTEND=noninteractive ACCEPT_EULA=Y apt install -y msodbcsql18 mssq
 
 COPY . /app
 WORKDIR /app
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt ${PIP_REPO_URL:+-i} ${PIP_REPO_URL}
+
 ENTRYPOINT ["python"]
 CMD ["app.py"]
- 

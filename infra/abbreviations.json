@@ -61,6 +61,7 @@
     "logicWorkflows": "logic-",
     "machineLearningServicesWorkspaces": "mlw-",
     "managedIdentityUserAssignedIdentities": "id-",
+    "mapsAccounts": "map-",
     "managementManagementGroups": "mg-",
     "migrateAssessmentProjects": "migr-",
     "networkApplicationGateways": "agw-",
