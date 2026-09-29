@@ -1,6 +1,9 @@
 @description('The location used for all deployed resources')
 param location string = resourceGroup().location
 
+@description('Location for Azure Maps service')
+param azureMapsLocation string
+
 @description('Tags that will be applied to all resources')
 param tags object = {}
 
@@ -28,7 +31,7 @@ var jobWorkloadProfile = 'worker-16GB'
 var terraDbName = 'db-terra'
 var sqlAdminUser = 'statlab'
 var dbPasswordSecretName = 'db-password'
-var storageAccountKeySecretName = 'cosmostoragekey'
+var storageAccountKeySecretName = 'sa-key'
 
 // Monitor application with Azure Monitor
 module monitoring 'br/public:avm/ptn/azd/monitoring:0.1.0' = {
@@ -44,7 +47,7 @@ module monitoring 'br/public:avm/ptn/azd/monitoring:0.1.0' = {
 
 resource mapsAccount 'Microsoft.Maps/accounts@2023-06-01' = {
   name: resName.mapsAccount ?? '${abbrs.mapsAccounts}${resourceToken}'
-  location: location
+  location: azureMapsLocation
   kind: 'Gen2'
   sku: {
     name: 'G2'
@@ -238,6 +241,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.32.0' = {
   name: 'terraJobStorage'
   params: {
     name: resName.storageAccount ?? '${abbrs.storageStorageAccounts}${resourceToken}'
+    tags: tags
     skuName: 'Standard_LRS'
     fileServices: {
       shares: [
@@ -258,6 +262,7 @@ module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
   name: 'sqlServer'
   params: {
     name: resName.sqlServer ?? '${abbrs.sqlServers}${resourceToken}'
+    tags: tags
     administrators: {
       azureADOnlyAuthentication: false
       login: principalId
@@ -270,6 +275,7 @@ module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
       {
         availabilityZone: -1
         name: terraDbName
+        tags: tags
         sku: {
           name: 'Standard'
           tier: 'Standard'
@@ -295,6 +301,7 @@ module keyVault 'br/public:avm/res/key-vault/vault:0.13.3' = {
   name: 'keyVault'
   params: {
     name: resName.keyVault ?? '${abbrs.keyVaultVaults}${resourceToken}'
+    tags: tags
     roleAssignments: [
       {
         principalId: appsIdentity.outputs.principalId
@@ -493,6 +500,5 @@ output AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID string = terraUpdateBatch.outputs.re
 output AZURE_RESOURCE_TERRA_FRONTEND_NAME string = terraFrontend.outputs.name
 output AZURE_RESOURCE_AZURE_MAPS_ID string = mapsAccount.id
 output AZURE_RESOURCE_AZURE_MAPS_NAME string = mapsAccount.name
-output AZURE_MAPS_ENDPOINT string = 'https://atlas.microsoft.com'
 @secure()
 output AZURE_MAPS_KEY string = mapsAccount.listKeys().primaryKey

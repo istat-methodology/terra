@@ -8,6 +8,9 @@
       "location": {
         "value": "${AZURE_LOCATION}"
       },
+      "azureMapsLocation": {
+        "value": "${AZUREMAPS_LOCATION:-westeurope}"
+      },
       "jsonServerExists": {
         "value": "${SERVICE_JSON_SERVER_RESOURCE_EXISTS=false}"
       },
@@ -37,6 +40,9 @@
       },
       "sendEmailLogicAppResourceGroup": {
         "value": "${SENDEMAIL_LOGICAPP_RESOURCEGROUP_NAME:-RG-Cosmo}"
+      },
+      "userTags": {
+        "value": { "SecurityControl": "Ignore" }
       }
     }
 }

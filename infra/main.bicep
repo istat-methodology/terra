@@ -9,6 +9,9 @@ param environmentName string
 @description('Primary location for all resources')
 param location string
 
+@description('Location for Azure Maps service')
+param azureMapsLocation string
+
 param jsonServerExists bool
 param pythonServerExists bool
 param terraUpdateBatchExists bool
@@ -26,6 +29,9 @@ param principalType string
 
 @description('Principal OID')
 param principalSid string
+
+@description('Extra tags to add to each resource')
+param userTags object = {}
 
 type resNamesType = {
   resourceGroup: string?
@@ -48,9 +54,9 @@ type resNamesType = {
 // Note that 'azd-service-name' tags should be applied separately to service host resources.
 // Example usage:
 //   tags: union(tags, { 'azd-service-name': <service name in azure.yaml> })
-var tags = {
+var tags = union(userTags, {
   'azd-env-name': environmentName
-}
+})
 
 param resName resNamesType = loadJsonContent('../.azure/.resnames.json')
 
@@ -84,6 +90,7 @@ module resources 'resources.bicep' = {
     sendEmailLogicAppUrl: laUrl.outputs.triggerUrl
     resName: resName
     sqlAdminPassword: sqlAdminPassword
+    azureMapsLocation: azureMapsLocation
   }
 }
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = resources.outputs.AZURE_CONTAINER_REGISTRY_ENDPOINT
@@ -93,7 +100,6 @@ output AZURE_RESOURCE_TERRA_FRONTEND_ID string = resources.outputs.AZURE_RESOURC
 output AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID string = resources.outputs.AZURE_RESOURCE_TERRA_UPDATE_BATCH_ID
 output AZURE_RESOURCE_AZURE_MAPS_ID string = resources.outputs.AZURE_RESOURCE_AZURE_MAPS_ID
 output AZURE_RESOURCE_AZURE_MAPS_NAME string = resources.outputs.AZURE_RESOURCE_AZURE_MAPS_NAME
-output AZURE_MAPS_ENDPOINT string = resources.outputs.AZURE_MAPS_ENDPOINT
 @secure()
 output AZURE_MAPS_KEY string = resources.outputs.AZURE_MAPS_KEY
 output AZURE_RESOURCE_GROUP string = rg.name
