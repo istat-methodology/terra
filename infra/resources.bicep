@@ -283,11 +283,6 @@ module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
         }
         maxSizeBytes: 53687091200
         zoneRedundant: false
-        managedIdentities: {
-          userAssignedResourceIds: [
-            appsIdentity.outputs.resourceId
-          ]
-        }
       }
     ]
     secretsExportConfiguration: {
@@ -502,3 +497,7 @@ output AZURE_RESOURCE_AZURE_MAPS_ID string = mapsAccount.id
 output AZURE_RESOURCE_AZURE_MAPS_NAME string = mapsAccount.name
 @secure()
 output AZURE_MAPS_KEY string = mapsAccount.listKeys().primaryKey
+output SQL_SERVER_FQDN string = sqlServer.outputs.fullyQualifiedDomainName
+output SQL_DB_NAME string = terraDbName
+output APP_IDENTITY_NAME string = appsIdentity.outputs.name
+output APP_IDENTITY_JOBS_NAME string = jobsIdentity.outputs.name

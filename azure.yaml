@@ -85,7 +85,9 @@ hooks:
     postprovision:
         shell: pwsh
         run: |
-            scripts/add-entrauser.ps1 -SqlServerHostName -SqlDbName -ManagedIdentityName -DbRole 
+            dir Env:
+            scripts/add-entrauser.ps1 -SqlServerHostName $env:SQL_SERVER_FQDN -SqlDbName $env:SQL_DB_NAME -ManagedIdentityName $env:APP_IDENTITY_NAME -DbRole db_datareader
+            scripts/add-entrauser.ps1 -SqlServerHostName $env:SQL_SERVER_FQDN -SqlDbName $env:SQL_DB_NAME -ManagedIdentityName $env:APP_IDENTITY_JOBS_NAME -DbRole db_owner
 
     #prepackage:
     #    run: |

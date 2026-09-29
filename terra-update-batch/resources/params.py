@@ -12,7 +12,7 @@ RUN_UTILS             : bool = os.getenv("RUN_UTILS", "1") == "1"
 WORKING_FOLDER        : str  = os.getenv("WORKING_FOLDER", "")
 
 KEY_VAULT_NAME        : str  = os.getenv("KEY_VAULT_NAME", "")
-SECRETNAME_ACCOUNTKEY : str  = "cosmostoragekey"
+SECRETNAME_ACCOUNTKEY : str  = "sa-key"
 
 URL_JSONDATA_SERVER         : str  = "https://api.cosmo.statlab.it/cls"
 URL_PYTHON_SERVER_TS        : str  = "https://api.cosmo.statlab.it/time-series"

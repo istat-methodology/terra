@@ -104,3 +104,7 @@ output AZURE_RESOURCE_AZURE_MAPS_NAME string = resources.outputs.AZURE_RESOURCE_
 output AZURE_MAPS_KEY string = resources.outputs.AZURE_MAPS_KEY
 output AZURE_RESOURCE_GROUP string = rg.name
 output AZURE_RESOURCE_TERRA_FRONTEND_NAME string = resources.outputs.AZURE_RESOURCE_TERRA_FRONTEND_NAME
+output SQL_SERVER_FQDN string = resources.outputs.SQL_SERVER_FQDN
+output SQL_DB_NAME string = resources.outputs.SQL_DB_NAME
+output APP_IDENTITY_NAME string = resources.outputs.APP_IDENTITY_NAME
+output APP_IDENTITY_JOBS_NAME string = resources.outputs.APP_IDENTITY_JOBS_NAME
