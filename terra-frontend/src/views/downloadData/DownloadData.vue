@@ -465,15 +465,6 @@ export default {
     helpOn(showModal) {
       this.isModalHelp = showModal
     },
-    handleMainChart() {
-      this.isMainChart = !this.isMainChart
-    },
-    handleDiagNorm() {
-      this.isDiagNorm = !this.isDiagNorm
-    },
-    handleDiagACF() {
-      this.isDiagACF = !this.isDiagACF
-    },
     setPartners() {
       this.partnersArr = Array.isArray(this.partner)
         ? this.partner
@@ -671,53 +662,7 @@ export default {
     },
     onSubmit() {
       this.handleSubmit()
-    },
-    handleHome() {
-      this.$router.push({ name: "Home" })
-    },
-    handleMap() {
-      this.$router.push({ name: "Map" })
-    },
-    handleGraphExtraUe() {
-      this.$router.push({ name: "GraphExtraUe" })
-    },
-    handleGraphIntraUe() {
-      this.$router.push({ name: "GraphIntraUe" })
-    },
-    handleTimeSeries() {
-      this.$router.push({ name: "TimeSeries" })
-    },
-    handleTrade() {
-      this.$router.push({ name: "Trade" })
-    },
-    handleNews() {
-      this.$router.push({ name: "News" })
     }
-    /*
-    fixASidebarMenu() {
-      setTimeout(() => {
-        document.querySelectorAll(".c-sidebar-nav-link").forEach((element) => {
-          element.setAttribute("aria-current", "false")
-        })
-      }, 300)
-      setTimeout(() => {
-        document
-          .querySelectorAll(".c-sidebar-nav-link.c-active")
-          .forEach((element) => {
-            element.setAttribute("aria-current", "page")
-          })
-      }, 300)
-    },
-    */
-    /*  
-    fixMetaTitle() {
-      setTimeout(() => {
-        document.querySelectorAll("title").forEach((element) => {
-          element.textContent = "Terra - Home"
-        })
-      }, 300)
-    }
-   */
   },
   created() {
     this.fixMetaTitle()

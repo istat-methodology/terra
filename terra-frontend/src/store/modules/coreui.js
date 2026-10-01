@@ -7,7 +7,7 @@ const state = {
   isHome: false,
   isMaintenance: false,
   isLoading: false,
-  isDownload: false,
+  isDownloadData: false,
   isMap: false,
   isGraph: false,
   isGraphIntra: false,
@@ -72,7 +72,7 @@ const mutations = {
         state.isNews = true
         break
       case Context.DownloadData:
-        state.isDownload = true
+        state.isDownloadData = true
         break
       case Context.Mobility:
         state.isMobility = true
@@ -91,7 +91,7 @@ const mutations = {
     state.isPolicy = false
     state.isTrade = false
     state.isNews = false
-    state.isDownload = false
+    state.isDownloadData = false
     state.isLoading = false
     state.isMobility = false
   },
@@ -178,8 +178,8 @@ const getters = {
   isMap: (state) => {
     return state.isMap
   },
-  isDownload: (state) => {
-    return state.isDownload
+  isDownloadData: (state) => {
+    return state.isDownloadData
   },
   isDownloading: (state) => {
     return state.isDownloading

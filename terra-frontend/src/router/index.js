@@ -84,9 +84,9 @@ let routes = [
     }
   },
   {
-    path: "/download",
+    path: "/downloadData",
     name: "DownloadData",
-    component: () => import("../views/download/DownloadData"),
+    component: () => import("../views/downloadData/DownloadData"),
     meta: {
       authorize: []
     }

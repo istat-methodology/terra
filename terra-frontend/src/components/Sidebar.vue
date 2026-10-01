@@ -67,7 +67,7 @@
           @click="handleDownload()"
           @keypress="handleDownload()"
           class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-danger': false }"
+          :class="{ 'c-active c-active-danger': isDownloadData }"
           :title="$t('sidebar.download')"
           :aria-current="'false'"
           tabindex="0">
