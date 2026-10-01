@@ -23,3 +23,19 @@ situation between the two countries in the period before and after a specific re
 - **Trade**: Member State monthly imports and exports have been decomposed in terms of traded products in order to give a picture of trade trends under the Covid-19 pandemic in a short-term perspective. Despite the global drop of international trade during the pandemic, a strong heterogeneity across traded products is observed by computing year-over-year monthly percentage changes for each considered product class. Indeed, for each Member State, the critical pandemic months show an increase of share in the export
 of non-durable consumer goods, such as pharmaceutical products, chemicals or floods and beverage, and at the same time a drop in export of durable consumer goods or investment goods, such as motor vehicles, trailers and semi-trailers. On the other hand, the import side shows an increase of share for products needed to fight against coronavirus, such as textiles (facial masks). Since for most Member State the heterogeneity is strong localized during the pandemic waves, the indicators provide a clear picture of national deficit or surplus of specific products most needed at crisis time. The input data source consists in Comext monthly dataset by products, where Member State trade classified
 according to CPA2.1 at 2 digits classification level was considered. Comext data were appropriately transformed in order to get, for each Member State, shares of CPA product divisions on total export and import, and finally compute year-over-year (YOY) changes of such shares during 2020.
+
+## Citation
+If you use TERRA in your research, please cite:
+
+> Bruno, M., Brogi, F., Cerasti, E., De Fausti, F., Fronzetti Colladon, A., Guardabascio, B., & Massacci, G. (2026). Exploring the Complexity of International Trade Networks with TERRA. *World Trade Review*, 1–24. doi:[10.1017/S1474745626101591](https://doi.org/10.1017/S1474745626101591)
+
+```bibtex
+@article{bruno2026terra,
+  title   = {Exploring the Complexity of International Trade Networks with TERRA},
+  author  = {Bruno, M. and Brogi, F. and Cerasti, E. and De Fausti, F. and Fronzetti Colladon, A. and Guardabascio, B. and Massacci, G.},
+  journal = {World Trade Review},
+  year    = {2026},
+  pages   = {1--24},
+  doi     = {10.1017/S1474745626101591}
+}
+```
