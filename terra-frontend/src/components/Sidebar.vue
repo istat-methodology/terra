@@ -62,7 +62,7 @@
           {{ $t("sidebar.news") }}
         </a>
       </div>
-      <!--div class="c-sidebar-nav-item">
+      <div class="c-sidebar-nav-item">
         <a
           @click="handleDownload()"
           @keypress="handleDownload()"
@@ -78,7 +78,7 @@
             :title="$t('sidebar.download')" />
           {{ $t("sidebar.download") }}
         </a>
-      </div-->
+      </div>
       <!--div class="c-sidebar-nav-item">
         <a
           @click="handleAPI()"
@@ -215,7 +215,7 @@ export default {
       isTrade: "isTrade",
       isMobility: "isMobility",
       isNews: "isNews",
-      isDownload: "isDownload"
+      isDownloadData: "isDownloadData"
     }),
     ...mapGetters("metadata", ["appVersion"]),
     ...mapGetters("metadata", ["lastLoadedData"])
@@ -245,7 +245,7 @@ export default {
       this.$router.push({ name: "News" })
     },
     handleDownload() {
-      this.$router.push({ name: "Download" })
+      this.$router.push({ name: "DownloadData" })
     }
   }
 }

@@ -7,6 +7,7 @@ const state = {
   isHome: false,
   isMaintenance: false,
   isLoading: false,
+  isDownload: false,
   isMap: false,
   isGraph: false,
   isGraphIntra: false,
@@ -70,6 +71,9 @@ const mutations = {
       case Context.News:
         state.isNews = true
         break
+      case Context.DownloadData:
+        state.isDownload = true
+        break
       case Context.Mobility:
         state.isMobility = true
         break
@@ -87,6 +91,8 @@ const mutations = {
     state.isPolicy = false
     state.isTrade = false
     state.isNews = false
+    state.isDownload = false
+    state.isLoading = false
     state.isMobility = false
   },
   CREATE_BREADCRUMBS(state, breadcrumbs) {
@@ -172,6 +178,12 @@ const getters = {
   isMap: (state) => {
     return state.isMap
   },
+  isDownload: (state) => {
+    return state.isDownload
+  },
+  isDownloading: (state) => {
+    return state.isDownloading
+  },
   isGraph: (state) => {
     return state.isGraph
   },
@@ -194,7 +206,6 @@ const getters = {
     return state.breadcrumbs
   }
 }
-
 export const coreui = {
   namespaced: true,
   state,

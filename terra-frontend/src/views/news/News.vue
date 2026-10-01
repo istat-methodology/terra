@@ -5,8 +5,10 @@
       <CCard :title="'TERRA - ' + $t('news.card.title')">
         <CCardHeader>
           <span class="card-title" role="heading" aria-level="2">
-            <CIcon name="cil-newspaper" :title="$t('news.card.title')" alt="" />
-            {{ $t("news.card.title") }}
+            <CIcon
+              name="cil-newspaper"
+              :title="$t('news.card.title')"
+              alt="" />{{ $t("news.card.title") }}
           </span>
         </CCardHeader>
         <CCardBody>
@@ -55,7 +57,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="babel">
 import { mapGetters } from "vuex"
 import { Context } from "@/common"
 

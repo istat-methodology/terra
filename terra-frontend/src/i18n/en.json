@@ -154,6 +154,40 @@
       "link": "Go to News"
     }   
   },
+  "download-data": {  
+    "title": "Download COMEXT Data",
+    "body": "Set the filters to download the COMEXT data.",
+    "link": "start downloading",
+    "form": {
+      "title": "Search filters",
+      "fields": {
+        "seriesData": "Series of data",
+        "seriesData_placeholder": "Select the series of data",
+        "dataType": "Series type",
+        "dataType_placeholder": "Select series type",
+        "varType": "Data type",
+        "varType_placeholder": "Select data type",
+        "flow": "Flow",
+        "flow_placeholder": "Select a flow",
+        "country": "Country",
+        "country_placeholder": "Select a country",
+        "partner": "Partner",
+        "partner_placeholder": "Select a partner",
+        "productsClass": "Products class",
+        "productsClass_placeholder": "Select a products class",
+        "productsCPA": "Products CPA 2.1",
+        "productsCPA_placeholder": "Select a product",
+        "products": "Products",
+        "products_placeholder": "Select a product",
+        "criterion": "Criterion",
+        "criterion_placeholder": "Select a criterion",
+        "transports": "Transport mode",
+        "transports_placeholder": "Select a transport mode",
+        "period": "Period",
+        "period_placeholder": "Select a period"
+      }
+    }
+  },
   "map": {
     "legend": {
       "title": {

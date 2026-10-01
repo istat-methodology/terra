@@ -1,3 +1,4 @@
+<!-- babel-disable-file -->
 <template>
   <div class="row">
     <h1 class="sr-only">{{ $t("landing.trade.title") }}</h1>

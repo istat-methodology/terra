@@ -152,6 +152,40 @@
       "title": "Paniere dei prodotti",
       "body": "Questa sezione fornisce, per ciascuno Stato membro, le <strong>serie storiche mensili delle quote di composizione del paniere delle merci esportate e importate</strong>, classificate secondo le CPA 2.1 a 2 cifre, insieme alle relative variazioni tendenziali.",
       "link": "Vai al Paniere dei prodotti"
+    },
+    "download-data": {
+      "title": "Scarica dati COMEXT",
+      "body": "Imposta i filtri per scaricare i dati COMEXT.",
+      "link": "Inizia il download",
+      "form": {
+        "title": "Filtri di ricerca",
+        "fields": {
+          "seriesData": "Serie di dati",
+          "seriesData_placeholder": "Seleziona la serie di dati",
+          "dataType": "Tipo di serie",
+          "dataType_placeholder": "Seleziona il tipo di serie",
+          "varType": "Tipo di dato",
+          "varType_placeholder": "Seleziona il tipo di dato",
+          "flow": "Flusso",
+          "flow_placeholder": "Seleziona un flusso",
+          "country": "Paese",
+          "country_placeholder": "Seleziona un paese",
+          "partner": "Partner",
+          "partner_placeholder": "Seleziona un partner",
+          "productsClass": "Classe di prodotti",
+          "productsClass_placeholder": "Seleziona una classe di prodotti",
+          "productsCPA": "Prodotti CPA 2.1",
+          "productsCPA_placeholder": "Seleziona un prodotto",
+          "products": "Prodotti",
+          "products_placeholder": "Seleziona un prodotto",
+          "criterion": "Criterio",
+          "criterion_placeholder": "Seleziona un criterio",
+          "transports": "Modalità di trasporto",
+          "transports_placeholder": "Seleziona una modalità di trasporto",
+          "period": "Periodo",
+          "period_placeholder": "Seleziona un periodo"
+        }
+      }
     }
   },
   "map": {

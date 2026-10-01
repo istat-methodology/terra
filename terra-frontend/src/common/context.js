@@ -7,5 +7,6 @@ export const Context = {
   Policy: "POLICY",
   Trade: "TRADE",
   Mobility: "MOBILITY",
-  News: "NEWS"
+  News: "NEWS",
+  DownloadData: "DOWNLOAD"
 }
