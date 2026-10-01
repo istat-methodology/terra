@@ -3,6 +3,48 @@
     <h1 class="sr-only">
       {{ $t("common.acronym") }}
     </h1>
+    <section class="col-12" :aria-label="$t('landing.featured.aria_label')">
+      <div class="featured-card">
+        <div class="featured-item featured-item--repository">
+          <div class="featured-heading">
+            <CIcon name="cil-terminal" alt="" />
+            <h2>{{ $t("landing.featured.repository.title") }}</h2>
+          </div>
+          <p>{{ $t("landing.featured.repository.body") }}</p>
+          <a
+            href="https://github.com/istat-methodology/terra"
+            target="_blank"
+            rel="noopener noreferrer"
+            :aria-label="$t('landing.featured.repository.aria_label')">
+            {{ $t("landing.featured.repository.link") }}
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div class="featured-item featured-item--publication">
+          <div class="featured-heading">
+            <CIcon name="cil-newspaper" alt="" />
+            <h2>{{ $t("landing.featured.publication.title") }}</h2>
+            <span class="open-access">Open Access</span>
+          </div>
+          <p>
+            {{ $t("landing.featured.publication.body_before") }}
+            <cite
+              >Exploring the Complexity of International Trade Networks with
+              TERRA</cite
+            >,
+            {{ $t("landing.featured.publication.body_after") }}
+          </p>
+          <a
+            href="https://www.cambridge.org/core/journals/world-trade-review/article/exploring-the-complexity-of-international-trade-networks-with-terra/58E2D97F1A1A4179E52C602F9450C4FE"
+            target="_blank"
+            rel="noopener noreferrer"
+            :aria-label="$t('landing.featured.publication.aria_label')">
+            {{ $t("landing.featured.publication.link") }}
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
     <div class="col-sm-6 col-md-4">
       <!--div class="card" :title="$t('landing.map.title')">
         <header class="card-header" role="heading" aria-level="2">
@@ -236,5 +278,63 @@ a:not([href]) {
 a:not([href]):hover {
   text-decoration: underline;
   cursor: pointer;
+}
+.featured-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #d8dbe0;
+  border-top: 4px solid #86bc25;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 1px 0 rgba(60, 75, 100, 0.14);
+}
+.featured-item {
+  padding: 1.15rem 1.5rem 1.2rem;
+}
+.featured-item + .featured-item {
+  border-left: 1px solid #d8dbe0;
+}
+.featured-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+  color: #3c4b64;
+}
+.featured-heading h2 {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+.featured-item p {
+  margin-bottom: 0.65rem;
+  color: #4f5d73;
+}
+.featured-item a {
+  font-weight: 600;
+  text-decoration: underline;
+}
+.open-access {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  color: #31520b;
+  background: #e9f4d7;
+  border-radius: 1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+@media (max-width: 767.98px) {
+  .featured-card {
+    grid-template-columns: 1fr;
+  }
+  .featured-item + .featured-item {
+    border-top: 1px solid #d8dbe0;
+    border-left: 0;
+  }
 }
 </style>

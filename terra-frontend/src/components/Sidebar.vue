@@ -182,7 +182,31 @@
           {{ $t("sidebar.trade") }}
         </a>
       </div>
-      <div class="c-sidebar-nav-item">
+      <div class="sidebar-resources">
+        <div class="c-sidebar-nav-item">
+          <a
+            class="c-sidebar-nav-link sidebar-resource-link"
+            href="https://github.com/istat-methodology/terra"
+            target="_blank"
+            rel="noopener noreferrer"
+            :title="$t('sidebar.repository')"
+            :aria-label="$t('sidebar.opens_repository')">
+            <CIcon name="cib-github" class="c-sidebar-nav-icon" alt="" />
+            {{ $t("sidebar.repository") }}
+          </a>
+        </div>
+        <div class="c-sidebar-nav-item">
+          <a
+            class="c-sidebar-nav-link sidebar-resource-link"
+            href="https://www.cambridge.org/core/journals/world-trade-review/article/exploring-the-complexity-of-international-trade-networks-with-terra/58E2D97F1A1A4179E52C602F9450C4FE"
+            target="_blank"
+            rel="noopener noreferrer"
+            :title="$t('sidebar.paper')"
+            :aria-label="$t('sidebar.opens_paper')">
+            <CIcon name="cil-description" class="c-sidebar-nav-icon" alt="" />
+            {{ $t("sidebar.paper") }}
+          </a>
+        </div>
         <div class="data-update" :title="$t('common.update') + lastLoadedData">
           <CIcon
             name="cil-tags"
@@ -270,9 +294,31 @@ a:hover {
   text-decoration: none;
 }
 .data-update {
-  position: absolute;
-  bottom: 0;
-  padding: 0.8445rem 1rem;
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.25;
+}
+.data-update .c-icon {
+  flex: 0 0 auto;
+  margin-right: 0.45rem;
+}
+.sidebar-resources {
+  margin-top: auto;
+  flex-shrink: 0;
+  padding-top: 0.5rem;
+}
+.sidebar-resource-link {
+  padding: 0.45rem 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.25;
+}
+.sidebar-resource-link .c-sidebar-nav-icon {
+  flex: 0 0 auto;
+  width: 1.1rem;
+  margin-left: 0 !important;
+  margin-right: 0.45rem;
 }
 .c-sidebar-nav-link:hover {
   cursor: pointer;

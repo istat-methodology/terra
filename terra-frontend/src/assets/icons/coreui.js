@@ -5,6 +5,7 @@ import {
   cifFr,
   cifEs,
   cifPl,
+  cibGithub,
   cilAt,
   cilHome,
   cilLayers,
@@ -24,6 +25,7 @@ import {
   cilInfo,
   cilSpeech,
   cilCloudDownload,
+  cilDescription,
   cilCog
 } from "@coreui/icons"
 export const iconsSet = Object.assign({
@@ -33,6 +35,7 @@ export const iconsSet = Object.assign({
   cifFr,
   cifEs,
   cifPl,
+  cibGithub,
   cilAt,
   cilHome,
   cilLayers,
@@ -52,5 +55,6 @@ export const iconsSet = Object.assign({
   cilInfo,
   cilSpeech,
   cilCloudDownload,
+  cilDescription,
   cilCog
 })

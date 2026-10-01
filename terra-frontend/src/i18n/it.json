@@ -1,9 +1,9 @@
 {
   "common": {
-    "acronym": "TERRA - imporT ExpoRt netwoRk Analysis",   
-    "reset_filters":"Reset dei filtri",
-    "download_data":"Download dei dati",
-    "preparing_download":"Peparazione del Download...",
+    "acronym": "TERRA - imporT ExpoRt netwoRk Analysis",
+    "reset_filters": "Reset dei filtri",
+    "download_data": "Download dei dati",
+    "preparing_download": "Peparazione del Download...",
     "submit": "Esegui",
     "data_updated": "Dati aggiornati",
     "exporter": "Download",
@@ -74,6 +74,10 @@
     "timeseries": "Serie storiche",
     "trade": "Paniere dei prodotti",
     "news": "News",
+    "repository": "Repository GitHub",
+    "paper": "Articolo · World Trade Review",
+    "opens_repository": "Repository GitHub di TERRA: si apre in una nuova finestra",
+    "opens_paper": "Articolo di TERRA su World Trade Review: si apre in una nuova finestra",
     "logo_istat": "Logo Istat",
     "goto_istat": "Vai a www.istat.it",
     "opens_goto_istat": "Si apre in un'altra finestra: ISTAT",
@@ -86,6 +90,22 @@
   },
   "landing": {
     "disclaimer": "*Le classificazioni Eurostat CPA 2.1 e NSTR possono differire dalle corrispondenti versioni nazionali",
+    "featured": {
+      "aria_label": "TERRA open source e nella ricerca",
+      "repository": {
+        "title": "TERRA è open source",
+        "body": "Consulta il codice sorgente, la documentazione e gli sviluppi del progetto TERRA.",
+        "link": "Esplora il progetto su GitHub",
+        "aria_label": "Esplora il progetto TERRA su GitHub: si apre in una nuova finestra"
+      },
+      "publication": {
+        "title": "TERRA nella ricerca",
+        "body_before": "Scopri l’articolo",
+        "body_after": "pubblicato su World Trade Review dalla Cambridge University Press.",
+        "link": "Leggi l’articolo",
+        "aria_label": "Leggi l’articolo su World Trade Review: si apre in una nuova finestra"
+      }
+    },
     "download": {
       "title": "Download Dati COMEXT",
       "body": "Impostare i filtri per scaricare i dati COMEXT.",
@@ -119,8 +139,8 @@
           "period": "Periodo",
           "period_placeholder": "Seleziona un periodo"
         }
-      }     
-    },  
+      }
+    },
     "map": {
       "title": "Mappa Interattiva",
       "body": "Questa sezione fornisce una mappa che mostra per ogni paese la <strong>popolazione totale</strong>, alcuni <strong>indicatori macroeconomici</strong>, i principali <strong>prodotti importati ed esportati </strong>e i principali <strong>paesi partner commerciali</strong>.<br><br>Inoltre, viene fornita una funzionalità <strong>time-lapse</strong> per rappresentare le variazioni mensili tendenziali del commercio internazionale per gli ultimi tre anni.",

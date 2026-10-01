@@ -1,5 +1,5 @@
 <template>
-  <CHeader with-subheader light>
+  <CHeader with-subheader light class="app-header">
     <CToggler
       in-header
       class="ml-3 d-lg-none"
@@ -25,20 +25,18 @@
       "
       tabindex="0" />
 
-    <CHeaderNav class="mr-auto" tabindex="-1">
-      <CHeaderNavItem tabindex="-1">
+    <CHeaderNav class="mr-auto brand-nav" tabindex="-1">
+      <CHeaderNavItem class="brand-item" tabindex="-1">
         <CImg
           src="../img/LogoTerraFull.png"
-          style="max-width: 70%"
-          class="d-md-down-none"
+          class="terra-logo terra-logo--full"
           :alt="$t('header.logo_terra')"
           :title="$t('header.logo_terra')"
           :aria-label="$t('header.logo_terra')"
           tabindex="-1" />
         <CImg
           src="../img/LogoTerraShort.png"
-          style="max-width: 80%"
-          class="d-lg-none"
+          class="terra-logo terra-logo--short"
           :alt="$t('header.logo_terra')"
           :title="$t('header.logo_terra')"
           :aria-label="$t('header.logo_terra')"
@@ -46,20 +44,11 @@
       </CHeaderNavItem>
     </CHeaderNav>
 
-    <CHeaderNav tabindex="-1">
-      <CHeaderNavItem tabindex="-1">
+    <CHeaderNav class="tools-nav" tabindex="-1">
+      <CHeaderNavItem class="header-tools" tabindex="-1">
         <CImg
           src="../img/LogoSTSP.png"
-          style="max-width: 50%"
-          class="d-md-down-none mr-3"
-          :alt="$t('header.logo_statistica_sp')"
-          :title="$t('header.logo_statistica_sp')"
-          :aria-label="$t('header.logo_statistica_sp')"
-          tabindex="-1" />
-        <CImg
-          src="../img/LogoSTSP.png"
-          style="max-width: 50%"
-          class="d-lg-none"
+          class="stsp-logo"
           :alt="$t('header.logo_statistica_sp')"
           :title="$t('header.logo_statistica_sp')"
           :aria-label="$t('header.logo_statistica_sp')"
@@ -161,6 +150,43 @@ export default {
 .c-header-nav {
   padding-left: 0.1rem;
 }
+.app-header {
+  flex-wrap: nowrap !important;
+}
+.brand-nav {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.brand-item {
+  min-width: 0;
+}
+.terra-logo {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+.terra-logo--full {
+  width: clamp(22rem, 42vw, 32rem);
+}
+.terra-logo--short {
+  display: none;
+  width: 9.5rem;
+}
+.tools-nav {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+.header-tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.stsp-logo {
+  display: block;
+  width: 8.75rem;
+  height: auto;
+}
 .c-icon {
   margin-right: 0.4rem;
 }
@@ -228,5 +254,33 @@ export default {
   max-height: 40px;
   max-width: 40px;
   border-radius: 0.2rem;
+}
+@media (max-width: 1199.98px) {
+  .terra-logo--full {
+    display: none;
+  }
+  .terra-logo--short {
+    display: block;
+  }
+}
+@media (max-width: 575.98px) {
+  .terra-logo--short {
+    width: 7rem;
+  }
+  .stsp-logo {
+    width: 5.75rem;
+  }
+  .mr-lang {
+    margin-left: 0.25rem;
+  }
+  .btn-group .btn {
+    padding-right: 0.35rem;
+    padding-left: 0.35rem;
+  }
+  .c-header .c-header-toggler,
+  .c-header .c-header-toggler:focus {
+    margin-left: 0.25rem !important;
+    margin-right: 0.15rem;
+  }
 }
 </style>
