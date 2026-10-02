@@ -115,6 +115,24 @@ export default {
     toggle: true
   }),
   methods: {
+    formatYearMonth(value) {
+      if (typeof value !== "string" && typeof value !== "number") {
+        return value
+      }
+
+      const period = String(value).trim()
+      const compactMonth = period.match(/^(\d{4})(0[1-9]|1[0-2])$/)
+      if (compactMonth) {
+        return `${compactMonth[1]}-${compactMonth[2]}`
+      }
+
+      const isoMonth = period.match(/^(\d{4})-(0[1-9]|1[0-2])(?:-\d{2})?$/)
+      if (isoMonth) {
+        return `${isoMonth[1]}-${isoMonth[2]}`
+      }
+
+      return value
+    },
     getTitle(typeformat) {
       return "Download " + typeformat
     },
@@ -176,7 +194,7 @@ export default {
             this.filter.forEach((row) => {
               let ln = ""
               for (const col in row) {
-                ln += row[col]
+                ln += this.formatYearMonth(row[col])
                 ln += columnDelimiter
               }
               result += ln.slice(0, -1) //remove last column delimiter
@@ -222,7 +240,7 @@ export default {
               let ln = ""
               for (const col in row) {
                 if (row[col]) {
-                  ln += row[col]
+                  ln += this.formatYearMonth(row[col])
                   ln += columnDelimiter
                 }
               }
@@ -242,7 +260,7 @@ export default {
           const allFields = new Set()
           data[0].forEach((obj) => {
             obj.data.forEach((entry) => {
-              allFields.add(entry.field)
+              allFields.add(this.formatYearMonth(entry.field))
             })
           })
           const sortedFields = Array.from(allFields).sort() // Sorted list of all date fields
@@ -255,7 +273,7 @@ export default {
             // Create a map of field to value for fast lookup
             const valueMap = {}
             obj.data.forEach((entry) => {
-              valueMap[entry.field] = entry.value
+              valueMap[this.formatYearMonth(entry.field)] = entry.value
             })
             sortedFields.forEach((field) => {
               row += (valueMap[field] || "") + columnDelimiter
@@ -269,7 +287,7 @@ export default {
           row += "country name"
           row += columnDelimiter
           cols.forEach((col) => {
-            row += col
+            row += this.formatYearMonth(col)
             row += columnDelimiter
           })
           result += row.slice(0, -1) //remove last column delimiter
@@ -367,7 +385,7 @@ export default {
             this.filter.forEach((row) => {
               let ln = ""
               for (const col in row) {
-                ln += row[col]
+                ln += this.formatYearMonth(row[col])
                 ln += columnDelimiter
               }
               result += ln.slice(0, -1) //remove last column delimiter
@@ -384,7 +402,7 @@ export default {
 
           if (this.timePeriod)
             obj["time"] = this.timePeriod.map((t) => {
-              return t.isoDate
+              return this.formatYearMonth(t.isoDate)
             })
           data.forEach((col) => {
             obj[col.dataname.replaceAll(";", ",")] = col.value //replace ; with , in product label

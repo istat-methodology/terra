@@ -76,14 +76,6 @@ let routes = [
     }
   },
   {
-    path: "/news",
-    name: "News",
-    component: () => import("../views/news/News"),
-    meta: {
-      authorize: []
-    }
-  },
-  {
     path: "/downloadData",
     name: "DownloadData",
     component: () => import("../views/downloadData/DownloadData"),

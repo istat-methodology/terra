@@ -130,6 +130,8 @@
           "productsClass_placeholder": "Seleziona una classe di prodotti",
           "productsCPA": "Prodotti CPA 2.1",
           "productsCPA_placeholder": "Seleziona un prodotto",
+          "productsNSTR": "Prodotti NSTR",
+          "productsNSTR_placeholder": "Seleziona un prodotto NSTR",
           "products": "Prodotti",
           "products_placeholder": "Seleziona un prodotto",
           "criterion": "Criterio",
@@ -172,13 +174,21 @@
       "title": "Paniere dei prodotti",
       "body": "Questa sezione fornisce, per ciascuno Stato membro, le <strong>serie storiche mensili delle quote di composizione del paniere delle merci esportate e importate</strong>, classificate secondo le CPA 2.1 a 2 cifre, insieme alle relative variazioni tendenziali.",
       "link": "Vai al Paniere dei prodotti"
-    },
-    "download-data": {
-      "title": "Scarica dati COMEXT",
-      "body": "Imposta i filtri per scaricare i dati COMEXT.",
+    }
+  },
+  "download-data": {
+      "title": "Scarica dati",
+      "body": "Imposta i filtri per scaricare i dati di TERRA.",
       "link": "Inizia il download",
       "form": {
         "title": "Filtri di ricerca",
+        "download": "Download",
+        "openSource": "Apri gli strumenti di download",
+        "sections": {
+          "source": "Origine dei dati",
+          "measure": "Misura e classificazione",
+          "filters": "Filtri"
+        },
         "fields": {
           "seriesData": "Serie di dati",
           "seriesData_placeholder": "Seleziona la serie di dati",
@@ -196,17 +206,35 @@
           "productsClass_placeholder": "Seleziona una classe di prodotti",
           "productsCPA": "Prodotti CPA 2.1",
           "productsCPA_placeholder": "Seleziona un prodotto",
+          "productsNSTR": "Prodotti NSTR",
+          "productsNSTR_placeholder": "Seleziona un prodotto NSTR",
           "products": "Prodotti",
           "products_placeholder": "Seleziona un prodotto",
           "criterion": "Criterio",
           "criterion_placeholder": "Seleziona un criterio",
           "transports": "Modalità di trasporto",
           "transports_placeholder": "Seleziona una modalità di trasporto",
+          "mapSeries": "Flusso commerciale",
           "period": "Periodo",
           "period_placeholder": "Seleziona un periodo"
+        },
+        "options": {
+          "value": "Valore",
+          "quantity": "Quantità",
+          "extraEu": "Dati extra UE",
+          "world": "Dati mondo",
+          "timeSeries": "Dati delle serie storiche",
+          "productBasket": "Dati del paniere dei prodotti",
+          "interactiveMap": "Dati della mappa interattiva",
+          "exports": "Esportazioni",
+          "imports": "Importazioni"
+        },
+        "feedback": {
+          "success": "Download pronto: esportati {count} record.",
+          "empty": "Nessun dato trovato per i filtri selezionati.",
+          "error": "Non è stato possibile completare il download. Riprova."
         }
       }
-    }
   },
   "map": {
     "legend": {

@@ -47,23 +47,6 @@
       </div>
       <div class="c-sidebar-nav-item">
         <a
-          @click="handleNews()"
-          @keypress="handleNews()"
-          class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-danger': isNews }"
-          :title="$t('sidebar.news')"
-          :aria-current="'false'"
-          tabindex="0">
-          <CIcon
-            name="cil-newspaper"
-            class="c-sidebar-nav-icon"
-            alt=""
-            :title="$t('sidebar.news')" />
-          {{ $t("sidebar.news") }}
-        </a>
-      </div>
-      <div class="c-sidebar-nav-item">
-        <a
           @click="handleDownload()"
           @keypress="handleDownload()"
           class="c-sidebar-nav-link"
@@ -238,7 +221,6 @@ export default {
       isPolicy: "isPolicy",
       isTrade: "isTrade",
       isMobility: "isMobility",
-      isNews: "isNews",
       isDownloadData: "isDownloadData"
     }),
     ...mapGetters("metadata", ["appVersion"]),
@@ -264,9 +246,6 @@ export default {
     },
     handleTrade() {
       this.$router.push({ name: "Trade" })
-    },
-    handleNews() {
-      this.$router.push({ name: "News" })
     },
     handleDownload() {
       this.$router.push({ name: "DownloadData" })

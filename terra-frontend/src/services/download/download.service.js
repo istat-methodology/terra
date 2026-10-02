@@ -6,7 +6,7 @@ export function fetchData(payload) {
   const lang = store.getters["coreui/language"]
 
   return axiosPython
-    .post("/downloadData", payload, {
+    .post("/graph/downloadData", payload, {
       params: { lang }
     })
     .then((res) => {

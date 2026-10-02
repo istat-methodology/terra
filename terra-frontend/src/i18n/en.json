@@ -175,11 +175,18 @@
     }
   },
   "download-data": {
-    "title": "Download COMEXT Data",
-    "body": "Set the filters to download the COMEXT data.",
+    "title": "Download data",
+    "body": "Set the filters to download TERRA data.",
     "link": "start downloading",
     "form": {
       "title": "Search filters",
+      "download": "Download",
+      "openSource": "Open download tools",
+      "sections": {
+        "source": "Data source",
+        "measure": "Measure and classification",
+        "filters": "Filters"
+      },
       "fields": {
         "seriesData": "Series of data",
         "seriesData_placeholder": "Select the series of data",
@@ -197,14 +204,33 @@
         "productsClass_placeholder": "Select a products class",
         "productsCPA": "Products CPA 2.1",
         "productsCPA_placeholder": "Select a product",
+        "productsNSTR": "NSTR products",
+        "productsNSTR_placeholder": "Select an NSTR product",
         "products": "Products",
         "products_placeholder": "Select a product",
         "criterion": "Criterion",
         "criterion_placeholder": "Select a criterion",
         "transports": "Transport mode",
         "transports_placeholder": "Select a transport mode",
+        "mapSeries": "Trade flow",
         "period": "Period",
         "period_placeholder": "Select a period"
+      },
+      "options": {
+        "value": "Value",
+        "quantity": "Quantity",
+        "extraEu": "Extra-EU data",
+        "world": "World data",
+        "timeSeries": "Time-series data",
+        "productBasket": "Product-basket data",
+        "interactiveMap": "Interactive-map data",
+        "exports": "Exports",
+        "imports": "Imports"
+      },
+      "feedback": {
+        "success": "Download ready: {count} records exported.",
+        "empty": "No data found for the selected filters.",
+        "error": "The download could not be completed. Please try again."
       }
     }
   },
