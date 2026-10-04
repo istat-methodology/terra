@@ -43,6 +43,9 @@
       },
       "userTags": {
         "value": { "SecurityControl": "Ignore" }
+      },
+      "myIp": {
+        "value": "${MY_IP}"
       }
     }
 }

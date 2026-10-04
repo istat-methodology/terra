@@ -15,6 +15,7 @@ param sendEmailLogicAppUrl string
 param jobNotificationsRecipients string
 @secure()
 param sqlAdminPassword string
+param myIp string
 
 @description('Id of the user or app to assign application roles')
 param principalId string
@@ -271,6 +272,19 @@ module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
     }
     administratorLogin: sqlAdminUser
     administratorLoginPassword: sqlAdminPassword
+    publicNetworkAccess: 'Enabled'
+    firewallRules: [
+      {
+        name: 'AllowMyIp'
+        startIpAddress: myIp
+        endIpAddress: myIp
+      }
+      {
+        name: 'AllowAllAzureIps'
+        startIpAddress: '0.0.0.0'
+        endIpAddress: '0.0.0.0'
+      }
+    ]
     databases: [
       {
         availabilityZone: -1

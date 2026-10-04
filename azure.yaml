@@ -74,6 +74,9 @@ hooks:
                 azd env set SQL_ADMIN_PASSWORD $securePassword
             }
 
+            # Get My IP
+            azd env set MY_IP $(irm https://api.ipify.org)
+
             # Obtain current principal OID
             $token = azd auth token
             $claimsb64url = $token.Split('.')[1]
@@ -85,7 +88,6 @@ hooks:
     postprovision:
         shell: pwsh
         run: |
-            dir Env:
             scripts/add-entrauser.ps1 -SqlServerHostName $env:SQL_SERVER_FQDN -SqlDbName $env:SQL_DB_NAME -ManagedIdentityName $env:APP_IDENTITY_NAME -DbRole db_datareader
             scripts/add-entrauser.ps1 -SqlServerHostName $env:SQL_SERVER_FQDN -SqlDbName $env:SQL_DB_NAME -ManagedIdentityName $env:APP_IDENTITY_JOBS_NAME -DbRole db_owner
 

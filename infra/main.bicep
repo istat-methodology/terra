@@ -33,6 +33,9 @@ param principalSid string
 @description('Extra tags to add to each resource')
 param userTags object = {}
 
+@description('Public IP of the provisioning client')
+param myIp string
+
 type resNamesType = {
   resourceGroup: string?
   logAnalytics: string?
@@ -91,6 +94,7 @@ module resources 'resources.bicep' = {
     resName: resName
     sqlAdminPassword: sqlAdminPassword
     azureMapsLocation: azureMapsLocation
+    myIp: myIp
   }
 }
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = resources.outputs.AZURE_CONTAINER_REGISTRY_ENDPOINT
