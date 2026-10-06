@@ -20,7 +20,9 @@ def download_data():
     try:
         data_json = misc.extract_data_table(
             product_class=payload["product_class"],
-            period=payload["period"],
+            period=payload.get("period"),
+            period_from=payload.get("period_from"),
+            period_to=payload.get("period_to"),
             country=payload["country"],
             partner=payload.get("partner"),
             product=payload.get("product"),

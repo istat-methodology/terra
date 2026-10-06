@@ -125,10 +125,12 @@
           "country": "Paese",
           "country_placeholder": "Seleziona un paese",
           "partner": "Partner",
+          "partnerOptional": "Partner (facoltativo)",
           "partner_placeholder": "Seleziona un partner",
           "productsClass": "Classi di prodotti",
           "productsClass_placeholder": "Seleziona una classe di prodotti",
           "productsCPA": "Prodotti CPA 2.1",
+          "productsCPAOptional": "Prodotto CPA 2.1 (facoltativo)",
           "productsCPA_placeholder": "Seleziona un prodotto",
           "productsNSTR": "Prodotti NSTR",
           "productsNSTR_placeholder": "Seleziona un prodotto NSTR",
@@ -216,6 +218,12 @@
           "transports_placeholder": "Seleziona una modalità di trasporto",
           "mapSeries": "Flusso commerciale",
           "period": "Periodo",
+          "year": "Anno",
+          "month": "Mese",
+          "yearFrom": "Anno da",
+          "monthFrom": "Mese da",
+          "yearTo": "Anno a",
+          "monthTo": "Mese a",
           "period_placeholder": "Seleziona un periodo"
         },
         "options": {
@@ -226,6 +234,10 @@
           "timeSeries": "Dati delle serie storiche",
           "productBasket": "Dati del paniere dei prodotti",
           "interactiveMap": "Dati della mappa interattiva",
+          "comext": "Dati COMEXT",
+          "allPartners": "Tutti i partner",
+          "allProducts": "Tutti i prodotti",
+          "valueEuros": "Valore in euro",
           "exports": "Esportazioni",
           "imports": "Importazioni"
         },
@@ -233,6 +245,11 @@
           "success": "Download pronto: esportati {count} record.",
           "empty": "Nessun dato trovato per i filtri selezionati.",
           "error": "Non è stato possibile completare il download. Riprova."
+        }
+      },
+      "comext": {
+        "partnerCodes": {
+          "na": "Non disponibile"
         }
       }
   },

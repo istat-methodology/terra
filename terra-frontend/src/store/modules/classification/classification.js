@@ -1,6 +1,49 @@
 import { metadataService } from "@/services"
 import { replaceAllProdId } from "@/common"
 
+const specialPartnerLabels = {
+  it: {
+    AW: "Aruba",
+    QP: "Dominio marittimo al di fuori delle acque territoriali",
+    QQ: "Provviste e dotazioni di bordo",
+    QR: "Provviste e dotazioni di bordo negli scambi intra-UE",
+    QS: "Provviste e dotazioni di bordo negli scambi extra-UE",
+    QU: "Paesi e territori non specificati",
+    QV: "Paesi e territori non specificati negli scambi intra-UE",
+    QW: "Paesi e territori non specificati negli scambi extra-UE",
+    QX: "Paesi e territori non specificati per ragioni commerciali o militari",
+    QY: "Paesi e territori non specificati per ragioni commerciali o militari negli scambi intra-UE",
+    QZ: "Paesi e territori non specificati per ragioni commerciali o militari negli scambi extra-UE"
+  },
+  en: {
+    AW: "Aruba",
+    QP: "Maritime domain outside territorial waters",
+    QQ: "Stores and provisions",
+    QR: "Stores and provisions in intra-EU trade",
+    QS: "Stores and provisions in extra-EU trade",
+    QU: "Countries and territories not specified",
+    QV: "Countries and territories not specified in intra-EU trade",
+    QW: "Countries and territories not specified in extra-EU trade",
+    QX: "Countries and territories not specified for commercial or military reasons",
+    QY: "Countries and territories not specified for commercial or military reasons in intra-EU trade",
+    QZ: "Countries and territories not specified for commercial or military reasons in extra-EU trade"
+  }
+}
+
+function normalizePartners(partners, language) {
+  const normalized = partners.map((partner) => ({
+    ...partner,
+    descr: partner.descr?.trim() || ""
+  }))
+  const knownCodes = new Set(normalized.map((partner) => partner.id))
+
+  Object.entries(specialPartnerLabels[language] || specialPartnerLabels.en)
+    .filter(([id]) => !knownCodes.has(id))
+    .forEach(([id, descr]) => normalized.push({ id, descr, lang: language }))
+
+  return normalized
+}
+
 const state = {
   loaded: false,
   countries: [],
@@ -229,11 +272,12 @@ const actions = {
         console.log(err)
       })
   },
-  getPartners({ commit }) {
+  getPartners({ commit, rootGetters }) {
+    const language = rootGetters["coreui/language"]
     return metadataService
       .getClassification("partners")
       .then((data) => {
-        commit("SET_PARTNERS", data)
+        commit("SET_PARTNERS", normalizePartners(data, language))
       })
       .catch((err) => {
         console.log(err)

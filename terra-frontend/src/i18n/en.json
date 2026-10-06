@@ -199,10 +199,12 @@
         "country": "Country",
         "country_placeholder": "Select a country",
         "partner": "Partner",
+        "partnerOptional": "Partner (optional)",
         "partner_placeholder": "Select a partner",
         "productsClass": "Products class",
         "productsClass_placeholder": "Select a products class",
         "productsCPA": "Products CPA 2.1",
+        "productsCPAOptional": "CPA 2.1 product (optional)",
         "productsCPA_placeholder": "Select a product",
         "productsNSTR": "NSTR products",
         "productsNSTR_placeholder": "Select an NSTR product",
@@ -214,6 +216,12 @@
         "transports_placeholder": "Select a transport mode",
         "mapSeries": "Trade flow",
         "period": "Period",
+        "year": "Year",
+        "month": "Month",
+        "yearFrom": "From year",
+        "monthFrom": "From month",
+        "yearTo": "To year",
+        "monthTo": "To month",
         "period_placeholder": "Select a period"
       },
       "options": {
@@ -224,6 +232,10 @@
         "timeSeries": "Time-series data",
         "productBasket": "Product-basket data",
         "interactiveMap": "Interactive-map data",
+        "comext": "COMEXT data",
+        "allPartners": "All partners",
+        "allProducts": "All products",
+        "valueEuros": "Value in euros",
         "exports": "Exports",
         "imports": "Imports"
       },
@@ -231,6 +243,11 @@
         "success": "Download ready: {count} records exported.",
         "empty": "No data found for the selected filters.",
         "error": "The download could not be completed. Please try again."
+      }
+    },
+    "comext": {
+      "partnerCodes": {
+        "na": "Not available"
       }
     }
   },

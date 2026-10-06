@@ -136,6 +136,20 @@ export default {
     getTitle(typeformat) {
       return "Download " + typeformat
     },
+    escapeCsvValue(value, delimiter = ";") {
+      if (value === null || value === undefined) return ""
+
+      const text = String(value)
+      if (
+        text.includes(delimiter) ||
+        text.includes('"') ||
+        text.includes("\n") ||
+        text.includes("\r")
+      ) {
+        return `"${text.replace(/"/g, '""')}"`
+      }
+      return text
+    },
     download(type) {
       switch (type) {
         case "json":
@@ -212,7 +226,7 @@ export default {
           if (this.header) {
             row = ""
             this.header.forEach((obj) => {
-              row += obj
+              row += this.escapeCsvValue(obj, columnDelimiter)
               row += columnDelimiter
             })
             result += row.slice(0, -1) //remove last column delimiter
@@ -224,7 +238,7 @@ export default {
             row = ""
             cols.forEach((col) => {
               //if (this.fields != col) {
-              row += obj[col]
+              row += this.escapeCsvValue(obj[col], columnDelimiter)
               row += columnDelimiter
               //}
             })

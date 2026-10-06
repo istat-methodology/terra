@@ -176,6 +176,93 @@
               </label>
             </div>
           </div>
+
+          <div v-if="isComext" class="form-section form-section--measure">
+            <div class="form-section__title">
+              <span>2</span>
+              {{ $t("download-data.form.sections.filters") }}
+            </div>
+            <div class="form-section__grid">
+              <label id="label__comextYearFrom" class="card-label form-field">
+                {{ $t("download-data.form.fields.yearFrom") }}
+                <v-select
+                  v-model="comextYearFrom"
+                  label="descr"
+                  :options="comextYearOptions"
+                  :class="{ 'is-invalid': $v.comextYearFrom.$error }"
+                  :clearable="false" />
+              </label>
+              <label id="label__comextMonthFrom" class="card-label form-field">
+                {{ $t("download-data.form.fields.monthFrom") }}
+                <v-select
+                  v-model="comextMonthFrom"
+                  label="descr"
+                  :options="comextMonthFromOptions"
+                  :class="{ 'is-invalid': $v.comextMonthFrom.$error }"
+                  :clearable="false" />
+              </label>
+              <label id="label__comextYearTo" class="card-label form-field">
+                {{ $t("download-data.form.fields.yearTo") }}
+                <v-select
+                  v-model="comextYearTo"
+                  label="descr"
+                  :options="comextYearOptions"
+                  :class="{ 'is-invalid': $v.comextYearTo.$error }"
+                  :clearable="false" />
+              </label>
+              <label id="label__comextMonthTo" class="card-label form-field">
+                {{ $t("download-data.form.fields.monthTo") }}
+                <v-select
+                  v-model="comextMonthTo"
+                  label="descr"
+                  :options="comextMonthToOptions"
+                  :class="{ 'is-invalid': $v.comextMonthTo.$error }"
+                  :clearable="false" />
+              </label>
+              <label id="label__comextFlow" class="card-label form-field">
+                {{ $t("download-data.form.fields.flow") }}
+                <v-select
+                  v-model="comextFlow"
+                  label="descr"
+                  :options="flowsTs"
+                  :class="{ 'is-invalid': $v.comextFlow.$error }"
+                  :clearable="false" />
+              </label>
+              <label id="label__comextCountry" class="card-label form-field">
+                {{ $t("download-data.form.fields.country") }}
+                <v-select
+                  v-model="comextCountry"
+                  label="name"
+                  :options="countries"
+                  :class="{ 'is-invalid': $v.comextCountry.$error }"
+                  :clearable="false" />
+              </label>
+              <label id="label__comextPartner" class="card-label form-field">
+                {{ $t("download-data.form.fields.partnerOptional") }}
+                <v-select
+                  v-model="comextPartner"
+                  label="descr"
+                  :options="partners"
+                  :placeholder="$t('download-data.form.options.allPartners')" />
+              </label>
+              <label id="label__comextProduct" class="card-label form-field">
+                {{ $t("download-data.form.fields.productsCPAOptional") }}
+                <v-select
+                  v-model="comextProduct"
+                  label="descr"
+                  :options="productsCPA"
+                  :placeholder="$t('download-data.form.options.allProducts')" />
+              </label>
+              <label id="label__comextCriterion" class="card-label form-field">
+                {{ $t("download-data.form.fields.criterion") }}
+                <input
+                  type="text"
+                  class="form-control"
+                  :value="$t('download-data.form.options.valueEuros')"
+                  disabled />
+              </label>
+            </div>
+          </div>
         </div>
 
         <div class="download-actions">
@@ -229,6 +316,14 @@
             :data="[mapCsvData, '']"
             :options="['csv']"
             source="map" />
+          <exporter
+            v-if="isComext && comextData.length"
+            ref="comextExporter"
+            :filename="comextFilename"
+            :data="[comextData, '']"
+            :header="comextHeaders"
+            :options="['csv']"
+            source="table" />
         </div>
       </form>
     </div>
@@ -264,6 +359,15 @@ export default {
     tradeProduct: null,
     mapSeries: null,
     mapCsvData: [],
+    comextYearFrom: null,
+    comextMonthFrom: null,
+    comextYearTo: null,
+    comextMonthTo: null,
+    comextFlow: null,
+    comextCountry: null,
+    comextPartner: null,
+    comextProduct: null,
+    comextData: [],
     isLoading: false,
     downloadStatus: {
       type: "",
@@ -282,6 +386,26 @@ export default {
     seriesData() {
       this.downloadStatus = { type: "", message: "" }
       this.$v.$reset()
+    },
+    comextYearFrom() {
+      if (
+        this.comextMonthFrom &&
+        !this.comextMonthFromOptions.some(
+          (month) => month.id === this.comextMonthFrom.id
+        )
+      ) {
+        this.comextMonthFrom = null
+      }
+    },
+    comextYearTo() {
+      if (
+        this.comextMonthTo &&
+        !this.comextMonthToOptions.some(
+          (month) => month.id === this.comextMonthTo.id
+        )
+      ) {
+        this.comextMonthTo = null
+      }
     }
   },
   computed: {
@@ -311,6 +435,9 @@ export default {
     isMap() {
       return this.seriesData?.value === "05"
     },
+    isComext() {
+      return this.seriesData?.value === "06"
+    },
     canDownload() {
       if (this.isTimeSeries) {
         return Boolean(
@@ -333,6 +460,15 @@ export default {
             this.tradeProduct.length
         )
       }
+      if (this.isComext) {
+        return Boolean(
+          this.comextPeriodFrom &&
+            this.comextPeriodTo &&
+            this.isComextPeriodRangeValid &&
+            this.comextFlow &&
+            this.comextCountry
+        )
+      }
       return this.isMap && Boolean(this.mapSeries)
     },
     getSeriesData() {
@@ -348,8 +484,70 @@ export default {
         {
           value: "05",
           descr: this.$t("download-data.form.options.interactiveMap")
+        },
+        {
+          value: "06",
+          descr: this.$t("download-data.form.options.comext")
         }
       ]
+    },
+    comextHeaders() {
+      return [
+        "DECLARANT_ISO",
+        "DECLARANT_NAME",
+        "PARTNER_ISO",
+        "PARTNER_NAME",
+        "FLOW_CODE",
+        "FLOW_LABEL",
+        "PRODUCT_CODE",
+        "PRODUCT_DESCRIPTION",
+        "PRODUCT_LEVEL",
+        "PERIOD",
+        "YEAR",
+        "MONTH",
+        "VALUE_IN_EUROS"
+      ]
+    },
+    comextAvailablePeriods() {
+      return Array.isArray(this.tradePeriod) ? this.tradePeriod : []
+    },
+    comextYearOptions() {
+      const years = [
+        ...new Set(
+          this.comextAvailablePeriods.map((period) => period.id.slice(0, 4))
+        )
+      ]
+      return years.reverse().map((year) => ({ id: year, descr: year }))
+    },
+    comextMonthFromOptions() {
+      return this.getComextMonthOptions(this.comextYearFrom)
+    },
+    comextMonthToOptions() {
+      return this.getComextMonthOptions(this.comextYearTo)
+    },
+    comextPeriodFrom() {
+      return this.comextYearFrom && this.comextMonthFrom
+        ? `${this.comextYearFrom.id}${this.comextMonthFrom.id}`
+        : ""
+    },
+    comextPeriodTo() {
+      return this.comextYearTo && this.comextMonthTo
+        ? `${this.comextYearTo.id}${this.comextMonthTo.id}`
+        : ""
+    },
+    isComextPeriodRangeValid() {
+      return (
+        Boolean(this.comextPeriodFrom && this.comextPeriodTo) &&
+        this.comextPeriodFrom <= this.comextPeriodTo
+      )
+    },
+    comextFilename() {
+      const flow = this.comextFlow?.id === 1 ? "import" : "export"
+      const period =
+        this.comextPeriodFrom === this.comextPeriodTo
+          ? this.comextPeriodFrom
+          : `${this.comextPeriodFrom}_${this.comextPeriodTo}`
+      return `terra_comext_${flow}_${period}`
     },
     mapSeriesOptions() {
       return [
@@ -515,6 +713,36 @@ export default {
       required: requiredIf(function () {
         return this.isMap
       })
+    },
+    comextYearFrom: {
+      required: requiredIf(function () {
+        return this.isComext
+      })
+    },
+    comextMonthFrom: {
+      required: requiredIf(function () {
+        return this.isComext
+      })
+    },
+    comextYearTo: {
+      required: requiredIf(function () {
+        return this.isComext
+      })
+    },
+    comextMonthTo: {
+      required: requiredIf(function () {
+        return this.isComext
+      })
+    },
+    comextFlow: {
+      required: requiredIf(function () {
+        return this.isComext
+      })
+    },
+    comextCountry: {
+      required: requiredIf(function () {
+        return this.isComext
+      })
     }
   },
   methods: {
@@ -528,6 +756,7 @@ export default {
         if (this.isTimeSeries) await this.downloadTimeSeries()
         if (this.isTrade) await this.downloadTrade()
         if (this.isMap) await this.downloadMap()
+        if (this.isComext) await this.downloadComext()
       } catch (error) {
         this.downloadStatus = {
           type: "error",
@@ -587,6 +816,72 @@ export default {
       if (!this.mapCsvData.length) return this.showEmptyResult()
       await this.exportCsv("mapExporter", this.mapCsvData.length)
     },
+    async downloadComext() {
+      const response = await this.$store.dispatch("download/fetchData", {
+        product_class: "cpa",
+        period_from: this.comextPeriodFrom,
+        period_to: this.comextPeriodTo,
+        country: this.comextCountry.country,
+        partner: this.comextPartner?.id || null,
+        product: this.comextProduct?.id || null,
+        flow: this.comextFlow.id,
+        criterion: 1
+      })
+      this.comextData = Array.isArray(response)
+        ? response.map((row) => this.enrichComextRow(row))
+        : []
+      if (!this.comextData.length) return this.showEmptyResult()
+      await this.exportCsv("comextExporter", this.comextData.length)
+    },
+    enrichComextRow(row) {
+      const productCode = String(row.PRODUCT ?? "")
+      const product = this.productsCPA.find((item) => item.id === productCode)
+      const period = String(row.PERIOD ?? "").padStart(6, "0")
+
+      return {
+        DECLARANT_ISO: row.DECLARANT_ISO,
+        DECLARANT_NAME: this.getComextCountryName(row.DECLARANT_ISO),
+        PARTNER_ISO: row.PARTNER_ISO,
+        PARTNER_NAME: this.getComextCountryName(row.PARTNER_ISO),
+        FLOW_CODE: row.FLOW,
+        FLOW_LABEL: this.comextFlow?.descr || "",
+        PRODUCT_CODE: productCode,
+        PRODUCT_DESCRIPTION:
+          product?.descr?.replace(`${productCode} - `, "") || "",
+        PRODUCT_LEVEL: productCode === "00" ? 0 : productCode.length,
+        PERIOD: row.PERIOD,
+        YEAR: period.slice(0, 4),
+        MONTH: period.slice(4, 6),
+        VALUE_IN_EUROS: row.VALUE_IN_EUROS
+      }
+    },
+    getComextCountryName(code) {
+      if (!code) return this.$t("download-data.comext.partnerCodes.na")
+
+      const country = this.countries.find((item) => item.country === code)
+      if (country?.name) return country.name.trim()
+
+      const partner = this.partners.find((item) => item.id === code)
+      if (partner?.descr) return partner.descr.trim()
+
+      return this.$t("download-data.comext.partnerCodes.na")
+    },
+    getComextMonthOptions(year) {
+      if (!year) return []
+
+      return this.comextAvailablePeriods
+        .filter((period) => period.id.startsWith(year.id))
+        .map((period) => {
+          const month = period.id.slice(4, 6)
+          const description = new Intl.DateTimeFormat(this.$i18n.locale, {
+            month: "long"
+          }).format(new Date(2000, Number(month) - 1, 1))
+          return {
+            id: month,
+            descr: description.charAt(0).toUpperCase() + description.slice(1)
+          }
+        })
+    },
     async exportCsv(refName, count) {
       await this.$nextTick()
       this.$refs[refName].download("csv")
@@ -607,6 +902,7 @@ export default {
       this.tsCsvTable = []
       this.tsDates = []
       this.mapCsvData = []
+      this.comextData = []
       this.downloadStatus = { type: "", message: "" }
       this.$v.$reset()
     },
@@ -627,6 +923,22 @@ export default {
       this.tradeFlow = trade.flow
       this.tradeCountry = trade.country
       this.mapSeries = this.mapSeriesOptions[0]
+      this.comextFlow = timeSeries.flow
+      this.comextCountry = timeSeries.country
+      const latestComextPeriod =
+        this.comextAvailablePeriods[this.comextAvailablePeriods.length - 1]
+      if (latestComextPeriod && !this.comextYearFrom) {
+        const year = latestComextPeriod.id.slice(0, 4)
+        const month = latestComextPeriod.id.slice(4, 6)
+        this.comextYearFrom = { id: year, descr: year }
+        this.comextYearTo = { id: year, descr: year }
+        this.comextMonthFrom = this.comextMonthFromOptions.find(
+          (option) => option.id === month
+        )
+        this.comextMonthTo = this.comextMonthToOptions.find(
+          (option) => option.id === month
+        )
+      }
       await this.$store.dispatch("trade/findByName", {
         type: trade.varType.id,
         seriesType: trade.seriesType.id,
@@ -733,11 +1045,11 @@ export default {
 }
 
 .download-card {
-  overflow: hidden;
-  border: 1px solid #e5e4ee;
-  border-radius: 1rem;
+  overflow: visible;
+  border: 1px solid #d8dbe0;
+  border-radius: 0.25rem;
   background: #fff;
-  box-shadow: 0 0.75rem 2.5rem rgba(35, 31, 65, 0.08);
+  box-shadow: 0 1px 1px 0 rgba(60, 75, 100, 0.14);
 }
 
 .exporters {
@@ -799,33 +1111,14 @@ export default {
   grid-column: 1 / -1;
 }
 
-.month-input {
-  width: 100%;
-  height: 2.65rem;
-  margin-top: 0.45rem;
-  padding: 0 0.75rem;
-  border: 1px solid #d8d6e3;
-  border-radius: 0.55rem;
-  background: #fff;
-  color: #302e3d;
-  font: inherit;
-  font-weight: 500;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.month-input:focus {
-  border-color: #6554e8;
-  box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.12);
-  outline: 0;
-}
-
 .download-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 0.75rem;
   padding: 1.25rem 1.75rem;
-  background: #f8f8fb;
+  border-radius: 0 0 0.25rem 0.25rem;
+  background: #fff;
 }
 
 .download-status {
