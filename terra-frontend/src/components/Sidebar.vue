@@ -101,6 +101,23 @@
       </div>
       <div class="c-sidebar-nav-item">
         <a
+          @click="handleTimeSeries()"
+          @keypress="handleTimeSeries()"
+          class="c-sidebar-nav-link"
+          :class="{ 'c-active c-active-warning': isPolicy }"
+          :title="$t('sidebar.timeseries')"
+          :aria-current="$t('sidebar.timeseries')"
+          tabindex="0">
+          <CIcon
+            name="cil-chart-line"
+            class="c-sidebar-nav-icon"
+            alt=""
+            :title="$t('sidebar.timeseries')" />
+          {{ $t("sidebar.timeseries") }}
+        </a>
+      </div>
+      <div class="c-sidebar-nav-item">
+        <a
           @click="handleGraphExtraUe()"
           @keypress="handleGraphExtraUe()"
           class="c-sidebar-nav-link"
@@ -129,23 +146,6 @@
             class="c-sidebar-nav-icon"
             alt=""
             :title="$t('sidebar.graphWorld')" />{{ $t("sidebar.graphWorld") }}
-        </a>
-      </div>
-      <div class="c-sidebar-nav-item">
-        <a
-          @click="handleTimeSeries()"
-          @keypress="handleTimeSeries()"
-          class="c-sidebar-nav-link"
-          :class="{ 'c-active c-active-warning': isPolicy }"
-          :title="$t('sidebar.timeseries')"
-          :aria-current="$t('sidebar.timeseries')"
-          tabindex="0">
-          <CIcon
-            name="cil-chart-line"
-            class="c-sidebar-nav-icon"
-            alt=""
-            :title="$t('sidebar.timeseries')" />
-          {{ $t("sidebar.timeseries") }}
         </a>
       </div>
       <div class="c-sidebar-nav-item">
@@ -248,7 +248,7 @@ export default {
       this.$router.push({ name: "Trade" })
     },
     handleDownload() {
-      this.$router.push({ name: "DownloadData" })
+      this.$router.push({ name: "Download" })
     }
   }
 }

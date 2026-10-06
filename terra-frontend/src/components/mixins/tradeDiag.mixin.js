@@ -5,7 +5,13 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
         legend: {
-          display: isLegend
+          display: isLegend,
+          position: "top",
+          align: "start",
+          labels: {
+            boxWidth: 32,
+            padding: 12
+          }
         },
         tooltips: {
           //mode: "index",

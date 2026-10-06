@@ -129,16 +129,21 @@ export default {
             {
               display: true,
               gridLines: {
-                display: true
+                display: true,
+                color: "rgba(60, 75, 100, 0.08)",
+                zeroLineColor: "rgba(60, 75, 100, 0.12)"
               },
               scaleLabel: {
                 display: true,
                 labelString: ""
               },
               ticks: {
-                // For a category axis, the val is the index so the lookup via getLabelForValue is needed
                 callback: function (val) {
-                  return val.toLocaleString(locale)
+                  return new Intl.NumberFormat(locale, {
+                    notation: "compact",
+                    compactDisplay: "short",
+                    maximumFractionDigits: 1
+                  }).format(val)
                 }
               }
             }
@@ -147,7 +152,9 @@ export default {
             {
               display: true,
               gridLines: {
-                display: true
+                display: true,
+                color: "rgba(60, 75, 100, 0.08)",
+                zeroLineColor: "rgba(60, 75, 100, 0.12)"
               },
               scaleLabel: {
                 display: true,

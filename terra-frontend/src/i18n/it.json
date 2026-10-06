@@ -107,9 +107,9 @@
       }
     },
     "download": {
-      "title": "Download Dati COMEXT",
-      "body": "Impostare i filtri per scaricare i dati COMEXT.",
-      "link": "esegui il download",
+      "title": "Download dei dati",
+      "body": "Scarica in formato CSV i dati delle <strong>serie storiche</strong>, del <strong>paniere dei prodotti</strong>, della <strong>mappa interattiva</strong> oppure una selezione personalizzata dei dati <strong>COMEXT</strong>.",
+      "link": "Vai al download",
       "form": {
         "title": "Filtri di ricerca",
         "body": "Filtri di ricerca",
@@ -187,13 +187,13 @@
         "download": "Download",
         "openSource": "Apri gli strumenti di download",
         "sections": {
-          "source": "Origine dei dati",
+          "source": "Dataset",
           "measure": "Misura e classificazione",
           "filters": "Filtri"
         },
         "fields": {
-          "seriesData": "Serie di dati",
-          "seriesData_placeholder": "Seleziona la serie di dati",
+          "seriesData": "Tipologia di dati",
+          "seriesData_placeholder": "Seleziona la tipologia di dati",
           "dataType": "Tipo di serie",
           "dataType_placeholder": "Seleziona il tipo di serie",
           "varType": "Tipo di dato",
@@ -445,7 +445,8 @@
       "qqnorm": "Grafico: QQ-Norm",
       "qqnormx": "Quantili teorici",
       "qqnormy": "Quantili campionati",
-      "corr": "Grafico: Autocorrelazione"
+      "corr": "Grafico: Autocorrelazione",
+      "previousAverage": "Valore medio della serie"
     },
     "card": {
       "title": "Serie storica",
@@ -458,7 +459,8 @@
       }
     },
     "message": {
-      "empty": "Non sono disponibili dati per i filtri di ricerca selezionati!"
+      "empty": "Non sono disponibili dati per i filtri di ricerca selezionati!",
+      "provisionalExcluded": "Il periodo {period} è stato escluso: l’ultimo valore è inferiore di oltre il {threshold}% rispetto al minimo precedente e potrebbe essere provvisorio."
     },
     "download": {
       "title": "Terra - Serie storiche"

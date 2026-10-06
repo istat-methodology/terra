@@ -296,19 +296,18 @@
             v-if="isTimeSeries && tsCsvTable.length"
             ref="timeSeriesExporter"
             filename="terra_timeseries"
-            :data="[tsCsvTable, 'timeseries']"
-            :filter="timeSeriesSearchFilter"
+            :data="[tsCsvTable, '']"
+            :header="timeseriesHeaders"
             :options="['csv']"
-            source="table2" />
+            source="table" />
           <exporter
             v-if="isTrade && tradeCsvData.length"
             ref="tradeExporter"
             filename="terra_basket"
-            :data="[tradeCsvData, 'trade']"
-            :filter="tradeSearchFilter"
-            :timePeriod="tradeTimePeriod"
+            :data="[tradeCsvData, '']"
+            :header="tradeHeaders"
             :options="['csv']"
-            source="matrix" />
+            source="table" />
           <exporter
             v-if="isMap && mapCsvData.length"
             ref="mapExporter"
@@ -331,7 +330,13 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
-import { Context } from "@/common"
+import {
+  buildTradeCsvRows,
+  buildTimeseriesCsvRows,
+  Context,
+  getTradeHeaders,
+  getTimeseriesHeaders
+} from "@/common"
 import { metadataService } from "@/services"
 import { required, requiredIf } from "vuelidate/lib/validators"
 import exporter from "@/components/Exporter"
@@ -508,6 +513,9 @@ export default {
         "VALUE_IN_EUROS"
       ]
     },
+    timeseriesHeaders() {
+      return getTimeseriesHeaders(this.tsVarType)
+    },
     comextAvailablePeriods() {
       return Array.isArray(this.tradePeriod) ? this.tradePeriod : []
     },
@@ -567,20 +575,19 @@ export default {
         : this.tradeVariationPeriod
     },
     tradeCsvData() {
-      if (!this.tradeCharts?.data || !this.tradeProduct) return []
-      const selectedAll = this.tradeProduct.some(
-        (product) => product.id === "00"
-      )
-      const selectedNames = this.tradeProduct.map((product) => product.dataname)
-      return this.tradeCharts.data
-        .filter(
-          (product) => selectedAll || selectedNames.includes(product.dataname)
-        )
-        .map((product) => ({
-          dataname: product.dataname,
-          productID: product.productID,
-          value: product.value.map((value) => this.formatNumber(value))
-        }))
+      return buildTradeCsvRows({
+        country: this.tradeCountry,
+        partnerName: this.$t("download-data.form.options.allPartners"),
+        flow: this.tradeFlow,
+        selectedProducts: this.tradeProduct,
+        products: this.tradeCharts?.data,
+        seriesType: this.tradeSeriesType,
+        varType: this.tradeVarType,
+        periods: this.tradeTimePeriod
+      })
+    },
+    tradeHeaders() {
+      return getTradeHeaders(this.tradeSeriesType, this.tradeVarType)
     },
     timeSeriesSearchFilter() {
       return [
@@ -784,19 +791,18 @@ export default {
       const date = response?.diagMain?.date || []
       this.tsDates = date
       const byPartner = response?.diagMain?.byPartner || {}
-      this.tsCsvTable = [
-        partners
-          .filter((partner) => Array.isArray(byPartner[partner.id]?.series))
-          .map((partner) => ({
-            partner: partner.descr,
-            data: date.map((period, index) => ({
-              field: this.formatPeriod(period),
-              value: this.formatNumber(byPartner[partner.id].series[index])
-            }))
-          }))
-      ]
-      if (!this.tsCsvTable[0].length) return this.showEmptyResult()
-      await this.exportCsv("timeSeriesExporter", this.tsCsvTable[0].length)
+      this.tsCsvTable = buildTimeseriesCsvRows({
+        country: this.tsCountry,
+        partners,
+        flow: this.tsFlow,
+        product: this.tsProduct,
+        dataType: this.tsDataType,
+        varType: this.tsVarType,
+        dates: date,
+        byPartner
+      })
+      if (!this.tsCsvTable.length) return this.showEmptyResult()
+      await this.exportCsv("timeSeriesExporter", this.tsCsvTable.length)
     },
     async downloadTrade() {
       await this.$store.dispatch("trade/findByName", {

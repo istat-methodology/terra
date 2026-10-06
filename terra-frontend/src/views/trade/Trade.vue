@@ -14,14 +14,9 @@
                 this.charts && this.tradePeriod && this.tradeVariationPeriod
               "
               filename="terra_basket"
-              :data="getData(this.charts.data, 'trade')"
-              :filter="getSearchFilter()"
-              source="matrix"
-              :timePeriod="
-                this.seriesType.id == 1
-                  ? this.tradePeriod
-                  : this.tradeVariationPeriod
-              "
+              :data="[tradeCsvData, 'trade']"
+              :header="tradeHeaders"
+              source="table"
               :options="['jpeg', 'png', 'pdf', 'csv']">
             </exporter>
             <!--CButton
@@ -40,7 +35,7 @@
             aria-hidden="true"
             :chartData="chartData"
             :options="options"
-            :height="600"
+            :height="720"
             id="trade"
             ref="trade" />
         </CCardBody>
@@ -174,7 +169,7 @@
 <script>
 import { mapGetters } from "vuex"
 //import { Context, optionsTrade } from "@/common"
-import { Context } from "@/common"
+import { buildTradeCsvRows, Context, getTradeHeaders } from "@/common"
 import { metadataService } from "@/services"
 import { required } from "vuelidate/lib/validators"
 import paletteMixin from "@/components/mixins/palette.mixin"
@@ -232,6 +227,26 @@ export default {
     },
     options() {
       return this.getOptions(true, this.$i18n.locale)
+    },
+    tradeTimePeriod() {
+      return this.seriesType?.id == 1
+        ? this.tradePeriod
+        : this.tradeVariationPeriod
+    },
+    tradeCsvData() {
+      return buildTradeCsvRows({
+        country: this.country,
+        partnerName: this.$t("download-data.form.options.allPartners"),
+        flow: this.flow,
+        selectedProducts: this.product,
+        products: this.charts?.data,
+        seriesType: this.seriesType,
+        varType: this.varType,
+        periods: this.tradeTimePeriod
+      })
+    },
+    tradeHeaders() {
+      return getTradeHeaders(this.seriesType, this.varType)
     }
   },
   validations: {

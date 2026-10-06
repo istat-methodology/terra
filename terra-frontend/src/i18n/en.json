@@ -108,9 +108,9 @@
       }
     },
     "download": {
-      "title": "Download COMEXT Data",
-      "body": "Set the filters to download the COMEXT data.",
-      "link": "start downloading",
+      "title": "Download data",
+      "body": "Download CSV data from the <strong>time series</strong>, <strong>product basket</strong> and <strong>interactive map</strong>, or create a custom extract from <strong>COMEXT</strong> data.",
+      "link": "Go to downloads",
       "form": {
         "title": "Search filters",
         "fields": {
@@ -183,13 +183,13 @@
       "download": "Download",
       "openSource": "Open download tools",
       "sections": {
-        "source": "Data source",
+        "source": "Dataset",
         "measure": "Measure and classification",
         "filters": "Filters"
       },
       "fields": {
-        "seriesData": "Series of data",
-        "seriesData_placeholder": "Select the series of data",
+        "seriesData": "Data type",
+        "seriesData_placeholder": "Select a data type",
         "dataType": "Series type",
         "dataType_placeholder": "Select series type",
         "varType": "Data type",
@@ -443,7 +443,8 @@
       "qqnorm": "Plot: QQ-Norm",
       "qqnormx": "Theoretical quantiles",
       "qqnormy": "Sample quantiles",
-      "corr": "Plot: Autocorrelation"
+      "corr": "Plot: Autocorrelation",
+      "previousAverage": "Series average"
     },
     "card": {
       "title": "Time Series",
@@ -456,7 +457,8 @@
       }
     },
     "message": {
-      "empty": "No time series is available for the selected filters!"
+      "empty": "No time series is available for the selected filters!",
+      "provisionalExcluded": "Period {period} was excluded: the latest value is more than {threshold}% below the previous minimum and may be provisional."
     },
     "download": {
       "title": "Terra - Timeseries"

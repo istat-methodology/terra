@@ -46,6 +46,29 @@
       </div>
     </section>
     <div class="col-sm-6 col-md-4">
+      <div class="card" :title="$t('landing.download.title')">
+        <header class="card-header" role="heading" aria-level="2">
+          <CIcon
+            name="cil-cloud-download"
+            :title="$t('landing.download.title')"
+            alt="" />
+          {{ $t("landing.download.title") }}
+        </header>
+        <div class="card-body">
+          <p v-html="$t('landing.download.body')"></p>
+          <p class="section-link">
+            <a
+              @click="handleDownload"
+              @keypress="handleDownload"
+              tabindex="0"
+              :title="$t('landing.download.link')">
+              {{ $t("landing.download.link") }}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
       <!--div class="card" :title="$t('landing.map.title')">
         <header class="card-header" role="heading" aria-level="2">
           <CIcon
@@ -193,6 +216,9 @@ export default {
     },
     handleMap() {
       this.$router.push({ name: "Map" })
+    },
+    handleDownload() {
+      this.$router.push({ name: "Download" })
     },
     handleGraphExtraUe() {
       this.$router.push({ name: "GraphExtraUe" })

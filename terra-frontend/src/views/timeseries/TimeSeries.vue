@@ -4,7 +4,7 @@
       {{ $t("landing.timeseries.title") }}
     </h1>
 
-    <div class="col-sm-6 col-md-9">
+    <div class="col-12 col-xl-9">
       <CCard
         :title="
           country && partner
@@ -35,9 +35,9 @@
               v-if="getPartners"
               filename="terra_timeseries"
               :data="[csvTable, 'timeseries']"
-              :filter="getSearchFilter()"
+              :header="timeseriesHeaders"
               :options="['jpeg', 'png', 'pdf', 'csv']"
-              source="table2">
+              source="table">
             </exporter>
           </span>
         </CCardHeader>
@@ -49,11 +49,13 @@
             :options="options"
             :key="chartKey"
             id="timeseries" />
-          <div class="timeseries-info"></div>
+          <div v-if="provisionalWarning" class="timeseries-info" role="status">
+            {{ provisionalWarning }}
+          </div>
         </CCardBody>
       </CCard>
     </div>
-    <div class="col-sm-6 col-md-3">
+    <div class="col-12 col-xl-3">
       <CCard class="card-filter" :title="$t('timeseries.form.title')">
         <CCardHeader>
           <span class="card-filter-title" role="heading" aria-level="2">{{
@@ -183,7 +185,14 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
-import { Context, Status } from "@/common"
+import {
+  buildTimeseriesCsvRows,
+  Context,
+  filterAnomalousLastPeriod,
+  getTimeseriesHeaders,
+  PROVISIONAL_LAST_VALUE_THRESHOLD,
+  Status
+} from "@/common"
 import { metadataService } from "@/services"
 import paletteMixin from "@/components/mixins/palette.mixin"
 import timeseriesDiagMixin from "@/components/mixins/timeseriesDiag.mixin"
@@ -222,7 +231,8 @@ export default {
     chartDataDiagMain: null,
     labelPeriod: [],
     isMainChart: true,
-    isModalHelp: false
+    isModalHelp: false,
+    provisionalWarning: ""
   }),
   watch: {
     language() {
@@ -262,6 +272,9 @@ export default {
         return this.chartData.map((p) => p.descr).join(", ")
       }
       return ""
+    },
+    timeseriesHeaders() {
+      return getTimeseriesHeaders(this.varType)
     }
   },
   validations: {
@@ -314,6 +327,7 @@ export default {
         !this.$v.partner.$invalid
       ) {
         this.spinnerStart(true)
+        this.provisionalWarning = ""
         this.setPartners() // fills this.partnersArr
         this.chartData = []
 
@@ -333,8 +347,22 @@ export default {
               response.statusMain === Status.success &&
               response.diagMain?.byPartner
             ) {
-              const byPartner = response.diagMain.byPartner
-              const date = response.diagMain.date
+              const filteredResult = filterAnomalousLastPeriod({
+                dates: response.diagMain.date,
+                byPartner: response.diagMain.byPartner,
+                partnerIds: this.partnersArr.map((partner) => partner.id)
+              })
+              const byPartner = filteredResult.byPartner
+              const date = filteredResult.dates
+              if (filteredResult.removed) {
+                this.provisionalWarning = this.$t(
+                  "timeseries.message.provisionalExcluded",
+                  {
+                    period: this.getDate([filteredResult.removedDate])[0],
+                    threshold: PROVISIONAL_LAST_VALUE_THRESHOLD * 100
+                  }
+                )
+              }
               this.labelPeriod = date
 
               this.chartDataDiagMain = {
@@ -355,8 +383,24 @@ export default {
                 }
               })
 
+              if (filteredResult.removed && this.partnersArr.length === 1) {
+                this.addAverageReferenceLine(
+                  filteredResult.referenceAverage,
+                  date.length
+                )
+              }
+
               if (this.chartDataDiagMain.datasets.length > 0) {
-                this.csvTable = this.getCombinedTabularData()
+                this.csvTable = buildTimeseriesCsvRows({
+                  country: this.country,
+                  partners: this.partnersArr,
+                  flow: this.flow,
+                  product: this.productCPA,
+                  dataType: this.dataType,
+                  varType: this.varType,
+                  dates: date,
+                  byPartner
+                })
               } else {
                 this.chartDataDiagMain = this.emptyChart()
                 this.$store.dispatch(
@@ -391,11 +435,32 @@ export default {
         fill: false,
         backgroundColor: color.background,
         borderColor: color.border,
+        borderWidth: 2,
         data: value,
         showLine: true,
         lineTension: 0,
-        pointRadius: 2,
+        pointRadius: 3,
+        pointBackgroundColor: color.border,
+        pointBorderColor: color.border,
+        pointBorderWidth: 0,
+        pointHoverRadius: 5,
         borderDash: [0, 0]
+      })
+    },
+    addAverageReferenceLine(value, length) {
+      if (!Number.isFinite(value)) return
+
+      this.chartDataDiagMain.datasets.push({
+        label: this.$t("timeseries.plot.previousAverage"),
+        data: Array(length).fill(value),
+        fill: false,
+        borderColor: "#4f5d73",
+        backgroundColor: "#4f5d73",
+        borderWidth: 1.5,
+        borderDash: [6, 4],
+        pointRadius: 0,
+        pointHoverRadius: 0,
+        lineTension: 0
       })
     },
     loadData() {
@@ -480,64 +545,6 @@ export default {
 
       return data
     },
-    getTabularData(data, partner, date) {
-      if (!Array.isArray(data)) {
-        console.warn("getTabularData: 'data' is not an array", data)
-        return null
-      }
-
-      if (!Array.isArray(date)) {
-        console.warn("getTabularData: 'date' is not an array", date)
-        return null
-      }
-      console.log(partner)
-
-      const table = []
-
-      date.forEach((tp, index) => {
-        const dt = new Date(tp)
-        const year = dt.getFullYear()
-        const month = String(dt.getMonth() + 1).padStart(2, "0")
-        table.push({
-          field: `${year}-${month}`,
-          value: this.formatNumber(data[index])
-        })
-      })
-
-      return [
-        {
-          partner: partner,
-          data: table
-        }
-      ]
-    },
-    getCombinedTabularData() {
-      let final = []
-      let table = []
-      if (
-        !this.chartDataDiagMain ||
-        !Array.isArray(this.chartDataDiagMain.datasets)
-      ) {
-        return []
-      }
-
-      this.chartDataDiagMain.datasets.forEach((element) => {
-        if (!element || !element.data || !element.label) {
-          return
-        }
-        table = this.getTabularData(
-          element.data,
-          element.label,
-          this.chartDataDiagMain.labels
-        )
-        final = final.concat(table)
-        if (!Array.isArray(table) || !Array.isArray(table[0].data)) {
-          console.warn("Skipped invalid tabular result", table)
-          return
-        }
-      })
-      return [final]
-    },
     formatNumber(num) {
       return num ? num.toLocaleString(this.$i18n.locale) : "-"
     },
@@ -606,12 +613,35 @@ export default {
 </script>
 <style scoped>
 .timeseries-info {
-  margin-left: 2.5em;
-  margin-top: 0.4em;
-  font-size: small;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.75rem 0 0 2.5em;
+  color: #4f5d73;
+  font-size: 0.875rem;
 }
 
 .card-filter .card-body {
   padding-left: 0.5rem;
+}
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .card-filter .card-body {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .card-filter .card-label {
+    margin-top: 0 !important;
+    padding: 0;
+  }
+
+  .card-filter .btn {
+    align-self: end;
+    justify-self: start;
+    margin: 0 !important;
+  }
 }
 </style>
