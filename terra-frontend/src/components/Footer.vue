@@ -23,7 +23,7 @@
       <a
         class="d-inline"
         target="_blank"
-        href="https://form.agid.gov.it/view/848a565e-df60-43d3-93b4-325c4d995ec3"
+        href="https://form.agid.gov.it/ISTAT/terra_-_import_export_network_analysis/dichiarazione"
         tabindex="0"
         :title="$t('footer.link_accessibility')"
         :aria_label="$t('footer.opens_goto_accessibility')">
