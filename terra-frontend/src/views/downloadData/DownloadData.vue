@@ -313,8 +313,9 @@
             ref="mapExporter"
             filename="terra_mapseries"
             :data="[mapCsvData, '']"
+            :header="mapHeaders"
             :options="['csv']"
-            source="map" />
+            source="table" />
           <exporter
             v-if="isComext && comextData.length"
             ref="comextExporter"
@@ -331,9 +332,11 @@
 <script>
 import { mapGetters } from "vuex"
 import {
+  buildMapCsvRows,
   buildTradeCsvRows,
   buildTimeseriesCsvRows,
   Context,
+  getMapHeaders,
   getTradeHeaders,
   getTimeseriesHeaders
 } from "@/common"
@@ -515,6 +518,13 @@ export default {
     },
     timeseriesHeaders() {
       return getTimeseriesHeaders(this.tsVarType)
+    },
+    mapHeaders() {
+      return getMapHeaders()
+    },
+    mapFlow() {
+      const flowId = this.mapSeries?.value === "importseries" ? 1 : 2
+      return this.flowsTs.find((flow) => flow.id === flowId)
     },
     comextAvailablePeriods() {
       return Array.isArray(this.tradePeriod) ? this.tradePeriod : []
@@ -816,11 +826,21 @@ export default {
       await this.exportCsv("tradeExporter", this.tradeCsvData.length)
     },
     async downloadMap() {
-      await this.$store.dispatch("geomap/findAll")
       await this.$store.dispatch("geomap/getSeries", this.mapSeries.value)
-      this.mapCsvData = this.$store.getters["geomap/seriesData"] || []
+      const { rows, removedPeriod } = buildMapCsvRows({
+        series: this.$store.getters["geomap/seriesData"],
+        flow: this.mapFlow,
+        getCountryName: this.$store.getters["classification/getCountryName"]
+      })
+      this.mapCsvData = rows
       if (!this.mapCsvData.length) return this.showEmptyResult()
       await this.exportCsv("mapExporter", this.mapCsvData.length)
+      if (removedPeriod) {
+        this.downloadStatus.message += ` ${this.$t(
+          "download-data.form.feedback.provisionalExcluded",
+          { period: removedPeriod }
+        )}`
+      }
     },
     async downloadComext() {
       const response = await this.$store.dispatch("download/fetchData", {

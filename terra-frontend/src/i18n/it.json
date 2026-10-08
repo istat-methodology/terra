@@ -74,9 +74,11 @@
     "timeseries": "Serie storiche",
     "trade": "Paniere dei prodotti",
     "news": "News",
-    "repository": "Repository GitHub",
+    "repository": "GitHub · TERRA",
+    "package_repository": "GitHub · TERRA Package",
     "paper": "Articolo · World Trade Review",
     "opens_repository": "Repository GitHub di TERRA: si apre in una nuova finestra",
+    "opens_package_repository": "Repository GitHub di TERRA Package: si apre in una nuova finestra",
     "opens_paper": "Articolo di TERRA su World Trade Review: si apre in una nuova finestra",
     "logo_istat": "Logo Istat",
     "goto_istat": "Vai a www.istat.it",
@@ -93,10 +95,16 @@
     "featured": {
       "aria_label": "TERRA open source e nella ricerca",
       "repository": {
-        "title": "TERRA è open source",
-        "body": "Consulta il codice sorgente, la documentazione e gli sviluppi del progetto TERRA.",
-        "link": "Esplora il progetto su GitHub",
+        "title": "Progetti open source",
+        "body": "Esplora il codice dell’applicazione web e gli strumenti Python per analisi avanzate e riproducibili.",
+        "link": "TERRA",
         "aria_label": "Esplora il progetto TERRA su GitHub: si apre in una nuova finestra"
+      },
+      "package": {
+        "title": "TERRA Package",
+        "body": "Strumenti Python e notebook per analisi avanzate e riproducibili, pensati in particolare per la ricerca.",
+        "link": "TERRA Package",
+        "aria_label": "Scopri TERRA Package su GitHub: si apre in una nuova finestra"
       },
       "publication": {
         "title": "TERRA nella ricerca",
@@ -243,6 +251,7 @@
         },
         "feedback": {
           "success": "Download pronto: esportati {count} record.",
+          "provisionalExcluded": "Il periodo provvisorio {period} è stato escluso.",
           "empty": "Nessun dato trovato per i filtri selezionati.",
           "error": "Non è stato possibile completare il download. Riprova."
         }

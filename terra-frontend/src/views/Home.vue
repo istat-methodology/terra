@@ -11,14 +11,24 @@
             <h2>{{ $t("landing.featured.repository.title") }}</h2>
           </div>
           <p>{{ $t("landing.featured.repository.body") }}</p>
-          <a
-            href="https://github.com/istat-methodology/terra"
-            target="_blank"
-            rel="noopener noreferrer"
-            :aria-label="$t('landing.featured.repository.aria_label')">
-            {{ $t("landing.featured.repository.link") }}
-            <span aria-hidden="true">↗</span>
-          </a>
+          <div class="open-source-links">
+            <a
+              href="https://github.com/istat-methodology/terra"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="$t('landing.featured.repository.aria_label')">
+              {{ $t("landing.featured.repository.link") }}
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              href="https://github.com/istat-methodology/terra-package"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="$t('landing.featured.package.aria_label')">
+              {{ $t("landing.featured.package.link") }}
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
         <div class="featured-item featured-item--publication">
           <div class="featured-heading">
@@ -316,6 +326,11 @@ a:not([href]):hover {
 .featured-item a {
   font-weight: 600;
   text-decoration: underline;
+}
+.open-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.5rem;
 }
 .open-access {
   display: inline-block;

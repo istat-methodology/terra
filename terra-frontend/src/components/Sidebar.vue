@@ -181,6 +181,18 @@
         <div class="c-sidebar-nav-item">
           <a
             class="c-sidebar-nav-link sidebar-resource-link"
+            href="https://github.com/istat-methodology/terra-package"
+            target="_blank"
+            rel="noopener noreferrer"
+            :title="$t('sidebar.package_repository')"
+            :aria-label="$t('sidebar.opens_package_repository')">
+            <CIcon name="cib-github" class="c-sidebar-nav-icon" alt="" />
+            {{ $t("sidebar.package_repository") }}
+          </a>
+        </div>
+        <div class="c-sidebar-nav-item">
+          <a
+            class="c-sidebar-nav-link sidebar-resource-link"
             href="https://www.cambridge.org/core/journals/world-trade-review/article/exploring-the-complexity-of-international-trade-networks-with-terra/58E2D97F1A1A4179E52C602F9450C4FE"
             target="_blank"
             rel="noopener noreferrer"

@@ -132,10 +132,12 @@
                   ><camera-icon alt="" class="icon-size"
                 /></a>
                 <exporter
+                  v-if="mapCsvData.length"
                   filename="terra_mapseries"
                   iam="map"
-                  :data="[seriesData, '']"
-                  source="map"
+                  :data="[mapCsvData, '']"
+                  :header="mapHeaders"
+                  source="table"
                   tabindex="0">
                 </exporter>
               </div>
@@ -165,7 +167,12 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
-import { Context, sliderDefault } from "@/common"
+import {
+  buildMapCsvRows,
+  Context,
+  getMapHeaders,
+  sliderDefault
+} from "@/common"
 import {
   LMap,
   LGeoJson,
@@ -264,7 +271,7 @@ export default {
   computed: {
     ...mapGetters("metadata", ["mapPeriod", "mapSeries"]),
     ...mapGetters("coreui", ["isItalian", "language"]),
-    ...mapGetters("classification", ["getCountryName"]),
+    ...mapGetters("classification", ["getCountryName", "flowsTs"]),
     ...mapGetters("geomap", {
       markers: "geomap",
       infoData: "infoData",
@@ -274,6 +281,17 @@ export default {
       geoJson: "countriesBorders",
       jsonData: "jsonData"
     }),
+    mapHeaders() {
+      return getMapHeaders()
+    },
+    mapCsvData() {
+      const flowId = this.seriesName === "importseries" ? 1 : 2
+      return buildMapCsvRows({
+        series: this.seriesData,
+        flow: this.flowsTs.find((flow) => flow.id === flowId),
+        getCountryName: this.getCountryName
+      }).rows
+    },
     /*
     infoTabMain() {
       return this.$t("map.info.tab.main")
@@ -549,11 +567,14 @@ export default {
       })
     },
     getDataSeries() {
-      this.$store.dispatch("geomap/findAll").then(() => {
-        this.$store.dispatch("geomap/getSeries", this.seriesName).then(() => {
+      Promise.all([
+        this.$store.dispatch("geomap/findAll"),
+        this.$store.dispatch("geomap/getSeries", this.seriesName)
+      ]).then(() => {
+        if (this.markers && this.seriesData) {
           this.buildPeriodSeries()
           this.buildFeatures()
-        })
+        }
       })
     },
     fixSliderAccessibility() {

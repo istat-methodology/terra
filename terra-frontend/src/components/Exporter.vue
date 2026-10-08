@@ -32,9 +32,9 @@
       :title="getTitle('csv')"
       v-if="iam == 'map'"
       @click="download('csv')"
-      @keypress="download(item)"
-      ><strong>D</strong></a
-    >
+      @keypress="download('csv')"
+      ><download-icon alt="" class="icon-size"
+    /></a>
   </div>
 </template>
 
@@ -195,6 +195,8 @@ export default {
     },
 
     toCSV(data, filename) {
+      if (!Array.isArray(data) || !data.length) return
+
       const columnDelimiter = ";"
       const rowDelimiter = "\n"
       let result = ""

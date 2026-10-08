@@ -75,9 +75,11 @@
     "timeseries": "Time series",
     "timeseriescomplete": "Time series complete",
     "trade": "Basket of traded products",
-    "repository": "GitHub repository",
+    "repository": "GitHub · TERRA",
+    "package_repository": "GitHub · TERRA Package",
     "paper": "Paper · World Trade Review",
     "opens_repository": "TERRA GitHub repository: opens in a new window",
+    "opens_package_repository": "TERRA Package GitHub repository: opens in a new window",
     "opens_paper": "TERRA paper in World Trade Review: opens in a new window",
     "logo_istat": "Istat Logo",
     "goto_istat": "Go to www.istat.it",
@@ -94,10 +96,16 @@
     "featured": {
       "aria_label": "TERRA open source and research",
       "repository": {
-        "title": "TERRA is open source",
-        "body": "Explore TERRA’s source code, documentation and ongoing development.",
-        "link": "Explore the project on GitHub",
+        "title": "Open-source projects",
+        "body": "Explore the web application’s source code and Python tools for advanced, reproducible analysis.",
+        "link": "TERRA",
         "aria_label": "Explore the TERRA project on GitHub: opens in a new window"
+      },
+      "package": {
+        "title": "TERRA Package",
+        "body": "Python tools and notebooks for advanced, reproducible analysis, designed especially for researchers.",
+        "link": "TERRA Package",
+        "aria_label": "Discover TERRA Package on GitHub: opens in a new window"
       },
       "publication": {
         "title": "TERRA in research",
@@ -241,6 +249,7 @@
       },
       "feedback": {
         "success": "Download ready: {count} records exported.",
+        "provisionalExcluded": "The provisional period {period} was excluded.",
         "empty": "No data found for the selected filters.",
         "error": "The download could not be completed. Please try again."
       }
