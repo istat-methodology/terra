@@ -1,33 +1,85 @@
-<img src="docs/LogoTerraFull.png" width=800 alt="Logo">
-<br>
-TERRA has been implemented by Istat's Team in the context of the **European Big Data Hackathon 2021** organized by Eurostat. 
+<p align="center">
+  <img src="docs/LogoTerraFull.png" alt="TERRA — Import Export Network Analysis" width="800">
+</p>
 
-It is an open source dashboard implemented using modern javascript frameworks ([Vue.js](https://vuejs.org/ "Vue.js")) and microservice architecture for the server components (currently we use Docker Containers). The implemented architecture is scalable and allows to integrate Python and R languages in a data processing pipeline.
+<p align="center">
+  <strong>Istat Experimental Statistic for international trade analysis</strong>
+</p>
 
-TERRA was awarded **first place** at the European Big Data Hackathon 2021. Istat's team pitching is available on [vimeo](https://vimeo.com/525488078) 
+<p align="center">
+  An open source dashboard combining interactive visualization, social network
+  analysis and data-processing pipelines.
+</p>
 
-## Core functionalities
-TERRA offers a set of functionalities that allow to analyse international trade relations both at macro and micro level. 
-At macro level using social networks analysis techniques (*implemented in Python*) we investigated both the effect of **shocks in transportation** and the **effects of relation disruptions**. 
-At micro level analysing google mobility data we provide an indicator (*implemented in R*) representing the restriction imposed by COVID pandemic. This indicator has been used to perform an analysis to: 
-- evaluate the effects of pandemic in import and export;
-- nowcast and forecast new scenario derived by mobility policies.
+<p align="center">
+  <img alt="European Big Data Hackathon 2021 — 1st place" src="https://img.shields.io/badge/European%20Big%20Data%20Hackathon%202021-1st%20place-D4A72C">
+  <img alt="Open source dashboard" src="https://img.shields.io/badge/dashboard-open%20source-2DA44E">
+  <img alt="COMEXT and Eurostat data" src="https://img.shields.io/badge/data-COMEXT%20%7C%20Eurostat-0969DA">
+</p>
 
-TERRA provides the following functionalities
-- **Interactive map**: with a focus to the recent pandemic the Team provides for each country a set of macro – economic indicators together with the total value of import and export. Moreover to focus the analysis on the trade market for each of the 27 EU countries TERRA provides: i) the percentage of total import and export represented by the three main good exchanged (in import and export); ii) the percentage with respect to the total (of the import and export with respect to the three main partners). Moreover the interactive map displays the percentage variation in import and export with respect to November 2020. The analysis is based on *COMEXT and Eurostat data*.
-- **Mobility policy analysis**: this function given the mobility data available from google provides two different results: i) descriptive analysis of the main mobility index for the selected country: Retail, Grocery and Pharmacy, Parks, Transit Station, Workplaces, Residential; ii) provide a daily and a monthly mobility policy indicator whose value rage
-is 0–1 representing the level of restriction imposed by the selected country government.
-- **Covid-19 impact evaluation on international trade**: given a Country and Partner TERRA offers a set of descriptive statistics representing the trade
-situation between the two countries in the period before and after a specific reference date (suggested by the user). This functionality allows to analyse graphically and quantitatively the Covid-19 monthly impact on import and export time series in value. The user can choose a country and select a single BEC at 1-digit level or totals. Moreover it is possible to require a nowcasting to the actual date, or a forecasting of the series connected to possible scenario of mobility restriction introduced directly by the user. The Team used the interrupted time series analysis to estimate the effect of mobility restriction imposed by each government to the import and the export with respect to a country and detailed by broad economic categories (bec). *The analysis is based on COMEXT and Google Mobility Data*
-- **Graph analysis**: the Team used *Monthly COMEXT data by Means of Transport* to build the graph of international trade relations and use standard graph measures to characterize the relations structures. The Team built an interactive page to visualize all the measures and functionalities derived from the graph analysis. A detailded description of the function is available [here](https://github.com/istat-methodology/cosmopolitics/blob/main/docs/terra%20Graph%20Analysis.pdf). 
-- **Trade**: Member State monthly imports and exports have been decomposed in terms of traded products in order to give a picture of trade trends under the Covid-19 pandemic in a short-term perspective. Despite the global drop of international trade during the pandemic, a strong heterogeneity across traded products is observed by computing year-over-year monthly percentage changes for each considered product class. Indeed, for each Member State, the critical pandemic months show an increase of share in the export
-of non-durable consumer goods, such as pharmaceutical products, chemicals or floods and beverage, and at the same time a drop in export of durable consumer goods or investment goods, such as motor vehicles, trailers and semi-trailers. On the other hand, the import side shows an increase of share for products needed to fight against coronavirus, such as textiles (facial masks). Since for most Member State the heterogeneity is strong localized during the pandemic waves, the indicators provide a clear picture of national deficit or surplus of specific products most needed at crisis time. The input data source consists in Comext monthly dataset by products, where Member State trade classified
-according to CPA2.1 at 2 digits classification level was considered. Comext data were appropriately transformed in order to get, for each Member State, shares of CPA product divisions on total export and import, and finally compute year-over-year (YOY) changes of such shares during 2020.
+<p align="center">
+  <a href="https://doi.org/10.1017/S1474745626101591"><strong>Research article</strong></a>
+  · <a href="https://vimeo.com/525488078"><strong>Hackathon pitch</strong></a>
+  · <a href="docs/Cosmopolitics%20Graph%20Analysis.pdf"><strong>Graph analysis</strong></a>
+</p>
+
+## About TERRA
+
+TERRA was implemented by Istat's team in the context of the **European Big
+Data Hackathon 2021**, organized by Eurostat, where it was awarded first place.
+
+The dashboard analyzes international trade relations at macro and micro level,
+combining social network analysis, trade indicators and mobility-policy
+analysis.
+
+## Architecture
+
+| Component | Role |
+|---|---|
+| **Vue.js** | Modern JavaScript framework for the dashboard interface. |
+| **Docker** | Container-based microservice architecture. |
+| **Python** | Network analysis and data-processing components. |
+| **R** | Mobility-policy analysis integrated in the pipeline. |
+
+The architecture is scalable and allows Python and R components to be
+integrated into the same data-processing pipeline.
+
+## Core Functionalities
+
+| Functionality | Description |
+|---|---|
+| **Interactive map** | Macro-economic indicators, import and export values, main traded goods and trade partners for EU countries. |
+| **Graph analysis** | Monthly COMEXT data by means of transport represented as international trade networks and standard graph measures. |
+| **Mobility policy analysis** | Descriptive mobility indices together with daily and monthly indicators of government restrictions. |
+| **COVID-19 impact evaluation** | Descriptive statistics, interrupted time-series analysis, nowcasting and forecasting for international trade. |
+| **Trade and basket analysis** | Monthly import and export trends by product, including year-over-year changes in CPA product shares during 2020. |
+
+## Dashboard Preview
+
+### Interactive map
+
+![TERRA interactive map](docs/Screenshots/Cosmopolitics%20-%20Interactive%20Map.jpg)
+
+### Graph analysis
+
+![TERRA graph analysis](docs/Screenshots/Cosmopolitics%20-%20Graph%20analysis.jpg)
+
+### BEC analysis
+
+![TERRA BEC analysis](docs/Screenshots/Cosmopolitics%20-%20BEC%20analysis.jpg)
+
+### Basket of traded products
+
+![TERRA basket of traded products](docs/Screenshots/Cosmopolitics%20-%20Basket%20of%20traded%20products.jpg)
 
 ## Citation
+
 If you use TERRA in your research, please cite:
 
-> Bruno, M., Brogi, F., Cerasti, E., De Fausti, F., Fronzetti Colladon, A., Guardabascio, B., & Massacci, G. (2026). Exploring the Complexity of International Trade Networks with TERRA. *World Trade Review*, 1–24. doi:[10.1017/S1474745626101591](https://doi.org/10.1017/S1474745626101591)
+> Bruno, M., Brogi, F., Cerasti, E., De Fausti, F., Fronzetti Colladon, A.,
+> Guardabascio, B., & Massacci, G. (2026). Exploring the Complexity of
+> International Trade Networks with TERRA. *World Trade Review*, 1–24.
+> doi:[10.1017/S1474745626101591](https://doi.org/10.1017/S1474745626101591)
 
 ```bibtex
 @article{bruno2026terra,
