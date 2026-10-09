@@ -144,7 +144,7 @@
               </label>
               <label
                 id="label__tradeProduct"
-                class="card-label form-field form-field--full">
+                class="card-label form-field form-field--span-2">
                 {{ $t("trade.form.fields.products") }}
                 <v-select
                   v-model="tradeProduct"
@@ -165,7 +165,7 @@
             <div class="form-section__grid">
               <label
                 id="label__mapSeries"
-                class="card-label form-field form-field--full">
+                class="card-label form-field form-field--span-2">
                 {{ $t("download-data.form.fields.mapSeries") }}
                 <v-select
                   v-model="mapSeries"
@@ -238,20 +238,22 @@
                   :clearable="false" />
               </label>
               <label id="label__comextPartner" class="card-label form-field">
-                {{ $t("download-data.form.fields.partnerOptional") }}
+                {{ $t("download-data.form.fields.partner") }}
                 <v-select
                   v-model="comextPartner"
                   label="descr"
                   :options="partners"
-                  :placeholder="$t('download-data.form.options.allPartners')" />
+                  :class="{ 'is-invalid': $v.comextPartner.$error }"
+                  :clearable="false" />
               </label>
               <label id="label__comextProduct" class="card-label form-field">
-                {{ $t("download-data.form.fields.productsCPAOptional") }}
+                {{ $t("download-data.form.fields.productsCPA") }}
                 <v-select
                   v-model="comextProduct"
                   label="descr"
                   :options="productsCPA"
-                  :placeholder="$t('download-data.form.options.allProducts')" />
+                  :class="{ 'is-invalid': $v.comextProduct.$error }"
+                  :clearable="false" />
               </label>
               <label id="label__comextCriterion" class="card-label form-field">
                 {{ $t("download-data.form.fields.criterion") }}
@@ -474,7 +476,9 @@ export default {
             this.comextPeriodTo &&
             this.isComextPeriodRangeValid &&
             this.comextFlow &&
-            this.comextCountry
+            this.comextCountry &&
+            this.comextPartner &&
+            this.comextProduct
         )
       }
       return this.isMap && Boolean(this.mapSeries)
@@ -760,6 +764,16 @@ export default {
       required: requiredIf(function () {
         return this.isComext
       })
+    },
+    comextPartner: {
+      required: requiredIf(function () {
+        return this.isComext
+      })
+    },
+    comextProduct: {
+      required: requiredIf(function () {
+        return this.isComext
+      })
     }
   },
   methods: {
@@ -848,8 +862,8 @@ export default {
         period_from: this.comextPeriodFrom,
         period_to: this.comextPeriodTo,
         country: this.comextCountry.country,
-        partner: this.comextPartner?.id || null,
-        product: this.comextProduct?.id || null,
+        partner: this.comextPartner.id,
+        product: this.comextProduct.id,
         flow: this.comextFlow.id,
         criterion: 1
       })
@@ -951,6 +965,10 @@ export default {
       this.mapSeries = this.mapSeriesOptions[0]
       this.comextFlow = timeSeries.flow
       this.comextCountry = timeSeries.country
+      this.comextPartner = Array.isArray(timeSeries.partner)
+        ? timeSeries.partner[0]
+        : timeSeries.partner
+      this.comextProduct = timeSeries.productCPA
       const latestComextPeriod =
         this.comextAvailablePeriods[this.comextAvailablePeriods.length - 1]
       if (latestComextPeriod && !this.comextYearFrom) {
@@ -1177,6 +1195,10 @@ export default {
 @media (min-width: 900px) {
   .form-section--measure .form-section__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .form-field--span-2 {
+    grid-column: span 2;
   }
 }
 
