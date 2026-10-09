@@ -8,6 +8,7 @@ export function filterAnomalousLastPeriod({
   dates,
   byPartner,
   partnerIds,
+  dataTypeId = null,
   threshold = PROVISIONAL_LAST_VALUE_THRESHOLD
 }) {
   const safeDates = Array.isArray(dates) ? dates : []
@@ -27,19 +28,44 @@ export function filterAnomalousLastPeriod({
     if (!Array.isArray(series) || series.length !== safeDates.length)
       return false
 
-    const previousValues = series.slice(0, -1).filter(Number.isFinite)
-    const lastValue = series[series.length - 1]
+    const numericSeries = series.map((value) => Number(value))
+    const previousValues = numericSeries.slice(0, -1).filter(Number.isFinite)
+    const lastValue = numericSeries[numericSeries.length - 1]
     if (!previousValues.length || !Number.isFinite(lastValue)) return false
 
-    const previousMinimum = Math.min(...previousValues)
-    if (lastValue >= previousMinimum) return false
+    let isAnomalous = false
 
-    const historicalScale =
-      Math.abs(previousMinimum) || Math.max(...previousValues.map(Math.abs))
-    if (historicalScale === 0) return false
+    if (Number(dataTypeId) === 2 && series.length >= 13) {
+      // Raw monthly values are seasonal: require the provisional month to be
+      // below both the previous month and the same month of the previous year.
+      const previousYearValue = numericSeries[numericSeries.length - 13]
+      const previousMonthValue = numericSeries[numericSeries.length - 2]
+      if (
+        Number.isFinite(previousYearValue) &&
+        Number.isFinite(previousMonthValue) &&
+        lastValue < previousYearValue &&
+        lastValue < previousMonthValue
+      ) {
+        const historicalReference = Math.max(
+          previousYearValue,
+          previousMonthValue
+        )
+        isAnomalous =
+          historicalReference !== 0 &&
+          (historicalReference - lastValue) / Math.abs(historicalReference) >
+            threshold
+      }
+    } else {
+      const previousMinimum = Math.min(...previousValues)
+      if (lastValue >= previousMinimum) return false
 
-    const isAnomalous =
-      (previousMinimum - lastValue) / historicalScale > threshold
+      const historicalScale =
+        Math.abs(previousMinimum) || Math.max(...previousValues.map(Math.abs))
+      if (historicalScale === 0) return false
+
+      isAnomalous = (previousMinimum - lastValue) / historicalScale > threshold
+    }
+
     if (isAnomalous) {
       referenceAverage =
         previousValues.reduce((sum, value) => sum + value, 0) /

@@ -93,18 +93,25 @@ export default {
       return arr.every((element) => element === null)
     },
     getDate(data) {
-      var arr = []
-      data.forEach((element) => {
-        var dt = new Date(element)
-        var longYear = dt.toLocaleDateString("en", {
-          year: "numeric"
-        })
-        var shortMonth = dt.toLocaleString("en-US", {
+      const locale = this.$i18n?.locale || "en"
+
+      return data.map((element) => {
+        const period = String(element)
+        const match = period.match(/^(\d{4})-(\d{2})/)
+        const date = match
+          ? new Date(Number(match[1]), Number(match[2]) - 1, 1)
+          : new Date(element)
+        const month = new Intl.DateTimeFormat(locale, {
           month: "short"
         })
-        arr.push(shortMonth + "-" + longYear)
+          .format(date)
+          .replace(".", "")
+        const year = new Intl.DateTimeFormat(locale, {
+          year: "numeric"
+        }).format(date)
+
+        return `${month}-${year}`
       })
-      return arr
     },
     getDiagNormChart(diag) {
       var chartData = {}

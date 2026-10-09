@@ -446,6 +446,9 @@
         "partner_placeholder": "Select a partner",
         "productsCPA": "Products CPA 2.1",
         "productsCPA_placeholder": "Select a product"
+      },
+      "errors": {
+        "partner_required": "Select at least one partner. This field is required."
       }
     },
     "plot": {
@@ -467,7 +470,7 @@
     },
     "message": {
       "empty": "No time series is available for the selected filters!",
-      "provisionalExcluded": "Period {period} was excluded: the latest value is more than {threshold}% below the previous minimum and may be provisional."
+      "provisionalExcluded": "Period {period} was excluded: the latest value is more than {threshold}% below the historical reference and may be provisional."
     },
     "download": {
       "title": "Terra - Timeseries"
@@ -490,6 +493,9 @@
         "products_placeholder": "Select a product",
         "flow": "Flow",
         "flow_placeholder": "Select a flow"
+      },
+      "errors": {
+        "product_required": "Select at least one product. This field is required."
       }
     },
     "plot": {

@@ -2,7 +2,7 @@
 <template>
   <div class="row">
     <h1 class="sr-only">{{ $t("landing.trade.title") }}</h1>
-    <div class="col-sm-6 col-md-9">
+    <div class="col-12 col-xl-9">
       <CCard :title="'TERRA - ' + $t('trade.card.title') + title">
         <CCardHeader>
           <span class="card-title" role="heading" aria-level="2">
@@ -17,7 +17,8 @@
               :data="[tradeCsvData, 'trade']"
               :header="tradeHeaders"
               source="table"
-              :options="['jpeg', 'png', 'pdf', 'csv']">
+              :options="['jpeg', 'png', 'pdf', 'csv']"
+              :icon-trigger="true">
             </exporter>
             <!--CButton
               color="link"
@@ -41,7 +42,7 @@
         </CCardBody>
       </CCard>
     </div>
-    <div class="col-sm-6 col-md-3">
+    <div class="col-12 col-xl-3">
       <CCard class="card-filter" :title="$t('trade.form.title')">
         <CCardHeader>
           <span class="card-filter-title" role="heading" aria-level="2"
@@ -110,37 +111,36 @@
               }" />
           </label>
           <label
-            @click="fixLabelForSelectAccessibility"
             id="label__5"
-            for="vs__input__5"
             v-if="products"
             class="card-label mt-2 col-12"
             :title="$t('trade.form.fields.products')"
             >{{ $t("trade.form.fields.products") }}
+            <v-select
+              class="style-chooser"
+              label="displayName"
+              :options="products"
+              :placeholder="$t('trade.form.fields.products_placeholder')"
+              multiple
+              required
+              v-model="product"
+              ref="prod"
+              :class="{
+                'is-invalid': $v.product.$error
+              }"
+              :aria-invalid="$v.product.$error ? 'true' : 'false'"
+              :aria-describedby="
+                $v.product.$error ? 'error-message-product' : null
+              "
+              :clearable="false" />
+            <span
+              v-if="$v.product.$error"
+              id="error-message-product"
+              class="error d-block"
+              role="alert">
+              {{ $t("trade.form.errors.product_required") }}
+            </span>
           </label>
-          <v-select
-            v-if="products"
-            class="style-chooser col-12"
-            label="displayName"
-            :options="products"
-            :placeholder="$t('trade.form.fields.products_placeholder')"
-            multiple
-            required
-            v-model="product"
-            ref="prod"
-            :class="{
-              'is-invalid': $v.product.$error
-            }"
-            :aria-invalid="$v.product.$error === true ? true : false"
-            error-messages="error-message-product"
-            :clearable="false" />
-          <div id="error-message-product" class="error col-12">
-            <strong>
-              <span v-if="$v.product.$error">{{
-                $t("common.error.error_field_required")
-              }}</span>
-            </strong>
-          </div>
           <CButton
             color="primary"
             shape="square"
@@ -302,25 +302,25 @@ export default {
             this.chartData.labels = this.labelPeriod
             this.product.forEach((product) => {
               if (product.id === "00") {
-                this.charts.data.forEach((element) => {
-                  this.buildChartObject(element.dataname, element.value)
+                this.charts.data.forEach((element, index) => {
+                  this.buildChartObject(element.dataname, element.value, index)
                 })
               } else {
                 this.buildChartObject(
                   this.charts.data[product.id].dataname,
-                  this.charts.data[product.id].value
+                  this.charts.data[product.id].value,
+                  Number(product.id)
                 )
               }
             })
           })
-        this.clearColor()
         this.spinnerStart(true)
       } else {
         this.submitStatus = "PENDING"
       }
     },
-    buildChartObject(description, value) {
-      const color = this.getColor()
+    buildChartObject(description, value, productIndex) {
+      const color = this.getTradeColor(productIndex)
       //reset options to default (to force update)
       //this.options = { ...optionsTrade }
 
@@ -417,8 +417,8 @@ export default {
                 this.chartData = {}
                 this.chartData.datasets = []
                 this.chartData.labels = this.labelPeriod
-                this.charts.data.forEach((element) => {
-                  this.buildChartObject(element.dataname, element.value)
+                this.charts.data.forEach((element, index) => {
+                  this.buildChartObject(element.dataname, element.value, index)
                 })
               })
             this.spinnerStart(false)
@@ -540,6 +540,12 @@ export default {
 }
 </script>
 <style scoped>
+.card-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
 .align-right {
   text-align: right;
 }
@@ -547,6 +553,28 @@ export default {
   padding-left: 0.5rem;
 }
 .error {
-  color: red;
+  margin-top: 0.25rem;
+  color: #b00020;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .card-filter .card-body {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .card-filter .card-label {
+    margin-top: 0 !important;
+    padding: 0;
+  }
+
+  .card-filter .btn {
+    align-self: end;
+    justify-self: start;
+    margin: 0 !important;
+  }
 }
 </style>

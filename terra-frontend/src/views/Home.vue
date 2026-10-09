@@ -121,6 +121,29 @@
       </div>
     </div>
     <div class="col-sm-6 col-md-4">
+      <div class="card" :title="$t('landing.timeseries.title')">
+        <header class="card-header" role="heading" aria-level="2">
+          <CIcon
+            name="cil-chart-line"
+            :title="$t('landing.timeseries.title')"
+            alt="" />
+          {{ $t("landing.timeseries.title") }}
+        </header>
+        <div class="card-body">
+          <p v-html="$t('landing.timeseries.body')"></p>
+          <p class="section-link">
+            <a
+              @click="handleTimeSeries()"
+              @keypress="handleTimeSeries()"
+              tabindex="0"
+              :title="$t('landing.timeseries.link')">
+              {{ $t("landing.timeseries.link") }}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
       <div class="card" :title="$t('landing.graph.extra-ue.title')">
         <header class="card-header" role="heading" aria-level="2">
           <CIcon
@@ -180,29 +203,6 @@
               tabindex="0"
               :title="$t('landing.trade.link')">
               {{ $t("landing.trade.link") }}
-            </a>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 col-md-4">
-      <div class="card" :title="$t('landing.timeseries.title')">
-        <header class="card-header" role="heading" aria-level="2">
-          <CIcon
-            name="cil-chart-line"
-            :title="$t('landing.timeseries.title')"
-            alt="" />
-          {{ $t("landing.timeseries.title") }}
-        </header>
-        <div class="card-body">
-          <p v-html="$t('landing.timeseries.body')"></p>
-          <p class="section-link">
-            <a
-              @click="handleTimeSeries()"
-              @keypress="handleTimeSeries()"
-              tabindex="0"
-              :title="$t('landing.timeseries.link')">
-              {{ $t("landing.timeseries.link") }}
             </a>
           </p>
         </div>

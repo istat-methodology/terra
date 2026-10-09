@@ -448,6 +448,9 @@
         "partner_placeholder": "Seleziona un partner",
         "productsCPA": "Prodotti CPA 2.1",
         "productsCPA_placeholder": "Seleziona un prodotto"
+      },
+      "errors": {
+        "partner_required": "Selezionare almeno un partner. Campo obbligatorio."
       }
     },
     "plot": {
@@ -469,7 +472,7 @@
     },
     "message": {
       "empty": "Non sono disponibili dati per i filtri di ricerca selezionati!",
-      "provisionalExcluded": "Il periodo {period} è stato escluso: l’ultimo valore è inferiore di oltre il {threshold}% rispetto al minimo precedente e potrebbe essere provvisorio."
+      "provisionalExcluded": "Il periodo {period} è stato escluso: l’ultimo valore è inferiore di oltre il {threshold}% rispetto al riferimento storico e potrebbe essere provvisorio."
     },
     "download": {
       "title": "Terra - Serie storiche"
@@ -492,6 +495,9 @@
         "products_placeholder": "Seleziona un prodotto",
         "flow": "Flusso",
         "flow_placeholder": "Seleziona il flusso"
+      },
+      "errors": {
+        "product_required": "Selezionare almeno un prodotto. Campo obbligatorio."
       }
     },
     "plot": {

@@ -4,25 +4,43 @@
       <div class="dropdown" :title="$t('common.exporter')">
         <button
           class="btn btn-outline dropdown-toggle"
+          :class="{
+            'btn-sm exporter-icon-trigger': iconTrigger
+          }"
           type="button"
+          :title="$t('common.exporter')"
           :aria-label="$t('common.exporter')"
+          aria-haspopup="menu"
           data-toggle="dropdown"
           :aria-expanded="toggle ? 'false' : 'true'"
+          ref="dropdownTrigger"
           v-click-outside="dropdownClose"
           @click="dropdownToggle">
-          {{ $t("common.exporter") }}
+          <download-icon
+            v-if="iconTrigger"
+            aria-hidden="true"
+            class="icon-size" />
+          <span v-else>{{ $t("common.exporter") }}</span>
         </button>
-        <span :class="toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show'">
-          <a
+        <span
+          role="menu"
+          :aria-label="$t('common.exporter')"
+          @keydown.esc="dropdownCloseAndFocus"
+          :class="[
+            toggle ? 'dropdown-menu-hide' : 'dropdown-menu-show',
+            { 'dropdown-menu-right': iconTrigger }
+          ]">
+          <button
             v-for="item in options"
             :key="item"
+            type="button"
+            role="menuitem"
+            ref="dropdownItems"
             :title="getTitle(item)"
             class="dropdown-item"
-            @click="download(item)"
-            @keypress="download(item)"
-            tabindex="0"
-            >{{ item }}</a
-          >
+            @click="download(item)">
+            {{ item }}
+          </button>
         </span>
       </div>
     </span>
@@ -101,6 +119,10 @@ export default {
       Type: String,
       default: () => null,
       required: false
+    },
+    iconTrigger: {
+      type: Boolean,
+      default: false
     },
     nodes: {
       Type: Array,
@@ -514,9 +536,16 @@ export default {
     },
     dropdownToggle() {
       this.toggle = !this.toggle
+      if (!this.toggle) {
+        this.$nextTick(() => this.$refs.dropdownItems?.[0]?.focus())
+      }
     },
     dropdownClose() {
       this.toggle = true
+    },
+    dropdownCloseAndFocus() {
+      this.dropdownClose()
+      this.$refs.dropdownTrigger?.focus()
     }
   }
 }
@@ -534,6 +563,34 @@ export default {
 .dropdown-toggle:hover {
   text-decoration: underline !important;
   color: #231698;
+}
+.exporter-icon-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0.2rem;
+  color: #321fdb !important;
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 0;
+  text-decoration: none !important;
+}
+.exporter-icon-trigger:hover,
+.exporter-icon-trigger:focus {
+  color: #231698 !important;
+  background-color: rgba(50, 31, 219, 0.08);
+  border-color: transparent;
+  text-decoration: none !important;
+}
+.exporter-icon-trigger::after {
+  display: none;
+}
+.exporter-icon-trigger .icon-size {
+  font-size: 1.1rem;
 }
 
 .dropdown-menu-show {
@@ -561,6 +618,10 @@ export default {
 
 .dropdown-menu-hide {
   display: none;
+}
+.dropdown-menu-right {
+  right: 0;
+  left: auto;
 }
 .dropdown-item.active,
 .dropdown-item:active {

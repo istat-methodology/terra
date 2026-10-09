@@ -37,6 +37,7 @@
               :data="[csvTable, 'timeseries']"
               :header="timeseriesHeaders"
               :options="['jpeg', 'png', 'pdf', 'csv']"
+              :icon-trigger="true"
               source="table">
             </exporter>
           </span>
@@ -139,7 +140,18 @@
               :class="{
                 'is-invalid': $v.partner.$error
               }"
+              :aria-invalid="$v.partner.$error ? 'true' : 'false'"
+              :aria-describedby="
+                $v.partner.$error ? 'error-message-partner' : null
+              "
               :clearable="false" />
+            <span
+              v-if="$v.partner.$error"
+              id="error-message-partner"
+              class="error d-block"
+              role="alert">
+              {{ $t("timeseries.form.errors.partner_required") }}
+            </span>
           </label>
           <label
             id="label__6"
@@ -350,7 +362,8 @@ export default {
               const filteredResult = filterAnomalousLastPeriod({
                 dates: response.diagMain.date,
                 byPartner: response.diagMain.byPartner,
-                partnerIds: this.partnersArr.map((partner) => partner.id)
+                partnerIds: this.partnersArr.map((partner) => partner.id),
+                dataTypeId: this.dataType.id
               })
               const byPartner = filteredResult.byPartner
               const date = filteredResult.dates
@@ -370,6 +383,7 @@ export default {
                 datasets: []
               }
 
+              this.clearTimeSeriesColors()
               this.partnersArr.forEach((p) => {
                 const partnerData = byPartner[p.id]
                 if (partnerData && partnerData.series) {
@@ -383,11 +397,16 @@ export default {
                 }
               })
 
-              if (filteredResult.removed && this.partnersArr.length === 1) {
-                this.addAverageReferenceLine(
-                  filteredResult.referenceAverage,
-                  date.length
-                )
+              if (this.partnersArr.length === 1) {
+                const visibleSeries = byPartner[this.partnersArr[0].id]?.series
+                  ?.map((value) => Number(value))
+                  .filter(Number.isFinite)
+                const average = visibleSeries?.length
+                  ? visibleSeries.reduce((sum, value) => sum + value, 0) /
+                    visibleSeries.length
+                  : null
+
+                this.addAverageReferenceLine(average, date.length)
               }
 
               if (this.chartDataDiagMain.datasets.length > 0) {
@@ -429,7 +448,7 @@ export default {
         console.warn("Skipped dataset due to empty series:", description)
         return
       }
-      const color = this.getColor()
+      const color = this.getTimeSeriesColor()
       this.chartDataDiagMain.datasets.push({
         label: description,
         fill: false,
@@ -612,6 +631,12 @@ export default {
 }
 </script>
 <style scoped>
+.card-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
 .timeseries-info {
   display: flex;
   align-items: center;
@@ -623,6 +648,12 @@ export default {
 
 .card-filter .card-body {
   padding-left: 0.5rem;
+}
+
+.error {
+  margin-top: 0.25rem;
+  color: #b00020;
+  font-size: 0.8rem;
 }
 
 @media (min-width: 768px) and (max-width: 1199.98px) {

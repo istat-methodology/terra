@@ -1,129 +1,72 @@
+const makeColor = (color) => ({ border: color, background: color })
+
+// Compact palette for charts that normally contain only a few series.
+const timeSeriesPalette = [
+  "#2e6fbb",
+  "#e66101",
+  "#159947",
+  "#c43c82",
+  "#00a6a6",
+  "#d62728",
+  "#7556a5",
+  "#b07d00",
+  "#8c564b",
+  "#5f6b7a"
+].map(makeColor)
+
+// Extended palette for the complete product basket. Hues are interleaved so
+// neighbouring products remain distinguishable.
+const tradePalette = [
+  "#2e6fbb",
+  "#e66101",
+  "#159947",
+  "#c43c82",
+  "#00a6a6",
+  "#d62728",
+  "#7556a5",
+  "#b07d00",
+  "#8c564b",
+  "#4d7c0f",
+  "#0072b2",
+  "#e7298a",
+  "#ca8a04",
+  "#00876c",
+  "#b33c2e",
+  "#6b6ecf",
+  "#a05a00",
+  "#2f8f9d",
+  "#9c3f96",
+  "#507d2a",
+  "#d1495b",
+  "#386cb0",
+  "#be7c4d",
+  "#0081a7",
+  "#a23b72",
+  "#64748b",
+  "#7f6000"
+].map(makeColor)
+
 export default {
   data: () => ({
-    currentColor: 0,
-    colorPalette: [
-      {
-        border: "rgba(46, 184, 92, 1)", //green
-        background: "rgba(46, 184, 92, 0.2)"
-      },
-      {
-        border: "rgba(50, 31, 219, 1)", //blue
-        background: "rgba(50, 31, 219, 0.2)"
-      },
-      {
-        border: "rgba(229, 83, 83, 1)", //red
-        background: "rgba(229, 83, 83, 0.2)"
-      },
-      {
-        border: "rgba(249, 177, 21, 1)", //orange
-        background: "rgba(249, 177, 21, 0.2)"
-      },
-      {
-        border: "rgba(51, 153, 255, 1)", //cyan
-        background: "rgba(51, 153, 255, 0.2)"
-      },
-      {
-        border: "rgba(206, 210, 216, 1)", //gray
-        background: "rgba(206, 210, 216, 0.2)"
-      },
-      {
-        border: "#06188a",
-        background: "#06188a"
-      },
-      {
-        border: "#4260aa",
-        background: "#4260aa"
-      },
-      {
-        border: "#8999cc",
-        background: "#8999cc"
-      },
-      {
-        border: "#94c4f5",
-        background: "#94c4f5"
-      },
-      {
-        border: "#726dff",
-        background: "#726dff"
-      },
-      {
-        border: "#48baff",
-        background: "#48baff"
-      },
-      {
-        border: "#558bff",
-        background: "#558bff"
-      },
-      {
-        border: "#35b9e0",
-        background: "#35b9e0"
-      },
-      {
-        border: "#1ce2ff",
-        background: "#1ce2ff"
-      },
-      {
-        border: "#c1e7ff",
-        background: "#c1e7ff"
-      },
-      {
-        border: "#fa0404",
-        background: "#fa0404"
-      },
-      {
-        border: "#820101",
-        background: "#820101"
-      },
-      {
-        border: "#BD0026",
-        background: "#BD0026"
-      },
-      {
-        border: "#FC4E2A",
-        background: "#FC4E2A"
-      },
-      {
-        border: "#FD8D3C",
-        background: "#FD8D3C"
-      },
-      {
-        border: "#FEB24C",
-        background: "#FEB24C"
-      },
-      {
-        border: "#ff10c5",
-        background: "#ff10c5"
-      },
-      {
-        border: "#bb379b",
-        background: "#bb379b"
-      },
-      {
-        border: "#d462bd",
-        background: "#d462bd"
-      },
-      {
-        border: "#f9b2e7",
-        background: "#f9b2e7"
-      },
-      {
-        border: "#43BE4F",
-        background: "#43BE4F"
-      }
-    ]
+    currentTimeSeriesColor: 0,
+    timeSeriesPalette,
+    tradePalette
   }),
   methods: {
-    getColor() {
-      this.currentColor =
-        this.currentColor >= this.colorPalette.length - 1
-          ? 0
-          : this.currentColor
-      const color = this.colorPalette[this.currentColor]
-      this.currentColor++
+    getTimeSeriesColor() {
+      const color =
+        this.timeSeriesPalette[
+          this.currentTimeSeriesColor % this.timeSeriesPalette.length
+        ]
+      this.currentTimeSeriesColor++
       return color
     },
-    clearColor() {
-      this.currentColor = 0
+    getTradeColor(productIndex) {
+      const index = Number.isInteger(productIndex) ? productIndex : 0
+      return this.tradePalette[index % this.tradePalette.length]
+    },
+    clearTimeSeriesColors() {
+      this.currentTimeSeriesColor = 0
     }
   }
 }
