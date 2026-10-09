@@ -7,7 +7,7 @@
       <div class="featured-card">
         <div class="featured-item featured-item--repository">
           <div class="featured-heading">
-            <CIcon name="cil-terminal" alt="" />
+            <CIcon name="cib-github" alt="" />
             <h2>{{ $t("landing.featured.repository.title") }}</h2>
           </div>
           <p>{{ $t("landing.featured.repository.body") }}</p>
@@ -32,7 +32,7 @@
         </div>
         <div class="featured-item featured-item--publication">
           <div class="featured-heading">
-            <CIcon name="cil-newspaper" alt="" />
+            <CIcon name="cil-description" alt="" />
             <h2>{{ $t("landing.featured.publication.title") }}</h2>
             <span class="open-access">Open Access</span>
           </div>
