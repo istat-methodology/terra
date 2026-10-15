@@ -26,6 +26,9 @@ param principalType string
 @description('Principal OID')
 param principalSid string
 
+@description('Whether the current environment is production')
+param isProduction bool
+
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = uniqueString(subscription().id, resourceGroup().id, location)
 var jobWorkloadProfile = 'worker-16GB'
@@ -84,7 +87,8 @@ module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.13.
     }
     name: resName.containerAppsEnvironment ?? '${abbrs.appManagedEnvironments}${resourceToken}'
     location: location
-    zoneRedundant: false
+    zoneRedundant: isProduction
+    publicNetworkAccess: 'Enabled'
     workloadProfiles: [
       {
         minimumCount: 1
@@ -98,6 +102,12 @@ module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.13.
         kind: 'SMB'
         name: 'tmp-data'
         accessMode: 'ReadWrite'
+        storageAccountName: storageAccount.outputs.name
+      }
+      {
+        kind: 'SMB'
+        name: 'istat-cosmo-data-json'
+        accessMode: 'ReadOnly'
         storageAccountName: storageAccount.outputs.name
       }
     ]
@@ -139,6 +149,13 @@ module jsonServer 'br/public:avm/res/app/container-app:0.8.0' = {
       secureList:  [
       ]
     }
+    volumes: [
+      {
+        name: 'istat-cosmo-data-json'
+        storageType: 'AzureFile'
+        storageName: 'istat-cosmo-data-json'
+      }
+    ]
     containers: [
       {
         image: jsonServerFetchLatestImage.outputs.?containers[?0].?image ?? 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
@@ -147,6 +164,12 @@ module jsonServer 'br/public:avm/res/app/container-app:0.8.0' = {
           cpu: json('0.5')
           memory: '1.0Gi'
         }
+        volumeMounts: [
+          {
+            volumeName: 'istat-cosmo-data-json'
+            mountPath: '/app/data'
+          }
+        ] 
         env: [
           {
             name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
@@ -219,6 +242,10 @@ module pythonServer 'br/public:avm/res/app/container-app:0.8.0' = {
             name: 'PORT'
             value: '5500'
           }
+          {
+            name: 'DB_CONNECTION_STRING'
+            value: 'mssql+pyodbc://${appsIdentity.outputs.clientId}:@${sqlServer.outputs.fullyQualifiedDomainName}/${terraDbName}?driver=ODBC Driver 18 for SQL Server&authentication=ActiveDirectoryMsi&encrypt=yes'
+          }
         ]
       }
     ]
@@ -239,15 +266,21 @@ module pythonServer 'br/public:avm/res/app/container-app:0.8.0' = {
 }
 
 module storageAccount 'br/public:avm/res/storage/storage-account:0.32.0' = {
-  name: 'terraJobStorage'
+  name: 'terraStorage'
   params: {
     name: resName.storageAccount ?? '${abbrs.storageStorageAccounts}${resourceToken}'
     tags: tags
-    skuName: 'Standard_LRS'
+    skuName: isProduction ? 'Standard_ZRS' : 'Standard_LRS'
     fileServices: {
       shares: [
         {
           name: 'tmp-data'
+        }
+        {
+          name: 'istat-cosmo-data-json'
+        }
+        {
+          name: 'istat-cosmo-data-backup'
         }
       ]
     }
@@ -255,8 +288,11 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.32.0' = {
       keyVaultResourceId: keyVault.outputs.resourceId
       accessKey1Name: storageAccountKeySecretName
     }
+    publicNetworkAccess: 'Enabled'
+    networkAcls: {
+      defaultAction: 'Allow'
+    }
   }
-
 }
 
 module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
@@ -288,6 +324,7 @@ module sqlServer 'br/public:avm/res/sql/server:0.21.2' = {
     databases: [
       {
         availabilityZone: -1
+        requestedBackupStorageRedundancy: isProduction ? 'Zone' : 'Local'
         name: terraDbName
         tags: tags
         sku: {
@@ -356,11 +393,11 @@ module terraUpdateBatch 'br/public:avm/res/app/job:0.7.1' = {
         keyVaultUrl: 'https://${keyVault.outputs.name}${environment().suffixes.keyvaultDns}/secrets/${storageAccountKeySecretName}'
         identity: appsIdentity.outputs.resourceId
       }
-      {
+      /*{
         name: 'db-password'
         keyVaultUrl: 'https://${keyVault.outputs.name}${environment().suffixes.keyvaultDns}/secrets/${dbPasswordSecretName}'
         identity: appsIdentity.outputs.resourceId
-      }
+      }*/
     ]
     containers: [
       {
@@ -375,7 +412,7 @@ module terraUpdateBatch 'br/public:avm/res/app/job:0.7.1' = {
             volumeName: 'tmp-storageaccount'
             mountPath: '/tmpvolume'
           }
-        ] 
+        ]
         env: [
           {
             name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
@@ -446,28 +483,8 @@ module terraUpdateBatch 'br/public:avm/res/app/job:0.7.1' = {
             value: '/tmpvolume/duckdb'
           }
           {
-            name: 'DB_PROVIDER'
-            value: 'mssql+pyodbc'
-          } 
-          {
-            name: 'DB_SERVER'
-            value: sqlServer.outputs.fullyQualifiedDomainName
-          }
-          {
-            name: 'DB_NAME'
-            value: terraDbName
-          }
-          {
-            name: 'DB_DRIVER'
-            value: 'ODBC Driver 18 for SQL Server'
-          }
-          {
-            name: 'DB_USER'
-            value: sqlAdminUser
-          }
-          {
-            name: 'DB_PASS'
-            secretRef: 'db-password'
+            name: 'DB_CONNECTION_STRING'
+            value: 'mssql+pyodbc://${jobsIdentity.outputs.clientId}:@${sqlServer.outputs.fullyQualifiedDomainName}/${terraDbName}?driver=ODBC Driver 18 for SQL Server&authentication=ActiveDirectoryMsi&encrypt=yes'
           }
         ]
       }

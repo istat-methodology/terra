@@ -117,12 +117,14 @@ def copyFileToAzure(storage, folder, path_file_source, logger):
 def copyFileToDb(table_mapping, db_settings, db_schemas, db_column_type, logger):
     logger.info("copyFileToDb START")
 
-    if db_settings['DB_CONNECTIONSTRING_SECRET'] != '':
+    if db_settings['DB_CONNECTION_STRING_SECRET'] != '':
         kvclient = SecretClient(
             vault_url=f"https://{params.KEY_VAULT_NAME}.vault.azure.net",
             credential=DefaultAzureCredential(),
         )
-        connection_string = kvclient.get_secret(db_settings['DB_CONNECTIONSTRING_SECRET']).value
+        connection_string = kvclient.get_secret(db_settings['DB_CONNECTION_STRING_SECRET']).value
+    elif db_settings['DB_CONNECTION_STRING'] != '':
+        connection_string = db_settings['DB_CONNECTION_STRING']
     else:
         connection_string = f'{db_settings["DB_PROVIDER"]}://{db_settings["DB_USER"]}:{db_settings["DB_PASS"]}@{db_settings["DB_SERVER"]}/{db_settings["DB_NAME"]}?driver={db_settings["DB_DRIVER"]}'
     
@@ -171,7 +173,6 @@ def copyFileToDb(table_mapping, db_settings, db_schemas, db_column_type, logger)
         finally:
             engine.dispose()
             con.close()
-            return
 
 def exportOutputs(logger):
     logger.info("exportOutputs START")

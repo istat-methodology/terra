@@ -19,7 +19,8 @@ URL_PYTHON_SERVER_TS        : str  = "https://api.cosmo.statlab.it/time-series"
 URL_PYTHON_SERVER_GRAPH     : str  = "https://api.cosmo.statlab.it/graph"
 
 SHARE_NAME : dict[str, str] = {
-    "JSON": os.getenv("SHARENAME_PREFIX", "istat-cosmo-data-") + "json"
+    "JSON": os.getenv("SHARENAME_PREFIX", "istat-cosmo-data-") + "json",
+    "BACKUP": os.getenv("SHARENAME_PREFIX", "istat-cosmo-data-") + "backup",
 }
 
 DB_SETTINGS : dict[str, str] = {
@@ -29,7 +30,8 @@ DB_SETTINGS : dict[str, str] = {
     "DB_DRIVER" : os.getenv('DB_DRIVER'),
     "DB_USER" : os.getenv('DB_USER'),
     "DB_PASS" : os.getenv('DB_PASS'),
-    "DB_CONNECTIONSTRING_SECRET": os.getenv('DB_CONNECTIONSTRING_SECRET', '')
+    "DB_CONNECTION_STRING_SECRET": os.getenv('DB_CONNECTION_STRING_SECRET', ''),
+    "DB_CONNECTION_STRING": os.getenv('DB_CONNECTION_STRING')
 }
 
 DB_SCHEMAS : dict[str, str] = {
@@ -275,8 +277,9 @@ FILES: dict[str] = {
 }
 
 STORAGE_ACCOUNT_FOLDER_LIST: dict[str, list[str]] = {
-        f"{SHARE_NAME['JSON']}": ['map', 'trade', 'classification', 'general']
-    }
+    f"{SHARE_NAME['JSON']}": ['map', 'trade', 'classification', 'general'],
+    f"{SHARE_NAME['BACKUP']}": ['files']
+}
 
 DB_FILE_MAPPING: dict[str] = {
     FILES["COMEXT_IMP_CSV"] : "comext_imp",

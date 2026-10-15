@@ -95,6 +95,7 @@ module resources 'resources.bicep' = {
     sqlAdminPassword: sqlAdminPassword
     azureMapsLocation: azureMapsLocation
     myIp: myIp
+    isProduction: environmentName == 'production'
   }
 }
 output AZURE_CONTAINER_REGISTRY_ENDPOINT string = resources.outputs.AZURE_CONTAINER_REGISTRY_ENDPOINT
