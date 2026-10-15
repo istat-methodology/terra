@@ -60,7 +60,7 @@ hooks:
 
             # Create a random secure password
             $PasswordLength = 20
-            if ([string]::IsNullOrWhitespace($Env:AZURE_PRINCIPAL_SID)) {
+            if ([string]::IsNullOrWhitespace($Env:SQL_ADMIN_PASSWORD)) {
                 do {
                     $securePassword = (1..$PasswordLength | ForEach-Object { [char]((64..90) + (97..122) + (48..57) + ('#', '!', '$', '%') | Get-Random) }) -join ''
                     $complexityCount = 0
@@ -88,8 +88,14 @@ hooks:
     postprovision:
         shell: pwsh
         run: |
+            Write-Host "- Set $env:APP_IDENTITY_NAME as db_datareader ..."
             scripts/add-entrauser.ps1 -SqlServerHostName $env:SQL_SERVER_FQDN -SqlDbName $env:SQL_DB_NAME -ManagedIdentityName $env:APP_IDENTITY_NAME -DbRole db_datareader
+
+            Write-Host "- Set $env:APP_IDENTITY_JOBS_NAME as db_owner ..."
             scripts/add-entrauser.ps1 -SqlServerHostName $env:SQL_SERVER_FQDN -SqlDbName $env:SQL_DB_NAME -ManagedIdentityName $env:APP_IDENTITY_JOBS_NAME -DbRole db_owner
+            
+            Write-Host "- Initializing the database ..."
+            scripts/execute-ddlscript.ps1 -SqlServerHostName $env:SQL_SERVER_FQDN -SqlDbName $env:SQL_DB_NAME -SqlFileName db/db-terra.sql
 
     #prepackage:
     #    run: |
