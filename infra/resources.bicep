@@ -59,6 +59,201 @@ resource mapsAccount 'Microsoft.Maps/accounts@2023-06-01' = {
   tags: tags
 }
 
+module apiManagementNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.3' = {
+  name: 'api-management-network-security-group'
+  params: {
+    name: apiManagementNetworkSecurityGroupName
+    location: location
+    tags: tags
+    securityRules: [
+      {
+        name: 'AllowAzureKeyVaultOutbound'
+        properties: {
+          access: 'Allow'
+          destinationAddressPrefix: 'AzureKeyVault'
+          destinationPortRange: '443'
+          direction: 'Outbound'
+          priority: 100
+          protocol: 'Tcp'
+          sourceAddressPrefix: 'VirtualNetwork'
+          sourcePortRange: '*'
+        }
+      }
+    ]
+  }
+}
+
+module virtualNetwork 'br/public:avm/res/network/virtual-network:0.10.2' = {
+  name: 'virtual-network'
+  params: {
+    name: virtualNetworkName
+    location: location
+    tags: tags
+    addressPrefixes: [
+      virtualNetworkAddressPrefix
+    ]
+    subnets: [
+      {
+        name: caeIngressSubnetName
+        addressPrefix: cidrSubnet(virtualNetworkAddressPrefix, subnetPrefixLength, 0)
+        privateEndpointNetworkPolicies: 'Disabled'
+      }
+      {
+        name: apiManagementSubnetName
+        addressPrefix: cidrSubnet(virtualNetworkAddressPrefix, subnetPrefixLength, 1)
+        delegation: 'Microsoft.Web/serverFarms'
+        networkSecurityGroupResourceId: apiManagementNetworkSecurityGroup.outputs.resourceId
+      }
+    ]
+  }
+}
+
+module containerAppsPrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.8.1' = {
+  name: 'container-apps-private-dns-zone'
+  params: {
+    name: 'privatelink.${location}.azurecontainerapps.io'
+    tags: tags
+    virtualNetworkLinks: [
+      {
+        name: '${virtualNetworkName}-link'
+        virtualNetworkResourceId: virtualNetwork.outputs.resourceId
+        registrationEnabled: false
+      }
+    ]
+  }
+}
+
+module apiManagement 'br/public:avm/res/api-management/service:0.15.0' = {
+  name: 'api-management'
+  params: {
+    name: apiManagementName
+    location: location
+    tags: tags
+    publisherEmail: 'framato@istat.it'
+    publisherName: 'ISTAT - Statistica Sperimentale'
+    notificationSenderEmail: 'apimgmt-noreply@mail.windowsazure.com'
+    sku: 'StandardV2'
+    skuCapacity: 1
+    subnetResourceId: virtualNetwork.outputs.subnetResourceIds[1]
+    publicNetworkAccess: 'Enabled'
+    virtualNetworkType: 'None'
+    disableGateway: false
+    customProperties: {
+      'Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2': 'false'
+      'Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30': 'false'
+      'Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10': 'false'
+      'Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11': 'false'
+      'Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168': 'false'
+      'Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30': 'false'
+      'Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10': 'false'
+      'Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11': 'false'
+    }
+    apis: apiDefinitions
+    namedValues: [
+      {
+        name: 'application-insights-connection-string'
+        displayName: 'Application Insights connection string'
+        secret: true
+        value: monitoring.outputs.applicationInsightsConnectionString
+      }
+    ]
+    loggers: [
+      {
+        name: 'cosmo-ai'
+        credentials: {
+          connectionString: '{{application-insights-connection-string}}'
+        }
+        isBuffered: true
+        type: 'applicationInsights'
+        targetResourceId: resourceId('Microsoft.Insights/components', applicationInsightsName)
+      }
+      {
+        name: 'azuremonitor'
+        isBuffered: true
+        type: 'azureMonitor'
+      }
+    ]
+    serviceDiagnostics: [
+      {
+        name: 'applicationinsights'
+        loggerResourceId: resourceId('Microsoft.ApiManagement/service/loggers', apiManagementName, 'cosmo-ai')
+        alwaysLog: 'allErrors'
+        backend: {
+          request: {
+            dataMasking: {
+              queryParams: [
+                {
+                  mode: 'Hide'
+                  value: '*'
+                }
+              ]
+            }
+          }
+        }
+        frontend: {
+          request: {
+            dataMasking: {
+              queryParams: [
+                {
+                  mode: 'Hide'
+                  value: '*'
+                }
+              ]
+            }
+          }
+        }
+        httpCorrelationProtocol: 'Legacy'
+        logClientIp: true
+        samplingPercentage: 100
+      }
+      {
+        name: 'azuremonitor'
+        loggerResourceId: resourceId('Microsoft.ApiManagement/service/loggers', apiManagementName, 'azuremonitor')
+        backend: {
+          request: {
+            dataMasking: {
+              queryParams: [
+                {
+                  mode: 'Hide'
+                  value: '*'
+                }
+              ]
+            }
+          }
+        }
+        frontend: {
+          request: {
+            dataMasking: {
+              queryParams: [
+                {
+                  mode: 'Hide'
+                  value: '*'
+                }
+              ]
+            }
+          }
+        }
+        logClientIp: true
+        samplingPercentage: 100
+      }
+    ]
+    products: [
+      {
+        name: 'cosmopoliticssite'
+        displayName: 'CosmopoliticsSite'
+        description: 'Cosmopolitics Web Site'
+        state: 'published'
+        subscriptionRequired: false
+        apis: [
+          'graph-analysis'
+          'jsondata'
+          'time-series'
+        ]
+      }
+    ]
+  }
+}
+
 // Container registry
 module containerRegistry 'br/public:avm/res/container-registry/registry:0.1.1' = {
   name: 'registry'
