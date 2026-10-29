@@ -1,4 +1,6 @@
-POST https://istat-cosmo-python-dev.azurewebsites.net/graphExtraMonth
+@FQDN=https://apim-cs7drmpamp3dg.azure-api.net
+
+POST {{FQDN}}/graph/graphExtraMonth
 content-type: application/json
 
 {
@@ -21,3 +23,6 @@ content-type: application/json
     "position": null,
     "edges": null
 }
+
+###
+GET {{FQDN}}/graph/hello

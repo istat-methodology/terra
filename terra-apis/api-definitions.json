@@ -1,0 +1,266 @@
+[
+  {
+    "name": "graph-analysis",
+    "displayName": "Graph Analysis",
+    "path": "graph",
+    "serviceUrl": "https://{{PYTHONSERVER}}",
+    "diagnostics": [
+      {
+        "name": "applicationinsights",
+        "loggerName": "terra-ai"
+      }
+    ],
+    "operations": [
+      {
+        "name": "downloadData",
+        "displayName": "downloadData",
+        "method": "POST",
+        "urlTemplate": "/downloadData"
+      },
+      {
+        "name": "graphextramonth",
+        "displayName": "graphExtraMonth",
+        "method": "POST",
+        "urlTemplate": "/graphExtraMonth"
+      },
+      {
+        "name": "graphextratrim",
+        "displayName": "graphExtraTrim",
+        "method": "POST",
+        "urlTemplate": "/graphExtraTrim"
+      },
+      {
+        "name": "graphintramonth",
+        "displayName": "graphIntraMonth",
+        "method": "POST",
+        "urlTemplate": "/graphIntraMonth"
+      },
+      {
+        "name": "graphintratrim",
+        "displayName": "graphIntraTrim",
+        "method": "POST",
+        "urlTemplate": "/graphIntraTrim"
+      },
+      {
+        "name": "health",
+        "displayName": "health",
+        "method": "GET",
+        "urlTemplate": "/health"
+      },
+      {
+        "name": "hello",
+        "displayName": "hello",
+        "method": "GET",
+        "urlTemplate": "/hello"
+      }
+    ]
+  },
+  {
+    "name": "jsondata",
+    "displayName": "Static Metadata",
+    "path": "cls",
+    "serviceUrl": "https://{{JSONSERVER}}",
+    "diagnostics": [
+      {
+        "name": "applicationinsights",
+        "loggerName": "terra-ai"
+      }
+    ],
+    "operations": [
+      {
+        "name": "countries",
+        "displayName": "countries",
+        "method": "GET",
+        "urlTemplate": "/countries"
+      },
+      {
+        "name": "countriesborders",
+        "displayName": "countriesBorders",
+        "method": "GET",
+        "urlTemplate": "/countriesBorders"
+      },
+      {
+        "name": "exportquantity",
+        "displayName": "exportQuantity",
+        "method": "GET",
+        "urlTemplate": "/exportQuantity"
+      },
+      {
+        "name": "exportQuoteQuantity",
+        "displayName": "exportQuoteQuantity",
+        "method": "GET",
+        "urlTemplate": "/exportQuoteQuantity"
+      },
+      {
+        "name": "exportQuoteValue",
+        "displayName": "exportQuoteValue",
+        "method": "GET",
+        "urlTemplate": "/exportQuoteValue"
+      },
+      {
+        "name": "exportseries",
+        "displayName": "exportseries",
+        "method": "GET",
+        "urlTemplate": "/exportseries"
+      },
+      {
+        "name": "exportvalue",
+        "displayName": "exportvalue",
+        "method": "GET",
+        "urlTemplate": "/exportValue"
+      },
+      {
+        "name": "health",
+        "displayName": "health",
+        "method": "GET",
+        "urlTemplate": "/health"
+      },
+      {
+        "name": "hello",
+        "displayName": "hello",
+        "method": "GET",
+        "urlTemplate": "/hello"
+      },
+      {
+        "name": "ieinfo",
+        "displayName": "ieinfo",
+        "method": "GET",
+        "urlTemplate": "/ieinfo"
+      },
+      {
+        "name": "importquantity",
+        "displayName": "importQuantity",
+        "method": "GET",
+        "urlTemplate": "/importQuantity"
+      },
+      {
+        "name": "importQuoteQuantity",
+        "displayName": "importQuoteQuantity",
+        "method": "GET",
+        "urlTemplate": "/importQuoteQuantity"
+      },
+      {
+        "name": "importQuoteValue",
+        "displayName": "importQuoteValue",
+        "method": "GET",
+        "urlTemplate": "/importQuoteValue"
+      },
+      {
+        "name": "importseries",
+        "displayName": "importseries",
+        "method": "GET",
+        "urlTemplate": "/importseries"
+      },
+      {
+        "name": "importvalue",
+        "displayName": "importvalue",
+        "method": "GET",
+        "urlTemplate": "/importValue"
+      },
+      {
+        "name": "metadata",
+        "displayName": "metadata",
+        "method": "GET",
+        "urlTemplate": "/metadata"
+      },
+      {
+        "name": "news",
+        "displayName": "news",
+        "method": "GET",
+        "urlTemplate": "/news"
+      },
+      {
+        "name": "partners",
+        "displayName": "partners",
+        "method": "GET",
+        "urlTemplate": "/partners"
+      },
+      {
+        "name": "productscpa",
+        "displayName": "productsCPA",
+        "method": "GET",
+        "urlTemplate": "/productsCPA"
+      },
+      {
+        "name": "productsextra",
+        "displayName": "productsExtra",
+        "method": "GET",
+        "urlTemplate": "/productsExtra"
+      },
+      {
+        "name": "productsintra",
+        "displayName": "productsIntra",
+        "method": "GET",
+        "urlTemplate": "/productsIntra"
+      },
+      {
+        "name": "root",
+        "displayName": "root",
+        "method": "GET",
+        "urlTemplate": "/"
+      },
+      {
+        "name": "stop",
+        "displayName": "stop",
+        "method": "GET",
+        "urlTemplate": "/stop"
+      },
+      {
+        "name": "transports",
+        "displayName": "transports",
+        "method": "GET",
+        "urlTemplate": "/transports"
+      },
+      {
+        "name": "transports_en",
+        "displayName": "transports_en",
+        "method": "GET",
+        "urlTemplate": "/transports_en"
+      },
+      {
+        "name": "transports_it",
+        "displayName": "transports_it",
+        "method": "GET",
+        "urlTemplate": "/transports_it"
+      }
+    ]
+  },
+  {
+    "name": "time-series",
+    "displayName": "Time Series",
+    "path": "time-series",
+    "serviceUrl": "https://{{PYTHONSERVER}}",
+    "diagnostics": [
+      {
+        "name": "applicationinsights",
+        "loggerName": "terra-ai"
+      }
+    ],
+    "operations": [
+      {
+        "name": "health",
+        "displayName": "health",
+        "method": "GET",
+        "urlTemplate": "/health"
+      },
+      {
+        "name": "hello",
+        "displayName": "hello",
+        "method": "GET",
+        "urlTemplate": "/hello"
+      },
+      {
+        "name": "load-comext",
+        "displayName": "load-comext",
+        "method": "GET",
+        "urlTemplate": "/load-comext"
+      },
+      {
+        "name": "itsa",
+        "displayName": "ts",
+        "method": "POST",
+        "urlTemplate": "/ts"
+      }
+    ]
+  }
+]

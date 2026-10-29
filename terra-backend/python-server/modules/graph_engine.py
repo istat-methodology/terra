@@ -218,6 +218,15 @@ class GraphEngine:
             for i in range(0, len(edges), chunksize):
                 df = self.remove_edges(df, edges[i:i + chunksize], flow, has_transport_mode=has_tm)
 
+        if df.empty:
+            self.logger.info("[TERRA] No data available for the requested graph.")
+            empty_df = pd.DataFrame({
+                "DECLARANT_ISO": pd.Series(dtype="object"),
+                "PARTNER_ISO": pd.Series(dtype="object"),
+                criterion: pd.Series(dtype="float64"),
+            })
+            return empty_df, empty_df.copy()
+
         # Aggregate and sort
         df = df.groupby(["DECLARANT_ISO", "PARTNER_ISO"]).sum(numeric_only=True).reset_index()
         df = df[["DECLARANT_ISO", "PARTNER_ISO", criterion]].sort_values(criterion, ascending=False)
@@ -279,6 +288,10 @@ class GraphEngine:
         criterion: str,
     ):
         self.logger.info("[TERRA] Building GRAPH...")
+
+        if tab4graph.empty or tab4graph_ui.empty:
+            self.logger.info("[TERRA] No edges available to build the graph.")
+            return None, None, None
 
         G = nx.DiGraph()
         country_from, country_to = ("PARTNER_ISO", "DECLARANT_ISO") if flow == 1 else ("DECLARANT_ISO", "PARTNER_ISO")

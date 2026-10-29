@@ -4,6 +4,12 @@ param location string = resourceGroup().location
 @description('Location for Azure Maps service')
 param azureMapsLocation string
 
+@description('Azure Front Door ID accepted by the APIM gateway policy. The header check is disabled when empty.')
+param azureFrontDoorId string = ''
+
+@description('Address space for the virtual network. It must contain at least two /24 subnets.')
+param virtualNetworkAddressPrefix string = '172.16.0.0/16'
+
 @description('Tags that will be applied to all resources')
 param tags object = {}
 
@@ -36,13 +42,63 @@ var terraDbName = 'db-terra'
 var sqlAdminUser = 'statlab'
 var dbPasswordSecretName = 'db-password'
 var storageAccountKeySecretName = 'sa-key'
+var applicationInsightsName = resName.applicationInsights ?? '${abbrs.insightsComponents}${resourceToken}'
+var apiManagementName = resName.apiManagement ?? '${abbrs.apiManagementService}${resourceToken}'
+var virtualNetworkName = resName.virtualNetwork ?? '${abbrs.networkVirtualNetworks}${resourceToken}'
+var apiManagementNetworkSecurityGroupName = resName.apiManagementNetworkSecurityGroup ?? '${abbrs.networkNetworkSecurityGroups}apim-${resourceToken}'
+var caeIngressSubnetName = 'snet-cae-ingress'
+var apiManagementSubnetName = 'snet-apim'
+var subnetPrefixLength = 24
+var apiDefinitionsConfig = loadJsonContent('../terra-apis/api-definitions.json')
+var operationPolicyXml = {
+  'graph-analysis|health': loadTextContent('../terra-apis/policy/graph-analysis-health.xml')
+  'graph-analysis|hello': loadTextContent('../terra-apis/policy/graph-analysis-hello.xml')
+  'jsondata|health': loadTextContent('../terra-apis/policy/jsondata-health.xml')
+  'time-series|health': loadTextContent('../terra-apis/policy/time-series-health.xml')
+  'time-series|hello': loadTextContent('../terra-apis/policy/time-series-hello.xml')
+}
+var frontDoorCheckHeaderPolicy = empty(azureFrontDoorId)
+  ? ''
+  : '''<check-header name="X-Azure-FDID" failed-check-httpcode="403" failed-check-error-message="Forbidden" ignore-case="true">
+      <value>${azureFrontDoorId}</value>
+    </check-header>'''
+var servicePolicyXml = replace(
+  loadTextContent('../terra-apis/policy/all-apis.xml'),
+  '<!-- {{AZURE_FRONT_DOOR_CHECK_HEADER}} -->',
+  frontDoorCheckHeaderPolicy
+)
+var apiDefinitions = map(
+  apiDefinitionsConfig,
+  api => union(api, {
+    serviceUrl: replace(
+      replace(api.serviceUrl, 
+        '{{PYTHONSERVER}}', pythonServer.outputs.fqdn),
+        '{{JSONSERVER}}', jsonServer.outputs.fqdn)
+    operations: map(
+      api.operations,
+      operation => union(
+        operation,
+        contains(operationPolicyXml, '${api.name}|${operation.displayName}')
+          ? {
+              policies: [
+                {
+                  format: 'xml'
+                  value: operationPolicyXml['${api.name}|${operation.displayName}']
+                }
+              ]
+            }
+          : {}
+      )
+    )
+  })
+)
 
 // Monitor application with Azure Monitor
 module monitoring 'br/public:avm/ptn/azd/monitoring:0.1.0' = {
   name: 'monitoring'
   params: {
     logAnalyticsName: resName.logAnalytics ?? '${abbrs.operationalInsightsWorkspaces}${resourceToken}'
-    applicationInsightsName: resName.applicationInsights ?? '${abbrs.insightsComponents}${resourceToken}'
+    applicationInsightsName: applicationInsightsName
     applicationInsightsDashboardName: resName.applicationInsightsDashboard ?? '${abbrs.portalDashboards}${resourceToken}'
     location: location
     tags: tags
@@ -136,7 +192,7 @@ module apiManagement 'br/public:avm/res/api-management/service:0.15.0' = {
     skuCapacity: 1
     subnetResourceId: virtualNetwork.outputs.subnetResourceIds[1]
     publicNetworkAccess: 'Enabled'
-    virtualNetworkType: 'None'
+    virtualNetworkType: 'External'
     disableGateway: false
     customProperties: {
       'Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2': 'false'
@@ -149,19 +205,25 @@ module apiManagement 'br/public:avm/res/api-management/service:0.15.0' = {
       'Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11': 'false'
     }
     apis: apiDefinitions
+    policies: [
+      {
+        format: 'xml'
+        value: servicePolicyXml
+      }
+    ]
     namedValues: [
       {
         name: 'application-insights-connection-string'
-        displayName: 'Application Insights connection string'
+        displayName: 'ApplicationInsightsConnectionString'
         secret: true
         value: monitoring.outputs.applicationInsightsConnectionString
       }
     ]
     loggers: [
       {
-        name: 'cosmo-ai'
+        name: 'terra-ai'
         credentials: {
-          connectionString: '{{application-insights-connection-string}}'
+          connectionString: monitoring.outputs.applicationInsightsConnectionString
         }
         isBuffered: true
         type: 'applicationInsights'
@@ -176,7 +238,7 @@ module apiManagement 'br/public:avm/res/api-management/service:0.15.0' = {
     serviceDiagnostics: [
       {
         name: 'applicationinsights'
-        loggerResourceId: resourceId('Microsoft.ApiManagement/service/loggers', apiManagementName, 'cosmo-ai')
+        loggerResourceId: resourceId('Microsoft.ApiManagement/service/loggers', apiManagementName, 'terra-ai')
         alwaysLog: 'allErrors'
         backend: {
           request: {
@@ -206,42 +268,12 @@ module apiManagement 'br/public:avm/res/api-management/service:0.15.0' = {
         logClientIp: true
         samplingPercentage: 100
       }
-      {
-        name: 'azuremonitor'
-        loggerResourceId: resourceId('Microsoft.ApiManagement/service/loggers', apiManagementName, 'azuremonitor')
-        backend: {
-          request: {
-            dataMasking: {
-              queryParams: [
-                {
-                  mode: 'Hide'
-                  value: '*'
-                }
-              ]
-            }
-          }
-        }
-        frontend: {
-          request: {
-            dataMasking: {
-              queryParams: [
-                {
-                  mode: 'Hide'
-                  value: '*'
-                }
-              ]
-            }
-          }
-        }
-        logClientIp: true
-        samplingPercentage: 100
-      }
     ]
     products: [
       {
-        name: 'cosmopoliticssite'
-        displayName: 'CosmopoliticsSite'
-        description: 'Cosmopolitics Web Site'
+        name: 'terrasite'
+        displayName: 'TerraSite'
+        description: 'Terra Web Site'
         state: 'published'
         subscriptionRequired: false
         apis: [
@@ -283,7 +315,7 @@ module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.13.
     name: resName.containerAppsEnvironment ?? '${abbrs.appManagedEnvironments}${resourceToken}'
     location: location
     zoneRedundant: isProduction
-    publicNetworkAccess: 'Enabled'
+    publicNetworkAccess: 'Disabled'
     workloadProfiles: [
       {
         minimumCount: 1
@@ -306,6 +338,35 @@ module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.13.
         storageAccountName: storageAccount.outputs.name
       }
     ]
+  }
+}
+
+module containerAppsEnvironmentPrivateEndpoint 'br/public:avm/res/network/private-endpoint:0.12.1' = {
+  name: 'container-apps-environment-private-endpoint'
+  params: {
+    name: 'pe-cae-${resourceToken}'
+    location: location
+    tags: tags
+    subnetResourceId: virtualNetwork.outputs.subnetResourceIds[0]
+    privateLinkServiceConnections: [
+      {
+        name: 'container-apps-environment'
+        properties: {
+          privateLinkServiceId: containerAppsEnvironment.outputs.resourceId
+          groupIds: [
+            'managedEnvironments'
+          ]
+        }
+      }
+    ]
+    privateDnsZoneGroup: {
+      name: 'default'
+      privateDnsZoneGroupConfigs: [
+        {
+          privateDnsZoneResourceId: containerAppsPrivateDnsZone.outputs.resourceId
+        }
+      ]
+    }
   }
 }
 

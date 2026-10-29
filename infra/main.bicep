@@ -12,6 +12,9 @@ param location string
 @description('Location for Azure Maps service')
 param azureMapsLocation string
 
+@description('Address space for the virtual network')
+param virtualNetworkAddressPrefix string = '172.16.0.0/16'
+
 param jsonServerExists bool
 param pythonServerExists bool
 param terraUpdateBatchExists bool
@@ -41,6 +44,9 @@ type resNamesType = {
   logAnalytics: string?
   applicationInsights: string?
   applicationInsightsDashboard: string?
+  apiManagement: string?
+  virtualNetwork: string?
+  apiManagementNetworkSecurityGroup: string?
   acr: string?
   containerAppsEnvironment: string?
   userAssignedManagedIdentity: string?
@@ -94,6 +100,7 @@ module resources 'resources.bicep' = {
     resName: resName
     sqlAdminPassword: sqlAdminPassword
     azureMapsLocation: azureMapsLocation
+    virtualNetworkAddressPrefix: virtualNetworkAddressPrefix
     myIp: myIp
     isProduction: environmentName == 'production'
   }

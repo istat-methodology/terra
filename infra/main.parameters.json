@@ -11,6 +11,9 @@
       "azureMapsLocation": {
         "value": "${AZUREMAPS_LOCATION:-westeurope}"
       },
+      "virtualNetworkAddressPrefix": {
+        "value": "${VIRTUAL_NETWORK_ADDRESS_PREFIX:-172.16.0.0/16}"
+      },
       "jsonServerExists": {
         "value": "${SERVICE_JSON_SERVER_RESOURCE_EXISTS=false}"
       },
