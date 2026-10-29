@@ -1,0 +1,120 @@
+# Run when commits are pushed to containerapp-hosting
+on:
+  workflow_dispatch:
+  push:
+    #branches:
+    #  - containerapp-hosting
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build_and_deploy_job_development:
+    name: Build and Deploy Job - Development
+    runs-on: ubuntu-latest
+    environment: 
+      name: development
+    env:
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+      VIRTUAL_NETWORK_ADDRESS_PREFIX: ${{ vars.VIRTUAL_NETWORK_ADDRESS_PREFIX }}
+      JOBNOTIFICATIONS_RECIPIENTS: ${{ vars.JOBNOTIFICATIONS_RECIPIENTS }}
+      SENDEMAIL_LOGICAPP_NAME: ${{ vars.SENDEMAIL_LOGICAPP_NAME }}
+      SENDEMAIL_LOGICAPP_RESOURCEGROUP_NAME: ${{ vars.SENDEMAIL_LOGICAPP_RESOURCEGROUP_NAME }}
+      AZURE_FDID: ''
+      AZURE_ENV_NAME: development
+      AZURE_LOCATION: italynorth
+      AZUREMAPS_LOCATION: westeurope
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup resource names
+        shell: pwsh
+        run: |
+          if ([string]::IsNullOrWhiteSpace($Env:AZURE_RESOURCE_GROUP)) {
+            throw 'AZURE_RESOURCE_GROUP must be configured'
+          }
+
+          mkdir .azure/$Env:AZURE_ENV_NAME
+          $r = gc resnames.empty.json | ConvertFrom-Json
+          $r.resourceGroup = $Env:AZURE_RESOURCE_GROUP
+          # TODO: to be completed
+
+          $r | ConvertTo-Json | tee .azure/$Env:AZURE_ENV_NAME/resnames.json
+
+      - name: Install azd
+        uses: Azure/setup-azd@v2
+
+      - name: Log in with Azure (Federated Credentials)
+        run: |
+          azd auth login `
+            --client-id "$Env:AZURE_CLIENT_ID" `
+            --federated-credential-provider "github" `
+            --tenant-id "$Env:AZURE_TENANT_ID"
+        shell: pwsh
+
+      - name: Provision Infrastructure
+        run: azd provision --no-prompt
+
+      - name: Deploy Application
+        run: azd deploy --no-prompt
+
+  build_and_deploy_job_production:
+    if: ${{ github.ref_name == 'main' }}
+    name: Build and Deploy Job - Production
+    runs-on: ubuntu-latest
+    environment: 
+      name: production
+    env:
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+      VIRTUAL_NETWORK_ADDRESS_PREFIX: ${{ vars.VIRTUAL_NETWORK_ADDRESS_PREFIX }}
+      JOBNOTIFICATIONS_RECIPIENTS: ${{ vars.JOBNOTIFICATIONS_RECIPIENTS }}
+      SENDEMAIL_LOGICAPP_NAME: ${{ vars.SENDEMAIL_LOGICAPP_NAME }}
+      SENDEMAIL_LOGICAPP_RESOURCEGROUP_NAME: ${{ vars.SENDEMAIL_LOGICAPP_RESOURCEGROUP_NAME }}
+      AZURE_FDID: ${{ vars.AZURE_FDID }}
+      AZURE_ENV_NAME: production
+      AZURE_LOCATION: italynorth
+      AZUREMAPS_LOCATION: westeurope
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup resource names
+        shell: pwsh
+        run: |
+          if ([string]::IsNullOrWhiteSpace($Env:AZURE_RESOURCE_GROUP)) {
+            throw 'AZURE_RESOURCE_GROUP must be configured'
+          }
+
+          mkdir .azure/$Env:AZURE_ENV_NAME
+          $r = gc resnames.empty.json | ConvertFrom-Json
+          $r.resourceGroup = $Env:AZURE_RESOURCE_GROUP
+          # TODO: to be completed
+
+          $r | ConvertTo-Json | tee .azure/$Env:AZURE_ENV_NAME/resnames.json
+
+      - name: Install azd
+        uses: Azure/setup-azd@v2
+
+      - name: Log in with Azure (Federated Credentials)
+        run: |
+          azd auth login `
+            --client-id "$Env:AZURE_CLIENT_ID" `
+            --federated-credential-provider "github" `
+            --tenant-id "$Env:AZURE_TENANT_ID"
+        shell: pwsh
+
+      - name: Provision Infrastructure
+        run: azd provision --no-prompt
+
+      - name: Deploy Application
+        run: azd deploy --no-prompt

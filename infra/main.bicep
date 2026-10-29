@@ -33,6 +33,10 @@ param principalType string
 @description('Principal OID')
 param principalSid string
 
+@description('Front Door Id (can be empty it Front Door is not used)')
+param azureFrontDoorId string = ''
+
+
 @description('Extra tags to add to each resource')
 param userTags object = {}
 
@@ -102,6 +106,7 @@ module resources 'resources.bicep' = {
     azureMapsLocation: azureMapsLocation
     virtualNetworkAddressPrefix: virtualNetworkAddressPrefix
     myIp: myIp
+    azureFrontDoorId: azureFrontDoorId
     isProduction: environmentName == 'production'
   }
 }

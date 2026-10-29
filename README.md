@@ -23,3 +23,18 @@ situation between the two countries in the period before and after a specific re
 - **Trade**: Member State monthly imports and exports have been decomposed in terms of traded products in order to give a picture of trade trends under the Covid-19 pandemic in a short-term perspective. Despite the global drop of international trade during the pandemic, a strong heterogeneity across traded products is observed by computing year-over-year monthly percentage changes for each considered product class. Indeed, for each Member State, the critical pandemic months show an increase of share in the export
 of non-durable consumer goods, such as pharmaceutical products, chemicals or floods and beverage, and at the same time a drop in export of durable consumer goods or investment goods, such as motor vehicles, trailers and semi-trailers. On the other hand, the import side shows an increase of share for products needed to fight against coronavirus, such as textiles (facial masks). Since for most Member State the heterogeneity is strong localized during the pandemic waves, the indicators provide a clear picture of national deficit or surplus of specific products most needed at crisis time. The input data source consists in Comext monthly dataset by products, where Member State trade classified
 according to CPA2.1 at 2 digits classification level was considered. Comext data were appropriately transformed in order to get, for each Member State, shares of CPA product divisions on total export and import, and finally compute year-over-year (YOY) changes of such shares during 2020.
+
+## Frontend deployment authentication
+
+The `.github/workflows/terra-frontend.yml` workflow uses PowerShell (`pwsh`) for all inline scripts and signs in to Microsoft Entra ID using `azure/login@v2` and GitHub OIDC, without a client secret. Configure the following in each GitHub environment (`development` and `production`):
+
+- Secrets: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`.
+- Variable: `AZURE_RESOURCE_GROUP`. The workflow selects the first Static Web App returned by Azure in this resource group and fails if none is found; no app name variable is required.
+- Keep the existing `FRONTDOORID` secret for production.
+
+On the Entra application or user-assigned managed identity, configure federated credentials with issuer `https://token.actions.githubusercontent.com`, audience `api://AzureADTokenExchange`, and these subjects:
+
+- `repo:istat-methodology/terra:environment:development`
+- `repo:istat-methodology/terra:environment:production`
+
+Grant each identity the **Static Web Apps Contributor** role scoped to the target resource group (including permission to list Static Web Apps and deployment secrets). The workflow retrieves the deployment token at runtime, masks it in logs, and passes it to `Azure/static-web-apps-deploy@v1`; the GitHub secret `AZURE_STATIC_WEB_APPS_API_TOKEN_TERRA` is no longer used. The existing development preview deployment and production deployment from `main` are unchanged.

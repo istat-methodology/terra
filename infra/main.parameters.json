@@ -47,6 +47,9 @@
       "userTags": {
         "value": { "SecurityControl": "Ignore" }
       },
+      "azureFrontDoorId": {
+        "value": "${AZURE_FDID=}"
+      },
       "myIp": {
         "value": "${MY_IP}"
       }
